@@ -12,5 +12,6 @@ declare module 'vue' {
     ExampleComponent2: typeof import('./src/components/ExampleComponent2.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TButton: typeof import('tdesign-vue-next')['Button']
   }
 }

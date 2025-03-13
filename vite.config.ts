@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
+import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import tailwindcss from '@tailwindcss/vite';
@@ -13,10 +14,21 @@ export default defineConfig({
     // https://github.com/unplugin/unplugin-auto-import
     AutoImport({
       imports: ['vue', 'vue-router'],
+      resolvers: [
+        TDesignResolver({
+          library: 'vue-next',
+        }),
+      ],
     }),
 
     // https://github.com/unplugin/unplugin-vue-components
-    Components(),
+    Components({
+      resolvers: [
+        TDesignResolver({
+          library: 'vue-next',
+        }),
+      ],
+    }),
 
     // https://tailwindcss.com/docs/installation/using-vite
     tailwindcss(),
