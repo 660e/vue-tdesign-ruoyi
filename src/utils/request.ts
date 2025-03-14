@@ -79,5 +79,6 @@ class Request {
 }
 
 export const request = new Request({
+  baseURL: '/prod-api',
   timeout: 10000,
 });

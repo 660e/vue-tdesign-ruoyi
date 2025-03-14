@@ -44,5 +44,11 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
+    proxy: {
+      '/prod-api': {
+        target: 'https://vue.ruoyi.vip',
+        changeOrigin: true,
+      },
+    },
   },
 });

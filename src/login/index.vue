@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import bgLogin from '@/assets/bg-login.png';
+import { captchaImage } from '@/apis/login';
 
 const formData = reactive({
   username: '',
@@ -9,11 +9,15 @@ const formData = reactive({
 const onSubmit = () => {
   console.log(formData);
 };
+
+onMounted(async () => {
+  await captchaImage();
+});
 </script>
 
 <template>
-  <div :style="{ backgroundImage: `url(${bgLogin})` }" class="h-screen bg-cover bg-right flex justify-center items-center">
-    <div class="p-6 rounded shadow bg-white">
+  <div class="h-screen flex justify-center items-center">
+    <div class="p-6 rounded border border-neutral-200">
       <t-form :data="formData" @submit="onSubmit" class="w-80" label-width="0">
         <t-form-item name="username">
           <t-input v-model="formData.username" placeholder="账户" size="large" clearable>
