@@ -8,14 +8,22 @@ const formData = reactive({
   uuid: '',
 });
 
-const codeImg = ref();
+const code = reactive<{ status: 'loading' | 'success' | 'error' | undefined; src: string }>({
+  status: undefined,
+  src: '',
+});
 
-const refreshCaptcha = async (mounted?: boolean) => {
-  if (mounted || codeImg.value) {
-    codeImg.value = null;
+const refreshCaptcha = async () => {
+  if (code.status === 'loading') return;
+
+  code.status = 'loading';
+  try {
     const { img, uuid } = await captchaImage();
-    codeImg.value = `data:image/gif;base64,${img}`;
+    code.status = 'success';
+    code.src = `data:image/gif;base64,${img}`;
     formData.uuid = uuid;
+  } catch {
+    code.status = 'error';
   }
 };
 
@@ -24,7 +32,7 @@ const onSubmit = () => {
 };
 
 onMounted(() => {
-  refreshCaptcha(true);
+  refreshCaptcha();
 });
 </script>
 
@@ -52,9 +60,14 @@ onMounted(() => {
               <t-icon name="barcode-1" />
             </template>
           </t-input>
-          <div @click="refreshCaptcha()" class="h-10 w-24 ml-2 cursor-pointer flex justify-center items-center">
-            <img v-if="codeImg" :src="codeImg" class="h-full w-full" />
-            <t-loading v-else size="small" />
+          <div
+            :class="{ 'bg-blue-50': code.status === 'loading', 'bg-red-50': code.status === 'error' }"
+            @click="refreshCaptcha"
+            class="h-10 w-24 ml-2 cursor-pointer flex justify-center items-center"
+          >
+            <t-loading v-if="code.status === 'loading'" size="small" />
+            <span v-if="code.status === 'error'">刷新验证码</span>
+            <img v-if="code.status === 'success'" :src="code.src" class="h-full w-full" />
           </div>
         </t-form-item>
         <t-form-item>
