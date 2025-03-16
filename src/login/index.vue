@@ -8,9 +8,12 @@ const formData = reactive({
   uuid: '',
 });
 
-const code = reactive<{ status: 'loading' | 'success' | 'error' | undefined; src: string }>({
-  status: undefined,
+const code = reactive<{
+  src: string;
+  status: 'loading' | 'success' | 'error' | undefined;
+}>({
   src: '',
+  status: undefined,
 });
 
 const refreshCaptcha = async () => {
@@ -19,9 +22,9 @@ const refreshCaptcha = async () => {
   code.status = 'loading';
   try {
     const { img, uuid } = await captchaImage();
-    code.status = 'success';
-    code.src = `data:image/gif;base64,${img}`;
     formData.uuid = uuid;
+    code.src = `data:image/gif;base64,${img}`;
+    code.status = 'success';
   } catch {
     code.status = 'error';
   }
