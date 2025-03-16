@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import { captchaImage } from '@/apis/login';
+import type { FormProps } from 'tdesign-vue-next';
+import { MessagePlugin } from 'tdesign-vue-next';
+import { captchaImage, login } from '@/apis/login';
 
 const formData = reactive({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: 'admin123',
   code: '',
   uuid: '',
 });
 
+const rules: FormProps['rules'] = {
+  username: [{ required: true, trigger: 'blur' }],
+  password: [{ required: true, trigger: 'blur' }],
+  code: [{ required: true, trigger: 'blur' }],
+};
+
+const disabled = ref(false);
 const code = reactive<{
   src: string;
   status: 'loading' | 'success' | 'error' | undefined;
@@ -17,7 +26,7 @@ const code = reactive<{
 });
 
 const refreshCaptcha = async () => {
-  if (code.status === 'loading') return;
+  if (code.status === 'loading' || disabled.value) return;
 
   code.status = 'loading';
   try {
@@ -30,8 +39,23 @@ const refreshCaptcha = async () => {
   }
 };
 
-const onSubmit = () => {
-  console.log(formData);
+const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
+  if (validateResult === true) {
+    disabled.value = true;
+
+    try {
+      const { code, msg, token } = await login(formData);
+      if (code === 200) {
+        console.log(token);
+      } else {
+        MessagePlugin.error(msg);
+        disabled.value = false;
+        refreshCaptcha();
+      }
+    } catch {
+      disabled.value = false;
+    }
+  }
 };
 
 onMounted(() => {
@@ -42,7 +66,7 @@ onMounted(() => {
 <template>
   <div class="h-screen flex justify-center items-center">
     <div class="p-6 rounded border border-neutral-200">
-      <t-form :data="formData" @submit="onSubmit" class="w-80" label-width="0">
+      <t-form :data="formData" :disabled="disabled" :rules="rules" @submit="onSubmit" class="w-80" label-width="0">
         <t-form-item name="username">
           <t-input v-model="formData.username" placeholder="账户" size="large">
             <template #prefix-icon>
@@ -64,9 +88,14 @@ onMounted(() => {
             </template>
           </t-input>
           <div
-            :class="{ 'bg-blue-50': code.status === 'loading', 'bg-red-50': code.status === 'error' }"
+            :class="{
+              'bg-blue-50': code.status === 'loading',
+              'bg-red-50': code.status === 'error',
+              'cursor-not-allowed': disabled,
+              'cursor-pointer': !disabled,
+            }"
             @click="refreshCaptcha"
-            class="h-10 w-24 ml-2 cursor-pointer flex justify-center items-center"
+            class="h-10 w-24 ml-2 flex justify-center items-center"
           >
             <t-loading v-if="code.status === 'loading'" size="small" />
             <span v-if="code.status === 'error'">刷新验证码</span>
@@ -74,7 +103,7 @@ onMounted(() => {
           </div>
         </t-form-item>
         <t-form-item>
-          <t-button size="large" theme="primary" type="submit" block>登录</t-button>
+          <t-button :loading="disabled" size="large" theme="primary" type="submit" block>登录</t-button>
         </t-form-item>
       </t-form>
     </div>
