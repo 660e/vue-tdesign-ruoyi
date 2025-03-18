@@ -5,8 +5,14 @@ export default {
   children: [
     {
       path: '',
-      name: 'home',
-      component: () => import('@/views/home/index.vue'),
+      component: () => import('@/layouts/standard/index.vue'),
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('@/views/home/index.vue'),
+        },
+      ],
     },
     {
       path: 'login',
