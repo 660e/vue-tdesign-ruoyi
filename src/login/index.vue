@@ -39,6 +39,7 @@ const refreshCaptcha = async () => {
   }
 };
 
+const router = useRouter();
 const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
   if (validateResult === true) {
     disabled.value = true;
@@ -46,7 +47,8 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     try {
       const { code, msg, token } = await login(formData);
       if (code === 200) {
-        console.log(token);
+        localStorage.setItem('token', token);
+        router.push({ name: 'home' });
       } else {
         MessagePlugin.error(msg);
         disabled.value = false;
