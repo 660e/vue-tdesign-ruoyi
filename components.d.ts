@@ -12,15 +12,9 @@ declare module 'vue' {
     ExampleComponent2: typeof import('./src/components/ExampleComponent2.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TAside: typeof import('tdesign-vue-next')['Aside']
-    TButton: typeof import('tdesign-vue-next')['Button']
-    TContent: typeof import('tdesign-vue-next')['Content']
-    TForm: typeof import('tdesign-vue-next')['Form']
-    TFormItem: typeof import('tdesign-vue-next')['FormItem']
-    THeader: typeof import('tdesign-vue-next')['Header']
     TIcon: typeof import('tdesign-vue-next')['Icon']
-    TInput: typeof import('tdesign-vue-next')['Input']
-    TLayout: typeof import('tdesign-vue-next')['Layout']
-    TLoading: typeof import('tdesign-vue-next')['Loading']
+    TMenu: typeof import('tdesign-vue-next')['Menu']
+    TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
+    TSubmenu: typeof import('tdesign-vue-next')['Submenu']
   }
 }
