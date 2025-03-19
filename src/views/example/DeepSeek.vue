@@ -67,7 +67,7 @@ watch(prompt, async () => {
       </div>
       <div class="p-4 mx-auto w-full lg:w-[800px]">
         <h1 v-if="chatMessages.length === 0" class="mb-4 text-3xl leading-none text-center">How can I help you today?</h1>
-        <div class="rounded-3xl p-3 border border-neutral-200">
+        <div class="rounded-3xl p-3 border border-neutral-300">
           <div class="px-1">
             <textarea
               v-model="prompt"
@@ -79,7 +79,7 @@ watch(prompt, async () => {
             ></textarea>
           </div>
           <div class="pt-3 flex">
-            <button class="h-8 px-2 rounded-full text-xs cursor-pointer border border-neutral-200">DeepThink</button>
+            <button class="h-8 px-2 rounded-full text-xs cursor-pointer border border-neutral-300">DeepThink</button>
             <div class="flex-1"></div>
             <button v-if="isLoading" @click="cancelStream" class="h-8 w-8 rounded-full cursor-pointer bg-red-500"></button>
             <button v-else @click="sendPrompt" class="h-8 w-8 rounded-full cursor-pointer bg-black"></button>
