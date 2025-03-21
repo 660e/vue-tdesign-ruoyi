@@ -67,7 +67,7 @@ onMounted(() => {
 
 <template>
   <div class="h-screen flex justify-center items-center">
-    <div class="p-6 rounded border border-neutral-300">
+    <div class="p-6 rounded border border-neutral-200">
       <t-form :data="formData" :disabled="disabled" :rules="rules" @submit="onSubmit" class="w-80" label-width="0">
         <t-form-item name="username">
           <t-input v-model="formData.username" placeholder="账户" size="large">
