@@ -12,6 +12,7 @@ declare module 'vue' {
     ExampleComponent2: typeof import('./src/components/ExampleComponent2.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TAvatar: typeof import('tdesign-vue-next')['Avatar']
     TBreadcrumb: typeof import('tdesign-vue-next')['Breadcrumb']
     TBreadcrumbItem: typeof import('tdesign-vue-next')['BreadcrumbItem']
     TIcon: typeof import('tdesign-vue-next')['Icon']

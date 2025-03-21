@@ -9,10 +9,12 @@ const collapsed = ref(false);
     <div class="h-14 px-4 flex items-center gap-2 border-b border-neutral-200">
       <img class="h-6" src="@/assets/logo.svg" />
       <span class="text-xl">TDesign Starter</span>
+      <div class="flex-1"></div>
+      <t-avatar>M</t-avatar>
     </div>
     <div class="flex-1 overflow-auto flex">
       <div class="flex flex-col border-r border-neutral-200">
-        <t-menu :collapsed="collapsed" class="overflow-auto">
+        <t-menu :collapsed="collapsed" class="flex-1 overflow-auto">
           <t-menu-item value="1">
             <template #icon>
               <t-icon name="menu-application" />
@@ -43,15 +45,16 @@ const collapsed = ref(false);
           <t-breadcrumb>
             <t-breadcrumb-item>首页</t-breadcrumb-item>
             <t-breadcrumb-item>菜单1</t-breadcrumb-item>
-            <t-breadcrumb-item>菜单2</t-breadcrumb-item>
+            <t-breadcrumb-item>菜单1-1</t-breadcrumb-item>
           </t-breadcrumb>
           <div class="text-sm text-neutral-400">{{ PKG.version }}</div>
         </div>
-        <div class="flex-1">
-          <!-- <div class="h-[2000px]"></div> -->
-          <!-- <RouterView /> -->
+        <div class="flex-1 p-4 overflow-auto bg-neutral-100">
+          <div class="h-full overflow-x-hidden overflow-y-auto rounded border border-neutral-200 bg-white">
+            <RouterView />
+          </div>
         </div>
-        <div class="h-8 px-4 flex justify-center items-center border-t border-neutral-200">
+        <div class="h-8 flex justify-center items-center border-t border-neutral-200">
           <div class="text-sm text-neutral-400">Copyright © 2025 660e All Rights Reserved.</div>
         </div>
       </div>
