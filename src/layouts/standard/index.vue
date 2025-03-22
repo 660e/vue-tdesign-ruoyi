@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import PKG from '../../../package.json';
+import Avatar from '../components/Avatar.vue';
+import Breadcrumb from '../components/Breadcrumb.vue';
+import Copyright from '../components/Copyright.vue';
+import More from '../components/More.vue';
+import Notification from '../components/Notification.vue';
+import Search from '../components/Search.vue';
+import Setting from '../components/Setting.vue';
+import Version from '../components/Version.vue';
 
 const collapsed = ref(false);
 </script>
@@ -8,17 +15,10 @@ const collapsed = ref(false);
   <div class="h-screen overflow-hidden flex flex-col">
     <div class="h-14 px-4 flex items-center gap-2 border-b border-neutral-200">
       <img class="h-6" src="@/assets/logo.svg" />
-      <span class="text-xl">TDesign Starter</span>
+      <div class="text-xl">TDesign Starter</div>
       <div class="flex-1"></div>
-      <div class="w-60">
-        <t-input placeholder="智能搜索" readonly>
-          <template #prefix-icon>
-            <t-icon name="search" />
-          </template>
-        </t-input>
-      </div>
-      <div>Min</div>
-      <t-avatar>M</t-avatar>
+      <Search />
+      <Avatar />
     </div>
     <div class="flex-1 overflow-auto flex">
       <div class="flex flex-col border-r border-neutral-200">
@@ -47,18 +47,14 @@ const collapsed = ref(false);
             </t-menu-item>
           </t-submenu>
         </t-menu>
-        <div class="h-8 text-xs flex justify-center items-center border-t border-neutral-200 text-neutral-400">{{ PKG.version }}</div>
+        <Version class="h-8 text-xs flex justify-center items-center border-t border-neutral-200 text-neutral-400" />
       </div>
       <div class="flex-1 flex flex-col">
         <div class="h-8 px-4 flex items-center gap-2 border-b border-neutral-200">
-          <t-breadcrumb>
-            <t-breadcrumb-item>首页</t-breadcrumb-item>
-            <t-breadcrumb-item>菜单1</t-breadcrumb-item>
-            <t-breadcrumb-item>菜单1-1</t-breadcrumb-item>
-          </t-breadcrumb>
+          <Breadcrumb />
           <div class="flex-1"></div>
-          <t-icon class="clickable" name="setting-1" />
-          <t-icon class="clickable" name="more" />
+          <Setting />
+          <More />
         </div>
         <div class="flex-1 p-4 overflow-auto bg-neutral-100">
           <div class="h-full overflow-x-hidden overflow-y-auto rounded border border-neutral-200 bg-white">
@@ -66,9 +62,9 @@ const collapsed = ref(false);
           </div>
         </div>
         <div class="h-8 px-4 flex items-center gap-2 border-t border-neutral-200">
-          <div class="text-xs text-neutral-400">Copyright © 2025 660e All Rights Reserved.</div>
+          <Copyright class="text-xs text-neutral-400" />
           <div class="flex-1"></div>
-          <t-icon class="clickable" name="notification" />
+          <Notification />
         </div>
       </div>
     </div>
