@@ -10,10 +10,24 @@ const collapsed = ref(false);
       <img class="h-6" src="@/assets/logo.svg" />
       <span class="text-xl">TDesign Starter</span>
       <div class="flex-1"></div>
+      <div class="w-60">
+        <t-input placeholder="智能搜索" readonly>
+          <template #prefix-icon>
+            <t-icon name="search" />
+          </template>
+        </t-input>
+      </div>
+      <div>Min</div>
       <t-avatar>M</t-avatar>
     </div>
     <div class="flex-1 overflow-auto flex">
       <div class="flex flex-col border-r border-neutral-200">
+        <div
+          @click="collapsed = !collapsed"
+          class="h-8 flex justify-center items-center cursor-pointer duration-200 border-b border-neutral-200 hover:bg-neutral-100"
+        >
+          <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
+        </div>
         <t-menu :collapsed="collapsed" class="flex-1 overflow-auto">
           <t-menu-item value="1">
             <template #icon>
@@ -33,29 +47,28 @@ const collapsed = ref(false);
             </t-menu-item>
           </t-submenu>
         </t-menu>
-        <div
-          @click="collapsed = !collapsed"
-          class="h-8 flex justify-center items-center cursor-pointer duration-200 border-t border-neutral-200 hover:bg-neutral-100"
-        >
-          <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
-        </div>
+        <div class="h-8 text-xs flex justify-center items-center border-t border-neutral-200 text-neutral-400">{{ PKG.version }}</div>
       </div>
       <div class="flex-1 flex flex-col">
-        <div class="h-8 px-4 flex justify-between items-center border-b border-neutral-200">
+        <div class="h-8 px-4 flex items-center gap-2 border-b border-neutral-200">
           <t-breadcrumb>
             <t-breadcrumb-item>首页</t-breadcrumb-item>
             <t-breadcrumb-item>菜单1</t-breadcrumb-item>
             <t-breadcrumb-item>菜单1-1</t-breadcrumb-item>
           </t-breadcrumb>
-          <div class="text-sm text-neutral-400">{{ PKG.version }}</div>
+          <div class="flex-1"></div>
+          <t-icon class="clickable" name="setting-1" />
+          <t-icon class="clickable" name="more" />
         </div>
         <div class="flex-1 p-4 overflow-auto bg-neutral-100">
           <div class="h-full overflow-x-hidden overflow-y-auto rounded border border-neutral-200 bg-white">
             <RouterView />
           </div>
         </div>
-        <div class="h-8 flex justify-center items-center border-t border-neutral-200">
-          <div class="text-sm text-neutral-400">Copyright © 2025 660e All Rights Reserved.</div>
+        <div class="h-8 px-4 flex items-center gap-2 border-t border-neutral-200">
+          <div class="text-xs text-neutral-400">Copyright © 2025 660e All Rights Reserved.</div>
+          <div class="flex-1"></div>
+          <t-icon class="clickable" name="notification" />
         </div>
       </div>
     </div>

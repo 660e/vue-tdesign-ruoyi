@@ -1,2 +1,8 @@
 @import 'tdesign-vue-next/es/style/index.css';
 @import 'tailwindcss';
+
+.clickable:hover {
+  color: var(--td-brand-color);
+  cursor: pointer;
+  transition: color 0.2s linear;
+}
