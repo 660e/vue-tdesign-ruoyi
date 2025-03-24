@@ -31,10 +31,8 @@ import Version from '../components/Version.vue';
           <Setting />
           <More />
         </div>
-        <div class="flex-1 p-4 overflow-auto bg-neutral-100">
-          <div class="h-full overflow-x-hidden overflow-y-auto rounded border border-neutral-200 bg-white">
-            <RouterView />
-          </div>
+        <div class="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100">
+          <RouterView />
         </div>
         <div class="h-8 px-4 flex items-center gap-2 border-t border-neutral-200">
           <Copyright class="text-xs text-neutral-400" />
