@@ -5,7 +5,7 @@ const collapsed = ref(false);
 <template>
   <div
     @click="collapsed = !collapsed"
-    class="h-8 flex justify-center items-center cursor-pointer duration-200 border-b border-neutral-200 hover:bg-neutral-100"
+    class="h-10 flex justify-center items-center cursor-pointer duration-200 border-b border-neutral-200 hover:bg-neutral-100"
   >
     <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
   </div>
