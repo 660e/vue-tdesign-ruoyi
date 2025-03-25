@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import Page from '@/layouts/standard/Page.vue';
+</script>
+
 <template>
-  <div class="h-full flex justify-center items-center">
+  <Page class="flex justify-center items-center">
     <img class="h-20" src="@/assets/logo.svg" />
-  </div>
+  </Page>
 </template>

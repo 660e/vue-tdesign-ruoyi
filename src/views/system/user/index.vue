@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Page from '@/layouts/standard/Page.vue';
 import type { FormInstanceFunctions, FormProps, TableProps } from 'tdesign-vue-next';
 
 const formRef = ref<FormInstanceFunctions>();
@@ -18,10 +19,9 @@ const columns: TableProps['columns'] = [
   },
 ];
 const pagination: TableProps['pagination'] = reactive({
-  current: 2,
-  pageSize: 5,
-  total: 100,
-  showJumper: true,
+  current: 1,
+  pageSize: 10,
+  total: 1000,
 });
 
 onMounted(() => {
@@ -33,8 +33,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-full p-4 flex flex-col gap-4">
-    <div class="p-4 rounded border border-neutral-200 bg-white">
+  <Page class="flex flex-col">
+    <div class="px-4 pt-4">
       <t-form :data="formData" @submit="onSubmit" class="flex gap-2" label-width="0" ref="formRef">
         <t-form-item name="userName">
           <t-input v-model="formData.userName" label="用户名称" />
@@ -43,15 +43,15 @@ onMounted(() => {
         <t-button type="submit">搜索</t-button>
       </t-form>
     </div>
-    <div class="flex-1 flex flex-col rounded border border-neutral-200 bg-white">
-      <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-button>新增</t-button>
-        <t-button theme="default">删除</t-button>
-        <t-button theme="default">导出</t-button>
-        <t-button theme="default">导入</t-button>
-      </div>
-      <t-table :columns="columns" :data="tableData" :pagination="pagination" class="flex-1" row-key="id" />
-      <div>pagination</div>
+    <div class="p-4 flex gap-2 border-b border-neutral-200">
+      <t-button>新增</t-button>
+      <t-button theme="default">删除</t-button>
+      <t-button theme="default">导出</t-button>
+      <t-button theme="default">导入</t-button>
     </div>
-  </div>
+    <t-table :columns="columns" :data="tableData" class="flex-1" row-key="id" hover />
+    <div class="p-4">
+      <t-pagination :total="pagination.total" show-jumper />
+    </div>
+  </Page>
 </template>
