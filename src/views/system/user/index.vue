@@ -7,6 +7,8 @@ const formData = reactive({
   userName: '',
 });
 
+const more = ref(false);
+
 const onSubmit: FormProps['onSubmit'] = () => {
   console.log(formData);
 };
@@ -63,12 +65,13 @@ onMounted(() => {
 <template>
   <Page class="flex flex-col">
     <div class="px-4 pt-4">
-      <t-form :data="formData" @submit="onSubmit" class="!space-x-2" label-width="0" layout="inline" ref="formRef">
-        <t-form-item v-for="n in 3" name="userName" :key="n">
-          <t-input v-model="formData.userName" label="用户名称" />
-        </t-form-item>
-        <div class="flex-1"></div>
-        <t-button variant="text">
+      <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
+        <div class="flex-1 grid gap-2 grid-cols-3 2xl:grid-cols-4 overflow-hidden">
+          <t-form-item v-for="n in 10" class="!m-0" name="userName" :key="n">
+            <t-input v-model="formData.userName" label="用户名称" />
+          </t-form-item>
+        </div>
+        <t-button @click="more = !more" variant="text">
           <template #icon>
             <t-icon name="unfold-more" />
           </template>
