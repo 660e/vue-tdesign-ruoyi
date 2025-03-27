@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import Page from '@/layouts/standard/Page.vue';
+</script>
+
 <template>
-  <pre>{{ $route }}</pre>
+  <Page>
+    <q-table />
+  </Page>
 </template>

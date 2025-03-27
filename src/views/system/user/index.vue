@@ -63,86 +63,88 @@ onMounted(() => {
 </script>
 
 <template>
-  <Page class="flex flex-col">
-    <div class="px-4 pt-4">
-      <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
-        <div class="flex-1 grid gap-2 grid-cols-3 2xl:grid-cols-4 overflow-hidden">
-          <t-form-item v-for="n in 10" class="!m-0" name="userName" :key="n">
-            <t-input v-model="formData.userName" label="用户名称" />
-          </t-form-item>
-        </div>
-        <t-button @click="more = !more" variant="text">
+  <Page>
+    <div class="h-full flex flex-col">
+      <div class="px-4 pt-4">
+        <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
+          <div class="flex-1 grid gap-2 grid-cols-3 2xl:grid-cols-4 overflow-hidden">
+            <t-form-item v-for="n in 10" class="!m-0" name="userName" :key="n">
+              <t-input v-model="formData.userName" label="用户名称" />
+            </t-form-item>
+          </div>
+          <t-button @click="more = !more" variant="text">
+            <template #icon>
+              <t-icon name="unfold-more" />
+            </template>
+          </t-button>
+          <t-button theme="default" type="reset">
+            <template #icon>
+              <t-icon name="load" />
+            </template>
+            <span>重置</span>
+          </t-button>
+          <t-button type="submit">
+            <template #icon>
+              <t-icon name="search" />
+            </template>
+            <span>搜索</span>
+          </t-button>
+        </t-form>
+      </div>
+      <div class="p-4 flex gap-2 border-b border-neutral-200">
+        <t-button>
           <template #icon>
-            <t-icon name="unfold-more" />
+            <t-icon name="add" />
           </template>
+          <span>新增</span>
         </t-button>
-        <t-button theme="default" type="reset">
+        <t-button theme="danger">
           <template #icon>
-            <t-icon name="load" />
+            <t-icon name="delete" />
           </template>
-          <span>重置</span>
+          <span>删除</span>
         </t-button>
-        <t-button type="submit">
+        <div class="flex-1"></div>
+        <t-tooltip content="刷新" placement="bottom">
+          <t-button shape="circle" variant="outline">
+            <template #icon>
+              <t-icon name="refresh" />
+            </template>
+          </t-button>
+        </t-tooltip>
+        <t-tooltip content="列设置" placement="bottom">
+          <t-button shape="circle" variant="outline">
+            <template #icon>
+              <t-icon name="view-column" />
+            </template>
+          </t-button>
+        </t-tooltip>
+        <t-tooltip content="高级搜索" placement="bottom">
+          <t-button shape="circle" variant="outline">
+            <template #icon>
+              <t-icon name="data-search" />
+            </template>
+          </t-button>
+        </t-tooltip>
+      </div>
+      <div class="flex-1 overflow-auto">
+        <t-table :columns="columns" :data="tableData" class="h-full" height="100%" row-key="id" hover />
+      </div>
+      <div class="p-4 flex gap-2">
+        <t-button theme="default">
           <template #icon>
-            <t-icon name="search" />
+            <t-icon name="upload" />
           </template>
-          <span>搜索</span>
+          <span>导入</span>
         </t-button>
-      </t-form>
-    </div>
-    <div class="p-4 flex gap-2 border-b border-neutral-200">
-      <t-button>
-        <template #icon>
-          <t-icon name="add" />
-        </template>
-        <span>新增</span>
-      </t-button>
-      <t-button theme="danger">
-        <template #icon>
-          <t-icon name="delete" />
-        </template>
-        <span>删除</span>
-      </t-button>
-      <div class="flex-1"></div>
-      <t-tooltip content="刷新" placement="bottom">
-        <t-button shape="circle" variant="outline">
+        <t-button theme="default">
           <template #icon>
-            <t-icon name="refresh" />
+            <t-icon name="download" />
           </template>
+          <span>导出</span>
         </t-button>
-      </t-tooltip>
-      <t-tooltip content="列设置" placement="bottom">
-        <t-button shape="circle" variant="outline">
-          <template #icon>
-            <t-icon name="view-column" />
-          </template>
-        </t-button>
-      </t-tooltip>
-      <t-tooltip content="高级搜索" placement="bottom">
-        <t-button shape="circle" variant="outline">
-          <template #icon>
-            <t-icon name="data-search" />
-          </template>
-        </t-button>
-      </t-tooltip>
-    </div>
-    <div class="flex-1 overflow-auto">
-      <t-table :columns="columns" :data="tableData" class="h-full" height="100%" row-key="id" hover />
-    </div>
-    <div class="p-4 flex gap-2">
-      <t-button theme="default">
-        <template #icon>
-          <t-icon name="upload" />
-        </template>
-        <span>导入</span>
-      </t-button>
-      <t-button theme="default">
-        <template #icon>
-          <t-icon name="download" />
-        </template>
-        <span>导出</span>
-      </t-button>
-      <t-pagination :total="pagination.total" class="flex-1" show-jumper />
+        <t-pagination :total="pagination.total" class="flex-1" show-jumper />
+      </div>
     </div>
   </Page>
 </template>

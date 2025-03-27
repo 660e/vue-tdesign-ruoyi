@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ExampleComponent1: typeof import('./src/components/example-component-1/index.vue')['default']
     ExampleComponent2: typeof import('./src/components/ExampleComponent2.vue')['default']
+    QTable: typeof import('./src/components/q-table/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TAvatar: typeof import('tdesign-vue-next')['Avatar']
