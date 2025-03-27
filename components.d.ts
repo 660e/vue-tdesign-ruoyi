@@ -25,5 +25,6 @@ declare module 'vue' {
     TPagination: typeof import('tdesign-vue-next')['Pagination']
     TSubmenu: typeof import('tdesign-vue-next')['Submenu']
     TTable: typeof import('tdesign-vue-next')['Table']
+    TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }

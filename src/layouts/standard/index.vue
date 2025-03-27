@@ -3,7 +3,6 @@ import Avatar from '../components/Avatar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
 import Copyright from '../components/Copyright.vue';
 import Menu from '../components/Menu.vue';
-import More from '../components/More.vue';
 import Notification from '../components/Notification.vue';
 import Search from '../components/Search.vue';
 import Setting from '../components/Setting.vue';
@@ -29,7 +28,6 @@ import Version from '../components/Version.vue';
           <Breadcrumb />
           <div class="flex-1"></div>
           <Setting />
-          <More />
         </div>
         <div class="flex-1 overflow-auto bg-neutral-100">
           <RouterView />

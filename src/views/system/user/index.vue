@@ -64,13 +64,7 @@ onMounted(() => {
   <Page class="flex flex-col">
     <div class="px-4 pt-4">
       <t-form :data="formData" @submit="onSubmit" class="!space-x-2" label-width="0" layout="inline" ref="formRef">
-        <t-form-item name="userName">
-          <t-input v-model="formData.userName" label="用户名称" />
-        </t-form-item>
-        <t-form-item name="userName">
-          <t-input v-model="formData.userName" label="用户名称" />
-        </t-form-item>
-        <t-form-item name="userName">
+        <t-form-item v-for="n in 3" name="userName" :key="n">
           <t-input v-model="formData.userName" label="用户名称" />
         </t-form-item>
         <div class="flex-1"></div>
@@ -81,7 +75,7 @@ onMounted(() => {
         </t-button>
         <t-button theme="default" type="reset">
           <template #icon>
-            <t-icon name="refresh" />
+            <t-icon name="load" />
           </template>
           <span>重置</span>
         </t-button>
@@ -107,21 +101,27 @@ onMounted(() => {
         <span>删除</span>
       </t-button>
       <div class="flex-1"></div>
-      <t-button shape="circle" variant="outline">
-        <template #icon>
-          <t-icon name="load" />
-        </template>
-      </t-button>
-      <t-button shape="circle" variant="outline">
-        <template #icon>
-          <t-icon name="view-column" />
-        </template>
-      </t-button>
-      <t-button shape="circle" variant="outline">
-        <template #icon>
-          <t-icon name="data-search" />
-        </template>
-      </t-button>
+      <t-tooltip content="刷新" placement="bottom">
+        <t-button shape="circle" variant="outline">
+          <template #icon>
+            <t-icon name="refresh" />
+          </template>
+        </t-button>
+      </t-tooltip>
+      <t-tooltip content="列设置" placement="bottom">
+        <t-button shape="circle" variant="outline">
+          <template #icon>
+            <t-icon name="view-column" />
+          </template>
+        </t-button>
+      </t-tooltip>
+      <t-tooltip content="高级搜索" placement="bottom">
+        <t-button shape="circle" variant="outline">
+          <template #icon>
+            <t-icon name="data-search" />
+          </template>
+        </t-button>
+      </t-tooltip>
     </div>
     <div class="flex-1 overflow-auto">
       <t-table :columns="columns" :data="tableData" class="h-full" height="100%" row-key="id" hover />
