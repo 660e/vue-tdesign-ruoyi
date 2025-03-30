@@ -23,6 +23,7 @@ export default defineConfig({
 
     // https://github.com/unplugin/unplugin-vue-components
     Components({
+      globs: ['src/components/*/index.vue', 'src/components/*.vue'],
       resolvers: [
         TDesignResolver({
           library: 'vue-next',
