@@ -12,7 +12,16 @@ const columns: TableProps['columns'] = [
   },
   {
     title: '性别',
-    cell: (h, { row }) => (row.gender === 'male' ? h(GenderMaleIcon) : h(GenderFemaleIcon)),
+    cell: (h, { row }) => {
+      switch (row.gender) {
+        case 'male':
+          return h(GenderMaleIcon, { class: 'text-blue-500' });
+        case 'female':
+          return h(GenderFemaleIcon, { class: 'text-red-500' });
+        default:
+          return '-';
+      }
+    },
   },
 ];
 
