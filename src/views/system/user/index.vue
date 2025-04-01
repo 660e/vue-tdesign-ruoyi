@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import Page from '@/layouts/standard/Page.vue';
 import type { TableProps } from 'tdesign-vue-next';
-import { GenderFemaleIcon, GenderMaleIcon } from 'tdesign-icons-vue-next';
 import { randomuser } from '@/apis/example';
 
 const tableData = ref();
@@ -15,11 +14,11 @@ const columns: TableProps['columns'] = [
     cell: (h, { row }) => {
       switch (row.gender) {
         case 'male':
-          return h(GenderMaleIcon, { class: 'text-blue-500' });
+          return <t-icon class="text-blue-500" name="gender-male" />;
         case 'female':
-          return h(GenderFemaleIcon, { class: 'text-red-500' });
+          return <t-icon class="text-red-500" name="gender-female" />;
         default:
-          return '-';
+          return '';
       }
     },
   },
