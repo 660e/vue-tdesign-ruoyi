@@ -8,20 +8,24 @@ const columns: TableProps['columns'] = [
   {
     title: '姓名',
     cell: (_, { row }) => `${row.name.first} ${row.name.last}`,
+    width: 200,
   },
   {
     title: '性别',
-    cell: (h, { row }) => {
+    cell: (_, { row }) => {
       switch (row.gender) {
         case 'male':
           return <t-icon class="text-blue-500" name="gender-male" />;
         case 'female':
           return <t-icon class="text-red-500" name="gender-female" />;
         default:
-          return '';
+          return '-';
       }
     },
+    width: 100,
   },
+  { title: '手机', colKey: 'phone', width: 200 },
+  { title: '邮箱', colKey: 'email' },
 ];
 
 onMounted(async () => {
