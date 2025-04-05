@@ -2,6 +2,7 @@
 import Page from '@/layouts/standard/Page.vue';
 import type { TableProps } from 'tdesign-vue-next';
 import { randomuser } from '@/apis/example';
+import { fullscreenLoading } from '@/utils';
 
 const tableData = ref();
 const columns: TableProps['columns'] = [
@@ -29,10 +30,17 @@ const columns: TableProps['columns'] = [
 ];
 
 onMounted(async () => {
-  const { results, info } = await randomuser({ results: 20 });
+  fullscreenLoading.show();
 
-  tableData.value = results;
-  console.log(info);
+  try {
+    const { results, info } = await randomuser({ results: 20 });
+
+    tableData.value = results;
+    console.log(info);
+  } catch {
+  } finally {
+    fullscreenLoading.hide();
+  }
 });
 </script>
 
