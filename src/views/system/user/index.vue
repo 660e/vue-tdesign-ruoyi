@@ -2,7 +2,9 @@
 import Page from '@/layouts/standard/Page.vue';
 import type { TableProps } from 'tdesign-vue-next';
 import { randomuser } from '@/apis/example';
-import { fullscreenLoading } from '@/utils';
+import { useFullscreenLoading } from '@/hooks';
+
+const fullscreenLoading = useFullscreenLoading();
 
 const tableData = ref();
 const columns: TableProps['columns'] = [
