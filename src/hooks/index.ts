@@ -1,1 +1,1 @@
-export { useFullscreenLoading } from './useFullscreenLoading';
+export { useFullscreenLoading } from './useFullscreenLoading.tsx';

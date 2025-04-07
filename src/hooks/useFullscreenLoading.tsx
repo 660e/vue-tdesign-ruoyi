@@ -8,6 +8,7 @@ export const useFullscreenLoading = () => {
       if (!fullscreenLoading.instance) {
         fullscreenLoading.instance = LoadingPlugin({
           size: '24px',
+          // indicator: () => <div class="animate-spin">Loading...</div>,
         });
       }
     },
