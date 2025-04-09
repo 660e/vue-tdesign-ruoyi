@@ -1,17 +1,19 @@
 <script setup lang="tsx">
-import Page from '@/layouts/standard/Page.vue';
-import type { TableProps } from 'tdesign-vue-next';
+import type { QTableProps } from '@/components/types';
 import { randomuser } from '@/apis/example';
 import { useFullscreenLoading } from '@/hooks';
+
+import Page from '@/layouts/standard/Page.vue';
 
 const fullscreenLoading = useFullscreenLoading();
 
 const tableData = ref();
-const columns: TableProps['columns'] = [
+const columns: QTableProps['columns'] = [
   {
     title: '姓名',
     cell: (_, { row }) => `${row.name.first} ${row.name.last}`,
     width: 200,
+    _filter: true,
   },
   {
     title: '性别',
