@@ -10,23 +10,12 @@ defineOptions({ inheritAttrs: false });
   <div class="h-full flex flex-col">
     <Filter />
     <div class="p-4 flex gap-2">
-      <t-button>
-        <template #icon>
-          <t-icon name="add" />
-        </template>
-        <span>新增</span>
-      </t-button>
-      <t-button theme="danger">
-        <template #icon>
-          <t-icon name="delete" />
-        </template>
-        <span>删除</span>
-      </t-button>
+      <slot name="header"></slot>
       <div class="flex-1"></div>
       <Operation />
     </div>
     <div class="px-4 flex-1 overflow-auto">
-      <t-table class="h-full" height="100%" row-key="id" v-bind:="$attrs" bordered hover />
+      <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" bordered hover />
     </div>
     <div class="p-4 flex gap-2">
       <t-button theme="default">

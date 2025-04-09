@@ -21,8 +21,6 @@ const columns: TableProps['columns'] = [
           return <t-icon class="text-blue-500" name="gender-male" />;
         case 'female':
           return <t-icon class="text-red-500" name="gender-female" />;
-        default:
-          return '-';
       }
     },
     width: 100,
@@ -48,6 +46,21 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" />
+    <q-table :columns="columns" :data="tableData">
+      <template #header>
+        <t-button>
+          <template #icon>
+            <t-icon name="add" />
+          </template>
+          <span>新增</span>
+        </t-button>
+        <t-button theme="danger">
+          <template #icon>
+            <t-icon name="delete" />
+          </template>
+          <span>删除</span>
+        </t-button>
+      </template>
+    </q-table>
   </Page>
 </template>
