@@ -23,9 +23,14 @@ const columns: QTableProps['columns'] = [
           return <t-icon class="text-blue-500" name="gender-male" />;
         case 'female':
           return <t-icon class="text-red-500" name="gender-female" />;
+        default:
+          return '-';
       }
     },
     width: 100,
+    _filter: {
+      type: 'select',
+    },
   },
   { title: '手机', colKey: 'phone', width: 200 },
   { title: '邮箱', colKey: 'email' },
