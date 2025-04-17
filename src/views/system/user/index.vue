@@ -1,11 +1,11 @@
 <script setup lang="tsx">
 import type { QTableProps } from '@/components/types';
 import { randomuser } from '@/apis/example';
-import { useFullscreenLoading } from '@/hooks';
+import { useLoadingStore } from '@/stores';
 
 import Page from '@/layouts/standard/Page.vue';
 
-const fullscreenLoading = useFullscreenLoading();
+const { showFullscreenLoading, hideFullscreenLoading } = useLoadingStore();
 
 const tableData = ref();
 const columns: QTableProps['columns'] = [
@@ -37,7 +37,7 @@ const columns: QTableProps['columns'] = [
 ];
 
 onMounted(async () => {
-  fullscreenLoading.show();
+  showFullscreenLoading();
 
   try {
     const { results, info } = await randomuser({ results: 20 });
@@ -46,7 +46,7 @@ onMounted(async () => {
     console.log(info);
   } catch {
   } finally {
-    fullscreenLoading.hide();
+    hideFullscreenLoading();
   }
 });
 </script>
