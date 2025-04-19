@@ -7,10 +7,13 @@ import Notification from '../components/Notification.vue';
 import Search from '../components/Search.vue';
 import Setting from '../components/Setting.vue';
 import Version from '../components/Version.vue';
+import Initial from './Initial.vue';
+
+const initialized = ref(false);
 </script>
 
 <template>
-  <div class="h-screen overflow-hidden flex flex-col">
+  <div v-if="initialized" class="h-screen overflow-hidden flex flex-col">
     <div class="h-14 px-4 flex items-center gap-2 border-b border-neutral-200">
       <img class="h-6" src="@/assets/logo.svg" />
       <div class="text-xl">TDesign Starter</div>
@@ -40,4 +43,6 @@ import Version from '../components/Version.vue';
       </div>
     </div>
   </div>
+
+  <Initial v-else @done="initialized = true" />
 </template>
