@@ -48,7 +48,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       const { code, msg, token } = await login(formData);
       if (code === 200) {
         localStorage.setItem('token', token);
-        router.push({ name: 'home' });
+        router.push({ name: 'verify' });
       } else {
         MessagePlugin.error(msg);
         disabled.value = false;
