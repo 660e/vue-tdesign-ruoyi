@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { streamCompletion, markdownToHTML } from '@/utils';
 import type { IChatMessage } from '@/utils';
+import { streamCompletion, markdownToHTML } from '@/utils';
 
 const prompt = ref('');
 const chatMessages = ref<IChatMessage[]>([]);

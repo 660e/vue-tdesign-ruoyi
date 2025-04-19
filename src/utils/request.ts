@@ -1,5 +1,5 @@
-import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 interface IRequestOptions {
   requestInterceptors?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig;
