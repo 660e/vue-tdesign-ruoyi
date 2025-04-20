@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getInfo, getRouters } from '@/apis/login';
+import { dict } from '@/apis/system';
 import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
@@ -7,20 +8,25 @@ const infoStore = useInfoStore();
 const text = ref();
 const percentage = ref(0);
 
+const DICTS = ['sys_user_sex', 'sys_show_hide'];
+
 onMounted(async () => {
   text.value = '获取用户信息';
-  percentage.value = 10;
+  percentage.value = 20;
   const { permissions, roles, user } = await getInfo();
   infoStore.setPermissions(permissions);
   infoStore.setRoles(roles);
   infoStore.setUser(user);
 
   text.value = '获取路由信息';
-  percentage.value = 20;
+  percentage.value = 40;
   const { data } = await getRouters();
   infoStore.setRouters(data);
 
-  // TODO
+  text.value = '获取字典信息';
+  percentage.value = 60;
+  const dicts = await Promise.all(DICTS.map((e) => dict(e)));
+  infoStore.setDicts(dicts.map((e) => e.data));
 
   text.value = '初始化完成';
   percentage.value = 100;
