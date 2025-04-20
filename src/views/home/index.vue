@@ -9,6 +9,7 @@ console.log(infoStore.permissions);
 console.log(infoStore.roles);
 console.log(infoStore.user);
 console.log(infoStore.routers);
+console.log(infoStore.dicts.get('sys_user_sex'));
 </script>
 
 <template>
