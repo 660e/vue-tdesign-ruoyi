@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { useInfoStore } from '@/stores';
+
 import Page from '@/layouts/standard/Page.vue';
+
+const infoStore = useInfoStore();
+
+console.log(infoStore.permissions);
+console.log(infoStore.roles);
+console.log(infoStore.user);
+console.log(infoStore.routers);
 </script>
 
 <template>

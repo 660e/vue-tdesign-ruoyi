@@ -1,2 +1,2 @@
-export * from './init';
+export * from './info';
 export * from './loading';

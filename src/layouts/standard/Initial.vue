@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { getInfo, getRouters } from '@/apis/login';
-import { useInitStore } from '@/stores';
+import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
-const initStore = useInitStore();
+const infoStore = useInfoStore();
 const text = ref();
 const percentage = ref(0);
 
@@ -11,14 +11,14 @@ onMounted(async () => {
   text.value = '获取用户信息';
   percentage.value = 10;
   const { permissions, roles, user } = await getInfo();
-  initStore.setPermissions(permissions);
-  initStore.setRoles(roles);
-  initStore.setUser(user);
+  infoStore.setPermissions(permissions);
+  infoStore.setRoles(roles);
+  infoStore.setUser(user);
 
   text.value = '获取路由信息';
   percentage.value = 20;
   const { data } = await getRouters();
-  initStore.setRouters(data);
+  infoStore.setRouters(data);
 
   // TODO
 
