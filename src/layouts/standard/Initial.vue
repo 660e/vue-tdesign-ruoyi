@@ -2,6 +2,7 @@
 import type { ProgressStatus } from 'tdesign-vue-next';
 import { getInfo, getRouters } from '@/apis/login';
 import { dict } from '@/apis/system';
+import { DICTS } from '@/constants';
 import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
@@ -15,8 +16,6 @@ const progress = reactive<{
   percentage: 0,
   status: undefined,
 });
-
-const DICTS = ['sys_user_sex', 'sys_show_hide'];
 
 const setProgress = (text: string, percentage: number, status?: ProgressStatus) => {
   progress.text = text;
@@ -57,9 +56,9 @@ const signOut = () => {
 <template>
   <div class="h-screen flex flex-col justify-center">
     <div class="relative flex justify-center">
-      <div class="absolute -top-6 text-sm leading-none text-neutral-500">{{ progress.text }}</div>
+      <div class="absolute bottom-5 text-sm leading-none text-neutral-500">{{ progress.text }}</div>
       <t-progress :label="false" :percentage="progress.percentage" :status="progress.status" class="w-1/3" />
-      <div v-if="progress.status === 'error'" class="absolute top-10">
+      <div v-if="progress.status === 'error'" class="absolute top-5">
         <t-button @click="signOut">重新登录</t-button>
       </div>
     </div>
