@@ -46,13 +46,28 @@ onMounted(async () => {
     setProgress('初始化失败，请重新登录', 100, 'error');
   }
 });
+
+const router = useRouter();
+const signOut = () => {
+  localStorage.removeItem('token');
+  router.push({ name: 'login' });
+};
 </script>
 
 <template>
-  <div class="h-screen flex justify-center items-center">
-    <div class="w-1/3 relative">
-      <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-sm leading-none text-neutral-500">{{ progress.text }}</div>
-      <t-progress :label="false" :percentage="progress.percentage" :status="progress.status" />
+  <div class="h-screen flex flex-col justify-center">
+    <div class="relative flex justify-center">
+      <div class="absolute -top-6 text-sm leading-none text-neutral-500">{{ progress.text }}</div>
+      <t-progress :label="false" :percentage="progress.percentage" :status="progress.status" class="w-1/3" />
+      <div v-if="progress.status === 'error'" class="absolute top-10">
+        <t-button @click="signOut">重新登录</t-button>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.t-progress :deep(.t-progress__info) {
+  margin: 0;
+}
+</style>
