@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { useInfoStore } from '@/stores';
+
 const collapsed = ref(false);
+const infoStore = useInfoStore();
+
+onMounted(() => {
+  console.log(infoStore.routers);
+});
 </script>
 
 <template>
