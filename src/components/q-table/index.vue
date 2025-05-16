@@ -19,16 +19,10 @@ defineOptions({ inheritAttrs: false });
     </div>
     <div class="p-4 flex gap-2">
       <t-button theme="default">
-        <template #icon>
-          <t-icon name="upload" />
-        </template>
-        <span>导入</span>
+        <template #icon><t-icon name="upload" /></template><span>导入</span>
       </t-button>
       <t-button theme="default">
-        <template #icon>
-          <t-icon name="download" />
-        </template>
-        <span>导出</span>
+        <template #icon><t-icon name="download" /></template><span>导出</span>
       </t-button>
       <Pagination />
     </div>

@@ -105,7 +105,7 @@ onMounted(() => {
           </div>
         </t-form-item>
         <t-form-item>
-          <t-button :loading="disabled" size="large" theme="primary" type="submit" block>登录</t-button>
+          <t-button :loading="disabled" size="large" type="submit" block>登录</t-button>
         </t-form-item>
       </t-form>
     </div>

@@ -1,11 +1,11 @@
 <script setup lang="tsx">
 import type { QTableProps } from '@/components/types';
 import { randomuser } from '@/apis/example';
-import { useLoadingStore } from '@/stores';
+import { useLoading } from '@/hooks';
 
 import Page from '@/layouts/standard/Page.vue';
 
-const { showFullscreenLoading, hideFullscreenLoading } = useLoadingStore();
+const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const tableData = ref();
 const columns: QTableProps['columns'] = [
@@ -56,16 +56,10 @@ onMounted(async () => {
     <q-table :columns="columns" :data="tableData">
       <template #header>
         <t-button>
-          <template #icon>
-            <t-icon name="add" />
-          </template>
-          <span>新增</span>
+          <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <t-button theme="danger">
-          <template #icon>
-            <t-icon name="delete" />
-          </template>
-          <span>删除</span>
+          <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </template>
     </q-table>

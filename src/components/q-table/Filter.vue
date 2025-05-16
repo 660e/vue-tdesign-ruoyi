@@ -32,21 +32,13 @@ const onSubmit: FormProps['onSubmit'] = () => {
         </t-form-item>
       </div>
       <t-button v-if="filters.length > cols" @click="more = !more" variant="text">
-        <template #icon>
-          <t-icon name="unfold-more" />
-        </template>
+        <template #icon><t-icon name="unfold-more" /></template>
       </t-button>
       <t-button theme="default" type="reset">
-        <template #icon>
-          <t-icon name="load" />
-        </template>
-        <span>重置</span>
+        <template #icon><t-icon name="load" /></template><span>重置</span>
       </t-button>
       <t-button type="submit">
-        <template #icon>
-          <t-icon name="search" />
-        </template>
-        <span>搜索</span>
+        <template #icon><t-icon name="search" /></template><span>搜索</span>
       </t-button>
     </t-form>
   </div>
