@@ -6,8 +6,27 @@ const collapsed = ref(false);
 const infoStore = useInfoStore();
 
 const MenuItem = ({ routers }: { routers: IRouter[] }) => {
-  console.log(routers);
-  return <div>MenuItem</div>;
+  return routers.map((menu) => {
+    if (menu.children?.length) {
+      return (
+        <t-submenu title={menu.meta.title} value={menu.name}>
+          {{
+            icon: () => <t-icon name="menu-application" />,
+            default: () => MenuItem({ routers: menu.children }),
+          }}
+        </t-submenu>
+      );
+    } else {
+      return (
+        <t-menu-item value={menu.name}>
+          {{
+            icon: () => <t-icon name="menu-application" />,
+            default: () => menu.meta.title,
+          }}
+        </t-menu-item>
+      );
+    }
+  });
 };
 </script>
 
@@ -20,22 +39,5 @@ const MenuItem = ({ routers }: { routers: IRouter[] }) => {
   </div>
   <t-menu :collapsed="collapsed" class="flex-1 overflow-auto">
     <MenuItem :routers="infoStore.routers" />
-    <t-menu-item value="1">
-      <template #icon>
-        <t-icon name="menu-application" />
-      </template>
-      <span>菜单1</span>
-    </t-menu-item>
-    <t-submenu title="菜单2" value="2">
-      <template #icon>
-        <t-icon name="menu-application" />
-      </template>
-      <t-menu-item value="2-1">
-        <span>菜单2-1</span>
-      </t-menu-item>
-      <t-menu-item value="2-2">
-        <span>菜单2-2</span>
-      </t-menu-item>
-    </t-submenu>
   </t-menu>
 </template>
