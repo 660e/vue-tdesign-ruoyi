@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ProgressStatus } from 'tdesign-vue-next';
-import { getInfo, getRouter } from '@/apis/login';
+import { getInfo, getRoutes } from '@/apis/login';
 import { dict } from '@/apis/system';
 import { DICTS } from '@/constants';
 import { initializeRouter } from '@/router';
@@ -33,8 +33,8 @@ onMounted(async () => {
     infoStore.setUser(user);
 
     setProgress('获取路由信息', 20);
-    const { data: routes } = await getRouter();
-    infoStore.setRouter(routes || []);
+    const { data: routes } = await getRoutes();
+    infoStore.setRoutes(routes || []);
 
     setProgress('初始化路由', 40);
     await initializeRouter(routes || []);

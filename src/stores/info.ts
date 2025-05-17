@@ -13,8 +13,8 @@ export const useInfoStore = defineStore('info', () => {
   };
   const setPermissions = (n: unknown) => (permissions.value = n);
   const setRoles = (n: unknown) => (roles.value = n);
-  const setRouter = (n: IRoute[]) => (routes.value = n);
+  const setRoutes = (n: IRoute[]) => (routes.value = n);
   const setUser = (n: unknown) => (user.value = n);
 
-  return { dicts, permissions, roles, routes, user, setDicts, setPermissions, setRoles, setRouter, setUser };
+  return { dicts, permissions, roles, routes, user, setDicts, setPermissions, setRoles, setRoutes, setUser };
 });

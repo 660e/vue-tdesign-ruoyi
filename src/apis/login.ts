@@ -13,6 +13,6 @@ export function getInfo() {
   return request.get('/getInfo');
 }
 
-export function getRouter() {
+export function getRoutes() {
   return request.get<IResponse<IRoute[]>>('/getRouters');
 }
