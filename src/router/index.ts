@@ -1,32 +1,9 @@
-import type { IRoute } from '@/apis/types';
 import { createRouter, createWebHistory } from 'vue-router';
+import routes from './modules/static';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      redirect: '/home',
-      children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: () => import('@/login/index.vue'),
-        },
-      ],
-    },
-    {
-      path: '/home',
-      component: () => import('@/layouts/standard/index.vue'),
-      children: [
-        {
-          path: '',
-          name: 'home',
-          component: () => import('@/views/home/index.vue'),
-        },
-      ],
-    },
-  ],
+  routes,
 });
 
 router.beforeEach((to, _, next) => {
@@ -44,8 +21,5 @@ router.beforeEach((to, _, next) => {
   next();
 });
 
-export async function initializeRouter(routes: IRoute[]) {
-  console.log(routes);
-}
-
+export * from './modules/dynamic';
 export default router;
