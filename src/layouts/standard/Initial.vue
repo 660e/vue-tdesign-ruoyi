@@ -25,13 +25,13 @@ const setProgress = (text: string, percentage: number, status?: ProgressStatus) 
 
 onMounted(async () => {
   try {
-    setProgress('获取用户信息', 20);
+    setProgress('获取用户信息', 0);
     const { permissions, roles, user } = await getInfo();
     infoStore.setPermissions(permissions);
     infoStore.setRoles(roles);
     infoStore.setUser(user);
 
-    setProgress('获取路由信息', 40);
+    setProgress('获取路由信息', 30);
     const { data } = await getRouters();
     infoStore.setRouters(data);
 
