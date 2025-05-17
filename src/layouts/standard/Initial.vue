@@ -37,7 +37,7 @@ onMounted(async () => {
     infoStore.setRoutes(routes || []);
 
     setProgress('初始化路由', 40);
-    await initializeRouter(routes || []);
+    await initializeRouter(routes || [], 'standard');
 
     setProgress('获取字典信息', 60);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));

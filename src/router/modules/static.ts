@@ -2,22 +2,18 @@ import type { RouteRecordRaw } from 'vue-router';
 
 export default [
   {
-    path: '/',
-    redirect: '/home',
-    children: [
-      {
-        path: 'login',
-        name: 'login',
-        component: () => import('@/login/index.vue'),
-      },
-    ],
+    path: '/login',
+    name: 'login',
+    component: () => import('@/login/index.vue'),
   },
   {
-    path: '/home',
+    path: '/',
+    redirect: '/home',
+    name: 'layout-standard',
     component: () => import('@/layouts/standard/index.vue'),
     children: [
       {
-        path: '',
+        path: 'home',
         name: 'home',
         component: () => import('@/views/home/index.vue'),
       },
