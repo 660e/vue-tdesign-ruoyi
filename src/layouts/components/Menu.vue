@@ -12,7 +12,7 @@ const MenuItem = ({ routes }: { routes: IRoute[] }) => {
         <t-submenu title={menu.meta.title} value={menu.name}>
           {{
             icon: () => <t-icon name="menu-application" />,
-            default: () => MenuItem({ routes: menu.children }),
+            default: () => MenuItem({ routes: menu.children || [] }),
           }}
         </t-submenu>
       );
@@ -21,7 +21,14 @@ const MenuItem = ({ routes }: { routes: IRoute[] }) => {
         <t-menu-item value={menu.name}>
           {{
             icon: () => <t-icon name="menu-application" />,
-            default: () => menu.meta.title,
+            default: () => {
+              return (
+                <div class="flex items-center gap-2">
+                  <span>{menu.meta.title}</span>
+                  <t-icon name={menu.meta.link ? 'link' : undefined} />
+                </div>
+              );
+            },
           }}
         </t-menu-item>
       );
