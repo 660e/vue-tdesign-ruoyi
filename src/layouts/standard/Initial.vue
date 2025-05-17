@@ -3,6 +3,7 @@ import type { ProgressStatus } from 'tdesign-vue-next';
 import { getInfo, getRouters } from '@/apis/login';
 import { dict } from '@/apis/system';
 import { DICTS } from '@/constants';
+import { initializeRouter } from '@/router';
 import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
@@ -31,9 +32,12 @@ onMounted(async () => {
     infoStore.setRoles(roles);
     infoStore.setUser(user);
 
-    setProgress('获取路由信息', 30);
+    setProgress('获取路由信息', 20);
     const { data: routers } = await getRouters();
     infoStore.setRouters(routers || []);
+
+    setProgress('初始化路由', 40);
+    await initializeRouter(routers || []);
 
     setProgress('获取字典信息', 60);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));

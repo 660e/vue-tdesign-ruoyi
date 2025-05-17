@@ -1,11 +1,36 @@
-import type { RouteRecordRaw } from 'vue-router';
+// import type { RouteRecordRaw } from 'vue-router';
+import type { IRouter } from '@/apis/types';
 import { createRouter, createWebHistory } from 'vue-router';
 
-const routes = import.meta.glob<{ default: RouteRecordRaw }>('./modules/*.ts', { eager: true });
+// const routes = import.meta.glob<{ default: RouteRecordRaw }>('./modules/*.ts', { eager: true });
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: Object.values(routes).map((route) => route.default),
+  // routes: Object.values(routes).map((route) => route.default),
+  routes: [
+    {
+      path: '/',
+      redirect: '/home',
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('@/login/index.vue'),
+        },
+      ],
+    },
+    {
+      path: '/home',
+      component: () => import('@/layouts/standard/index.vue'),
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('@/views/home/index.vue'),
+        },
+      ],
+    },
+  ],
 });
 
 router.beforeEach((to, from, next) => {
@@ -22,5 +47,9 @@ router.beforeEach((to, from, next) => {
 
   next();
 });
+
+export async function initializeRouter(routers: IRouter[]) {
+  console.log(routers);
+}
 
 export default router;
