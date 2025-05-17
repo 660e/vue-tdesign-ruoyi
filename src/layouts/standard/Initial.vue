@@ -32,8 +32,8 @@ onMounted(async () => {
     infoStore.setUser(user);
 
     setProgress('获取路由信息', 30);
-    const { data } = await getRouters();
-    infoStore.setRouters(data);
+    const { data: routers } = await getRouters();
+    infoStore.setRouters(routers || []);
 
     setProgress('获取字典信息', 60);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));

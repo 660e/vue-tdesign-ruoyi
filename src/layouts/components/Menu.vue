@@ -1,12 +1,14 @@
-<script setup lang="ts">
+<script setup lang="tsx">
+import type { IRouter } from '@/apis/types';
 import { useInfoStore } from '@/stores';
 
 const collapsed = ref(false);
 const infoStore = useInfoStore();
 
-onMounted(() => {
-  console.log(infoStore.routers);
-});
+const MenuItem = ({ routers }: { routers: IRouter[] }) => {
+  console.log(routers);
+  return <div>MenuItem</div>;
+};
 </script>
 
 <template>
@@ -17,6 +19,7 @@ onMounted(() => {
     <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
   </div>
   <t-menu :collapsed="collapsed" class="flex-1 overflow-auto">
+    <MenuItem :routers="infoStore.routers" />
     <t-menu-item value="1">
       <template #icon>
         <t-icon name="menu-application" />
