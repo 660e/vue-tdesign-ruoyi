@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ProgressStatus } from 'tdesign-vue-next';
-import { getInfo, getRouters } from '@/apis/login';
+import { getInfo, getRouter } from '@/apis/login';
 import { dict } from '@/apis/system';
 import { DICTS } from '@/constants';
 import { initializeRouter } from '@/router';
@@ -33,11 +33,11 @@ onMounted(async () => {
     infoStore.setUser(user);
 
     setProgress('获取路由信息', 20);
-    const { data: routers } = await getRouters();
-    infoStore.setRouters(routers || []);
+    const { data: routes } = await getRouter();
+    infoStore.setRouter(routes || []);
 
     setProgress('初始化路由', 40);
-    await initializeRouter(routers || []);
+    await initializeRouter(routes || []);
 
     setProgress('获取字典信息', 60);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));

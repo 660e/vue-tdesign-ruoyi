@@ -1,5 +1,5 @@
 // import type { RouteRecordRaw } from 'vue-router';
-import type { IRouter } from '@/apis/types';
+import type { IRoute } from '@/apis/types';
 import { createRouter, createWebHistory } from 'vue-router';
 
 // const routes = import.meta.glob<{ default: RouteRecordRaw }>('./modules/*.ts', { eager: true });
@@ -48,8 +48,8 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-export async function initializeRouter(routers: IRouter[]) {
-  console.log(routers);
+export async function initializeRouter(routes: IRoute[]) {
+  console.log(routes);
 }
 
 export default router;

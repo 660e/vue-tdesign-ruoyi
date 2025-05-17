@@ -1,6 +1,6 @@
-export interface IRouter {
+export interface IRoute {
   alwaysShow: boolean;
-  children: IRouter[];
+  children: IRoute[];
   component: string;
   hidden: boolean;
   meta: {
