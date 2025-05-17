@@ -22,8 +22,10 @@ declare module 'vue' {
     TLoading: typeof import('tdesign-vue-next')['Loading']
     TMenu: typeof import('tdesign-vue-next')['Menu']
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
+    TPagination: typeof import('tdesign-vue-next')['Pagination']
     TProgress: typeof import('tdesign-vue-next')['Progress']
     TSubmenu: typeof import('tdesign-vue-next')['Submenu']
+    TTable: typeof import('tdesign-vue-next')['Table']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }
