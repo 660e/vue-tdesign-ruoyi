@@ -8,8 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ExampleComponent1: typeof import('./src/components/example-component-1/index.vue')['default']
-    ExampleComponent2: typeof import('./src/components/ExampleComponent2.vue')['default']
     QTable: typeof import('./src/components/q-table/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -24,10 +22,8 @@ declare module 'vue' {
     TLoading: typeof import('tdesign-vue-next')['Loading']
     TMenu: typeof import('tdesign-vue-next')['Menu']
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
-    TPagination: typeof import('tdesign-vue-next')['Pagination']
     TProgress: typeof import('tdesign-vue-next')['Progress']
     TSubmenu: typeof import('tdesign-vue-next')['Submenu']
-    TTable: typeof import('tdesign-vue-next')['Table']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }
