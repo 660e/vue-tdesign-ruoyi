@@ -1,16 +1,18 @@
-// import type { RouteRecordRaw } from 'vue-router';
 import type { IRoute } from '@/apis/types';
+import { getRoutes } from '@/apis/login';
+import { useInfoStore } from '@/stores';
 import router from '../index';
 
-// const views = import.meta.glob('@/views/**/index.vue', { eager: true });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const views = import.meta.glob<{ default: any }>('@/views/**/index.vue', { eager: true });
 
-function addRoute(routes: IRoute[], parentPath: string, layoutName: string) {
+function addRoute(layoutName: string, parentPath: string, routes: IRoute[]) {
   routes.forEach((route) => {
     switch (route.component) {
       case 'Layout': {
         if (route.children?.length) {
           parentPath = route.path;
-          addRoute(route.children, parentPath, layoutName);
+          addRoute(layoutName, parentPath, route.children);
         }
         break;
       }
@@ -18,30 +20,28 @@ function addRoute(routes: IRoute[], parentPath: string, layoutName: string) {
       case 'ParentView': {
         if (route.children?.length) {
           parentPath += `/${route.path}`;
-          addRoute(route.children, parentPath, layoutName);
+          addRoute(layoutName, parentPath, route.children);
         }
         break;
       }
 
       default: {
-        // try {
-        //   const item = {
-        //     path: `${parentPath}/${route.path}`,
-        //     redirect: undefined,
-        //     name: route.name,
-        //     component: views[`/src/views/${route.component}.vue`],
-        //   };
-        //   router.addRoute(layoutName, item as RouteRecordRaw);
-        // } catch {
-        //   console.log(route);
-        // }
+        try {
+          router.addRoute(layoutName, {
+            path: `${parentPath}/${route.path}`,
+            component: views[`/src/views/${route.component}.vue`].default,
+          });
+        } catch {
+          console.log(route);
+        }
       }
     }
   });
 }
 
-export async function initializeRouter(routes: IRoute[], layout: 'standard') {
-  addRoute(routes, '', `layout-${layout}`);
-
-  console.log(router.getRoutes());
+export async function initializeRouter(layout: 'standard') {
+  const infoStore = useInfoStore();
+  const { data } = await getRoutes();
+  infoStore.setRoutes(data || []);
+  addRoute(`layout-${layout}`, '', infoStore.routes);
 }
