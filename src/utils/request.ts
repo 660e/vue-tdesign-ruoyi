@@ -1,5 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import router from '@/router';
 
 interface IRequestOptions {
   requestInterceptors?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig;
@@ -25,11 +26,28 @@ class Request {
 
     this.instance.interceptors.response.use(
       (response) => {
-        const { responseInterceptors } = response.config as InternalAxiosRequestConfig & IRequestOptions;
-        if (responseInterceptors) {
-          return responseInterceptors(response);
+        switch (response.data.code) {
+          case 200: {
+            const { responseInterceptors } = response.config as InternalAxiosRequestConfig & IRequestOptions;
+            if (responseInterceptors) {
+              return responseInterceptors(response);
+            }
+            return response.data;
+          }
+          case 401: {
+            localStorage.removeItem('token');
+            router.push({ name: 'login' });
+            break;
+          }
+          case 404:
+            console.log('404');
+            break;
+          case 500:
+            console.log('500');
+            break;
+          default:
+            console.log('default');
         }
-        return response.data;
       },
       (error) => {
         switch (error.response.status) {

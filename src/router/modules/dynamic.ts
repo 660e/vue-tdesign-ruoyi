@@ -40,8 +40,8 @@ function addRoute(layoutName: string, parentPath: string, routes: IRoute[]) {
 }
 
 export async function initializeRouter(layout: 'standard') {
-  const infoStore = useInfoStore();
   const { data } = await getRoutes();
+  const infoStore = useInfoStore();
   infoStore.setRoutes(data || []);
   addRoute(`layout-${layout}`, '', infoStore.routes);
 }
