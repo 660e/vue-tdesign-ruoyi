@@ -1,7 +1,8 @@
+// import type { RouteRecordRaw } from 'vue-router';
 import type { IRoute } from '@/apis/types';
-// import router from '../index';
+import router from '../index';
 
-const views = import.meta.glob('@/views/**/index.vue', { eager: true });
+// const views = import.meta.glob('@/views/**/index.vue', { eager: true });
 
 function addRoute(routes: IRoute[], parentPath: string, layoutName: string) {
   routes.forEach((route) => {
@@ -23,25 +24,24 @@ function addRoute(routes: IRoute[], parentPath: string, layoutName: string) {
       }
 
       default: {
-        console.log(route);
-        console.log(parentPath);
-        console.log(layoutName);
+        // try {
+        //   const item = {
+        //     path: `${parentPath}/${route.path}`,
+        //     redirect: undefined,
+        //     name: route.name,
+        //     component: views[`/src/views/${route.component}.vue`],
+        //   };
+        //   router.addRoute(layoutName, item as RouteRecordRaw);
+        // } catch {
+        //   console.log(route);
+        // }
       }
     }
   });
 }
 
 export async function initializeRouter(routes: IRoute[], layout: 'standard') {
-  console.log(routes);
-  console.log(views);
-
-  // routes.forEach((route) => {
-  //   router.addRoute(`layout-${layout}`, {
-  //     path: route.path,
-  //     redirect: '/',
-  //     name: route.name,
-  //   });
-  // });
-
   addRoute(routes, '', `layout-${layout}`);
+
+  console.log(router.getRoutes());
 }
