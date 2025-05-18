@@ -1,18 +1,43 @@
 import type { IRoute } from '@/apis/types';
-import router from '../index';
+// import router from '../index';
 
-const views = import.meta.glob('@/views/**/index.vue', { eager: true });
+// const views = import.meta.glob('@/views/**/index.vue', { eager: true });
+
+function addRoute(routes: IRoute[]) {
+  routes.forEach((route) => {
+    switch (route.component) {
+      case 'Layout': {
+        console.log(route.path);
+        break;
+      }
+
+      case 'ParentView': {
+        if (route.children?.length) {
+          addRoute(route.children);
+        }
+        break;
+      }
+
+      default: {
+        console.log(route);
+      }
+    }
+  });
+}
 
 export async function initializeRouter(routes: IRoute[], layout: 'standard') {
-  console.log(views);
+  const layoutName = `layout-${layout}`;
 
-  routes.forEach((route) => {
-    console.log(route);
+  console.log(layoutName);
+  console.log(routes);
 
-    router.addRoute(`layout-${layout}`, {
-      path: route.path,
-      redirect: '/',
-      name: route.name,
-    });
-  });
+  // routes.forEach((route) => {
+  //   router.addRoute(`layout-${layout}`, {
+  //     path: route.path,
+  //     redirect: '/',
+  //     name: route.name,
+  //   });
+  // });
+
+  addRoute(routes);
 }

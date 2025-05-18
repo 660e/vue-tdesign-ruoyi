@@ -14,10 +14,9 @@ class Request {
         const { requestInterceptors } = config as InternalAxiosRequestConfig & IRequestOptions;
         if (requestInterceptors) {
           return requestInterceptors(config);
-        } else {
-          config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
-          return config;
         }
+        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+        return config;
       },
       (error) => {
         return Promise.reject(error);
@@ -29,9 +28,8 @@ class Request {
         const { responseInterceptors } = response.config as InternalAxiosRequestConfig & IRequestOptions;
         if (responseInterceptors) {
           return responseInterceptors(response);
-        } else {
-          return response.data;
         }
+        return response.data;
       },
       (error) => {
         switch (error.response.status) {

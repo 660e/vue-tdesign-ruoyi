@@ -16,23 +16,22 @@ const MenuItem = ({ routes }: { routes: IRoute[] }) => {
           }}
         </t-submenu>
       );
-    } else {
-      return (
-        <t-menu-item value={menu.name}>
-          {{
-            icon: () => <t-icon name="menu-application" />,
-            default: () => {
-              return (
-                <div class="flex items-center gap-2">
-                  <span>{menu.meta.title}</span>
-                  <t-icon name={menu.meta.link ? 'link' : undefined} />
-                </div>
-              );
-            },
-          }}
-        </t-menu-item>
-      );
     }
+    return (
+      <t-menu-item value={menu.name}>
+        {{
+          icon: () => <t-icon name="menu-application" />,
+          default: () => {
+            return (
+              <div class="flex items-center gap-2">
+                <span>{menu.meta.title}</span>
+                <t-icon name={menu.meta.link ? 'link' : undefined} />
+              </div>
+            );
+          },
+        }}
+      </t-menu-item>
+    );
   });
 };
 </script>

@@ -49,11 +49,11 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       if (code === 200) {
         localStorage.setItem('token', token);
         router.push({ name: 'home' });
-      } else {
-        MessagePlugin.error(msg);
-        disabled.value = false;
-        refreshCaptcha();
+        return;
       }
+      MessagePlugin.error(msg);
+      disabled.value = false;
+      refreshCaptcha();
     } catch {
       disabled.value = false;
     }
