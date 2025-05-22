@@ -1,6 +1,15 @@
 import type { IRoute } from '@/apis/types';
 import { defineStore } from 'pinia';
 
+function standardizeRoutes(routes: IRoute[], parentName = '') {
+  routes.forEach((route) => {
+    route.name = `${parentName}${route.name}`;
+    if (route.children) {
+      standardizeRoutes(route.children, route.name);
+    }
+  });
+}
+
 export const useInfoStore = defineStore('info', () => {
   const dicts = ref();
   const permissions = ref();
@@ -13,7 +22,10 @@ export const useInfoStore = defineStore('info', () => {
   };
   const setPermissions = (n: unknown) => (permissions.value = n);
   const setRoles = (n: unknown) => (roles.value = n);
-  const setRoutes = (n: IRoute[]) => (routes.value = n);
+  const setRoutes = (n: IRoute[]) => {
+    standardizeRoutes(n);
+    routes.value = n;
+  };
   const setUser = (n: unknown) => (user.value = n);
 
   return { dicts, permissions, roles, routes, user, setDicts, setPermissions, setRoles, setRoutes, setUser };

@@ -2,8 +2,17 @@
 import type { IRoute } from '@/apis/types';
 import { useInfoStore } from '@/stores';
 
-const collapsed = ref(false);
+const router = useRouter();
 const infoStore = useInfoStore();
+const collapsed = ref(false);
+
+const to = (menu: IRoute) => {
+  if (menu.meta.link) {
+    window.open(menu.meta.link, '_blank');
+  } else {
+    router.push({ name: menu.name });
+  }
+};
 
 const MenuItem = ({ routes }: { routes: IRoute[] }) => {
   return routes.map((menu) => {
@@ -18,7 +27,7 @@ const MenuItem = ({ routes }: { routes: IRoute[] }) => {
       );
     }
     return (
-      <t-menu-item value={menu.name}>
+      <t-menu-item onClick={() => to(menu)} value={menu.name}>
         {{
           icon: () => <t-icon name="menu-application" />,
           default: () => {

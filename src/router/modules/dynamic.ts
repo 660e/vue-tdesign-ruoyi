@@ -29,10 +29,11 @@ function addRoute(layoutName: string, parentPath: string, routes: IRoute[]) {
         try {
           router.addRoute(layoutName, {
             path: `${parentPath}/${route.path}`,
+            name: route.name,
             component: views[`/src/views/${route.component}.vue`].default,
           });
         } catch {
-          console.log(route);
+          // TODO
         }
       }
     }
