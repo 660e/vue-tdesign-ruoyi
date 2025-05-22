@@ -10,6 +10,12 @@ function addRoute(layoutName: string, parentPath: string, routes: IRoute[]) {
   routes.forEach((route) => {
     switch (route.component) {
       case 'Layout': {
+        router.addRoute(layoutName, {
+          path: route.path,
+          redirect: '/',
+          name: route.name,
+          meta: route.meta,
+        });
         if (route.children?.length) {
           parentPath = route.path;
           addRoute(layoutName, parentPath, route.children);
@@ -18,6 +24,7 @@ function addRoute(layoutName: string, parentPath: string, routes: IRoute[]) {
       }
 
       case 'ParentView': {
+        // TODO
         if (route.children?.length) {
           parentPath += `/${route.path}`;
           addRoute(layoutName, parentPath, route.children);
@@ -31,6 +38,7 @@ function addRoute(layoutName: string, parentPath: string, routes: IRoute[]) {
             path: `${parentPath}/${route.path}`,
             name: route.name,
             component: views[`/src/views/${route.component}.vue`].default,
+            meta: route.meta,
           });
         } catch {
           // TODO
@@ -45,4 +53,6 @@ export async function initializeRouter(layout: 'standard') {
   const infoStore = useInfoStore();
   infoStore.setRoutes(data || []);
   addRoute(`layout-${layout}`, '', infoStore.routes);
+
+  // console.log(router.getRoutes());
 }
