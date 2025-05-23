@@ -56,7 +56,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
 onMounted(() => {
   const matched = route.matched.slice(1, route.matched.length - 1);
   defaultValue.value = route.name as string;
-  defaultExpanded.value = matched.length ? matched.map((item) => item.name) : [];
+  defaultExpanded.value = matched.length ? matched.map((e) => e.name) : [];
 });
 </script>
 

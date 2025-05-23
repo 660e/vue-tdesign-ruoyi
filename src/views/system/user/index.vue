@@ -1,11 +1,12 @@
 <script setup lang="tsx">
 import type { QTableProps } from '@/components/types';
 import { listUser } from '@/apis/system';
-import { useLoading } from '@/hooks';
+import { useLoading, useTableCell } from '@/hooks';
 
 import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
+const { tagCell } = useTableCell();
 
 const tableData = ref();
 const columns: QTableProps['columns'] = [
@@ -13,26 +14,7 @@ const columns: QTableProps['columns'] = [
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门', colKey: 'dept.deptName' },
   { title: '手机号码', colKey: 'phonenumber', width: 200 },
-  {
-    title: '状态',
-    cell: (_, { row }) => {
-      switch (row.status) {
-        case '0':
-          return (
-            <t-tag theme="success" size="small">
-              正常
-            </t-tag>
-          );
-        case '1':
-          return (
-            <t-tag theme="danger" size="small">
-              停用
-            </t-tag>
-          );
-      }
-    },
-    width: 100,
-  },
+  { title: '状态', cell: (_, { row }) => tagCell(row.status, ['success', 'danger'], 'sys_normal_disable'), width: 100 },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   { title: '操作', width: 100 },
 ];

@@ -1,14 +1,10 @@
-import type { IListParams, IResponse, TUnknownRecord } from './types';
+import type { IDict, IListParams, IResponse, TUnknownRecord } from './types';
 import { request } from '@/utils/index';
 
 export function listUser(params?: IListParams) {
   return request.get<IResponse<TUnknownRecord>>('/system/user/list', { params });
 }
 
-//
-//
-//
-
 export function dict(name: string) {
-  return request.get(`/system/dict/data/type/${name}`);
+  return request.get<IResponse<IDict[]>>(`/system/dict/data/type/${name}`);
 }
