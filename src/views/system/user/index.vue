@@ -6,7 +6,7 @@ import { useLoading, useTableCell } from '@/hooks';
 import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
-const { handleCellWidth, tagCell } = useTableCell();
+const { handleCellWidth } = useTableCell();
 
 const tableData = ref();
 const columns: QTableProps['columns'] = [
@@ -14,7 +14,11 @@ const columns: QTableProps['columns'] = [
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门', colKey: 'dept.deptName' },
   { title: '手机号码', colKey: 'phonenumber', width: 200 },
-  { title: '状态', colKey: 'status', cell: tagCell('sys_normal_disable', ['success', 'danger']), width: 100 },
+  {
+    title: '状态',
+    cell: (_, { row }) => <q-table-tag-col modelValue={row.status} dictType="sys_normal_disable" themes={['success', 'danger']} />,
+    width: 100,
+  },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
     title: '操作',
