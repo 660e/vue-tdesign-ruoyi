@@ -41,7 +41,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
           icon: () => <t-icon name="menu-application" />,
           default: () => {
             return (
-              <div class="flex items-center gap-2">
+              <div class="flex justify-between items-center">
                 <span>{menu.meta?.title}</span>
                 <t-icon class="!w-4 !h-4 !m-0" name={menu.meta?.frameBlank && menu.meta.frameSrc ? 'jump' : undefined} />
               </div>
@@ -71,3 +71,9 @@ onMounted(() => {
     <MenuItem :routes="infoStore.routes" />
   </t-menu>
 </template>
+
+<style scoped>
+.t-default-menu :deep(.t-menu__item) .t-menu__content {
+  flex: 1;
+}
+</style>
