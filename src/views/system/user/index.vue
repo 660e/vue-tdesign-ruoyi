@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { QTableProps } from '@/components/types';
-import { randomuser } from '@/apis/example';
+import { listUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 
 import Page from '@/layouts/standard/Page.vue';
@@ -9,12 +9,7 @@ const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const tableData = ref();
 const columns: QTableProps['columns'] = [
-  {
-    title: '姓名',
-    cell: (_, { row }) => `${row.name.first} ${row.name.last}`,
-    width: 200,
-    _filter: true,
-  },
+  { title: '用户名称', colKey: 'userName', width: 200, _filter: true },
   {
     title: '性别',
     cell: (_, { row }) => {
@@ -40,10 +35,9 @@ onMounted(async () => {
   showFullscreenLoading();
 
   try {
-    const { results, info } = await randomuser({ results: 20 });
+    const { rows } = await listUser();
 
-    tableData.value = results;
-    console.log(info);
+    tableData.value = rows;
   } catch {
   } finally {
     hideFullscreenLoading();
