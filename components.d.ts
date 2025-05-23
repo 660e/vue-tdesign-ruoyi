@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     QTable: typeof import('./src/components/q-table/index.vue')['default']
+    QTableHandleCol: typeof import('./src/components/q-table-handle-col/index.vue')['default']
     QTableTagCol: typeof import('./src/components/q-table-tag-col/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

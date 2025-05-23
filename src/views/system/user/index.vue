@@ -1,4 +1,5 @@
 <script setup lang="tsx">
+import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps } from '@/components/types';
 import { listUser } from '@/apis/system';
 import { useLoading, useTableCell } from '@/hooks';
@@ -9,6 +10,12 @@ const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 const { handleCellWidth } = useTableCell();
 
 const tableData = ref();
+const handles: QTableProps['handles'] = [
+  { label: '修改', value: 'edit' },
+  { label: '删除', value: 'delete', theme: 'danger' },
+  { label: '重置密码', value: 'resetPassword' },
+  { label: '分配角色', value: 'assignRole' },
+];
 const columns: QTableProps['columns'] = [
   { title: '用户名称', colKey: 'userName', width: 200, _filter: true },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
@@ -22,19 +29,15 @@ const columns: QTableProps['columns'] = [
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
     title: '操作',
-    cell: () => {
-      return (
-        <div class="flex gap-2">
-          <t-link theme="primary">修改</t-link>
-          <t-link theme="danger">删除</t-link>
-          <t-link theme="primary">重置密码</t-link>
-          <t-link theme="primary">分配角色</t-link>
-        </div>
-      );
-    },
+    cell: (_, { row }) => <q-table-handle-col handles={handles} onHandle={(value: string) => onHandle(value, row)} />,
     width: handleCellWidth(12, 4, 2),
   },
 ];
+
+const onHandle = (value: string, row: TableRowData) => {
+  console.log(value);
+  console.log(row);
+};
 
 onMounted(async () => {
   showFullscreenLoading();
