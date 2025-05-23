@@ -16,7 +16,20 @@ const columns: QTableProps['columns'] = [
   { title: '手机号码', colKey: 'phonenumber', width: 200 },
   { title: '状态', cell: (_, { row }) => tagCell(row.status, ['success', 'danger'], 'sys_normal_disable'), width: 100 },
   { title: '创建时间', colKey: 'createTime', width: 200 },
-  { title: '操作', width: 100 },
+  {
+    title: '操作',
+    cell: () => {
+      return (
+        <div class="flex gap-2">
+          <t-link theme="primary">修改</t-link>
+          <t-link theme="danger">删除</t-link>
+          <t-link theme="primary">重置密码</t-link>
+          <t-link theme="primary">分配角色</t-link>
+        </div>
+      );
+    },
+    width: 240,
+  },
 ];
 
 onMounted(async () => {

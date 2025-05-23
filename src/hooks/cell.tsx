@@ -11,7 +11,7 @@ export const useTableCell = () => {
     const index = dicts?.findIndex((e) => e.dictValue === value);
 
     return (
-      <Tag theme={themes[index]} size="small">
+      <Tag size="small" theme={themes[index]}>
         {dict?.dictLabel}
       </Tag>
     );

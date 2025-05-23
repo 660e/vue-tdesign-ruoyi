@@ -43,7 +43,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
             return (
               <div class="flex items-center gap-2">
                 <span>{menu.meta?.title}</span>
-                <t-icon name={menu.meta?.frameBlank && menu.meta.frameSrc ? 'link' : undefined} />
+                <t-icon class="!w-4 !h-4 !m-0" name={menu.meta?.frameBlank && menu.meta.frameSrc ? 'jump' : undefined} />
               </div>
             );
           },
