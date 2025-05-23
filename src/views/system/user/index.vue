@@ -6,7 +6,7 @@ import { useLoading, useTableCell } from '@/hooks';
 import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
-const { tagCell } = useTableCell();
+const { handleCellWidth, tagCell } = useTableCell();
 
 const tableData = ref();
 const columns: QTableProps['columns'] = [
@@ -28,7 +28,7 @@ const columns: QTableProps['columns'] = [
         </div>
       );
     },
-    width: 240,
+    width: handleCellWidth(12, 4, 2),
   },
 ];
 

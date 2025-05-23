@@ -5,6 +5,10 @@ import { useInfoStore } from '@/stores';
 export const useTableCell = () => {
   const infoStore = useInfoStore();
 
+  const handleCellWidth = (textCount: number, buttonCount: number, gap: number) => {
+    return textCount * 14 + (buttonCount - 1) * (gap * 4) + 16 * 2;
+  };
+
   const tagCell = (key: string, themes: TagProps['theme'][]): PrimaryTableCol<TableRowData>['cell'] => {
     return (_, { col, row }) => {
       const dicts = infoStore.dicts?.get(key) || [];
@@ -19,5 +23,5 @@ export const useTableCell = () => {
     };
   };
 
-  return { tagCell };
+  return { handleCellWidth, tagCell };
 };
