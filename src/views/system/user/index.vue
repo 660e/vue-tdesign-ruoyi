@@ -14,7 +14,7 @@ const columns: QTableProps['columns'] = [
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门', colKey: 'dept.deptName' },
   { title: '手机号码', colKey: 'phonenumber', width: 200 },
-  { title: '状态', cell: (_, { row }) => tagCell(row.status, ['success', 'danger'], 'sys_normal_disable'), width: 100 },
+  { title: '状态', colKey: 'status', cell: tagCell('sys_normal_disable', ['success', 'danger']), width: 100 },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
     title: '操作',
