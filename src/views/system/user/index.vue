@@ -2,12 +2,12 @@
 import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps } from '@/components/types';
 import { listUser } from '@/apis/system';
-import { useLoading, useTableCell } from '@/hooks';
+import { useLoading } from '@/hooks';
+import { getHandleColWidth } from '@/utils';
 
 import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
-const { handleCellWidth } = useTableCell();
 
 const tableData = ref();
 const handles: QTableProps['handles'] = [
@@ -30,7 +30,7 @@ const columns: QTableProps['columns'] = [
   {
     title: '操作',
     cell: (_, { row }) => <q-table-handle-col handles={handles} onHandle={(value: string) => onHandle(value, row)} />,
-    width: handleCellWidth(12, 4, 2),
+    width: getHandleColWidth(12, 4),
   },
 ];
 

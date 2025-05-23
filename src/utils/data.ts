@@ -54,3 +54,7 @@ export function buildTree<T>(data: T[], options: { childrenKey?: string; idKey?:
 
   return result;
 }
+
+export function getHandleColWidth(textCount: number, buttonCount: number) {
+  return textCount * 14 + (buttonCount - 1) * (2 * 4) + 16 * 2;
+}
