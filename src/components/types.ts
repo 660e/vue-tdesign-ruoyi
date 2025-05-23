@@ -5,8 +5,9 @@ interface QTableFilterProps {
 }
 
 interface QTableHandleProps {
-  label: string;
   value: string;
+  icon?: string;
+  label?: string;
   theme?: LinkProps['theme'];
 }
 

@@ -1,3 +1,4 @@
+import type { QTableProps } from '@/components/types';
 import { is } from './index';
 
 function flattenObjectTree<T>(data: T, childrenKey: keyof T) {
@@ -55,6 +56,12 @@ export function buildTree<T>(data: T[], options: { childrenKey?: string; idKey?:
   return result;
 }
 
-export function getHandleColWidth(textCount: number, buttonCount: number) {
-  return textCount * 14 + (buttonCount - 1) * (2 * 4) + 16 * 2;
+export function getHandleColWidth(handles: QTableProps['handles']) {
+  const iw = handles.filter((e) => e.icon).length * 16;
+  const lw = handles.filter((e) => e.label).reduce((a, c) => a + c.label!.length * 14, 0);
+  const tg = handles.filter((e) => e.icon && e.label).length * (4 * 0.5);
+  const hg = (handles.length - 1) * (4 * 2);
+  const tp = 16 * 2;
+
+  return iw + lw + tg + hg + tp;
 }

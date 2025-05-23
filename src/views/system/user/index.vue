@@ -11,10 +11,10 @@ const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const tableData = ref();
 const handles: QTableProps['handles'] = [
-  { label: '修改', value: 'edit' },
-  { label: '删除', value: 'delete', theme: 'danger' },
-  { label: '重置密码', value: 'resetPassword' },
-  { label: '分配角色', value: 'assignRole' },
+  { value: 'edit', icon: 'edit', label: '修改' },
+  { value: 'delete', icon: 'delete', label: '删除', theme: 'danger' },
+  { value: 'resetPassword', icon: 'secured', label: '重置密码' },
+  { value: 'assignRole', icon: 'user-add', label: '分配角色' },
 ];
 const columns: QTableProps['columns'] = [
   { title: '用户名称', colKey: 'userName', width: 200, _filter: true },
@@ -30,7 +30,7 @@ const columns: QTableProps['columns'] = [
   {
     title: '操作',
     cell: (_, { row }) => <q-table-handle-col handles={handles} onHandle={(value: string) => onHandle(value, row)} />,
-    width: getHandleColWidth(12, 4),
+    width: getHandleColWidth(handles),
   },
 ];
 
