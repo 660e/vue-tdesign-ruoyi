@@ -8,9 +8,9 @@ export default [
   },
   {
     path: '/',
-    redirect: '/home',
     name: 'layout-standard',
     component: () => import('@/layouts/standard/index.vue'),
+    redirect: '/home',
     children: [
       {
         path: 'home',

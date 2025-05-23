@@ -2,8 +2,9 @@ import 'vue-router';
 
 declare module 'vue-router' {
   interface RouteMeta {
+    frameBlank?: boolean;
+    frameSrc?: string;
     icon?: string;
-    link?: string;
     title?: string;
   }
 }

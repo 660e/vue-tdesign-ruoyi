@@ -1,5 +1,6 @@
 <script setup lang="tsx">
-import type { IRoute } from '@/apis/types';
+import type { RouteRecordRaw } from 'vue-router';
+import type { MenuValue } from 'tdesign-vue-next';
 import { useInfoStore } from '@/stores';
 
 const route = useRoute();
@@ -7,22 +8,26 @@ const router = useRouter();
 const infoStore = useInfoStore();
 const collapsed = ref(false);
 const defaultValue = ref();
-// const defaultExpanded = ref();
+const defaultExpanded = ref();
 
-const to = (menu: IRoute) => {
-  if (menu.meta.link) {
-    window.open(menu.meta.link, '_blank');
+const to = (menu: RouteRecordRaw) => {
+  if (menu.meta?.frameBlank && menu.meta.frameSrc) {
+    window.open(menu.meta.frameSrc, '_blank');
   } else {
     defaultValue.value = menu.name;
     router.push({ name: menu.name });
   }
 };
 
-const MenuItem = ({ routes }: { routes: IRoute[] }) => {
+const expand = (value: MenuValue[]) => {
+  defaultExpanded.value = value;
+};
+
+const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
   return routes.map((menu) => {
     if (menu.children?.length) {
       return (
-        <t-submenu title={menu.meta.title} value={menu.name}>
+        <t-submenu title={menu.meta?.title} value={menu.name}>
           {{
             icon: () => <t-icon name="menu-application" />,
             default: () => MenuItem({ routes: menu.children || [] }),
@@ -37,8 +42,8 @@ const MenuItem = ({ routes }: { routes: IRoute[] }) => {
           default: () => {
             return (
               <div class="flex items-center gap-2">
-                <span>{menu.meta.title}</span>
-                <t-icon name={menu.meta.link ? 'link' : undefined} />
+                <span>{menu.meta?.title}</span>
+                <t-icon name={menu.meta?.frameBlank && menu.meta.frameSrc ? 'link' : undefined} />
               </div>
             );
           },
@@ -49,7 +54,9 @@ const MenuItem = ({ routes }: { routes: IRoute[] }) => {
 };
 
 onMounted(() => {
+  const matched = route.matched.slice(1, route.matched.length - 1);
   defaultValue.value = route.name as string;
+  defaultExpanded.value = matched.length ? matched.map((item) => item.name) : [];
 });
 </script>
 
@@ -60,7 +67,7 @@ onMounted(() => {
   >
     <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
   </div>
-  <t-menu :collapsed="collapsed" :value="defaultValue" class="flex-1 overflow-auto" expand-mutex>
+  <t-menu :collapsed="collapsed" :expanded="defaultExpanded" :value="defaultValue" @expand="expand" class="flex-1 overflow-auto" expand-mutex>
     <MenuItem :routes="infoStore.routes" />
   </t-menu>
 </template>
