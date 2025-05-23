@@ -14,8 +14,8 @@ defineOptions({ inheritAttrs: false });
       <div class="flex-1"></div>
       <Operation />
     </div>
-    <div class="px-4 flex-1 overflow-auto">
-      <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" bordered hover />
+    <div class="flex-1 overflow-auto border-t border-neutral-200">
+      <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" hover />
     </div>
     <div class="p-4 flex gap-2">
       <t-button theme="default">

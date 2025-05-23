@@ -26,6 +26,7 @@ declare module 'vue' {
     TProgress: typeof import('tdesign-vue-next')['Progress']
     TSubmenu: typeof import('tdesign-vue-next')['Submenu']
     TTable: typeof import('tdesign-vue-next')['Table']
+    TTag: typeof import('tdesign-vue-next')['Tag']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }
