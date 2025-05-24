@@ -11,11 +11,18 @@ export default [
     name: 'layout-standard',
     component: () => import('@/layouts/standard/index.vue'),
     redirect: '/home',
+    meta: {
+      icon: 'desktop',
+    },
     children: [
       {
         path: 'home',
         name: 'home',
         component: () => import('@/views/home/index.vue'),
+        meta: {
+          icon: 'home',
+          title: '首页',
+        },
       },
     ],
   },
