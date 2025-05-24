@@ -14,7 +14,6 @@ const to = (menu: RouteRecordRaw) => {
   if (menu.meta?.frameBlank && menu.meta.frameSrc) {
     window.open(menu.meta.frameSrc, '_blank');
   } else {
-    defaultValue.value = menu.name;
     router.push({ name: menu.name });
   }
 };
@@ -22,6 +21,15 @@ const to = (menu: RouteRecordRaw) => {
 const expand = (value: MenuValue[]) => {
   defaultExpanded.value = value;
 };
+
+const setMenuState = () => {
+  const matched = route.matched.slice(1, route.matched.length - 1);
+  defaultValue.value = route.name;
+  defaultExpanded.value = matched.length ? matched.map((e) => e.name) : [];
+};
+
+onMounted(() => setMenuState());
+watch(route, () => setMenuState());
 
 const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
   return routes.map((menu) => {
@@ -52,12 +60,6 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
     );
   });
 };
-
-onMounted(() => {
-  const matched = route.matched.slice(1, route.matched.length - 1);
-  defaultValue.value = route.name as string;
-  defaultExpanded.value = matched.length ? matched.map((e) => e.name) : [];
-});
 </script>
 
 <template>
