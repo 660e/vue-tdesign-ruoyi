@@ -25,13 +25,13 @@ const setProgress = (text: string, percentage: number, status?: ProgressStatus) 
 
 onMounted(async () => {
   try {
-    setProgress('获取用户信息', 0);
+    setProgress('获取用户信息', 20);
     const { permissions, roles, user } = await getInfo();
     infoStore.setPermissions(permissions);
     infoStore.setRoles(roles);
     infoStore.setUser(user);
 
-    setProgress('获取字典信息', 20);
+    setProgress('获取字典信息', 40);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));
     infoStore.setDicts(dicts.map((e) => e.data || []));
 
