@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { QTableProps } from '../types';
+import { useToggleHeight } from '@/hooks';
 import Operation from './Operation.vue';
 import Pagination from './Pagination.vue';
 import TopFilter from './TopFilter.vue';
@@ -9,12 +10,16 @@ defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
 const columns = attrs.columns as QTableProps['columns'];
 
+const topFilterRef = ref();
 const topFilterVisible = ref(true);
+useToggleHeight(topFilterRef, topFilterVisible);
 </script>
 
 <template>
   <div class="h-full flex flex-col">
-    <TopFilter v-show="topFilterVisible" :columns="columns" />
+    <div ref="topFilterRef">
+      <TopFilter v-show="topFilterVisible" :columns="columns" />
+    </div>
 
     <div class="p-4 flex gap-2">
       <slot name="header"></slot>

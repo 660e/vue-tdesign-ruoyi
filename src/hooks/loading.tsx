@@ -1,7 +1,7 @@
 import type { LoadingInstance } from 'tdesign-vue-next';
 import { LoadingPlugin } from 'tdesign-vue-next';
 
-export const useLoading = () => {
+export function useLoading() {
   const instance = ref<LoadingInstance>();
 
   const showFullscreenLoading = () => {
@@ -21,4 +21,4 @@ export const useLoading = () => {
   };
 
   return { showFullscreenLoading, hideFullscreenLoading };
-};
+}
