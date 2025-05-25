@@ -8,19 +8,24 @@ defineOptions({ inheritAttrs: false });
 
 const attrs = useAttrs();
 const columns = attrs.columns as QTableProps['columns'];
+
+const topFilterVisible = ref(true);
 </script>
 
 <template>
   <div class="h-full flex flex-col">
-    <TopFilter :columns="columns" />
+    <TopFilter v-show="topFilterVisible" :columns="columns" />
+
     <div class="p-4 flex gap-2">
       <slot name="header"></slot>
       <div class="flex-1"></div>
-      <Operation />
+      <Operation @data-search="topFilterVisible = !topFilterVisible" />
     </div>
+
     <div class="flex-1 overflow-auto border-t border-neutral-200">
       <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" hover />
     </div>
+
     <div class="p-4 flex gap-2">
       <t-button theme="default">
         <template #icon><t-icon name="upload" /></template><span>导入</span>
