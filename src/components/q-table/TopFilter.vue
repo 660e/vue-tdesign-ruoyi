@@ -2,6 +2,7 @@
 import type { FormInstanceFunctions, FormProps } from 'tdesign-vue-next';
 import type { QTableProps } from '../types';
 import { useElementSize } from '@vueuse/core';
+import { is } from '@/utils';
 
 const { columns } = defineProps<{ columns: QTableProps['columns'] }>();
 const filters = computed(() => columns.filter((column) => column.colKey && column._topFilter));
@@ -29,7 +30,16 @@ const onSubmit: FormProps['onSubmit'] = () => {
           class="!m-0 !min-w-auto"
           :key="filter.colKey"
         >
-          <t-input v-model="formData[filter.colKey!]" label="用户名称" />
+          <!-- input -->
+          <div v-if="filter._topFilter?.type === 'input'">
+            <t-input v-model="formData[filter.colKey!]">
+              <template #label>
+                {{ filter._topFilter.title || (is.string(filter.title) ? filter.title : '-') }}
+              </template>
+            </t-input>
+          </div>
+
+          <!-- select -->
         </t-form-item>
       </div>
       <t-button v-if="filters.length > colCount" @click="more = !more" variant="text">

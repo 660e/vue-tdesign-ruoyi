@@ -1,7 +1,10 @@
 import type { LinkProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
 
 interface QTableFilterProps {
-  _topFilter?: { type: 'input' | 'select' };
+  _topFilter?: {
+    type: 'input' | 'select';
+    title?: string;
+  };
 }
 
 interface QTableHandleProps {
