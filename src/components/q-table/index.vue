@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import Filter from './Filter.vue';
+import type { QTableProps } from '../types';
+
 import Operation from './Operation.vue';
 import Pagination from './Pagination.vue';
+import TopFilter from './TopFilter.vue';
 
 defineOptions({ inheritAttrs: false });
+
+const attrs = useAttrs();
+const columns = attrs.columns as QTableProps['columns'];
 </script>
 
 <template>
   <div class="h-full flex flex-col">
-    <Filter />
+    <TopFilter :columns="columns" />
     <div class="p-4 flex gap-2">
       <slot name="header"></slot>
       <div class="flex-1"></div>

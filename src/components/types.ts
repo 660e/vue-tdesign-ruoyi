@@ -1,7 +1,7 @@
-import type { LinkProps, TableProps } from 'tdesign-vue-next';
+import type { LinkProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
 
 interface QTableFilterProps {
-  _filter?: boolean | { type?: 'input' | 'select' };
+  _topFilter?: { type: 'input' | 'select' };
 }
 
 interface QTableHandleProps {
@@ -12,6 +12,6 @@ interface QTableHandleProps {
 }
 
 export interface QTableProps {
-  columns: TableProps['columns'] & QTableFilterProps[];
+  columns: (PrimaryTableCol<TableRowData> & QTableFilterProps)[];
   handles: QTableHandleProps[];
 }

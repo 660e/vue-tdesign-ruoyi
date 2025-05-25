@@ -17,7 +17,7 @@ const handles: QTableProps['handles'] = [
   { value: 'assignRole', icon: 'user-add', label: '分配角色' },
 ];
 const columns: QTableProps['columns'] = [
-  { title: '用户名称', colKey: 'userName', width: 200, _filter: true },
+  { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门', colKey: 'dept.deptName' },
   { title: '手机号码', colKey: 'phonenumber', width: 200 },
