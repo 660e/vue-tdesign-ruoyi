@@ -1,6 +1,6 @@
 import { useAnimate } from '@vueuse/core';
 
-export function useToggleHeight(elementRef: Ref<HTMLElement | null>, visible: Ref<boolean>, duration = 200, easing = 'ease') {
+export function useToggleHeight(elementRef: Ref<HTMLElement | null>, visible: Ref<boolean>, duration = 140, easing = 'ease') {
   const isAnimating = ref(false);
 
   watch(visible, async (n) => {
@@ -11,6 +11,7 @@ export function useToggleHeight(elementRef: Ref<HTMLElement | null>, visible: Re
 
     if (n) {
       el.style.height = '0px';
+
       await nextTick();
       const height = el.scrollHeight;
       useAnimate(el, [{ height: '0px' }, { height: `${height}px` }], { duration, easing });
