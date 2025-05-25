@@ -24,6 +24,7 @@ const columns: QTableProps['columns'] = [
     title: '状态',
     cell: (_, { row }) => <q-table-tag-col value={row.status} dictType="sys_normal_disable" themes={['success', 'danger']} />,
     width: 100,
+    _topFilter: { type: 'select', dictType: 'sys_normal_disable' },
   },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
