@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { QTableProps } from '../types';
-
 import Operation from './Operation.vue';
 import Pagination from './Pagination.vue';
 import TopFilter from './TopFilter.vue';

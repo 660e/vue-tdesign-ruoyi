@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { QTableProps } from '../types';
 
-defineProps<{ handles: QTableProps['handles'] }>();
 defineEmits<{ handle: [value: string] }>();
+defineProps<{ handles: QTableProps['handles'] }>();
 </script>
 
 <template>

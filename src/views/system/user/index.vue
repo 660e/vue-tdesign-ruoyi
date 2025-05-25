@@ -4,7 +4,6 @@ import type { QTableProps } from '@/components/types';
 import { listUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getHandleColWidth } from '@/utils';
-
 import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();

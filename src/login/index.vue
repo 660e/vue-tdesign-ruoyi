@@ -60,9 +60,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
   }
 };
 
-onMounted(() => {
-  refreshCaptcha();
-});
+onMounted(() => refreshCaptcha());
 </script>
 
 <template>
