@@ -2,15 +2,17 @@
 import type { FormInstanceFunctions, FormProps } from 'tdesign-vue-next';
 import type { QTableProps } from '../types';
 import { useElementSize } from '@vueuse/core';
+import { useInfoStore } from '@/stores';
 import { is } from '@/utils';
 
 const { columns } = defineProps<{ columns: QTableProps['columns'] }>();
 const filters = computed(() => columns.filter((column) => column.colKey && column._topFilter));
+
 const more = ref(false);
+const infoStore = useInfoStore();
 
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive<Record<string, string>>({});
-
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
@@ -42,6 +44,12 @@ const onSubmit: FormProps['onSubmit'] = () => {
           <!-- select -->
           <t-select v-if="filter._topFilter?.type === 'select'" v-model="formData[filter.colKey!]">
             <template #label>{{ formItemLabel(filter) }}</template>
+            <t-option
+              v-for="option in infoStore.dicts?.get(filter._topFilter?.dictType)"
+              :label="option.dictLabel"
+              :value="option.dictValue"
+              :key="option.dictValue"
+            />
           </t-select>
         </t-form-item>
       </div>
