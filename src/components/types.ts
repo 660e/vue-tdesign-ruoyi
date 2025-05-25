@@ -1,21 +1,21 @@
 import type { LinkProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
 
-interface QTableTopFilterBaseProps {
-  title?: string;
+interface QTableTopFilterBase {
+  label?: string;
 }
 
-interface QTableTopFilterProps {
+interface QTableTopFilter {
   _topFilter?:
     | ({
         type: 'input';
-      } & QTableTopFilterBaseProps)
+      } & QTableTopFilterBase)
     | ({
         type: 'select';
         dictType: string;
-      } & QTableTopFilterBaseProps);
+      } & QTableTopFilterBase);
 }
 
-interface QTableHandleProps {
+interface QTableHandle {
   value: string;
   icon?: string;
   label?: string;
@@ -23,6 +23,7 @@ interface QTableHandleProps {
 }
 
 export interface QTableProps {
-  columns: (PrimaryTableCol<TableRowData> & QTableTopFilterProps)[];
-  handles: QTableHandleProps[];
+  column: PrimaryTableCol<TableRowData> & QTableTopFilter;
+  columns: QTableProps['column'][];
+  handles: QTableHandle[];
 }

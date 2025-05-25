@@ -15,6 +15,10 @@ const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
 
+const formItemLabel = (filter: QTableProps['column']) => {
+  return filter._topFilter?.label || (is.string(filter.title) ? filter.title : '-');
+};
+
 const onSubmit: FormProps['onSubmit'] = () => {
   console.log(formData);
 };
@@ -31,17 +35,17 @@ const onSubmit: FormProps['onSubmit'] = () => {
           :key="filter.colKey"
         >
           <!-- input -->
-          <div v-if="filter._topFilter?.type === 'input'">
-            <t-input v-model="formData[filter.colKey!]">
-              <template #label>
-                {{ filter._topFilter.title || (is.string(filter.title) ? filter.title : '-') }}
-              </template>
-            </t-input>
-          </div>
+          <t-input v-if="filter._topFilter?.type === 'input'" v-model="formData[filter.colKey!]">
+            <template #label>{{ formItemLabel(filter) }}</template>
+          </t-input>
 
           <!-- select -->
+          <t-select v-if="filter._topFilter?.type === 'select'" v-model="formData[filter.colKey!]">
+            <template #label>{{ formItemLabel(filter) }}</template>
+          </t-select>
         </t-form-item>
       </div>
+
       <t-button v-if="filters.length > colCount" @click="more = !more" variant="text">
         <template #icon><t-icon name="unfold-more" /></template>
       </t-button>

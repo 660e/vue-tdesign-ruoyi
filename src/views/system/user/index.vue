@@ -22,6 +22,7 @@ const columns: QTableProps['columns'] = [
   { title: '手机号码', colKey: 'phonenumber', width: 200 },
   {
     title: '状态',
+    colKey: 'status',
     cell: (_, { row }) => <q-table-tag-col value={row.status} dictType="sys_normal_disable" themes={['success', 'danger']} />,
     width: 100,
     _topFilter: { type: 'select', dictType: 'sys_normal_disable' },
