@@ -57,13 +57,7 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table
-      :columns="columns"
-      :data="tableData"
-      :file-export="() => onHandle('file-export')"
-      :file-import="() => onHandle('file-import')"
-      :pagination="pagination"
-    >
+    <q-table :columns="columns" :data="tableData" :file-export="onHandle" :file-import="onHandle" :pagination="pagination">
       <template #header>
         <t-button>
           <template #icon><t-icon name="add" /></template><span>新增</span>

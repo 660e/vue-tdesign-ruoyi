@@ -6,9 +6,8 @@ import TopFilter from './TopFilter.vue';
 
 defineOptions({ inheritAttrs: false });
 defineProps<{
-  hideHeader?: boolean;
-  fileImport?: () => void;
-  fileExport?: () => void;
+  fileImport?: (value: 'file-import') => void;
+  fileExport?: (value: 'file-export') => void;
   pagination?: QTableProps['pagination'];
 }>();
 
@@ -26,7 +25,7 @@ useToggleHeight(topFilterRef, topFilterVisible);
       <TopFilter v-show="topFilterVisible" :columns="columns" />
     </div>
 
-    <div v-if="!hideHeader" class="px-4 pt-4 flex gap-2">
+    <div class="px-4 pt-4 flex gap-2">
       <slot name="header"></slot>
       <div class="flex-1"></div>
       <Operation @data-search="topFilterVisible = !topFilterVisible" />
@@ -37,10 +36,10 @@ useToggleHeight(topFilterRef, topFilterVisible);
     </div>
 
     <div v-if="fileImport || fileExport || pagination" class="p-4 flex gap-2">
-      <t-button v-if="fileImport" @click="fileImport()" theme="default">
+      <t-button v-if="fileImport" @click="fileImport('file-import')" theme="default">
         <template #icon><t-icon name="file-import" /></template><span>导入</span>
       </t-button>
-      <t-button v-if="fileExport" @click="fileExport()" theme="default">
+      <t-button v-if="fileExport" @click="fileExport('file-export')" theme="default">
         <template #icon><t-icon name="file-export" /></template><span>导出</span>
       </t-button>
       <t-pagination :total="pagination?.total" class="flex-1" show-jumper />
