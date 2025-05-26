@@ -34,6 +34,7 @@ const columns: QTableProps['columns'] = [
     width: getHandleColWidth(handles),
   },
 ];
+const pagination = ref<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 
 const onHandle = (value: string, row: TableRowData) => {
   console.log(value);
@@ -56,7 +57,7 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData">
+    <q-table :columns="columns" :data="tableData" :pagination="pagination">
       <template #header>
         <t-button>
           <template #icon><t-icon name="add" /></template><span>新增</span>

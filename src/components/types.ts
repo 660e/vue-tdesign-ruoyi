@@ -22,8 +22,15 @@ interface QTableHandle {
   theme?: LinkProps['theme'];
 }
 
+interface QTablePagination {
+  pageNum: number;
+  pageSize: number;
+  total: number;
+}
+
 export interface QTableProps {
   column: PrimaryTableCol<TableRowData> & QTableTopFilter;
   columns: QTableProps['column'][];
   handles: QTableHandle[];
+  pagination: QTablePagination;
 }

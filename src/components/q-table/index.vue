@@ -2,11 +2,10 @@
 import type { QTableProps } from '../types';
 import { useToggleHeight } from '@/hooks';
 import Operation from './Operation.vue';
-import Pagination from './Pagination.vue';
 import TopFilter from './TopFilter.vue';
 
 defineOptions({ inheritAttrs: false });
-defineProps<{ hideFooter?: boolean; hideHeader?: boolean }>();
+defineProps<{ hideFooter?: boolean; hideHeader?: boolean; pagination?: QTableProps['pagination'] }>();
 
 const attrs = useAttrs();
 const columns = attrs.columns as QTableProps['columns'];
@@ -39,7 +38,7 @@ useToggleHeight(topFilterRef, topFilterVisible);
       <t-button theme="default">
         <template #icon><t-icon name="download" /></template><span>导出</span>
       </t-button>
-      <Pagination />
+      <t-pagination :total="pagination?.total" class="flex-1" show-jumper />
     </div>
   </div>
 </template>
