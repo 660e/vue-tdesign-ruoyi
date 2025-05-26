@@ -50,6 +50,6 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" hide-operation />
+    <q-table :columns="columns" :data="tableData" hide-footer hide-header />
   </Page>
 </template>

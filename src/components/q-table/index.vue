@@ -6,7 +6,7 @@ import Pagination from './Pagination.vue';
 import TopFilter from './TopFilter.vue';
 
 defineOptions({ inheritAttrs: false });
-defineProps<{ hideOperation?: boolean }>();
+defineProps<{ hideFooter?: boolean; hideHeader?: boolean }>();
 
 const attrs = useAttrs();
 const columns = attrs.columns as QTableProps['columns'];
@@ -22,7 +22,7 @@ useToggleHeight(topFilterRef, topFilterVisible);
       <TopFilter v-show="topFilterVisible" :columns="columns" />
     </div>
 
-    <div v-if="!hideOperation" class="px-4 pt-4 flex gap-2">
+    <div v-if="!hideHeader" class="px-4 pt-4 flex gap-2">
       <slot name="header"></slot>
       <div class="flex-1"></div>
       <Operation @data-search="topFilterVisible = !topFilterVisible" />
@@ -32,7 +32,7 @@ useToggleHeight(topFilterRef, topFilterVisible);
       <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" hover />
     </div>
 
-    <div class="p-4 flex gap-2">
+    <div v-if="!hideFooter" class="p-4 flex gap-2">
       <t-button theme="default">
         <template #icon><t-icon name="upload" /></template><span>导入</span>
       </t-button>
