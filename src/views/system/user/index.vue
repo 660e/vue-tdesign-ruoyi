@@ -36,7 +36,7 @@ const columns: QTableProps['columns'] = [
 ];
 const pagination = ref<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 
-const onHandle = (value: string, row: TableRowData) => {
+const onHandle = (value: string, row?: TableRowData) => {
   console.log(value);
   console.log(row);
 };
@@ -57,7 +57,13 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" :pagination="pagination">
+    <q-table
+      :columns="columns"
+      :data="tableData"
+      :file-export="() => onHandle('file-export')"
+      :file-import="() => onHandle('file-import')"
+      :pagination="pagination"
+    >
       <template #header>
         <t-button>
           <template #icon><t-icon name="add" /></template><span>新增</span>

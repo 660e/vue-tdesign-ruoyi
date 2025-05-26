@@ -5,7 +5,12 @@ import Operation from './Operation.vue';
 import TopFilter from './TopFilter.vue';
 
 defineOptions({ inheritAttrs: false });
-defineProps<{ hideFooter?: boolean; hideHeader?: boolean; pagination?: QTableProps['pagination'] }>();
+defineProps<{
+  hideHeader?: boolean;
+  fileImport?: () => void;
+  fileExport?: () => void;
+  pagination?: QTableProps['pagination'];
+}>();
 
 const attrs = useAttrs();
 const columns = attrs.columns as QTableProps['columns'];
@@ -31,12 +36,12 @@ useToggleHeight(topFilterRef, topFilterVisible);
       <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" hover />
     </div>
 
-    <div v-if="!hideFooter" class="p-4 flex gap-2">
-      <t-button theme="default">
-        <template #icon><t-icon name="upload" /></template><span>导入</span>
+    <div v-if="fileImport || fileExport || pagination" class="p-4 flex gap-2">
+      <t-button v-if="fileImport" @click="fileImport()" theme="default">
+        <template #icon><t-icon name="file-import" /></template><span>导入</span>
       </t-button>
-      <t-button theme="default">
-        <template #icon><t-icon name="download" /></template><span>导出</span>
+      <t-button v-if="fileExport" @click="fileExport()" theme="default">
+        <template #icon><t-icon name="file-export" /></template><span>导出</span>
       </t-button>
       <t-pagination :total="pagination?.total" class="flex-1" show-jumper />
     </div>
