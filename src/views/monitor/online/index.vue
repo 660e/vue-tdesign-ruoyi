@@ -19,7 +19,7 @@ const columns: QTableProps['columns'] = [
   { title: '登录地点', colKey: 'loginLocation', width: 200 },
   { title: '浏览器', colKey: 'browser', width: 200 },
   { title: '操作系统', colKey: 'os', width: 200 },
-  { title: '登录时间', colKey: 'loginTime', width: 200 },
+  { title: '登录时间', colKey: 'loginTime', cell: (_, { row }) => dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'), width: 200 },
   {
     title: '操作',
     colKey: 'handles',
@@ -32,7 +32,6 @@ const columns: QTableProps['columns'] = [
 const onHandle = (value: string, row: TableRowData) => {
   console.log(value);
   console.log(row);
-  console.log(dayjs);
 };
 
 onMounted(async () => {
@@ -51,6 +50,6 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" />
+    <q-table :columns="columns" :data="tableData" hide-operation />
   </Page>
 </template>
