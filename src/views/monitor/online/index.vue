@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
-import type { QTableProps } from '@/components/types';
+import type { QTableProps, QTableTopFilterCondition } from '@/components/types';
 import { listOnline } from '@/apis/monitor';
 import { useLoading } from '@/hooks';
 import { getHandleColWidth } from '@/utils';
@@ -29,27 +29,36 @@ const columns: QTableProps['columns'] = [
   },
 ];
 
-const onHandle = (value: string, row: TableRowData) => {
-  console.log(value);
-  console.log(row);
+const condition = ref<QTableTopFilterCondition>({});
+const onRefresh = (value: QTableTopFilterCondition) => {
+  condition.value = value;
+  onHandle('refresh');
 };
 
-onMounted(async () => {
-  showFullscreenLoading();
+const onHandle = async (value: string, row?: TableRowData) => {
+  console.log(value);
+  console.log(row);
 
-  try {
-    const { rows } = await listOnline();
-
-    tableData.value = rows;
-  } catch {
-  } finally {
-    hideFullscreenLoading();
+  switch (value) {
+    case 'refresh': {
+      showFullscreenLoading();
+      try {
+        const { rows } = await listOnline(condition.value);
+        tableData.value = rows;
+      } catch {
+      } finally {
+        hideFullscreenLoading();
+      }
+      break;
+    }
   }
-});
+};
+
+onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" />
+    <q-table :columns="columns" :data="tableData" @refresh="onRefresh" />
   </Page>
 </template>
