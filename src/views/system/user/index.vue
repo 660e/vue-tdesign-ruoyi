@@ -34,30 +34,32 @@ const columns: QTableProps['columns'] = [
     width: getHandleColWidth(handles),
   },
 ];
-
-const onHandle = (value: string, row?: TableRowData) => {
-  console.log(value);
-  console.log(row);
-};
-
-const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 1, total: 0 });
+const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 const onPaginationChange = (pageInfo: PageInfo) => {
   console.log(pageInfo);
 };
 
-onMounted(async () => {
-  showFullscreenLoading();
+const onHandle = async (value: string, row?: TableRowData) => {
+  console.log(value);
+  console.log(row);
 
-  try {
-    const { rows, total } = await listUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize });
-
-    pagination.total = total || 0;
-    tableData.value = rows;
-  } catch {
-  } finally {
-    hideFullscreenLoading();
+  switch (value) {
+    case 'refresh': {
+      showFullscreenLoading();
+      try {
+        const { rows, total } = await listUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize });
+        pagination.total = total || 0;
+        tableData.value = rows;
+      } catch {
+      } finally {
+        hideFullscreenLoading();
+      }
+      break;
+    }
   }
-});
+};
+
+onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
@@ -68,7 +70,8 @@ onMounted(async () => {
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
-      @on-pagination-change="onPaginationChange"
+      @pagination-change="onPaginationChange"
+      @refresh="onHandle('refresh')"
     >
       <template #header>
         <t-button>

@@ -2,10 +2,12 @@
 import type { PageInfo } from 'tdesign-vue-next';
 import type { QTableProps } from '../types';
 import { useToggleHeight } from '@/hooks';
-import Operation from './Operation.vue';
 import TopFilter from './TopFilter.vue';
 
-defineEmits<{ 'on-pagination-change': [value: PageInfo] }>();
+defineEmits<{
+  'pagination-change': [value: PageInfo];
+  'refresh': [];
+}>();
 defineOptions({ inheritAttrs: false });
 defineProps<{
   fileImport?: (value: 'file-import') => void;
@@ -31,7 +33,21 @@ useToggleHeight(topFilterRef, topFilterVisible);
     <div class="px-4 pt-4 flex gap-2">
       <slot name="header"></slot>
       <div class="flex-1"></div>
-      <Operation @data-search="topFilterVisible = !topFilterVisible" />
+      <t-tooltip content="刷新" placement="bottom">
+        <t-button @click="$emit('refresh')" shape="circle" variant="outline">
+          <template #icon><t-icon name="refresh" /></template>
+        </t-button>
+      </t-tooltip>
+      <t-tooltip content="列设置" placement="bottom">
+        <t-button shape="circle" variant="outline">
+          <template #icon><t-icon name="view-column" /></template>
+        </t-button>
+      </t-tooltip>
+      <t-tooltip content="高级搜索" placement="bottom">
+        <t-button @click="topFilterVisible = !topFilterVisible" shape="circle" variant="outline">
+          <template #icon><t-icon name="data-search" /></template>
+        </t-button>
+      </t-tooltip>
     </div>
 
     <div class="flex-1 overflow-auto mt-4 border-t border-neutral-200">
@@ -50,7 +66,7 @@ useToggleHeight(topFilterRef, topFilterVisible);
         v-model="pagination.pageNum"
         v-model:page-size="pagination.pageSize"
         :total="pagination.total"
-        @change="(pageInfo) => $emit('on-pagination-change', pageInfo)"
+        @change="(pageInfo) => $emit('pagination-change', pageInfo)"
         class="flex-1"
         show-jumper
       />
