@@ -36,7 +36,9 @@ const columns: QTableProps['columns'] = [
 ];
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 const onPaginationChange = (pageInfo: PageInfo) => {
-  console.log(pageInfo);
+  pagination.pageNum = pageInfo.current;
+  pagination.pageSize = pageInfo.pageSize;
+  onHandle('refresh');
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
