@@ -1,40 +1,46 @@
 <script setup lang="ts">
 import type { PageInfo } from 'tdesign-vue-next';
-import type { QTableProps } from '../types';
+import type { QTableProps, QTableTopFilterCondition } from '../types';
 import { useToggleHeight } from '@/hooks';
 import TopFilter from './TopFilter.vue';
 
-defineEmits<{
-  'pagination-change': [value: PageInfo];
-  'refresh': [];
-}>();
 defineOptions({ inheritAttrs: false });
 defineProps<{
   fileImport?: (value: 'file-import') => void;
   fileExport?: (value: 'file-export') => void;
 }>();
 
+const emit = defineEmits<{
+  'pagination-change': [value: PageInfo];
+  'refresh': [value: QTableTopFilterCondition];
+}>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
-
-const attrs = useAttrs();
-const columns = attrs.columns as QTableProps['columns'];
 
 const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
+
+const attrs = useAttrs();
+const columns = attrs.columns as QTableProps['columns'];
+
+const condition = ref<QTableTopFilterCondition>({});
+const onConditionChange = (value: QTableTopFilterCondition) => {
+  condition.value = value;
+  emit('refresh', value);
+};
 </script>
 
 <template>
   <div class="h-full flex flex-col">
     <div ref="topFilterRef">
-      <TopFilter v-show="topFilterVisible" :columns="columns" />
+      <TopFilter v-show="topFilterVisible" :columns="columns" @condition-change="onConditionChange" />
     </div>
 
     <div class="px-4 pt-4 flex gap-2">
       <slot name="header"></slot>
       <div class="flex-1"></div>
       <t-tooltip content="刷新" placement="bottom">
-        <t-button @click="$emit('refresh')" shape="circle" variant="outline">
+        <t-button @click="$emit('refresh', condition)" shape="circle" variant="outline">
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { FormInstanceFunctions, FormProps } from 'tdesign-vue-next';
-import type { QTableProps } from '../types';
+import type { FormInstanceFunctions } from 'tdesign-vue-next';
+import type { QTableProps, QTableTopFilterCondition } from '../types';
 import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
 import { is } from '@/utils';
+
+defineEmits<{ 'condition-change': [value: QTableTopFilterCondition] }>();
 
 const { columns } = defineProps<{ columns: QTableProps['columns'] }>();
 const items = computed(() => columns.filter((column) => column.colKey && column._topFilter));
@@ -12,7 +14,7 @@ const more = ref(false);
 const infoStore = useInfoStore();
 
 const formRef = ref<FormInstanceFunctions>();
-const formData = reactive<Record<string, string>>({});
+const formData = reactive<QTableTopFilterCondition>({});
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
@@ -20,15 +22,11 @@ const colCount = computed(() => Math.floor(formWidth.value / 260));
 const formItemLabel = (item: QTableProps['column']) => {
   return item._topFilter?.label || (is.string(item.title) ? item.title : '-');
 };
-
-const onSubmit: FormProps['onSubmit'] = () => {
-  console.log(formData);
-};
 </script>
 
 <template>
   <div class="px-4 pt-4">
-    <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
+    <t-form :data="formData" @submit="$emit('condition-change', formData)" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
         <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- input -->

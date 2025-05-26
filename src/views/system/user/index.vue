@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
-import type { QTableProps } from '@/components/types';
+import type { QTableProps, QTableTopFilterCondition } from '@/components/types';
 import { listUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getHandleColWidth } from '@/utils';
@@ -49,7 +49,11 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh': {
       showFullscreenLoading();
       try {
-        const { rows, total } = await listUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize });
+        const { rows, total } = await listUser({
+          pageNum: pagination.pageNum,
+          pageSize: pagination.pageSize,
+          ...(row as QTableTopFilterCondition),
+        });
         pagination.total = total || 0;
         tableData.value = rows;
       } catch {
@@ -73,7 +77,7 @@ onMounted(async () => await onHandle('refresh'));
       :file-export="onHandle"
       :file-import="onHandle"
       @pagination-change="onPaginationChange"
-      @refresh="onHandle('refresh')"
+      @refresh="onHandle('refresh', $event)"
     >
       <template #header>
         <t-button>
