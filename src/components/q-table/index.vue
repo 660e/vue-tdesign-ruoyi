@@ -25,7 +25,9 @@ const columns = attrs.columns as QTableProps['columns'];
 
 const condition = ref<QTableTopFilterCondition>({});
 const onConditionChange = (value: QTableTopFilterCondition) => {
-  condition.value = structuredClone(toRaw(value));
+  const rawValue = structuredClone(toRaw(value));
+  const filtered = Object.fromEntries(Object.entries(rawValue).filter(([, v]) => v !== '' && v !== undefined));
+  condition.value = filtered;
   emit('refresh', condition.value);
 };
 </script>
