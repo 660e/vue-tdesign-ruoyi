@@ -41,6 +41,12 @@ const onPaginationChange = (pageInfo: PageInfo) => {
   onHandle('refresh');
 };
 
+const condition = ref<QTableTopFilterCondition>({});
+const onRefresh = (value: QTableTopFilterCondition) => {
+  condition.value = value;
+  onHandle('refresh');
+};
+
 const onHandle = async (value: string, row?: TableRowData) => {
   console.log(value);
   console.log(row);
@@ -52,7 +58,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         const { rows, total } = await listUser({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
-          ...(row as QTableTopFilterCondition),
+          ...condition.value,
         });
         pagination.total = total || 0;
         tableData.value = rows;
@@ -77,7 +83,7 @@ onMounted(async () => await onHandle('refresh'));
       :file-export="onHandle"
       :file-import="onHandle"
       @pagination-change="onPaginationChange"
-      @refresh="onHandle('refresh', $event)"
+      @refresh="onRefresh"
     >
       <template #header>
         <t-button>
