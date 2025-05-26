@@ -1,5 +1,6 @@
 @import 'tdesign-vue-next/es/style/index.css';
 @import 'tailwindcss';
+@import './tdesign.css';
 
 .clickable:hover {
   color: var(--td-brand-color);

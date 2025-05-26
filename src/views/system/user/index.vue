@@ -18,7 +18,7 @@ const handles: QTableProps['handles'] = [
 const columns: QTableProps['columns'] = [
   { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
-  { title: '部门', colKey: 'dept.deptName' },
+  { title: '部门名称', colKey: 'dept.deptName' },
   { title: '手机号码', colKey: 'phonenumber', width: 200, _topFilter: { type: 'input' } },
   {
     title: '状态',

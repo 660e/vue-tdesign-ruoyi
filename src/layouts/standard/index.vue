@@ -26,7 +26,7 @@ const initialized = ref(false);
         <Menu />
         <Version class="h-10 text-xs flex justify-center items-center border-t border-neutral-200 text-neutral-400" />
       </div>
-      <div class="flex-1 flex flex-col">
+      <div class="flex-1 flex flex-col overflow-x-auto">
         <div class="h-10 px-4 flex items-center gap-2 border-b border-neutral-200">
           <Breadcrumb />
           <div class="flex-1"></div>
