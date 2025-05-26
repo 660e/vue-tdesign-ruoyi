@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { TableRowData } from 'tdesign-vue-next';
+import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps } from '@/components/types';
 import { listUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
@@ -34,19 +34,24 @@ const columns: QTableProps['columns'] = [
     width: getHandleColWidth(handles),
   },
 ];
-const pagination = ref<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 
 const onHandle = (value: string, row?: TableRowData) => {
   console.log(value);
   console.log(row);
 };
 
+const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 1, total: 0 });
+const onPaginationChange = (pageInfo: PageInfo) => {
+  console.log(pageInfo);
+};
+
 onMounted(async () => {
   showFullscreenLoading();
 
   try {
-    const { rows } = await listUser();
+    const { rows, total } = await listUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize });
 
+    pagination.total = total || 0;
     tableData.value = rows;
   } catch {
   } finally {
@@ -57,7 +62,14 @@ onMounted(async () => {
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" :file-export="onHandle" :file-import="onHandle" :pagination="pagination">
+    <q-table
+      v-model:pagination="pagination"
+      :columns="columns"
+      :data="tableData"
+      :file-export="onHandle"
+      :file-import="onHandle"
+      @on-pagination-change="onPaginationChange"
+    >
       <template #header>
         <t-button>
           <template #icon><t-icon name="add" /></template><span>新增</span>

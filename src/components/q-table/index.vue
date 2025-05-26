@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import type { PageInfo } from 'tdesign-vue-next';
 import type { QTableProps } from '../types';
 import { useToggleHeight } from '@/hooks';
 import Operation from './Operation.vue';
 import TopFilter from './TopFilter.vue';
 
+defineEmits<{ 'on-pagination-change': [value: PageInfo] }>();
 defineOptions({ inheritAttrs: false });
 defineProps<{
   fileImport?: (value: 'file-import') => void;
   fileExport?: (value: 'file-export') => void;
-  pagination?: QTableProps['pagination'];
 }>();
+
+const pagination = defineModel<QTableProps['pagination']>('pagination');
 
 const attrs = useAttrs();
 const columns = attrs.columns as QTableProps['columns'];
@@ -42,7 +45,15 @@ useToggleHeight(topFilterRef, topFilterVisible);
       <t-button v-if="fileExport" @click="fileExport('file-export')" theme="default">
         <template #icon><t-icon name="file-export" /></template><span>导出</span>
       </t-button>
-      <t-pagination :total="pagination?.total" class="flex-1" show-jumper />
+      <t-pagination
+        v-if="pagination"
+        v-model="pagination.pageNum"
+        v-model:page-size="pagination.pageSize"
+        :total="pagination.total"
+        @change="(pageInfo) => $emit('on-pagination-change', pageInfo)"
+        class="flex-1"
+        show-jumper
+      />
     </div>
   </div>
 </template>
