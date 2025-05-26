@@ -6,7 +6,7 @@ import { useInfoStore } from '@/stores';
 import { is } from '@/utils';
 
 const { columns } = defineProps<{ columns: QTableProps['columns'] }>();
-const filters = computed(() => columns.filter((column) => column.colKey && column._topFilter));
+const items = computed(() => columns.filter((column) => column.colKey && column._topFilter));
 
 const more = ref(false);
 const infoStore = useInfoStore();
@@ -17,8 +17,8 @@ const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
 
-const formItemLabel = (filter: QTableProps['column']) => {
-  return filter._topFilter?.label || (is.string(filter.title) ? filter.title : '-');
+const formItemLabel = (item: QTableProps['column']) => {
+  return item._topFilter?.label || (is.string(item.title) ? item.title : '-');
 };
 
 const onSubmit: FormProps['onSubmit'] = () => {
@@ -30,22 +30,17 @@ const onSubmit: FormProps['onSubmit'] = () => {
   <div class="px-4 pt-4">
     <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
-        <t-form-item
-          v-for="filter in more ? filters : filters.slice(0, colCount)"
-          :name="filter.colKey"
-          class="!m-0 !min-w-auto"
-          :key="filter.colKey"
-        >
+        <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- input -->
-          <t-input v-if="filter._topFilter?.type === 'input'" v-model="formData[filter.colKey!]">
-            <template #label>{{ formItemLabel(filter) }}</template>
+          <t-input v-if="item._topFilter?.type === 'input'" v-model="formData[item.colKey!]">
+            <template #label>{{ formItemLabel(item) }}</template>
           </t-input>
 
           <!-- select -->
-          <t-select v-if="filter._topFilter?.type === 'select'" v-model="formData[filter.colKey!]">
-            <template #label>{{ formItemLabel(filter) }}</template>
+          <t-select v-if="item._topFilter?.type === 'select'" v-model="formData[item.colKey!]">
+            <template #label>{{ formItemLabel(item) }}</template>
             <t-option
-              v-for="option in infoStore.dicts?.get(filter._topFilter?.dictType)"
+              v-for="option in infoStore.dicts?.get(item._topFilter?.dictType)"
               :label="option.dictLabel"
               :value="option.dictValue"
               :key="option.dictValue"
@@ -54,7 +49,7 @@ const onSubmit: FormProps['onSubmit'] = () => {
         </t-form-item>
       </div>
 
-      <t-button v-if="filters.length > colCount" @click="more = !more" variant="text">
+      <t-button v-if="items.length > colCount" @click="more = !more" variant="text">
         <template #icon><t-icon name="unfold-more" /></template>
       </t-button>
       <t-button theme="default" type="reset">
