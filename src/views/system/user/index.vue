@@ -13,7 +13,7 @@ const handles: QTableProps['handles'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger' },
   { value: 'resetPassword', icon: 'secured', label: '重置密码' },
-  { value: 'assignRole', icon: 'user-add', label: '分配角色' },
+  { value: 'assignRoles', icon: 'user-add', label: '分配角色' },
 ];
 const columns: QTableProps['columns'] = [
   { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
