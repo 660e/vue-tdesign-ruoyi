@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterCondition } from '@/components/types';
+import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listOnline } from '@/apis/monitor';
 import { useLoading } from '@/hooks';
 import { getHandleColWidth } from '@/utils';
@@ -29,8 +29,8 @@ const columns: QTableProps['columns'] = [
   },
 ];
 
-const condition = ref<QTableTopFilterCondition>({});
-const onRefresh = (value: QTableTopFilterCondition) => {
+const condition = ref<QTableTopFilterQueryCondition>({});
+const onRefresh = (value: QTableTopFilterQueryCondition) => {
   condition.value = value;
   onHandle('refresh');
 };

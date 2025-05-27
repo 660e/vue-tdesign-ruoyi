@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PageInfo } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterCondition } from '../types';
+import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
 import { useToggleHeight } from '@/hooks';
 import TopFilter from './TopFilter.vue';
 
@@ -12,7 +12,7 @@ defineProps<{
 
 const emit = defineEmits<{
   'pagination-change': [value: PageInfo];
-  'refresh': [value: QTableTopFilterCondition];
+  'refresh': [value: QTableTopFilterQueryCondition];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 
@@ -23,29 +23,29 @@ useToggleHeight(topFilterRef, topFilterVisible);
 const attrs = useAttrs();
 const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column._topFilter));
 
-const condition = ref<QTableTopFilterCondition>({});
-const onConditionChange = (value: QTableTopFilterCondition) => {
+const queryCondition = ref<QTableTopFilterQueryCondition>({});
+const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
   if (pagination.value) {
     pagination.value.pageNum = 1;
   }
   const rawValue = structuredClone(toRaw(value));
   const filtered = Object.fromEntries(Object.entries(rawValue).filter(([, v]) => v !== '' && v !== undefined));
-  condition.value = filtered;
-  emit('refresh', condition.value);
+  queryCondition.value = filtered;
+  emit('refresh', queryCondition.value);
 };
 </script>
 
 <template>
   <div class="h-full flex flex-col">
     <div v-if="columns.length" ref="topFilterRef">
-      <TopFilter v-show="topFilterVisible" :columns="columns" @condition-change="onConditionChange" />
+      <TopFilter v-show="topFilterVisible" :columns="columns" @query-condition-change="onQueryConditionChange" />
     </div>
 
     <div class="px-4 pt-4 flex gap-2">
       <slot name="topContent"></slot>
       <div class="flex-1"></div>
       <t-tooltip content="刷新" placement="bottom">
-        <t-button @click="$emit('refresh', condition)" shape="circle" variant="outline">
+        <t-button @click="$emit('refresh', queryCondition)" shape="circle" variant="outline">
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>

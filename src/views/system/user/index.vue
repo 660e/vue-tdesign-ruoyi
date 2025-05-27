@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterCondition } from '@/components/types';
+import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listUser } from '@/apis/system';
 import { getHandleColWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
@@ -39,9 +39,9 @@ const onPaginationChange = (pageInfo: PageInfo) => {
   onHandle('refresh');
 };
 
-const condition = ref<QTableTopFilterCondition>({});
-const onRefresh = (value: QTableTopFilterCondition) => {
-  condition.value = value;
+const queryCondition = ref<QTableTopFilterQueryCondition>({});
+const onRefresh = (value: QTableTopFilterQueryCondition) => {
+  queryCondition.value = value;
   onHandle('refresh');
 };
 
@@ -56,7 +56,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         const { rows, total } = await listUser({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
-          ...condition.value,
+          ...queryCondition.value,
         });
         pagination.total = total || 0;
         tableData.value = rows;

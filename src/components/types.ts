@@ -35,4 +35,4 @@ export interface QTableProps {
   pagination: QTablePagination;
 }
 
-export type QTableTopFilterCondition = Record<string, string>;
+export type QTableTopFilterQueryCondition = Record<string, string>;
