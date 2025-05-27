@@ -56,7 +56,7 @@ export function buildTree<T>(data: T[], options: { childrenKey?: string; idKey?:
   return result;
 }
 
-export function getOperationColWidth(operations: QTableProps['operations']) {
+export function getOperationColumnWidth(operations: QTableProps['operations']) {
   const iw = operations.filter((e) => e.icon).length * 16;
   const lw = operations.filter((e) => e.label).reduce((a, c) => a + c.label!.length * 14, 0);
   const tg = operations.filter((e) => e.icon && e.label).length * (4 * 0.5);

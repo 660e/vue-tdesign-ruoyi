@@ -2,7 +2,7 @@
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listUser } from '@/apis/system';
-import { getOperationColWidth } from '@/utils';
+import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
 
 const loading = ref(false);
@@ -30,7 +30,7 @@ const columns: QTableProps['columns'] = [
     title: '操作',
     colKey: 'operation',
     cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
-    width: getOperationColWidth(operations),
+    width: getOperationColumnWidth(operations),
   },
 ];
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });

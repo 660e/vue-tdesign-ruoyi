@@ -3,7 +3,7 @@ import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listOnline } from '@/apis/monitor';
 import { useLoading } from '@/hooks';
-import { getOperationColWidth } from '@/utils';
+import { getOperationColumnWidth } from '@/utils';
 import dayjs from 'dayjs';
 import Page from '@/layouts/standard/Page.vue';
 
@@ -24,7 +24,7 @@ const columns: QTableProps['columns'] = [
     title: '操作',
     colKey: 'operation',
     cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
-    width: getOperationColWidth(operations),
+    width: getOperationColumnWidth(operations),
     fixed: 'right',
   },
 ];
