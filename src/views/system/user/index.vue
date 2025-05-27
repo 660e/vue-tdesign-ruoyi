@@ -28,6 +28,7 @@ const columns: QTableProps['columns'] = [
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
     title: '操作',
+    colKey: 'operation',
     cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
     width: getOperationColWidth(operations),
   },
