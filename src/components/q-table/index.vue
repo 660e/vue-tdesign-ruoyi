@@ -25,6 +25,9 @@ const columns = computed(() => (attrs.columns as QTableProps['columns']).filter(
 
 const condition = ref<QTableTopFilterCondition>({});
 const onConditionChange = (value: QTableTopFilterCondition) => {
+  if (pagination.value) {
+    pagination.value.pageNum = 1;
+  }
   const rawValue = structuredClone(toRaw(value));
   const filtered = Object.fromEntries(Object.entries(rawValue).filter(([, v]) => v !== '' && v !== undefined));
   condition.value = filtered;
