@@ -8,7 +8,6 @@ import { is } from '@/utils';
 defineEmits<{ 'condition-change': [value: QTableTopFilterCondition] }>();
 
 const { columns } = defineProps<{ columns: QTableProps['columns'] }>();
-const items = computed(() => columns.filter((column) => column.colKey && column._topFilter));
 
 const more = ref(false);
 const infoStore = useInfoStore();
@@ -28,7 +27,7 @@ const formItemLabel = (item: QTableProps['column']) => {
   <div class="px-4 pt-4">
     <t-form :data="formData" @submit="$emit('condition-change', formData)" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
-        <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
+        <t-form-item v-for="item in more ? columns : columns.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- input -->
           <t-input v-if="item._topFilter?.type === 'input'" v-model="formData[item.colKey!]">
             <template #label>{{ formItemLabel(item) }}</template>
@@ -47,7 +46,7 @@ const formItemLabel = (item: QTableProps['column']) => {
         </t-form-item>
       </div>
 
-      <t-button v-if="items.length > colCount" @click="more = !more" variant="text">
+      <t-button v-if="columns.length > colCount" @click="more = !more" variant="text">
         <template #icon><t-icon name="unfold-more" /></template>
       </t-button>
       <t-button theme="default" type="reset">

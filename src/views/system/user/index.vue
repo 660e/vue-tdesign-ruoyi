@@ -2,12 +2,10 @@
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterCondition } from '@/components/types';
 import { listUser } from '@/apis/system';
-import { useLoading } from '@/hooks';
 import { getHandleColWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
 
-const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
-
+const loading = ref(false);
 const tableData = ref();
 const handles: QTableProps['handles'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
@@ -53,7 +51,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
   switch (value) {
     case 'refresh': {
-      showFullscreenLoading();
+      loading.value = true;
       try {
         const { rows, total } = await listUser({
           pageNum: pagination.pageNum,
@@ -64,7 +62,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         tableData.value = rows;
       } catch {
       } finally {
-        hideFullscreenLoading();
+        loading.value = false;
       }
       break;
     }
@@ -82,10 +80,11 @@ onMounted(async () => await onHandle('refresh'));
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
+      :loading="loading"
       @pagination-change="onPaginationChange"
       @refresh="onRefresh"
     >
-      <template #header>
+      <template #topContent>
         <t-button>
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>

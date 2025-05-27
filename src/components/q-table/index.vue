@@ -21,7 +21,7 @@ const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
 
 const attrs = useAttrs();
-const columns = attrs.columns as QTableProps['columns'];
+const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column._topFilter));
 
 const condition = ref<QTableTopFilterCondition>({});
 const onConditionChange = (value: QTableTopFilterCondition) => {
@@ -34,12 +34,12 @@ const onConditionChange = (value: QTableTopFilterCondition) => {
 
 <template>
   <div class="h-full flex flex-col">
-    <div ref="topFilterRef">
+    <div v-if="columns.length" ref="topFilterRef">
       <TopFilter v-show="topFilterVisible" :columns="columns" @condition-change="onConditionChange" />
     </div>
 
     <div class="px-4 pt-4 flex gap-2">
-      <slot name="header"></slot>
+      <slot name="topContent"></slot>
       <div class="flex-1"></div>
       <t-tooltip content="刷新" placement="bottom">
         <t-button @click="$emit('refresh', condition)" shape="circle" variant="outline">
@@ -51,7 +51,7 @@ const onConditionChange = (value: QTableTopFilterCondition) => {
           <template #icon><t-icon name="view-column" /></template>
         </t-button>
       </t-tooltip>
-      <t-tooltip content="高级搜索" placement="bottom">
+      <t-tooltip v-if="columns.length" content="高级搜索" placement="bottom">
         <t-button @click="topFilterVisible = !topFilterVisible" shape="circle" variant="outline">
           <template #icon><t-icon name="data-search" /></template>
         </t-button>
