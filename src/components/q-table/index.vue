@@ -41,7 +41,7 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
       <TopFilter v-show="topFilterVisible" :columns="columns" @query-condition-change="onQueryConditionChange" />
     </div>
 
-    <div class="px-4 pt-4 flex gap-2">
+    <div class="p-4 flex gap-2">
       <slot name="topContent"></slot>
       <div class="flex-1"></div>
       <t-tooltip content="刷新" placement="bottom">
@@ -61,7 +61,7 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
       </t-tooltip>
     </div>
 
-    <div class="flex-1 overflow-auto mt-4 border-t border-neutral-200">
+    <div class="flex-1 overflow-auto border-t border-neutral-200">
       <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" hover />
     </div>
 
