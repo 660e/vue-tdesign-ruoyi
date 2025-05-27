@@ -84,3 +84,9 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.t-table :deep(tr.t-table__empty-row) {
+  background-color: transparent;
+}
+</style>
