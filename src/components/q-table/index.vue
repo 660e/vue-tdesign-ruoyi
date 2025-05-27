@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageInfo } from 'tdesign-vue-next';
+import type { PageInfo, TableProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
 import { useToggleHeight } from '@/hooks';
 import TopFilter from './TopFilter.vue';
@@ -33,6 +33,9 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
   queryCondition.value = filtered;
   emit('refresh', queryCondition.value);
 };
+
+const columnControllerVisible = ref(false);
+const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTableProps['columns']).filter((e) => e.colKey).map((e) => e.colKey!));
 </script>
 
 <template>
@@ -50,7 +53,7 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
         </t-button>
       </t-tooltip>
       <t-tooltip content="列设置" placement="bottom">
-        <t-button shape="circle" variant="outline">
+        <t-button @click="columnControllerVisible = true" shape="circle" variant="outline">
           <template #icon><t-icon name="view-column" /></template>
         </t-button>
       </t-tooltip>
@@ -62,7 +65,16 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
     </div>
 
     <div class="flex-1 overflow-auto border-t border-neutral-200">
-      <t-table cell-empty-content="-" class="h-full" height="100%" row-key="id" v-bind:="$attrs" hover />
+      <t-table
+        v-model:column-controller-visible="columnControllerVisible"
+        v-model:display-columns="displayColumns"
+        cell-empty-content="-"
+        class="h-full"
+        height="100%"
+        row-key="id"
+        v-bind:="$attrs"
+        hover
+      />
     </div>
 
     <div v-if="fileImport || fileExport || pagination" class="p-4 flex gap-2">
