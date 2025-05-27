@@ -4,9 +4,12 @@ import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/ty
 import { listUser } from '@/apis/system';
 import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
+import CreateDialog from './dialogs/create.vue';
 
+const createDialogRef = ref();
 const loading = ref(false);
 const tableData = ref();
+
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger' },
@@ -51,6 +54,16 @@ const onHandle = async (value: string, row?: TableRowData) => {
   console.log(row);
 
   switch (value) {
+    case 'create': {
+      createDialogRef.value.show();
+      break;
+    }
+
+    case 'edit': {
+      createDialogRef.value.show(row);
+      break;
+    }
+
     case 'refresh': {
       loading.value = true;
       try {
@@ -86,7 +99,7 @@ onMounted(async () => await onHandle('refresh'));
       @refresh="onRefresh"
     >
       <template #topContent>
-        <t-button>
+        <t-button @click="onHandle('create')">
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <t-button theme="danger">
@@ -94,5 +107,7 @@ onMounted(async () => await onHandle('refresh'));
         </t-button>
       </template>
     </q-table>
+
+    <CreateDialog ref="createDialogRef" />
   </Page>
 </template>
