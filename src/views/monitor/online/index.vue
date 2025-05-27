@@ -3,14 +3,14 @@ import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listOnline } from '@/apis/monitor';
 import { useLoading } from '@/hooks';
-import { getHandleColWidth } from '@/utils';
+import { getOperationColWidth } from '@/utils';
 import dayjs from 'dayjs';
 import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const tableData = ref();
-const handles: QTableProps['handles'] = [{ value: 'logout', icon: 'logout', label: '强制下线' }];
+const operations: QTableProps['operations'] = [{ value: 'logout', icon: 'logout', label: '强制下线' }];
 const columns: QTableProps['columns'] = [
   { title: '会话编号', colKey: 'tokenId', width: 400 },
   { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
@@ -22,9 +22,9 @@ const columns: QTableProps['columns'] = [
   { title: '登录时间', colKey: 'loginTime', cell: (_, { row }) => dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'), width: 200 },
   {
     title: '操作',
-    colKey: 'handles',
-    cell: (_, { row }) => <q-table-handle-col handles={handles} onHandle={(value: string) => onHandle(value, row)} />,
-    width: getHandleColWidth(handles),
+    colKey: 'operation',
+    cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
+    width: getOperationColWidth(operations),
     fixed: 'right',
   },
 ];

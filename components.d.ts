@@ -9,7 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     QTable: typeof import('./src/components/q-table/index.vue')['default']
-    QTableHandleCol: typeof import('./src/components/q-table-handle-col/index.vue')['default']
+    QTableOperationCol: typeof import('./src/components/q-table-operation-col/index.vue')['default']
     QTableTagCol: typeof import('./src/components/q-table-tag-col/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -22,7 +22,6 @@ declare module 'vue' {
     TIcon: typeof import('tdesign-vue-next')['Icon']
     TInput: typeof import('tdesign-vue-next')['Input']
     TLink: typeof import('tdesign-vue-next')['Link']
-    TLoading: typeof import('tdesign-vue-next')['Loading']
     TMenu: typeof import('tdesign-vue-next')['Menu']
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
     TOption: typeof import('tdesign-vue-next')['Option']

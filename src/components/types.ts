@@ -15,7 +15,7 @@ interface QTableTopFilter {
       } & QTableTopFilterBase);
 }
 
-interface QTableHandle {
+interface QTableOperation {
   value: string;
   icon?: string;
   label?: string;
@@ -31,7 +31,7 @@ interface QTablePagination {
 export interface QTableProps {
   column: PrimaryTableCol<TableRowData> & QTableTopFilter;
   columns: QTableProps['column'][];
-  handles: QTableHandle[];
+  operations: QTableOperation[];
   pagination: QTablePagination;
 }
 

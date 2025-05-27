@@ -56,11 +56,11 @@ export function buildTree<T>(data: T[], options: { childrenKey?: string; idKey?:
   return result;
 }
 
-export function getHandleColWidth(handles: QTableProps['handles']) {
-  const iw = handles.filter((e) => e.icon).length * 16;
-  const lw = handles.filter((e) => e.label).reduce((a, c) => a + c.label!.length * 14, 0);
-  const tg = handles.filter((e) => e.icon && e.label).length * (4 * 0.5);
-  const hg = (handles.length - 1) * (4 * 2);
+export function getOperationColWidth(operations: QTableProps['operations']) {
+  const iw = operations.filter((e) => e.icon).length * 16;
+  const lw = operations.filter((e) => e.label).reduce((a, c) => a + c.label!.length * 14, 0);
+  const tg = operations.filter((e) => e.icon && e.label).length * (4 * 0.5);
+  const hg = (operations.length - 1) * (4 * 2);
   const tp = 16 * 2;
 
   return iw + lw + tg + hg + tp;

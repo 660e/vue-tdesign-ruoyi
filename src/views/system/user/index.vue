@@ -2,12 +2,12 @@
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listUser } from '@/apis/system';
-import { getHandleColWidth } from '@/utils';
+import { getOperationColWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
 
 const loading = ref(false);
 const tableData = ref();
-const handles: QTableProps['handles'] = [
+const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger' },
   { value: 'resetPassword', icon: 'secured', label: '重置密码' },
@@ -28,8 +28,8 @@ const columns: QTableProps['columns'] = [
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
     title: '操作',
-    cell: (_, { row }) => <q-table-handle-col handles={handles} onHandle={(value: string) => onHandle(value, row)} />,
-    width: getHandleColWidth(handles),
+    cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
+    width: getOperationColWidth(operations),
   },
 ];
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
