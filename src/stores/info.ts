@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
-import type { IDict, IRoute } from '@/apis/types';
+import type { IRoute } from '@/apis/types';
+import type { IDict } from '@/types';
 import { defineStore } from 'pinia';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,7 +88,11 @@ export const useInfoStore = defineStore('info', () => {
   const routes = ref<RouteRecordRaw[]>([]);
   const user = ref();
 
-  const setDicts = (n: IDict[][]) => (dicts.value = new Map(n.filter((e) => e.length).map((e) => [e[0].dictType, e])));
+  const setDicts = (n: unknown) => {
+    const availableDicts = (n as { dictLabel: string; dictType: string; dictValue: string }[][]).filter((e) => e.length);
+    const standardizeDicts = availableDicts.map((e) => e.map((i) => ({ label: i.dictLabel, type: i.dictType, value: i.dictValue })));
+    dicts.value = new Map(standardizeDicts.map((e) => [e[0].type, e]));
+  };
   const setPermissions = (n: unknown) => (permissions.value = n);
   const setRoles = (n: unknown) => (roles.value = n);
   const setRoutes = (n: IRoute[]) => (routes.value = standardizeRoutes(n));

@@ -33,7 +33,7 @@ onMounted(async () => {
 
     setProgress('获取字典信息', 40);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));
-    setDicts(dicts.map((e) => e.data || []));
+    setDicts(dicts.map((e) => e.data));
 
     setProgress('初始化完成', 100, 'success');
     setTimeout(() => emit('done'), 500);

@@ -80,12 +80,12 @@ defineExpose({ show });
       </t-form-item>
       <t-form-item label="性别" name="sex">
         <t-radio-group v-model="formData.sex">
-          <t-radio v-for="dict in dicts?.get('sys_user_sex')" :label="dict.dictLabel" :value="dict.dictValue" :key="dict.dictValue" />
+          <t-radio v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
         </t-radio-group>
       </t-form-item>
       <t-form-item label="状态" name="status">
         <t-radio-group v-model="formData.status">
-          <t-radio v-for="dict in dicts?.get('sys_normal_disable')" :label="dict.dictLabel" :value="dict.dictValue" :key="dict.dictValue" />
+          <t-radio v-for="dict in dicts?.get('sys_normal_disable')" :label="dict.label" :value="dict.value" :key="dict.value" />
         </t-radio-group>
       </t-form-item>
       <t-form-item class="col-span-2" label="岗位" name="postIds">

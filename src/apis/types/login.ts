@@ -1,9 +1,3 @@
-export interface IDict {
-  dictLabel: string;
-  dictType: string;
-  dictValue: string;
-}
-
 export interface IRoute {
   children?: IRoute[];
   component: string;

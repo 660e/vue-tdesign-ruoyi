@@ -10,7 +10,7 @@ export interface IResponse<T> {
   code: number;
   msg: string;
   data?: T;
-  rows?: T[];
+  rows?: T;
   total?: number;
 }
 
