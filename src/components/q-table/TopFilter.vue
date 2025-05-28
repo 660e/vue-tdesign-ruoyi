@@ -8,9 +8,8 @@ import { is } from '@/utils';
 defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
 
 const { columns } = defineProps<{ columns: QTableProps['columns'] }>();
-
+const { dicts } = useInfoStore();
 const more = ref(false);
-const infoStore = useInfoStore();
 
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive<QTableTopFilterQueryCondition>({});
@@ -37,7 +36,7 @@ const formItemLabel = (item: QTableProps['column']) => {
           <t-select v-if="item._topFilter?.type === 'select'" v-model="formData[item.colKey!]">
             <template #label>{{ formItemLabel(item) }}</template>
             <t-option
-              v-for="option in infoStore.dicts?.get(item._topFilter?.dictType)"
+              v-for="option in dicts?.get(item._topFilter?.dictType)"
               :label="option.dictLabel"
               :value="option.dictValue"
               :key="option.dictValue"

@@ -6,7 +6,6 @@ export async function initializeRouter(layout: 'standard') {
   const { data } = await getRoutes();
   const infoStore = useInfoStore();
   infoStore.setRoutes(data || []);
-
   infoStore.routes.forEach((route) => {
     router.addRoute(`layout-${layout}`, route);
   });

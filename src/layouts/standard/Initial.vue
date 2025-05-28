@@ -6,7 +6,7 @@ import { DICTS } from '@/constants';
 import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
-const infoStore = useInfoStore();
+const { setPermissions, setRoles, setUser, setDicts } = useInfoStore();
 const progress = reactive<{
   text: string;
   percentage: number;
@@ -27,13 +27,13 @@ onMounted(async () => {
   try {
     setProgress('获取用户信息', 20);
     const { permissions, roles, user } = await getInfo();
-    infoStore.setPermissions(permissions);
-    infoStore.setRoles(roles);
-    infoStore.setUser(user);
+    setPermissions(permissions);
+    setRoles(roles);
+    setUser(user);
 
     setProgress('获取字典信息', 40);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));
-    infoStore.setDicts(dicts.map((e) => e.data || []));
+    setDicts(dicts.map((e) => e.data || []));
 
     setProgress('初始化完成', 100, 'success');
     setTimeout(() => emit('done'), 500);

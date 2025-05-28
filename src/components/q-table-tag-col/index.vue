@@ -3,12 +3,10 @@ import type { TagProps } from 'tdesign-vue-next';
 import { useInfoStore } from '@/stores';
 
 const { value, dictType, themes } = defineProps<{ value: string; dictType: string; themes: TagProps['theme'][] }>();
+const { dicts } = useInfoStore();
 
-const infoStore = useInfoStore();
-const dicts = infoStore.dicts?.get(dictType) || [];
-
-const index = dicts?.findIndex((e) => e.dictValue === value);
-const dict = dicts?.find((e) => e.dictValue === value);
+const index = (dicts?.get(dictType) || []).findIndex((e) => e.dictValue === value);
+const dict = (dicts?.get(dictType) || []).find((e) => e.dictValue === value);
 </script>
 
 <template>
