@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
 import { getUser } from '@/apis/system';
+import { useLoading } from '@/hooks';
 import { useInfoStore } from '@/stores';
 
+const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 const { dicts } = useInfoStore();
+
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive({
@@ -28,6 +31,7 @@ const rules: FormProps['rules'] = {
 const userData = ref();
 
 const show = async (row?: TableRowData) => {
+  showFullscreenLoading();
   userData.value = await getUser(row?.userId);
   if (row?.userId) {
     Object.assign(formData, row);
@@ -36,6 +40,7 @@ const show = async (row?: TableRowData) => {
   }
 
   visible.value = true;
+  hideFullscreenLoading();
 };
 
 const onClosed = () => {
