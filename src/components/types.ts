@@ -1,4 +1,5 @@
 import type { LinkProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
+import type { TDicts } from '@/types';
 
 interface QTableTopFilterBase {
   label?: string;
@@ -11,7 +12,7 @@ interface QTableTopFilter {
       } & QTableTopFilterBase)
     | ({
         type: 'select';
-        dict: string;
+        dict: TDicts;
       } & QTableTopFilterBase);
 }
 
