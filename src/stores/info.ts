@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { IRoute } from '@/apis/types';
-import type { IDict } from '@/types';
+import type { TDictsMap } from '@/types';
 import { defineStore } from 'pinia';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -82,7 +82,7 @@ function standardizeRoutes(routes: IRoute[], parentName = ''): RouteRecordRaw[] 
 }
 
 export const useInfoStore = defineStore('info', () => {
-  const dicts = ref<Map<string, IDict[]>>();
+  const dicts = ref<TDictsMap>();
   const permissions = ref();
   const roles = ref();
   const routes = ref<RouteRecordRaw[]>([]);
@@ -91,7 +91,7 @@ export const useInfoStore = defineStore('info', () => {
   const setDicts = (n: unknown) => {
     const availableDicts = (n as { dictLabel: string; dictType: string; dictValue: string }[][]).filter((e) => e.length);
     const standardizeDicts = availableDicts.map((e) => e.map((i) => ({ label: i.dictLabel, type: i.dictType, value: i.dictValue })));
-    dicts.value = new Map(standardizeDicts.map((e) => [e[0].type, e]));
+    dicts.value = new Map(standardizeDicts.map((e) => [e[0].type, e])) as TDictsMap;
   };
   const setPermissions = (n: unknown) => (permissions.value = n);
   const setRoles = (n: unknown) => (roles.value = n);

@@ -1,9 +1,3 @@
-export interface IDict {
-  label: string;
-  type: string;
-  value: string;
-}
+import { DICTS } from '@/constants';
 
-// export interface IDictMap {
-//   [key: string]: IDict[];
-// }
+export type TDictsMap = Map<(typeof DICTS)[number], { label: string; type: string; value: string }[]>;
