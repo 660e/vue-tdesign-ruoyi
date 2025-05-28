@@ -2,12 +2,14 @@
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listUser } from '@/apis/system';
+import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
 import CreateDialog from './dialogs/create.vue';
 
+const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
+
 const createDialogRef = ref();
-const loading = ref(false);
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -62,7 +64,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     }
 
     case 'refresh': {
-      loading.value = true;
+      showFullscreenLoading();
       try {
         const { rows, total } = await listUser({
           pageNum: pagination.pageNum,
@@ -73,7 +75,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         tableData.value = rows;
       } catch {
       } finally {
-        loading.value = false;
+        hideFullscreenLoading();
       }
       break;
     }
@@ -91,7 +93,6 @@ onMounted(async () => await onHandle('refresh'));
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
-      :loading="loading"
       @pagination-change="onPaginationChange"
       @refresh="onRefresh"
     >

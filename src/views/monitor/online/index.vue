@@ -10,6 +10,7 @@ import Page from '@/layouts/standard/Page.vue';
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const tableData = ref();
+
 const operations: QTableProps['operations'] = [{ value: 'logout', icon: 'logout', label: '强制下线' }];
 const columns: QTableProps['columns'] = [
   { title: '会话编号', colKey: 'tokenId', width: 400 },
@@ -29,9 +30,9 @@ const columns: QTableProps['columns'] = [
   },
 ];
 
-const condition = ref<QTableTopFilterQueryCondition>({});
+const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onRefresh = (value: QTableTopFilterQueryCondition) => {
-  condition.value = value;
+  queryCondition.value = value;
   onHandle('refresh');
 };
 
@@ -43,7 +44,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh': {
       showFullscreenLoading();
       try {
-        const { rows } = await listOnline(condition.value);
+        const { rows } = await listOnline(queryCondition.value);
         tableData.value = rows;
       } catch {
       } finally {
