@@ -33,7 +33,7 @@ const formItemLabel = (item: QTableProps['column']) => {
           </t-input>
 
           <!-- select -->
-          <t-select v-if="item._topFilter?.type === 'select'" v-model="formData[item.colKey!]" :options="dicts?.get(item._topFilter?.dictType)">
+          <t-select v-if="item._topFilter?.type === 'select'" v-model="formData[item.colKey!]" :options="dicts?.get(item._topFilter?.dict)">
             <template #label>{{ formItemLabel(item) }}</template>
           </t-select>
         </t-form-item>

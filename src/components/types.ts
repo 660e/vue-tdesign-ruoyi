@@ -11,7 +11,7 @@ interface QTableTopFilter {
       } & QTableTopFilterBase)
     | ({
         type: 'select';
-        dictType: string;
+        dict: string;
       } & QTableTopFilterBase);
 }
 
