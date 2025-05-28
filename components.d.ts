@@ -29,10 +29,13 @@ declare module 'vue' {
     TOption: typeof import('tdesign-vue-next')['Option']
     TPagination: typeof import('tdesign-vue-next')['Pagination']
     TProgress: typeof import('tdesign-vue-next')['Progress']
+    TRadio: typeof import('tdesign-vue-next')['Radio']
+    TRadioGroup: typeof import('tdesign-vue-next')['RadioGroup']
     TSelect: typeof import('tdesign-vue-next')['Select']
     TSubmenu: typeof import('tdesign-vue-next')['Submenu']
     TTable: typeof import('tdesign-vue-next')['Table']
     TTag: typeof import('tdesign-vue-next')['Tag']
+    TTextarea: typeof import('tdesign-vue-next')['Textarea']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }
