@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { getUser } from '@/apis/system';
+import { getUser, deptTree } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { useInfoStore } from '@/stores';
 
@@ -32,6 +32,7 @@ const userData = ref();
 
 const show = async (row?: TableRowData) => {
   showFullscreenLoading();
+  userData.value.deptTree = (await deptTree()).data;
   userData.value = await getUser(row?.userId);
   if (row?.userId) {
     Object.assign(formData, row);

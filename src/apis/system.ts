@@ -9,6 +9,10 @@ export function getUser(id = '') {
   return request.get<IResponse<TUnknownRecord>>(`/system/user/${id}`);
 }
 
+export function deptTree() {
+  return request.get<IResponse<TUnknownRecord[]>>('/system/user/deptTree');
+}
+
 export function dict(name: string) {
   return request.get<IResponse<IDict[]>>(`/system/dict/data/type/${name}`);
 }
