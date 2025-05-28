@@ -50,9 +50,6 @@ const onRefresh = (value: QTableTopFilterQueryCondition) => {
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
-  console.log(value);
-  console.log(row);
-
   switch (value) {
     case 'create': {
       createDialogRef.value.show();

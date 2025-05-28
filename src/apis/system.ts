@@ -5,6 +5,10 @@ export function listUser(params?: IListParams) {
   return request.get<IResponse<TUnknownRecord>>('/system/user/list', { params });
 }
 
+export function getUser(id = '') {
+  return request.get<IResponse<TUnknownRecord>>(`/system/user/${id}`);
+}
+
 export function dict(name: string) {
   return request.get<IResponse<IDict[]>>(`/system/dict/data/type/${name}`);
 }

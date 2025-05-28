@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
+import { getUser } from '@/apis/system';
 import { useInfoStore } from '@/stores';
 
 const { dicts } = useInfoStore();
@@ -15,8 +16,8 @@ const formData = reactive({
   email: '',
   sex: '2',
   status: '0',
-  postIds: '',
-  roleIds: '',
+  postIds: [],
+  roleIds: [],
   remark: '',
 });
 const rules: FormProps['rules'] = {
@@ -24,17 +25,22 @@ const rules: FormProps['rules'] = {
   password: [{ required: true, trigger: 'blur' }],
   nickName: [{ required: true, trigger: 'blur' }],
 };
+const userData = ref();
 
-const show = (row?: TableRowData) => {
-  visible.value = true;
-
-  if (row) {
+const show = async (row?: TableRowData) => {
+  userData.value = await getUser(row?.userId);
+  if (row?.userId) {
     Object.assign(formData, row);
+    formData.postIds = userData.value.postIds;
+    formData.roleIds = userData.value.roleIds;
   }
+
+  visible.value = true;
 };
 
 const onClosed = () => {
   formRef.value?.reset();
+  formData.userId = undefined;
 };
 
 const onConfirm = () => {
@@ -48,13 +54,14 @@ defineExpose({ show });
 <template>
   <t-dialog v-model:visible="visible" :header="`${formData.userId ? '修改' : '新增'}用户`" :on-closed="onClosed" :on-confirm="onConfirm" width="700">
     <t-form :data="formData" :rules="rules" class="grid grid-cols-2" ref="formRef">
-      <t-form-item label="用户名称" name="userName">
-        <t-input v-model="formData.userName" />
-      </t-form-item>
-      <t-form-item v-if="!formData.userId" label="密码" name="password">
-        <t-input v-model="formData.password" type="password" />
-      </t-form-item>
-      <div v-else></div>
+      <template v-if="!formData.userId">
+        <t-form-item label="用户名称" name="userName">
+          <t-input v-model="formData.userName" />
+        </t-form-item>
+        <t-form-item label="密码" name="password">
+          <t-input v-model="formData.password" type="password" />
+        </t-form-item>
+      </template>
       <t-form-item label="用户昵称" name="nickName">
         <t-input v-model="formData.nickName" />
       </t-form-item>
@@ -78,10 +85,14 @@ defineExpose({ show });
         </t-radio-group>
       </t-form-item>
       <t-form-item class="col-span-2" label="岗位" name="postIds">
-        <t-select v-model="formData.postIds" />
+        <t-select v-model="formData.postIds" multiple>
+          <t-option v-for="option in userData?.posts" :label="option.postName" :value="option.postId" :key="option.postId" />
+        </t-select>
       </t-form-item>
       <t-form-item class="col-span-2" label="角色" name="roleIds">
-        <t-select v-model="formData.roleIds" />
+        <t-select v-model="formData.roleIds" multiple>
+          <t-option v-for="option in userData?.roles" :label="option.roleName" :value="option.roleId" :key="option.roleId" />
+        </t-select>
       </t-form-item>
       <t-form-item class="col-span-2" label="备注" name="remark">
         <t-textarea v-model="formData.remark" />
