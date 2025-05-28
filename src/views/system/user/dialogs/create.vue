@@ -32,13 +32,13 @@ const userData = ref();
 
 const show = async (row?: TableRowData) => {
   showFullscreenLoading();
-  userData.value.deptTree = (await deptTree()).data;
   userData.value = await getUser(row?.userId);
   if (row?.userId) {
     Object.assign(formData, row);
     formData.postIds = userData.value.postIds;
     formData.roleIds = userData.value.roleIds;
   }
+  userData.value.deptTree = (await deptTree()).data;
 
   visible.value = true;
   hideFullscreenLoading();
@@ -60,19 +60,17 @@ defineExpose({ show });
 <template>
   <t-dialog v-model:visible="visible" :header="`${formData.userId ? '修改' : '新增'}用户`" :on-closed="onClosed" :on-confirm="onConfirm" width="700">
     <t-form :data="formData" :rules="rules" class="grid grid-cols-2" ref="formRef">
-      <template v-if="!formData.userId">
-        <t-form-item label="用户名称" name="userName">
-          <t-input v-model="formData.userName" />
-        </t-form-item>
-        <t-form-item label="密码" name="password">
-          <t-input v-model="formData.password" type="password" />
-        </t-form-item>
-      </template>
+      <t-form-item v-show="!formData.userId" label="用户名称" name="userName">
+        <t-input v-model="formData.userName" />
+      </t-form-item>
+      <t-form-item v-show="!formData.userId" label="密码" name="password">
+        <t-input v-model="formData.password" type="password" />
+      </t-form-item>
       <t-form-item label="用户昵称" name="nickName">
         <t-input v-model="formData.nickName" />
       </t-form-item>
       <t-form-item label="部门" name="deptId">
-        <t-select v-model="formData.deptId" />
+        <t-tree-select v-model="formData.deptId" :data="userData?.deptTree" :keys="{ value: 'id' }" />
       </t-form-item>
       <t-form-item label="手机号码" name="phonenumber">
         <t-input v-model="formData.phonenumber" />
@@ -91,14 +89,10 @@ defineExpose({ show });
         </t-radio-group>
       </t-form-item>
       <t-form-item class="col-span-2" label="岗位" name="postIds">
-        <t-select v-model="formData.postIds" multiple>
-          <t-option v-for="option in userData?.posts" :label="option.postName" :value="option.postId" :key="option.postId" />
-        </t-select>
+        <t-select v-model="formData.postIds" :keys="{ label: 'postName', value: 'postId' }" :options="userData?.posts" multiple />
       </t-form-item>
       <t-form-item class="col-span-2" label="角色" name="roleIds">
-        <t-select v-model="formData.roleIds" multiple>
-          <t-option v-for="option in userData?.roles" :label="option.roleName" :value="option.roleId" :key="option.roleId" />
-        </t-select>
+        <t-select v-model="formData.roleIds" :keys="{ label: 'roleName', value: 'roleId' }" :options="userData?.roles" multiple />
       </t-form-item>
       <t-form-item class="col-span-2" label="备注" name="remark">
         <t-textarea v-model="formData.remark" />

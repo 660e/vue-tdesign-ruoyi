@@ -37,5 +37,6 @@ declare module 'vue' {
     TTag: typeof import('tdesign-vue-next')['Tag']
     TTextarea: typeof import('tdesign-vue-next')['Textarea']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
+    TTreeSelect: typeof import('tdesign-vue-next')['TreeSelect']
   }
 }
