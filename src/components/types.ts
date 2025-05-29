@@ -16,7 +16,13 @@ interface QTableTopFilter {
       } & QTableTopFilterBase);
 }
 
-interface QTableOperation {
+interface QTablePagination {
+  pageNum: number;
+  pageSize: number;
+  total: number;
+}
+
+export interface QTableOperation {
   value: string;
   icon?: string;
   label?: string;
@@ -25,12 +31,6 @@ interface QTableOperation {
     theme?: PopconfirmProps['theme'];
   };
   theme?: LinkProps['theme'];
-}
-
-interface QTablePagination {
-  pageNum: number;
-  pageSize: number;
-  total: number;
 }
 
 export interface QTableProps {

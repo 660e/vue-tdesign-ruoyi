@@ -1,8 +1,23 @@
-<script setup lang="ts">
-import type { QTableProps } from '../types';
+<script setup lang="tsx">
+import type { QTableOperation, QTableProps } from '../types';
 
-defineEmits<{ handle: [value: string] }>();
 defineProps<{ operations: QTableProps['operations'] }>();
+
+const emit = defineEmits<{ handle: [value: string] }>();
+
+const emitHandle = (operation: QTableOperation) => {
+  if (operation.popconfirm) return;
+  emit('handle', operation.value);
+};
+
+const OperationLink = ({ operation }: { operation: QTableOperation }) => {
+  return (
+    <t-link theme={operation.theme || 'primary'} onClick={() => emitHandle(operation)} class="flex items-center gap-0.5">
+      {operation.icon && <t-icon name={operation.icon} />}
+      {operation.label && <span>{operation.label}</span>}
+    </t-link>
+  );
+};
 </script>
 
 <template>
@@ -14,15 +29,9 @@ defineProps<{ operations: QTableProps['operations'] }>();
         :on-confirm="() => $emit('handle', operation.value)"
         :theme="operation.popconfirm.theme || 'danger'"
       >
-        <t-link :theme="operation.theme || 'primary'" class="flex items-center gap-0.5">
-          <t-icon v-if="operation.icon" :name="operation.icon" />
-          <span v-if="operation.label">{{ operation.label }}</span>
-        </t-link>
+        <OperationLink :operation="operation" />
       </t-popconfirm>
-      <t-link v-else :theme="operation.theme || 'primary'" @click="$emit('handle', operation.value)" class="flex items-center gap-0.5">
-        <t-icon v-if="operation.icon" :name="operation.icon" />
-        <span v-if="operation.label">{{ operation.label }}</span>
-      </t-link>
+      <OperationLink v-else :operation="operation" />
     </template>
   </div>
 </template>
