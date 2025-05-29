@@ -25,6 +25,12 @@ export function deptTree() {
   return request.get<IResponse<TUnknownRecord[]>>('/system/user/deptTree');
 }
 
+export function resetPwd(userId: number, password: string) {
+  return request.put<IResponse<TUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
+}
+
+//
+
 export function dict(name: string) {
   return request.get<IResponse<TUnknownRecord[]>>(`/system/dict/data/type/${name}`);
 }

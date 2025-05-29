@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
-import { listUser, deleteUser } from '@/apis/system';
+import { listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
@@ -15,7 +15,7 @@ const tableData = ref();
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
-  { value: 'resetPassword', icon: 'secured', label: '重置密码' },
+  { value: 'resetPwd', icon: 'secured', label: '重置密码', popconfirm: { content: '确定重置此用户密码？', theme: 'warning' } },
   { value: 'assignRoles', icon: 'user-add', label: '分配角色' },
 ];
 const columns: QTableProps['columns'] = [
@@ -86,6 +86,11 @@ const onHandle = async (value: string, row?: TableRowData) => {
       } finally {
         hideFullscreenLoading();
       }
+      break;
+
+    case 'resetPwd':
+      MessagePlugin.warning('功能未实现');
+      console.log(resetPwd);
       break;
   }
 };
