@@ -34,18 +34,16 @@ class Request {
             }
             return response.data;
           }
-          case 401: {
+          case 401:
             localStorage.removeItem('token');
             router.push({ name: 'login' });
             break;
-          }
           case 404:
             console.log('404');
             break;
-          case 500: {
+          case 500:
             MessagePlugin.error(response.data.msg);
             break;
-          }
           default:
             console.log(response.data.code);
         }
@@ -62,7 +60,7 @@ class Request {
             console.log('500');
             break;
           default:
-            console.log('default');
+            console.log(error.response.status);
         }
         return Promise.reject(error);
       },

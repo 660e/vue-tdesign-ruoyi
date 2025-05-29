@@ -41,7 +41,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
   console.log(row);
 
   switch (value) {
-    case 'refresh': {
+    case 'refresh':
       showFullscreenLoading();
       try {
         const { rows } = await listOnline(queryCondition.value);
@@ -51,7 +51,6 @@ const onHandle = async (value: string, row?: TableRowData) => {
         hideFullscreenLoading();
       }
       break;
-    }
   }
 };
 

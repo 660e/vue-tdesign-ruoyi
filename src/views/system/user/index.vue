@@ -53,17 +53,15 @@ const onRefresh = (value: QTableTopFilterQueryCondition) => {
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
-    case 'create': {
+    case 'create':
       createDialogRef.value.show();
       break;
-    }
 
-    case 'edit': {
+    case 'edit':
       createDialogRef.value.show(row);
       break;
-    }
 
-    case 'refresh': {
+    case 'refresh':
       showFullscreenLoading();
       try {
         const { rows, total } = await listUser({
@@ -78,7 +76,6 @@ const onHandle = async (value: string, row?: TableRowData) => {
         hideFullscreenLoading();
       }
       break;
-    }
   }
 };
 
