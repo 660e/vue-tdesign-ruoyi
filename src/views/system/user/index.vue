@@ -1,17 +1,15 @@
 <script setup lang="tsx">
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
-import { listUser, deleteUser } from '@/apis/system';
+import { listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
-import { getOperationColumnWidth } from '@/utils';
+import { getOperationColumnWidth, generatePassword } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
 import CreateDialog from './dialogs/Create.vue';
-import ResetPwdDialog from './dialogs/ResetPwd.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const createDialogRef = ref();
-const resetPwdDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -90,9 +88,31 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
 
-    case 'resetPwd':
-      resetPwdDialogRef.value.show(row);
+    case 'resetPwd': {
+      showFullscreenLoading();
+      const password = generatePassword();
+      try {
+        await resetPwd(row?.userId, password);
+        const DialogInstance = DialogPlugin({
+          header: '新密码',
+          body: password,
+          width: 400,
+          cancelBtn: null,
+          confirmBtn: { content: '复制密码', theme: 'success' },
+          onConfirm: () => {
+            navigator.clipboard
+              .writeText(password)
+              .then(() => MessagePlugin.success('已复制到剪切板'))
+              .catch(() => MessagePlugin.error('复制失败，请手动复制'));
+          },
+          onClosed: () => DialogInstance.destroy(),
+        });
+      } catch {
+      } finally {
+        hideFullscreenLoading();
+      }
       break;
+    }
   }
 };
 
@@ -121,6 +141,5 @@ onMounted(async () => await onHandle('refresh'));
     </q-table>
 
     <CreateDialog ref="createDialogRef" />
-    <ResetPwdDialog ref="resetPwdDialogRef" />
   </Page>
 </template>
