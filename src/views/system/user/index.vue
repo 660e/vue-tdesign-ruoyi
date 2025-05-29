@@ -1,15 +1,17 @@
 <script setup lang="tsx">
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
-import { listUser, deleteUser, resetPwd } from '@/apis/system';
+import { listUser, deleteUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
 import CreateDialog from './dialogs/Create.vue';
+import ResetPwdDialog from './dialogs/ResetPwd.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const createDialogRef = ref();
+const resetPwdDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -89,8 +91,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'resetPwd':
-      MessagePlugin.warning('功能未实现');
-      console.log(resetPwd);
+      resetPwdDialogRef.value.show(row);
       break;
   }
 };
@@ -120,5 +121,6 @@ onMounted(async () => await onHandle('refresh'));
     </q-table>
 
     <CreateDialog ref="createDialogRef" />
+    <ResetPwdDialog ref="resetPwdDialogRef" />
   </Page>
 </template>
