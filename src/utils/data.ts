@@ -65,3 +65,12 @@ export function getOperationColumnWidth(operations: QTableProps['operations']) {
 
   return iw + lw + tg + hg + tp;
 }
+
+export function generatePassword(length = 16) {
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+  const charsetLength = charset.length;
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+
+  return Array.from(array, (byte) => charset[byte % charsetLength]).join('');
+}
