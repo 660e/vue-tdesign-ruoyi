@@ -5,7 +5,7 @@ import { listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
-import CreateDialog from './dialogs/create1.vue';
+import CreateDialog from './dialogs/Create.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
