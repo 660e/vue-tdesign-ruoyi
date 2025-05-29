@@ -92,21 +92,23 @@ const onHandle = async (value: string, row?: TableRowData) => {
       showFullscreenLoading();
       const password = generatePassword();
       try {
-        await resetPwd(row?.userId, password);
-        const DialogInstance = DialogPlugin({
-          header: '新密码',
-          body: password,
-          width: 400,
-          cancelBtn: null,
-          confirmBtn: { content: '复制密码', theme: 'success' },
-          onConfirm: () => {
-            navigator.clipboard
-              .writeText(password)
-              .then(() => MessagePlugin.success('已复制到剪切板'))
-              .catch(() => MessagePlugin.error('复制失败，请手动复制'));
-          },
-          onClosed: () => DialogInstance.destroy(),
-        });
+        const { code } = await resetPwd(row?.userId, password);
+        if (code) {
+          const DialogInstance = DialogPlugin({
+            header: '新密码',
+            body: password,
+            width: 400,
+            cancelBtn: null,
+            confirmBtn: { content: '复制密码', theme: 'success' },
+            onConfirm: () => {
+              navigator.clipboard
+                .writeText(password)
+                .then(() => MessagePlugin.success('密码已复制到剪贴板'))
+                .catch(() => MessagePlugin.error('复制失败，请手动复制'));
+            },
+            onClosed: () => DialogInstance.destroy(),
+          });
+        }
       } catch {
       } finally {
         hideFullscreenLoading();
