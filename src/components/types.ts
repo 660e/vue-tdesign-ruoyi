@@ -1,4 +1,4 @@
-import type { LinkProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
+import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
 import type { TDicts } from '@/types';
 
 interface QTableTopFilterBase {
@@ -20,6 +20,10 @@ interface QTableOperation {
   value: string;
   icon?: string;
   label?: string;
+  popconfirm?: {
+    content: string;
+    theme?: PopconfirmProps['theme'];
+  };
   theme?: LinkProps['theme'];
 }
 

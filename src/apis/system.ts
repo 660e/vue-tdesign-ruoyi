@@ -5,7 +5,7 @@ export function createUser(data: TUnknownRecord) {
   return request.post<IResponse<TUnknownRecord>>('/system/user', { data });
 }
 
-export function deleteUser(id: string) {
+export function deleteUser(id: number) {
   return request.delete<IResponse<TUnknownRecord>>(`/system/user/${id}`);
 }
 
@@ -17,7 +17,7 @@ export function listUser(params?: IListParams) {
   return request.get<IResponse<TUnknownRecord[]>>('/system/user/list', { params });
 }
 
-export function getUser(id = '') {
+export function getUser(id: number) {
   return request.get<IResponse<TUnknownRecord>>(`/system/user/${id}`);
 }
 

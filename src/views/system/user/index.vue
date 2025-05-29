@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { PageInfo, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
-import { listUser } from '@/apis/system';
+import { listUser, deleteUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
@@ -14,7 +14,7 @@ const tableData = ref();
 
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
-  { value: 'delete', icon: 'delete', label: '删除', theme: 'danger' },
+  { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
   { value: 'resetPassword', icon: 'secured', label: '重置密码' },
   { value: 'assignRoles', icon: 'user-add', label: '分配角色' },
 ];
@@ -53,14 +53,6 @@ const onRefresh = (value: QTableTopFilterQueryCondition) => {
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
-    case 'create':
-      createDialogRef.value.show();
-      break;
-
-    case 'edit':
-      createDialogRef.value.show(row);
-      break;
-
     case 'refresh':
       showFullscreenLoading();
       try {
@@ -71,6 +63,25 @@ const onHandle = async (value: string, row?: TableRowData) => {
         });
         pagination.total = total || 0;
         tableData.value = rows;
+      } catch {
+      } finally {
+        hideFullscreenLoading();
+      }
+      break;
+
+    case 'create':
+      createDialogRef.value.show();
+      break;
+
+    case 'edit':
+      createDialogRef.value.show(row);
+      break;
+
+    case 'delete':
+      showFullscreenLoading();
+      try {
+        const { msg } = await deleteUser(row?.userId);
+        MessagePlugin.success(msg);
       } catch {
       } finally {
         hideFullscreenLoading();
