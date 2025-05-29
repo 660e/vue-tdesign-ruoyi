@@ -42,11 +42,12 @@ class Request {
           case 404:
             console.log('404');
             break;
-          case 500:
-            console.log('500');
+          case 500: {
+            MessagePlugin.error(response.data.msg);
             break;
+          }
           default:
-            console.log('default');
+            console.log(response.data.code);
         }
       },
       (error) => {

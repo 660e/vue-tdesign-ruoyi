@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { getUser, deptTree } from '@/apis/system';
+import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { useInfoStore } from '@/stores';
 
@@ -49,9 +49,23 @@ const onClosed = () => {
   formData.userId = undefined;
 };
 
-const onConfirm = () => {
-  console.log(formData);
-  visible.value = false;
+const onConfirm = async () => {
+  const result = await formRef.value?.validate();
+
+  if (result !== true) {
+    console.log(result); // TODO
+    return;
+  }
+
+  showFullscreenLoading();
+  try {
+    const { msg } = await (formData.userId ? updateUser(formData) : createUser(formData));
+    MessagePlugin.success(msg);
+    visible.value = false;
+  } catch {
+  } finally {
+    hideFullscreenLoading();
+  }
 };
 
 defineExpose({ show });
@@ -60,10 +74,10 @@ defineExpose({ show });
 <template>
   <t-dialog v-model:visible="visible" :header="`${formData.userId ? '修改' : '新增'}用户`" :on-closed="onClosed" :on-confirm="onConfirm" width="700">
     <t-form :data="formData" :rules="rules" class="grid grid-cols-2" ref="formRef">
-      <t-form-item v-show="!formData.userId" label="用户名称" name="userName">
+      <t-form-item v-if="!formData.userId" label="用户名称" name="userName">
         <t-input v-model="formData.userName" />
       </t-form-item>
-      <t-form-item v-show="!formData.userId" label="密码" name="password">
+      <t-form-item v-if="!formData.userId" label="密码" name="password">
         <t-input v-model="formData.password" type="password" />
       </t-form-item>
       <t-form-item label="用户昵称" name="nickName">
