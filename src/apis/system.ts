@@ -5,8 +5,8 @@ export function createUser(data: TUnknownRecord) {
   return request.post<IResponse<TUnknownRecord>>('/system/user', { data });
 }
 
-export function deleteUser(id: number) {
-  return request.delete<IResponse<TUnknownRecord>>(`/system/user/${id}`);
+export function deleteUser(ids: number | string) {
+  return request.delete<IResponse<TUnknownRecord>>(`/system/user/${ids}`);
 }
 
 export function updateUser(data: TUnknownRecord) {

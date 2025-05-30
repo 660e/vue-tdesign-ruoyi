@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { PageInfo, TableRowData } from 'tdesign-vue-next';
+import type { PageInfo, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
@@ -19,6 +19,7 @@ const operations: QTableProps['operations'] = [
   { value: 'assignRoles', icon: 'user-add', label: '分配角色' },
 ];
 const columns: QTableProps['columns'] = [
+  { colKey: 'row-select', type: 'multiple' },
   { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门名称', colKey: 'dept.deptName' },
@@ -49,6 +50,11 @@ const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onRefresh = (value: QTableTopFilterQueryCondition) => {
   queryCondition.value = value;
   onHandle('refresh');
+};
+
+const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);
+const onSelectChange: TableProps['onSelectChange'] = (value) => {
+  selectedRowKeys.value = value;
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
@@ -131,12 +137,14 @@ onMounted(async () => await onHandle('refresh'));
       :file-import="onHandle"
       @pagination-change="onPaginationChange"
       @refresh="onRefresh"
+      @select-change="onSelectChange"
+      row-key="userId"
     >
       <template #topContent>
         <t-button @click="onHandle('create')">
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
-        <t-button theme="danger">
+        <t-button :disabled="selectedRowKeys?.length === 0" @click="onHandle('delete')" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </template>
