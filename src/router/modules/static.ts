@@ -27,11 +27,15 @@ export default [
     ],
   },
   {
-    path: '/example',
+    path: '/issues',
     children: [
       {
-        path: 'playground',
-        component: () => import('@/views/example/Playground.vue'),
+        path: '',
+        component: () => import('@/views/issues/index.vue'),
+      },
+      {
+        path: '5343',
+        component: () => import('@/views/issues/5343.vue'),
       },
     ],
   },
