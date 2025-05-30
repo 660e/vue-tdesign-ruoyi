@@ -84,13 +84,34 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'delete':
-      showFullscreenLoading();
-      try {
-        const { msg } = await deleteUser(row?.userId);
-        MessagePlugin.success(msg);
-      } catch {
-      } finally {
-        hideFullscreenLoading();
+      if (row) {
+        showFullscreenLoading();
+        try {
+          const { msg } = await deleteUser(row.userId);
+          MessagePlugin.success(msg);
+        } catch {
+        } finally {
+          hideFullscreenLoading();
+        }
+      } else {
+        const DialogInstance = DialogPlugin.confirm({
+          header: '批量删除',
+          body: `确定删除选中的 ${selectedRowKeys.value?.length} 条数据？`,
+          confirmBtn: { content: '删除', theme: 'danger' },
+          onConfirm: async () => {
+            showFullscreenLoading();
+            try {
+              const { msg } = await deleteUser((selectedRowKeys.value || []).join(','));
+              MessagePlugin.success(msg);
+              await onHandle('refresh');
+              DialogInstance.hide();
+            } catch {
+            } finally {
+              hideFullscreenLoading();
+            }
+          },
+          onClosed: () => DialogInstance.destroy(),
+        });
       }
       break;
 
@@ -103,7 +124,6 @@ const onHandle = async (value: string, row?: TableRowData) => {
           const DialogInstance = DialogPlugin({
             header: '新密码',
             body: password,
-            width: 400,
             cancelBtn: null,
             confirmBtn: { content: '复制密码', theme: 'success' },
             onConfirm: () => {
