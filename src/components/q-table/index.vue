@@ -37,6 +37,11 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
 
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTableProps['columns']).filter((e) => e.colKey).map((e) => e.colKey!));
+
+const viewSelectedRows = () => {
+  // TODO
+  console.log(attrs['selected-row-keys']);
+};
 </script>
 
 <template>
@@ -89,9 +94,12 @@ const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTabl
     </div>
 
     <div v-if="pagination" class="p-4 flex">
-      <div :style="{ backgroundColor: 'var(--td-bg-color-secondarycontainer)' }" class="w-1 mr-2"></div>
+      <div
+        :style="{ backgroundColor: selectedRowKeysLength ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
+        class="w-1 mr-2"
+      ></div>
       <div v-if="selectedRowKeysLength" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
-        <span>已选 {{ selectedRowKeysLength }} 条数据</span>
+        <t-link @click="viewSelectedRows" theme="primary">已选 {{ selectedRowKeysLength }} 条数据</t-link>
         <span>，</span>
       </div>
       <t-pagination
