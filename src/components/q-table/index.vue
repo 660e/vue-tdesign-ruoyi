@@ -22,6 +22,7 @@ useToggleHeight(topFilterRef, topFilterVisible);
 
 const attrs = useAttrs();
 const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column._topFilter));
+const selectedRowKeysLength = computed(() => (attrs['selected-row-keys'] as (number | string)[])?.length);
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
@@ -52,6 +53,16 @@ const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTabl
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>
+      <t-tooltip v-if="fileImport" content="导入" placement="bottom">
+        <t-button @click="fileImport('file-import')" shape="circle" variant="outline">
+          <template #icon><t-icon name="file-import" /></template>
+        </t-button>
+      </t-tooltip>
+      <t-tooltip v-if="fileExport" content="导出" placement="bottom">
+        <t-button @click="fileExport('file-export')" shape="circle" variant="outline">
+          <template #icon><t-icon name="file-export" /></template>
+        </t-button>
+      </t-tooltip>
       <t-tooltip content="列设置" placement="bottom">
         <t-button @click="columnControllerVisible = true" shape="circle" variant="outline">
           <template #icon><t-icon name="view-column" /></template>
@@ -77,13 +88,12 @@ const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTabl
       />
     </div>
 
-    <div v-if="fileImport || fileExport || pagination" class="p-4 flex gap-2">
-      <t-button v-if="fileImport" @click="fileImport('file-import')" theme="default">
-        <template #icon><t-icon name="file-import" /></template><span>导入</span>
-      </t-button>
-      <t-button v-if="fileExport" @click="fileExport('file-export')" theme="default">
-        <template #icon><t-icon name="file-export" /></template><span>导出</span>
-      </t-button>
+    <div v-if="pagination" class="p-4 flex">
+      <div :style="{ backgroundColor: 'var(--td-bg-color-secondarycontainer)' }" class="w-1 mr-2"></div>
+      <div v-if="selectedRowKeysLength" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
+        <span>已选 {{ selectedRowKeysLength }} 条数据</span>
+        <span>，</span>
+      </div>
       <t-pagination
         v-if="pagination"
         v-model="pagination.pageNum"

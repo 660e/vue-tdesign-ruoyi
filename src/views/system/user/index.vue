@@ -155,6 +155,7 @@ onMounted(async () => await onHandle('refresh'));
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
+      :selected-row-keys="selectedRowKeys"
       @pagination-change="onPaginationChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"
