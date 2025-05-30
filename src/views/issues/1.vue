@@ -6,7 +6,7 @@ const onTest1 = () => {
 };
 
 const onTest2 = async () => {
-  await new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+  await new Promise((resolve) => setTimeout(() => resolve(true), 100)); // timeout > 99
 
   onTest1();
 };
