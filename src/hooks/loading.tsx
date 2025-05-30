@@ -13,7 +13,7 @@ export function useLoading() {
       });
     }
     count.value += 1;
-    console.log('count: ', count.value);
+    console.log('loading count:', count.value);
   };
 
   const hideFullscreenLoading = () => {
@@ -24,7 +24,7 @@ export function useLoading() {
       instance.value.hide();
       instance.value = undefined;
     }
-    console.log('count: ', count.value);
+    console.log('loading count:', count.value);
   };
 
   return { showFullscreenLoading, hideFullscreenLoading };
