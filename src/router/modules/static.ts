@@ -29,14 +29,9 @@ export default [
   {
     path: '/issues',
     children: [
-      {
-        path: '',
-        component: () => import('@/views/issues/index.vue'),
-      },
-      {
-        path: '5343',
-        component: () => import('@/views/issues/5343.vue'),
-      },
+      { path: '', component: () => import('@/views/issues/index.vue') },
+      { path: '1', component: () => import('@/views/issues/1.vue') },
+      { path: '5343', component: () => import('@/views/issues/5343.vue') },
     ],
   },
   {

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 // https://github.com/Tencent/tdesign-vue-next/issues/5343
 const visible = ref(false);
 const formRef = ref();
