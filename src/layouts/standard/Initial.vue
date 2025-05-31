@@ -52,7 +52,7 @@ const signOut = () => {
 <template>
   <div class="h-screen flex flex-col justify-center">
     <div class="relative flex justify-center">
-      <div class="absolute bottom-5 text-sm leading-none text-neutral-500">{{ progress.text }}</div>
+      <div class="absolute bottom-5 text-sm leading-none text-neutral-400">{{ progress.text }}</div>
       <t-progress :label="false" :percentage="progress.percentage" :status="progress.status" class="w-1/3" />
       <div v-if="progress.status === 'error'" class="absolute top-5">
         <t-button @click="signOut">重新登录</t-button>

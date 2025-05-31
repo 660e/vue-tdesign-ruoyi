@@ -89,13 +89,16 @@ const viewSelectedRowData = () => {
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
         @select-change="onSelectChange"
-        cell-empty-content="-"
         class="h-full"
         height="100%"
         row-key="id"
         v-bind:="$attrs"
         hover
-      />
+      >
+        <template #cellEmptyContent>
+          <span class="text-neutral-400">-</span>
+        </template>
+      </t-table>
     </div>
 
     <div v-if="pagination" class="p-4 flex">
