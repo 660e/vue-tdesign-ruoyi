@@ -13,8 +13,28 @@ const { items, options } = defineProps<{
 const { dicts } = useInfoStore();
 const more = ref(false);
 
+const createEmptyFormData = (data: QTableProps['columns']) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result: any = {};
+  data.forEach((item) => {
+    switch (item.topFilter?.type) {
+      case 'date-range':
+        result[item.colKey!] = [];
+        break;
+      case 'input':
+      case 'select':
+      case 'tree-select':
+        result[item.colKey!] = '';
+        break;
+      default:
+        result[item.colKey!] = undefined;
+    }
+  });
+  return result;
+};
+
 const formRef = ref<FormInstanceFunctions>();
-const formData = reactive<QTableTopFilterQueryCondition>({});
+const formData = reactive(createEmptyFormData(items));
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
