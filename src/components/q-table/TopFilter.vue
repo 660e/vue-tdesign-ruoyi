@@ -75,7 +75,13 @@ const onSubmit = () => {
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
         <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- date-range -->
-          <t-date-range-picker v-if="item.topFilter?.type === 'date-range'" v-model="formData[item.colKey!]" :label="itemLabel(item)" clearable />
+          <t-date-range-picker
+            v-if="item.topFilter?.type === 'date-range'"
+            v-model="formData[item.colKey!]"
+            :label="itemLabel(item)"
+            class="w-full"
+            clearable
+          />
 
           <!-- input -->
           <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]" :label="itemLabel(item)" clearable />
