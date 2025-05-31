@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageInfo, TableProps } from 'tdesign-vue-next';
+import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
 import { useToggleHeight } from '@/hooks';
 import TopFilter from './TopFilter.vue';
@@ -13,6 +13,7 @@ defineProps<{
 const emit = defineEmits<{
   'pagination-change': [value: PageInfo];
   'refresh': [value: QTableTopFilterQueryCondition];
+  'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 
@@ -22,7 +23,6 @@ useToggleHeight(topFilterRef, topFilterVisible);
 
 const attrs = useAttrs();
 const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column._topFilter));
-const selectedRowKeysLength = computed(() => (attrs['selected-row-keys'] as (number | string)[])?.length);
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
@@ -38,9 +38,13 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTableProps['columns']).filter((e) => e.colKey).map((e) => e.colKey!));
 
-const viewSelectedRows = () => {
-  // TODO
-  console.log(attrs['selected-row-keys']);
+const selectedRowData = ref<TableRowData[]>([]);
+const onSelectChange: TableProps['onSelectChange'] = (value, ctx) => {
+  selectedRowData.value = ctx.selectedRowData;
+  emit('select-change', value, ctx);
+};
+const viewSelectedRowData = () => {
+  console.log(selectedRowData.value);
 };
 </script>
 
@@ -84,6 +88,7 @@ const viewSelectedRows = () => {
       <t-table
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
+        @select-change="onSelectChange"
         cell-empty-content="-"
         class="h-full"
         height="100%"
@@ -95,11 +100,11 @@ const viewSelectedRows = () => {
 
     <div v-if="pagination" class="p-4 flex">
       <div
-        :style="{ backgroundColor: selectedRowKeysLength ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
+        :style="{ backgroundColor: selectedRowData.length ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
         class="w-1 mr-2"
       ></div>
-      <div v-if="selectedRowKeysLength" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
-        <t-link @click="viewSelectedRows" theme="primary">已选 {{ selectedRowKeysLength }} 条数据</t-link>
+      <div v-if="selectedRowData.length" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
+        <t-link @click="viewSelectedRowData" theme="primary">已选 {{ selectedRowData.length }} 条数据</t-link>
         <span>，</span>
       </div>
       <t-pagination
