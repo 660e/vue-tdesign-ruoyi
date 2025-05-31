@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { PageInfo, TableProps, TableRowData } from 'tdesign-vue-next';
+import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
 import { listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
@@ -40,16 +40,16 @@ const columns: QTableProps['columns'] = [
   },
 ];
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
-const onPageChange = (pageInfo: PageInfo) => {
+const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
   pagination.pageNum = pageInfo.current;
   pagination.pageSize = pageInfo.pageSize;
-  onHandle('refresh');
+  await onHandle('refresh');
 };
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
-const onRefresh = (value: QTableTopFilterQueryCondition) => {
+const onRefresh = async (value: QTableTopFilterQueryCondition) => {
   queryCondition.value = value;
-  onHandle('refresh');
+  await onHandle('refresh');
 };
 
 const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);

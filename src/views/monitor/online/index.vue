@@ -31,9 +31,9 @@ const columns: QTableProps['columns'] = [
 ];
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
-const onRefresh = (value: QTableTopFilterQueryCondition) => {
+const onRefresh = async (value: QTableTopFilterQueryCondition) => {
   queryCondition.value = value;
-  onHandle('refresh');
+  await onHandle('refresh');
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
