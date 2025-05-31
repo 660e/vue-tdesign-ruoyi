@@ -4,19 +4,17 @@ import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
 import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
 
-defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
-
+const emit = defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
 const { items, options } = defineProps<{
   items: QTableProps['columns'];
   options: QTableProps['topFilterOptions'];
 }>();
-const { dicts } = useInfoStore();
-const more = ref(false);
 
-const createEmptyFormData = (data: QTableProps['columns']) => {
+const createEmptyFormData = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result: any = {};
-  data.forEach((item) => {
+
+  items.forEach((item) => {
     switch (item.topFilter?.type) {
       case 'date-range':
         result[item.colKey!] = [];
@@ -30,21 +28,50 @@ const createEmptyFormData = (data: QTableProps['columns']) => {
         result[item.colKey!] = undefined;
     }
   });
+
   return result;
 };
 
+const more = ref(false);
+const { dicts } = useInfoStore();
 const formRef = ref<FormInstanceFunctions>();
-const formData = reactive(createEmptyFormData(items));
+const formData = reactive(createEmptyFormData());
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
 
 const itemLabel = (item: QTableProps['column']) => (item.topFilter?.label || item.title) as string | TNode;
+
+const onSubmit = () => {
+  const result: QTableTopFilterQueryCondition = {};
+
+  items.forEach((item) => {
+    const value = formData[item.colKey!];
+    switch (item.topFilter?.type) {
+      case 'date-range':
+        if (Array.isArray(value) && value.length === 2) {
+          result[item.colKey!] = { start: value[0], end: value[1] };
+        }
+        break;
+      case 'input':
+      case 'select':
+      case 'tree-select':
+        if (value !== '' && value !== undefined) {
+          result[item.colKey!] = value;
+        }
+        break;
+    }
+  });
+
+  console.log(result);
+
+  emit('query-condition-change', result);
+};
 </script>
 
 <template>
   <div class="px-4 pt-4">
-    <t-form :data="formData" @submit="$emit('query-condition-change', formData)" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
+    <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
         <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- date-range -->

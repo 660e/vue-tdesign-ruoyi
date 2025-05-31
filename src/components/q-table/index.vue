@@ -39,9 +39,7 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
   if (pagination.value) {
     pagination.value.pageNum = 1;
   }
-  const rawValue = structuredClone(toRaw(value));
-  const filtered = Object.fromEntries(Object.entries(rawValue).filter(([, v]) => v !== '' && v !== undefined));
-  queryCondition.value = filtered;
+  queryCondition.value = structuredClone(toRaw(value));
   emit('refresh', queryCondition.value);
 };
 
