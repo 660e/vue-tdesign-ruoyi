@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
-import { listUser, deleteUser, resetPwd } from '@/apis/system';
+import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import Page from '@/layouts/standard/Page.vue';
@@ -11,6 +11,7 @@ const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const createDialogRef = ref();
 const tableData = ref();
+const topFilterOptions = reactive<QTableProps['topFilterOptions']>({ treeSelect: {} });
 
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
@@ -20,7 +21,7 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple' },
-  { title: '部门名称', colKey: 'deptId', topFilter: { type: 'tree-select', implicit: true } },
+  { title: '部门名称', colKey: 'deptId', topFilter: { type: 'tree-select', implicit: true, keys: { value: 'id' } } },
   { title: '用户名称', colKey: 'userName', width: 200, topFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门名称', colKey: 'dept.deptName' },
@@ -145,7 +146,19 @@ const onHandle = async (value: string, row?: TableRowData) => {
   }
 };
 
-onMounted(async () => await onHandle('refresh'));
+onMounted(async () => {
+  showFullscreenLoading();
+  try {
+    const { data } = await deptTree();
+    if (topFilterOptions.treeSelect) {
+      topFilterOptions.treeSelect.deptId = data || [];
+    }
+  } catch {
+  } finally {
+    await onHandle('refresh');
+    hideFullscreenLoading();
+  }
+});
 </script>
 
 <template>
@@ -156,6 +169,7 @@ onMounted(async () => await onHandle('refresh'));
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
+      :top-filter-options="topFilterOptions"
       @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"

@@ -1,11 +1,6 @@
 import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
 import type { TDicts } from '@/types';
 
-interface QTableTopFilterBase {
-  implicit?: boolean;
-  label?: string | TNode;
-}
-
 interface QTableTopFilter {
   topFilter?:
     | ({
@@ -17,9 +12,17 @@ interface QTableTopFilter {
       } & QTableTopFilterBase)
     | ({
         type: 'tree-select';
-        data?: TreeOptionData<string | number>[];
         keys?: TreeKeysType;
       } & QTableTopFilterBase);
+}
+
+interface QTableTopFilterBase {
+  implicit?: boolean;
+  label?: string | TNode;
+}
+
+interface QTableTopFilterOptions {
+  treeSelect?: Record<string, TreeOptionData<string | number>[]>;
 }
 
 interface QTablePagination {
@@ -42,6 +45,7 @@ export interface QTableOperation {
 export interface QTableProps {
   column: PrimaryTableCol<TableRowData> & QTableTopFilter;
   columns: QTableProps['column'][];
+  topFilterOptions: QTableTopFilterOptions;
   operations: QTableOperation[];
   pagination: QTablePagination;
 }
