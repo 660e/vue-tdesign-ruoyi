@@ -2,6 +2,7 @@ import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData } from '
 import type { TDicts } from '@/types';
 
 interface QTableTopFilterBase {
+  implicit?: boolean;
   label?: string;
 }
 

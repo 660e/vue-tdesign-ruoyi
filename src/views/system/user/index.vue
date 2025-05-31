@@ -20,6 +20,7 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple' },
+  { title: '部门名称', colKey: 'deptId', topFilter: { type: 'input', implicit: true } },
   { title: '用户名称', colKey: 'userName', width: 200, topFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门名称', colKey: 'dept.deptName' },

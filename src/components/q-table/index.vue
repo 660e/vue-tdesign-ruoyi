@@ -22,7 +22,7 @@ const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
 
 const attrs = useAttrs();
-const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column.topFilter));
+const filterItems = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column.topFilter));
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
@@ -50,8 +50,8 @@ const viewSelectedRowData = () => {
 
 <template>
   <div class="h-full flex flex-col">
-    <div v-if="columns.length" ref="topFilterRef">
-      <TopFilter v-show="topFilterVisible" :columns="columns" @query-condition-change="onQueryConditionChange" />
+    <div v-if="filterItems.length" ref="topFilterRef">
+      <TopFilter v-show="topFilterVisible" :filter-items="filterItems" @query-condition-change="onQueryConditionChange" />
     </div>
 
     <div class="p-4 flex gap-2">
@@ -77,7 +77,7 @@ const viewSelectedRowData = () => {
           <template #icon><t-icon name="view-column" /></template>
         </t-button>
       </t-tooltip>
-      <t-tooltip v-if="columns.length" content="高级搜索" placement="bottom">
+      <t-tooltip v-if="filterItems.length" content="高级搜索" placement="bottom">
         <t-button @click="topFilterVisible = !topFilterVisible" shape="circle" variant="outline">
           <template #icon><t-icon name="data-search" /></template>
         </t-button>
