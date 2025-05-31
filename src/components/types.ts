@@ -4,7 +4,7 @@ import type { TDicts } from '@/types';
 interface QTableTopFilter {
   topFilter?:
     | ({
-        type: 'date-range-picker';
+        type: 'date-range';
       } & QTableTopFilterBase)
     | ({
         type: 'input';
@@ -53,4 +53,4 @@ export interface QTableProps {
   pagination: QTablePagination;
 }
 
-export type QTableTopFilterQueryCondition = Record<string, string>;
+export type QTableTopFilterQueryCondition = Record<string, unknown>;
