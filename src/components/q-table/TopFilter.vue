@@ -3,6 +3,7 @@ import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
 import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
+import { is } from '@/utils';
 
 const emit = defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
 const { items, options } = defineProps<{
@@ -49,8 +50,9 @@ const onSubmit = () => {
     const value = formData[item.colKey!];
     switch (item.topFilter?.type) {
       case 'date-range':
-        if (Array.isArray(value) && value.length === 2) {
-          result[item.colKey!] = { start: value[0], end: value[1] };
+        if (is.array(value) && value.length === 2) {
+          result.start = value[0];
+          result.end = value[1];
         }
         break;
       case 'input':
