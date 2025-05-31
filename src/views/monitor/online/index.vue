@@ -14,9 +14,9 @@ const tableData = ref();
 const operations: QTableProps['operations'] = [{ value: 'logout', icon: 'logout', label: '强制下线' }];
 const columns: QTableProps['columns'] = [
   { title: '会话编号', colKey: 'tokenId', width: 400 },
-  { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
+  { title: '用户名称', colKey: 'userName', width: 200, topFilter: { type: 'input' } },
   { title: '部门名称', colKey: 'deptName', width: 200 },
-  { title: 'IP地址', colKey: 'ipaddr', width: 200, _topFilter: { type: 'input' } },
+  { title: 'IP地址', colKey: 'ipaddr', width: 200, topFilter: { type: 'input' } },
   { title: '登录地点', colKey: 'loginLocation', width: 200 },
   { title: '浏览器', colKey: 'browser', width: 200 },
   { title: '操作系统', colKey: 'os', width: 200 },

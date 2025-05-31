@@ -6,7 +6,7 @@ interface QTableTopFilterBase {
 }
 
 interface QTableTopFilter {
-  _topFilter?:
+  topFilter?:
     | ({
         type: 'input';
       } & QTableTopFilterBase)

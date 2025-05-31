@@ -20,16 +20,16 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple' },
-  { title: '用户名称', colKey: 'userName', width: 200, _topFilter: { type: 'input' } },
+  { title: '用户名称', colKey: 'userName', width: 200, topFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', width: 200 },
   { title: '部门名称', colKey: 'dept.deptName' },
-  { title: '手机号码', colKey: 'phonenumber', width: 200, _topFilter: { type: 'input' } },
+  { title: '手机号码', colKey: 'phonenumber', width: 200, topFilter: { type: 'input' } },
   {
     title: '状态',
     colKey: 'status',
     cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_normal_disable" themes={['success', 'danger']} />,
     width: 100,
-    _topFilter: { type: 'select', dict: 'sys_normal_disable' },
+    topFilter: { type: 'select', dict: 'sys_normal_disable' },
   },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {

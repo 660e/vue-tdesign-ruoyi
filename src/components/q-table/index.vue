@@ -22,7 +22,7 @@ const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
 
 const attrs = useAttrs();
-const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column._topFilter));
+const columns = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column.topFilter));
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
