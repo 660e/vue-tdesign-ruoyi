@@ -18,7 +18,7 @@ export function listUser(params?: IListParams) {
 }
 
 export function getUser(id: number) {
-  return request.get<IResponse<TUnknownRecord>>(`/system/user/${id}`);
+  return request.get<IResponse<TUnknownRecord>>(`/system/user/${id || ''}`);
 }
 
 export function deptTree() {
