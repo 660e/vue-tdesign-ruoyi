@@ -17,7 +17,7 @@ const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
 
-const formItemLabel = (item: QTableProps['column']) => {
+const itemLabel = (item: QTableProps['column']) => {
   return item.topFilter?.label || (is.string(item.title) ? item.title : '-');
 };
 </script>
@@ -34,12 +34,12 @@ const formItemLabel = (item: QTableProps['column']) => {
         >
           <!-- input -->
           <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]">
-            <template #label>{{ formItemLabel(item) }}</template>
+            <template #label>{{ itemLabel(item) }}</template>
           </t-input>
 
           <!-- select -->
           <t-select v-if="item.topFilter?.type === 'select'" v-model="formData[item.colKey!]" :options="dicts?.get(item.topFilter?.dict)">
-            <template #label>{{ formItemLabel(item) }}</template>
+            <template #label>{{ itemLabel(item) }}</template>
           </t-select>
         </t-form-item>
       </div>
