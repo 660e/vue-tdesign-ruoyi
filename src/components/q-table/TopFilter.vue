@@ -28,7 +28,7 @@ const itemLabel = (item: QTableProps['column']) => (item.topFilter?.label || ite
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
         <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- input -->
-          <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]" :label="itemLabel(item)" />
+          <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]" :label="itemLabel(item)" clearable />
 
           <!-- select -->
           <t-select
@@ -36,6 +36,7 @@ const itemLabel = (item: QTableProps['column']) => (item.topFilter?.label || ite
             v-model="formData[item.colKey!]"
             :label="itemLabel(item)"
             :options="dicts?.get(item.topFilter?.dict)"
+            clearable
           />
 
           <!-- tree-select -->
@@ -45,6 +46,7 @@ const itemLabel = (item: QTableProps['column']) => (item.topFilter?.label || ite
             :data="options.treeSelect?.[item.colKey!]"
             :keys="item.topFilter.keys"
             :label="itemLabel(item)"
+            clearable
           />
         </t-form-item>
       </div>
