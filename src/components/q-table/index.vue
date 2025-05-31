@@ -5,10 +5,6 @@ import { useToggleHeight } from '@/hooks';
 import TopFilter from './TopFilter.vue';
 
 defineOptions({ inheritAttrs: false });
-defineProps<{
-  fileImport?: (value: 'file-import') => void;
-  fileExport?: (value: 'file-export') => void;
-}>();
 
 const emit = defineEmits<{
   'page-change': [value: PageInfo];
@@ -16,13 +12,18 @@ const emit = defineEmits<{
   'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
+const { columns = [] } = defineProps<{
+  columns?: QTableProps['columns'];
+  fileImport?: (value: 'file-import') => void;
+  fileExport?: (value: 'file-export') => void;
+}>();
 
 const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
 
-const attrs = useAttrs();
-const filterItems = computed(() => (attrs.columns as QTableProps['columns']).filter((column) => column.colKey && column.topFilter));
+const filterItems = computed(() => columns.filter((column) => column.colKey && column.topFilter));
+const tableColumns = computed(() => columns.filter((column) => column.colKey && !column.topFilter?.implicit));
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
@@ -36,7 +37,7 @@ const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
 };
 
 const columnControllerVisible = ref(false);
-const displayColumns = ref<TableProps['displayColumns']>((attrs.columns as QTableProps['columns']).filter((e) => e.colKey).map((e) => e.colKey!));
+const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
 
 const selectedRowData = ref<TableRowData[]>([]);
 const onSelectChange: TableProps['onSelectChange'] = (value, ctx) => {
@@ -88,6 +89,7 @@ const viewSelectedRowData = () => {
       <t-table
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
+        :columns="tableColumns"
         @select-change="onSelectChange"
         class="h-full"
         height="100%"
