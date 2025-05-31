@@ -4,6 +4,9 @@ import type { TDicts } from '@/types';
 interface QTableTopFilter {
   topFilter?:
     | ({
+        type: 'date-range-picker';
+      } & QTableTopFilterBase)
+    | ({
         type: 'input';
       } & QTableTopFilterBase)
     | ({
