@@ -51,8 +51,8 @@ const onSubmit = () => {
     switch (item.topFilter?.type) {
       case 'date-range':
         if (is.array(value) && value.length === 2) {
-          result.start = value[0];
-          result.end = value[1];
+          result[item.topFilter.keys?.start || 'start'] = value[0];
+          result[item.topFilter.keys?.end || 'end'] = value[1];
         }
         break;
       case 'input':
@@ -64,8 +64,6 @@ const onSubmit = () => {
         break;
     }
   });
-
-  console.log(result);
 
   emit('query-condition-change', result);
 };

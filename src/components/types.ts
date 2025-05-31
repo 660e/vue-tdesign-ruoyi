@@ -5,6 +5,7 @@ interface QTableTopFilter {
   topFilter?:
     | ({
         type: 'date-range';
+        keys?: { start?: string; end?: string };
       } & QTableTopFilterBase)
     | ({
         type: 'input';

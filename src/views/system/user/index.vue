@@ -33,7 +33,7 @@ const columns: QTableProps['columns'] = [
     width: 100,
     topFilter: { type: 'select', dict: 'sys_normal_disable' },
   },
-  { title: '创建时间', colKey: 'createTime', width: 200, topFilter: { type: 'date-range' } },
+  { title: '创建时间', colKey: 'createTime', width: 200, topFilter: { type: 'date-range', keys: { start: 'beginTime', end: 'endTime' } } },
   {
     title: '操作',
     colKey: 'operation',
