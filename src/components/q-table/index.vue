@@ -14,16 +14,23 @@ const emit = defineEmits<{
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 const { columns = [] } = defineProps<{
   columns?: QTableProps['columns'];
-  fileImport?: (value: 'file-import') => void;
   fileExport?: (value: 'file-export') => void;
+  fileImport?: (value: 'file-import') => void;
 }>();
 
+const tableColumns = computed(() => {
+  return columns.filter((column) => {
+    if (column.type === 'multiple') {
+      column.title = '-';
+    }
+    return column.colKey && !column.topFilter?.implicit;
+  });
+});
+
+const filterItems = computed(() => columns.filter((column) => column.colKey && column.topFilter));
 const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
-
-const filterItems = computed(() => columns.filter((column) => column.colKey && column.topFilter));
-const tableColumns = computed(() => columns.filter((column) => column.colKey && !column.topFilter?.implicit));
 
 const queryCondition = ref<QTableTopFilterQueryCondition>({});
 const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
@@ -45,7 +52,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, ctx) => {
   emit('select-change', value, ctx);
 };
 const viewSelectedRowData = () => {
-  console.log(selectedRowData.value);
+  console.log(selectedRowData.value); // TODO
 };
 </script>
 
