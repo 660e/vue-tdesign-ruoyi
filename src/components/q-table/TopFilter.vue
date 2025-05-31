@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { FormInstanceFunctions } from 'tdesign-vue-next';
+import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
 import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
 import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
-import { is } from '@/utils';
 
 defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
 
@@ -17,9 +16,7 @@ const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
 
-const itemLabel = (item: QTableProps['column']) => {
-  return item.topFilter?.label || (is.string(item.title) ? item.title : '-');
-};
+const itemLabel = (item: QTableProps['column']) => (item.topFilter?.label || item.title) as string | TNode;
 </script>
 
 <template>
@@ -33,14 +30,24 @@ const itemLabel = (item: QTableProps['column']) => {
           :key="item.colKey"
         >
           <!-- input -->
-          <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]">
-            <template #label>{{ itemLabel(item) }}</template>
-          </t-input>
+          <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]" :label="itemLabel(item)" />
 
           <!-- select -->
-          <t-select v-if="item.topFilter?.type === 'select'" v-model="formData[item.colKey!]" :options="dicts?.get(item.topFilter?.dict)">
-            <template #label>{{ itemLabel(item) }}</template>
-          </t-select>
+          <t-select
+            v-if="item.topFilter?.type === 'select'"
+            v-model="formData[item.colKey!]"
+            :label="itemLabel(item)"
+            :options="dicts?.get(item.topFilter?.dict)"
+          />
+
+          <!-- tree-select -->
+          <t-tree-select
+            v-if="item.topFilter?.type === 'tree-select'"
+            v-model="formData[item.colKey!]"
+            :data="item.topFilter.data"
+            :keys="item.topFilter.keys"
+            :label="itemLabel(item)"
+          />
         </t-form-item>
       </div>
 

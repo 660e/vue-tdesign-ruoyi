@@ -1,9 +1,9 @@
-import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
+import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
 import type { TDicts } from '@/types';
 
 interface QTableTopFilterBase {
   implicit?: boolean;
-  label?: string;
+  label?: string | TNode;
 }
 
 interface QTableTopFilter {
@@ -14,6 +14,11 @@ interface QTableTopFilter {
     | ({
         type: 'select';
         dict: TDicts;
+      } & QTableTopFilterBase)
+    | ({
+        type: 'tree-select';
+        data?: TreeOptionData<string | number>[];
+        keys?: TreeKeysType;
       } & QTableTopFilterBase);
 }
 
