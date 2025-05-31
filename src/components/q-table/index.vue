@@ -27,7 +27,7 @@ const tableColumns = computed(() => {
   });
 });
 
-const filterItems = computed(() => columns.filter((column) => column.colKey && column.topFilter));
+const filterItems = computed(() => columns.filter((e) => e.colKey && e.topFilter));
 const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
