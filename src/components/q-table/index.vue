@@ -11,7 +11,7 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  'pagination-change': [value: PageInfo];
+  'page-change': [value: PageInfo];
   'refresh': [value: QTableTopFilterQueryCondition];
   'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
@@ -115,7 +115,7 @@ const viewSelectedRowData = () => {
         v-model="pagination.pageNum"
         v-model:page-size="pagination.pageSize"
         :total="pagination.total"
-        @change="(pageInfo) => $emit('pagination-change', pageInfo)"
+        @change="(pageInfo) => $emit('page-change', pageInfo)"
         class="flex-1"
         show-jumper
       />

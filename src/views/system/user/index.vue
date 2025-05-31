@@ -40,7 +40,7 @@ const columns: QTableProps['columns'] = [
   },
 ];
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
-const onPaginationChange = (pageInfo: PageInfo) => {
+const onPageChange = (pageInfo: PageInfo) => {
   pagination.pageNum = pageInfo.current;
   pagination.pageSize = pageInfo.pageSize;
   onHandle('refresh');
@@ -155,8 +155,7 @@ onMounted(async () => await onHandle('refresh'));
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
-      :selected-row-keys="selectedRowKeys"
-      @pagination-change="onPaginationChange"
+      @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"
       row-key="userId"
