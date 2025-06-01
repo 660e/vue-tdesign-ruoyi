@@ -186,6 +186,6 @@ onMounted(async () => {
       </template>
     </q-table>
 
-    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :fullscreen-loading="fullscreenLoading" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

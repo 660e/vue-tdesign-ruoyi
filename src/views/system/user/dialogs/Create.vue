@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
+import type { AppFullscreenLoadingController } from '@/types';
 import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
-import { useFullscreenLoading } from '@/hooks';
 import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
-const fullscreenLoading = useFullscreenLoading();
+const { fullscreenLoading } = defineProps<{ fullscreenLoading: AppFullscreenLoadingController }>();
 const { dicts } = useInfoStore();
 
 const visible = ref(false);
