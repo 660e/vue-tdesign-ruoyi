@@ -33,14 +33,14 @@ interface QTableToolbarFilter {
   toolbarFilter?: QTableToolbarFilterItem;
 }
 
-interface QTableToolbarFilterOptionsMap {
+interface QTableToolbarFilterOptions {
   treeSelect?: Record<string, TreeOptionData<string | number>[]>;
 }
 
 export interface QTableProps {
   column: QTableColumn;
   columns: QTableColumn[];
-  toolbarFilterOptions: QTableToolbarFilterOptionsMap;
+  toolbarFilterOptions: QTableToolbarFilterOptions;
   //
   //
   //
