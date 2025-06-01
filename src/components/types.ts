@@ -1,5 +1,5 @@
 import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
-import type { AppSystemDictItem, AppUnknownRecord } from '@/types';
+import type { AppSystemDictKey, AppUnknownRecord } from '@/types';
 
 type QTableColumn = PrimaryTableCol<TableRowData> & QTableToolbarFilter;
 type QTableToolbarFilterItem = QTableDateRangeFilter | QTableInputFilter | QTableSelectFilter | QTableTreeSelectFilter;
@@ -22,7 +22,7 @@ interface QTableInputFilter extends QTableToolbarFilterBase {
 
 interface QTableSelectFilter extends QTableToolbarFilterBase {
   type: 'select';
-  dict: AppSystemDictItem;
+  dict: AppSystemDictKey;
 }
 
 interface QTableTreeSelectFilter extends QTableToolbarFilterBase {

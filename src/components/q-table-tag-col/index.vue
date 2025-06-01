@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TagProps } from 'tdesign-vue-next';
-import type { AppSystemDictItem } from '@/types';
+import type { AppSystemDictKey } from '@/types';
 import { useInfoStore } from '@/stores';
 
-const { value, dict, themes } = defineProps<{ value: string; dict: AppSystemDictItem; themes: TagProps['theme'][] }>();
+const { value, dict, themes } = defineProps<{ value: string; dict: AppSystemDictKey; themes: TagProps['theme'][] }>();
 const { dicts } = useInfoStore();
 
 const index = (dicts?.get(dict) || []).findIndex((e) => e.value === value);
