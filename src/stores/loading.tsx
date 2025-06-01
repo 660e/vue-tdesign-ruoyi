@@ -4,7 +4,7 @@ import { LoadingPlugin } from 'tdesign-vue-next';
 
 export const useFullscreenLoading = defineStore('loading', () => {
   const instance = ref<LoadingInstance>();
-  const count = ref(0);
+  const status = ref(0);
 
   const show = () => {
     if (!instance.value) {
@@ -13,19 +13,19 @@ export const useFullscreenLoading = defineStore('loading', () => {
         // indicator: () => <div class="animate-spin">Loading...</div>,
       });
     }
-    count.value += 1;
-    console.info(`%cLoading count: ${count.value}`, 'color: #0c0');
+    status.value += 1;
+    console.info(`%cLoading status: ${status.value}`, 'color: #0c0');
   };
 
   const hide = () => {
-    if (count.value > 0) {
-      count.value -= 1;
+    if (status.value > 0) {
+      status.value -= 1;
     }
-    if (count.value === 0 && instance.value) {
+    if (status.value === 0 && instance.value) {
       instance.value.hide();
       instance.value = undefined;
     }
-    console.info(`%cLoading count: ${count.value}`, 'color: #0c0');
+    console.info(`%cLoading status: ${status.value}`, 'color: #0c0');
   };
 
   return { show, hide };
