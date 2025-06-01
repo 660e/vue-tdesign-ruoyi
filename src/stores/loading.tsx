@@ -14,7 +14,7 @@ export const useFullscreenLoading = defineStore('loading', () => {
       });
     }
     status.value += 1;
-    console.info(`%cLoading status: ${status.value}`, 'color: #0c0');
+    console.info(`%c⏳ loading status: ${status.value}`, 'color: #0c0');
   };
 
   const hide = () => {
@@ -25,7 +25,7 @@ export const useFullscreenLoading = defineStore('loading', () => {
       instance.value.hide();
       instance.value = undefined;
     }
-    console.info(`%cLoading status: ${status.value}`, 'color: #0c0');
+    console.info(`%c⏳ loading status: ${status.value}`, 'color: #0c0');
   };
 
   return { show, hide };
