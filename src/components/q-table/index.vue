@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
+import type { QTableProps } from '@/types';
+import type { QTableTopFilterQueryCondition } from '../types';
 import { useToggleHeight } from '@/hooks';
 import TopFilter from './TopFilter.vue';
 

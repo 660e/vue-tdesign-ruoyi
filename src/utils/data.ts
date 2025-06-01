@@ -1,4 +1,4 @@
-import type { QTableProps } from '@/components/types';
+import type { QTableProps } from '@/types';
 import { is } from './index';
 
 function flattenObjectTree<T>(data: T, childrenKey: keyof T) {

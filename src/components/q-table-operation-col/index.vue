@@ -1,5 +1,6 @@
 <script setup lang="tsx">
-import type { QTableOperation, QTableProps } from '../types';
+import type { QTableProps } from '@/types';
+import type { QTableOperation } from '../types';
 
 defineProps<{ operations: QTableProps['operations'] }>();
 

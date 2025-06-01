@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
+import type { QTableProps } from '@/types';
+import type { QTableTopFilterQueryCondition } from '@/components/types';
 import { listOnline } from '@/apis/monitor';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';

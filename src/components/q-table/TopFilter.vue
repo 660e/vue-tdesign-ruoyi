@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterQueryCondition } from '../types';
+import type { QTableProps } from '@/types';
+import type { QTableTopFilterQueryCondition } from '../types';
 import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
 import { is } from '@/utils';

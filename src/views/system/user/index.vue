@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
-import type { QTableProps, QTableTopFilterQueryCondition } from '@/components/types';
+import type { QTableProps } from '@/types';
+import type { QTableTopFilterQueryCondition } from '@/components/types';
 import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
