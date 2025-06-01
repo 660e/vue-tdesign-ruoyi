@@ -1,5 +1,5 @@
-export interface IRoute {
-  children?: IRoute[];
+export interface AppRoute {
+  children?: AppRoute[];
   component: string;
   hidden: boolean;
   meta: {

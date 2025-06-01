@@ -1,12 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router';
-import type { IRoute } from '@/apis/types';
-import type { AppSystemDictMap } from '@/types';
+import type { AppRoute, AppSystemDictMap } from '@/types';
 import { defineStore } from 'pinia';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const views = import.meta.glob<{ default: any }>('@/views/**/index.vue', { eager: true });
 
-function standardizeRoutes(routes: IRoute[], parentName = ''): RouteRecordRaw[] {
+function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[] {
   return routes
     .filter((route) => !route.hidden)
     .map((route) => {
@@ -95,7 +94,7 @@ export const useInfoStore = defineStore('info', () => {
   };
   const setPermissions = (n: unknown) => (permissions.value = n);
   const setRoles = (n: unknown) => (roles.value = n);
-  const setRoutes = (n: IRoute[]) => (routes.value = standardizeRoutes(n));
+  const setRoutes = (n: AppRoute[]) => (routes.value = standardizeRoutes(n));
   const setUser = (n: unknown) => (user.value = n);
 
   return { dicts, permissions, roles, routes, user, setDicts, setPermissions, setRoles, setRoutes, setUser };

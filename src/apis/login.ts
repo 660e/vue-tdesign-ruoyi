@@ -1,4 +1,5 @@
-import type { IResponse, IRoute } from './types';
+import type { AppRoute } from '@/types';
+import type { IResponse } from './types';
 import { request } from '@/utils/index';
 
 export function captchaImage() {
@@ -14,5 +15,5 @@ export function getInfo() {
 }
 
 export function getRoutes() {
-  return request.get<IResponse<IRoute[]>>('/getRouters');
+  return request.get<IResponse<AppRoute[]>>('/getRouters');
 }
