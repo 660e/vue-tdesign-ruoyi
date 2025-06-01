@@ -1,37 +1,37 @@
-import type { AppRequestListParams } from '@/types';
-import type { IResponse, TUnknownRecord } from './types';
+import type { AppRequestListParams, AppResponseData } from '@/types';
+import type { TUnknownRecord } from './types';
 import { request } from '@/utils/index';
 
 export function createUser(data: TUnknownRecord) {
-  return request.post<IResponse<TUnknownRecord>>('/system/user', { data });
+  return request.post<AppResponseData<TUnknownRecord>>('/system/user', { data });
 }
 
 export function deleteUser(ids: number | string) {
-  return request.delete<IResponse<TUnknownRecord>>(`/system/user/${ids}`);
+  return request.delete<AppResponseData<TUnknownRecord>>(`/system/user/${ids}`);
 }
 
 export function updateUser(data: TUnknownRecord) {
-  return request.put<IResponse<TUnknownRecord>>('/system/user', { data });
+  return request.put<AppResponseData<TUnknownRecord>>('/system/user', { data });
 }
 
 export function listUser(params?: AppRequestListParams) {
-  return request.get<IResponse<TUnknownRecord[]>>('/system/user/list', { params });
+  return request.get<AppResponseData<TUnknownRecord[]>>('/system/user/list', { params });
 }
 
 export function getUser(id: number) {
-  return request.get<IResponse<TUnknownRecord>>(`/system/user/${id || ''}`);
+  return request.get<AppResponseData<TUnknownRecord>>(`/system/user/${id || ''}`);
 }
 
 export function deptTree() {
-  return request.get<IResponse<TUnknownRecord[]>>('/system/user/deptTree');
+  return request.get<AppResponseData<TUnknownRecord[]>>('/system/user/deptTree');
 }
 
 export function resetPwd(userId: number, password: string) {
-  return request.put<IResponse<TUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
+  return request.put<AppResponseData<TUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
 }
 
 //
 
 export function dict(name: string) {
-  return request.get<IResponse<TUnknownRecord[]>>(`/system/dict/data/type/${name}`);
+  return request.get<AppResponseData<TUnknownRecord[]>>(`/system/dict/data/type/${name}`);
 }

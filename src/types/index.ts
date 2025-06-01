@@ -11,3 +11,11 @@ export interface AppRequestListParams {
   pageSize: number;
   [key: string]: number | string;
 }
+
+export interface AppResponseData<T> {
+  code: number;
+  msg: string;
+  data?: T;
+  rows?: T;
+  total?: number;
+}
