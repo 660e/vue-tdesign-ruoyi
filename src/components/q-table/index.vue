@@ -16,7 +16,7 @@ const { columns = [] } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: (value: 'file-export') => void;
   fileImport?: (value: 'file-import') => void;
-  toolbarFilterOptions: QTableProps['toolbarFilterOptions'];
+  toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
 const tableColumns = computed(() => {

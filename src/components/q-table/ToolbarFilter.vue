@@ -8,7 +8,7 @@ import { is } from '@/utils';
 const emit = defineEmits<{ change: [value: QTableToolbarFilterParams] }>();
 const { items, options } = defineProps<{
   items: QTableProps['columns'];
-  options: QTableProps['toolbarFilterOptions'];
+  options?: QTableProps['toolbarFilterOptions'];
 }>();
 
 const createEmptyFormData = () => {
@@ -99,7 +99,7 @@ const onSubmit = () => {
           <t-tree-select
             v-if="item.toolbarFilter?.type === 'tree-select'"
             v-model="formData[item.colKey!]"
-            :data="options.treeSelect?.[item.colKey!]"
+            :data="options?.treeSelect?.[item.colKey!]"
             :keys="item.toolbarFilter.keys"
             :label="itemLabel(item)"
             clearable
