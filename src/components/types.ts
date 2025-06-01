@@ -1,29 +1,14 @@
 import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
 import type { AppSystemDictItem } from '@/types';
 
+type QTableColumn = PrimaryTableCol<TableRowData> & QTableToolbarFilter;
+
 interface QTableToolbarFilterBase {
   implicit?: boolean;
   label?: string | TNode;
 }
 
-export interface QTableProps {
-  //
-  //
-  //
-  column: PrimaryTableCol<TableRowData> & QTableTopFilter;
-  columns: QTableProps['column'][];
-  topFilterOptions: QTableTopFilterOptions;
-  operations: QTableOperation[];
-  pagination: QTablePagination;
-}
-
-//
-
-//
-
-//
-
-interface QTableTopFilter {
+interface QTableToolbarFilter {
   topFilter?:
     | ({
         type: 'date-range';
@@ -41,6 +26,24 @@ interface QTableTopFilter {
         keys?: TreeKeysType;
       } & QTableToolbarFilterBase);
 }
+
+export interface QTableProps {
+  column: QTableColumn;
+  columns: QTableColumn[];
+  //
+  //
+  //
+
+  topFilterOptions: QTableTopFilterOptions;
+  operations: QTableOperation[];
+  pagination: QTablePagination;
+}
+
+//
+
+//
+
+//
 
 interface QTableTopFilterOptions {
   treeSelect?: Record<string, TreeOptionData<string | number>[]>;
