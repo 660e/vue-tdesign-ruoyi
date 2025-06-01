@@ -1,37 +1,36 @@
-import type { AppRequestListParams, AppResponseData } from '@/types';
-import type { TUnknownRecord } from './types';
+import type { AppRequestListParams, AppResponseData, AppUnknownRecord } from '@/types';
 import { request } from '@/utils/index';
 
-export function createUser(data: TUnknownRecord) {
-  return request.post<AppResponseData<TUnknownRecord>>('/system/user', { data });
+export function createUser(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/user', { data });
 }
 
 export function deleteUser(ids: number | string) {
-  return request.delete<AppResponseData<TUnknownRecord>>(`/system/user/${ids}`);
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/user/${ids}`);
 }
 
-export function updateUser(data: TUnknownRecord) {
-  return request.put<AppResponseData<TUnknownRecord>>('/system/user', { data });
+export function updateUser(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/user', { data });
 }
 
 export function listUser(params?: AppRequestListParams) {
-  return request.get<AppResponseData<TUnknownRecord[]>>('/system/user/list', { params });
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/user/list', { params });
 }
 
 export function getUser(id: number) {
-  return request.get<AppResponseData<TUnknownRecord>>(`/system/user/${id || ''}`);
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/user/${id || ''}`);
 }
 
 export function deptTree() {
-  return request.get<AppResponseData<TUnknownRecord[]>>('/system/user/deptTree');
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/user/deptTree');
 }
 
 export function resetPwd(userId: number, password: string) {
-  return request.put<AppResponseData<TUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
 }
 
 //
 
 export function dict(name: string) {
-  return request.get<AppResponseData<TUnknownRecord[]>>(`/system/dict/data/type/${name}`);
+  return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/dict/data/type/${name}`);
 }
