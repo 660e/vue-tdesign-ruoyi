@@ -117,9 +117,11 @@ const onSubmit = () => {
         </t-form-item>
       </div>
 
-      <t-button v-if="items.length > itemCount" @click="more = !more" variant="text">
-        <template #icon><t-icon name="unfold-more" /></template>
-      </t-button>
+      <t-tooltip :content="more ? '收起' : '展开'">
+        <t-button v-if="items.length > itemCount" @click="more = !more" variant="text">
+          <template #icon><t-icon name="unfold-more" /></template>
+        </t-button>
+      </t-tooltip>
       <t-button theme="default" type="reset">
         <template #icon><t-icon name="load" /></template><span>重置</span>
       </t-button>
