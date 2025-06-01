@@ -35,7 +35,7 @@ interface QTableToolbarFilter {
 }
 
 interface QTableToolbarFilterOptions {
-  treeSelect?: Record<string, TreeOptionData<string | number>[]>;
+  treeSelect?: Record<string, TreeOptionData<string | number>[] | undefined>;
 }
 
 interface QTablePagination {

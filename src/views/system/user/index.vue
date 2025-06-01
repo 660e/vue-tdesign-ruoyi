@@ -151,7 +151,7 @@ onMounted(async () => {
   try {
     const { data } = await deptTree();
     if (toolbarFilterOptions.treeSelect) {
-      toolbarFilterOptions.treeSelect.deptId = data || [];
+      toolbarFilterOptions.treeSelect.deptId = data;
     }
   } catch {
   } finally {
