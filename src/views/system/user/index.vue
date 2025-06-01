@@ -48,9 +48,9 @@ const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
   await onHandle('refresh');
 };
 
-const queryCondition = ref<QTableToolbarFilterParams>({});
+const queryParams = ref<QTableToolbarFilterParams>({});
 const onRefresh = async (value: QTableToolbarFilterParams) => {
-  queryCondition.value = value;
+  queryParams.value = value;
   await onHandle('refresh');
 };
 
@@ -67,7 +67,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         const { rows, total } = await listUser({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
-          ...queryCondition.value,
+          ...queryParams.value,
         });
         pagination.total = total || 0;
         tableData.value = rows;

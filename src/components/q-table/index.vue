@@ -33,13 +33,13 @@ const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
 
-const queryCondition = ref<QTableToolbarFilterParams>({});
-const onQueryConditionChange = (value: QTableToolbarFilterParams) => {
+const queryParams = ref<QTableToolbarFilterParams>({});
+const onQueryParamsChange = (value: QTableToolbarFilterParams) => {
   if (pagination.value) {
     pagination.value.pageNum = 1;
   }
-  queryCondition.value = structuredClone(toRaw(value));
-  emit('refresh', queryCondition.value);
+  queryParams.value = structuredClone(toRaw(value));
+  emit('refresh', queryParams.value);
 };
 
 const columnControllerVisible = ref(false);
@@ -58,14 +58,14 @@ const viewSelectedRowData = () => {
 <template>
   <div class="h-full flex flex-col">
     <div v-if="topFilterItems.length" ref="topFilterRef">
-      <ToolbarFilter v-show="topFilterVisible" :items="topFilterItems" :options="toolbarFilterOptions" @change="onQueryConditionChange" />
+      <ToolbarFilter v-show="topFilterVisible" :items="topFilterItems" :options="toolbarFilterOptions" @change="onQueryParamsChange" />
     </div>
 
     <div class="p-4 flex gap-2">
       <slot name="topContent"></slot>
       <div class="flex-1"></div>
       <t-tooltip content="刷新" placement="bottom">
-        <t-button @click="$emit('refresh', queryCondition)" shape="circle" variant="outline">
+        <t-button @click="$emit('refresh', queryParams)" shape="circle" variant="outline">
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>

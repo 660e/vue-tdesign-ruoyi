@@ -30,9 +30,9 @@ const columns: QTableProps['columns'] = [
   },
 ];
 
-const queryCondition = ref<QTableToolbarFilterParams>({});
+const queryParams = ref<QTableToolbarFilterParams>({});
 const onRefresh = async (value: QTableToolbarFilterParams) => {
-  queryCondition.value = value;
+  queryParams.value = value;
   await onHandle('refresh');
 };
 
@@ -44,7 +44,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       showFullscreenLoading();
       try {
-        const { rows } = await listOnline(queryCondition.value);
+        const { rows } = await listOnline(queryParams.value);
         tableData.value = rows;
       } catch {
       } finally {
