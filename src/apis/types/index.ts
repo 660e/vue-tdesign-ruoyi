@@ -1,11 +1,5 @@
 export * from './login';
 
-export interface IListParams {
-  pageNum: number;
-  pageSize: number;
-  [key: string]: number | string;
-}
-
 export interface IResponse<T> {
   code: number;
   msg: string;

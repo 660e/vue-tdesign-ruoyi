@@ -1,4 +1,5 @@
-import type { IListParams, IResponse, TUnknownRecord } from './types';
+import type { AppRequestListParams } from '@/types';
+import type { IResponse, TUnknownRecord } from './types';
 import { request } from '@/utils/index';
 
 export function createUser(data: TUnknownRecord) {
@@ -13,7 +14,7 @@ export function updateUser(data: TUnknownRecord) {
   return request.put<IResponse<TUnknownRecord>>('/system/user', { data });
 }
 
-export function listUser(params?: IListParams) {
+export function listUser(params?: AppRequestListParams) {
   return request.get<IResponse<TUnknownRecord[]>>('/system/user/list', { params });
 }
 
