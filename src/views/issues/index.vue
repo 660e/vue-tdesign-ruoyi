@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useLoading } from '@/hooks';
+import { useFullscreenLoading } from '@/hooks';
 
-const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
+const fullscreenLoading = useFullscreenLoading();
 
 const test = (timeout: number) => {
-  showFullscreenLoading();
-  setTimeout(() => hideFullscreenLoading(), timeout);
+  fullscreenLoading.show();
+  setTimeout(() => fullscreenLoading.hide(), timeout);
 };
 </script>
 

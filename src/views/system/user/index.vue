@@ -2,12 +2,12 @@
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
-import { useLoading } from '@/hooks';
+import { useFullscreenLoading } from '@/hooks';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import { Page } from '@/layouts/standard';
 import CreateDialog from './dialogs/Create.vue';
 
-const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
+const fullscreenLoading = useFullscreenLoading();
 
 const createDialogRef = ref();
 const tableData = ref();
@@ -63,7 +63,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value) => {
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      showFullscreenLoading();
+      fullscreenLoading.show();
       try {
         const { rows, total } = await listUser({
           pageNum: pagination.pageNum,
@@ -74,7 +74,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         tableData.value = rows;
       } catch {
       } finally {
-        hideFullscreenLoading();
+        fullscreenLoading.hide();
       }
       break;
 
@@ -88,13 +88,13 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
     case 'delete':
       if (row) {
-        showFullscreenLoading();
+        fullscreenLoading.show();
         try {
           const { msg } = await deleteUser(row.userId);
           MessagePlugin.success(msg);
         } catch {
         } finally {
-          hideFullscreenLoading();
+          fullscreenLoading.hide();
         }
       } else {
         const DialogInstance = DialogPlugin.confirm({
@@ -102,7 +102,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
           body: `确定删除选中的 ${selectedRowKeys.value?.length} 条数据？`,
           confirmBtn: { content: '删除', theme: 'danger' },
           onConfirm: async () => {
-            showFullscreenLoading();
+            fullscreenLoading.show();
             try {
               const { msg } = await deleteUser((selectedRowKeys.value || []).join(','));
               MessagePlugin.success(msg);
@@ -110,7 +110,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
               DialogInstance.hide();
             } catch {
             } finally {
-              hideFullscreenLoading();
+              fullscreenLoading.hide();
             }
           },
           onClosed: () => DialogInstance.destroy(),
@@ -119,7 +119,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'resetPwd': {
-      showFullscreenLoading();
+      fullscreenLoading.show();
       const password = generatePassword();
       try {
         const { code } = await resetPwd(row?.userId, password);
@@ -140,7 +140,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         }
       } catch {
       } finally {
-        hideFullscreenLoading();
+        fullscreenLoading.hide();
       }
       break;
     }
@@ -148,7 +148,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
 };
 
 onMounted(async () => {
-  showFullscreenLoading();
+  fullscreenLoading.show();
   try {
     const { data } = await deptTree();
     if (toolbarFilterOptions.treeSelect) {
@@ -157,7 +157,7 @@ onMounted(async () => {
   } catch {
   } finally {
     await onHandle('refresh');
-    hideFullscreenLoading();
+    fullscreenLoading.hide();
   }
 });
 </script>

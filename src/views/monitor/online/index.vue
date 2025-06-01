@@ -2,12 +2,12 @@
 import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listOnline } from '@/apis/monitor';
-import { useLoading } from '@/hooks';
+import { useFullscreenLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
 import { Page } from '@/layouts/standard';
 import dayjs from 'dayjs';
 
-const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
+const fullscreenLoading = useFullscreenLoading();
 
 const tableData = ref();
 
@@ -42,13 +42,13 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
   switch (value) {
     case 'refresh':
-      showFullscreenLoading();
+      fullscreenLoading.show();
       try {
         const { rows } = await listOnline(queryParams.value);
         tableData.value = rows;
       } catch {
       } finally {
-        hideFullscreenLoading();
+        fullscreenLoading.hide();
       }
       break;
   }

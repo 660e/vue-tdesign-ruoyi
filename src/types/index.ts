@@ -8,6 +8,11 @@ export type AppSystemDictKey = (typeof DICTS)[number];
 export type AppSystemDictMap = Map<AppSystemDictKey, { label: string; type: string; value: string }[]>;
 export type AppUnknownRecord = Record<string, unknown>;
 
+export interface AppFullscreenLoadingController {
+  show: () => void;
+  hide: () => void;
+}
+
 export interface AppRequestConfig {
   requestInterceptors?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig;
   responseInterceptors?: (response: AxiosResponse) => AxiosResponse;
