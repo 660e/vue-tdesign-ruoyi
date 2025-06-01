@@ -9,7 +9,7 @@ import { is } from '@/utils';
 const emit = defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
 const { items, options } = defineProps<{
   items: QTableProps['columns'];
-  options: QTableProps['topFilterOptions'];
+  options: QTableProps['toolbarFilterOptions'];
 }>();
 
 const createEmptyFormData = () => {

@@ -17,7 +17,7 @@ const { columns = [] } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: (value: 'file-export') => void;
   fileImport?: (value: 'file-import') => void;
-  topFilterOptions: QTableProps['topFilterOptions'];
+  toolbarFilterOptions: QTableProps['toolbarFilterOptions'];
 }>();
 
 const tableColumns = computed(() => {
@@ -59,7 +59,12 @@ const viewSelectedRowData = () => {
 <template>
   <div class="h-full flex flex-col">
     <div v-if="topFilterItems.length" ref="topFilterRef">
-      <ToolbarFilter v-show="topFilterVisible" :items="topFilterItems" :options="topFilterOptions" @query-condition-change="onQueryConditionChange" />
+      <ToolbarFilter
+        v-show="topFilterVisible"
+        :items="topFilterItems"
+        :options="toolbarFilterOptions"
+        @query-condition-change="onQueryConditionChange"
+      />
     </div>
 
     <div class="p-4 flex gap-2">

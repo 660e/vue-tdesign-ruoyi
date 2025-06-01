@@ -12,7 +12,7 @@ const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 
 const createDialogRef = ref();
 const tableData = ref();
-const topFilterOptions = reactive<QTableProps['topFilterOptions']>({ treeSelect: {} });
+const toolbarFilterOptions = reactive<QTableProps['toolbarFilterOptions']>({ treeSelect: {} });
 
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
@@ -151,8 +151,8 @@ onMounted(async () => {
   showFullscreenLoading();
   try {
     const { data } = await deptTree();
-    if (topFilterOptions.treeSelect) {
-      topFilterOptions.treeSelect.deptId = data || [];
+    if (toolbarFilterOptions.treeSelect) {
+      toolbarFilterOptions.treeSelect.deptId = data || [];
     }
   } catch {
   } finally {
@@ -170,7 +170,7 @@ onMounted(async () => {
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
-      :top-filter-options="topFilterOptions"
+      :top-filter-options="toolbarFilterOptions"
       @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"

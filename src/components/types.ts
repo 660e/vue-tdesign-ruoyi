@@ -33,14 +33,18 @@ interface QTableToolbarFilter {
   toolbarFilter?: QTableToolbarFilterItem;
 }
 
+interface QTableToolbarFilterOptionsMap {
+  treeSelect?: Record<string, TreeOptionData<string | number>[]>;
+}
+
 export interface QTableProps {
   column: QTableColumn;
   columns: QTableColumn[];
+  toolbarFilterOptions: QTableToolbarFilterOptionsMap;
   //
   //
   //
 
-  topFilterOptions: QTableTopFilterOptions;
   operations: QTableOperation[];
   pagination: QTablePagination;
 }
@@ -50,10 +54,6 @@ export interface QTableProps {
 //
 
 //
-
-interface QTableTopFilterOptions {
-  treeSelect?: Record<string, TreeOptionData<string | number>[]>;
-}
 
 interface QTablePagination {
   pageNum: number;
