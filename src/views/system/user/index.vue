@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
-import type { QTableProps } from '@/types';
-import type { QTableTopFilterQueryCondition } from '@/components/types';
+import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
@@ -49,8 +48,8 @@ const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
   await onHandle('refresh');
 };
 
-const queryCondition = ref<QTableTopFilterQueryCondition>({});
-const onRefresh = async (value: QTableTopFilterQueryCondition) => {
+const queryCondition = ref<QTableToolbarFilterParams>({});
+const onRefresh = async (value: QTableToolbarFilterParams) => {
   queryCondition.value = value;
   await onHandle('refresh');
 };

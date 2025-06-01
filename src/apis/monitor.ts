@@ -1,7 +1,6 @@
-import type { AppResponseData, AppUnknownRecord } from '@/types';
-import type { QTableTopFilterQueryCondition } from '@/components/types';
+import type { AppResponseData, AppUnknownRecord, QTableToolbarFilterParams } from '@/types';
 import { request } from '@/utils/index';
 
-export function listOnline(params?: QTableTopFilterQueryCondition) {
+export function listOnline(params?: QTableToolbarFilterParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/monitor/online/list', { params });
 }

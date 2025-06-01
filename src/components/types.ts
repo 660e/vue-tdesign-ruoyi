@@ -1,8 +1,9 @@
 import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
-import type { AppSystemDictItem } from '@/types';
+import type { AppSystemDictItem, AppUnknownRecord } from '@/types';
 
 type QTableColumn = PrimaryTableCol<TableRowData> & QTableToolbarFilter;
 type QTableToolbarFilterItem = QTableDateRangeFilter | QTableInputFilter | QTableSelectFilter | QTableTreeSelectFilter;
+export type QTableToolbarFilterParams = AppUnknownRecord;
 
 interface QTableToolbarFilterBase {
   implicit?: boolean;
@@ -61,11 +62,3 @@ export interface QTableProps {
   toolbarFilterOptions: QTableToolbarFilterOptions;
   pagination: QTablePagination;
 }
-
-//
-
-//
-
-//
-
-export type QTableTopFilterQueryCondition = Record<string, unknown>;

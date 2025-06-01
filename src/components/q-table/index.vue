@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
-import type { QTableProps } from '@/types';
-import type { QTableTopFilterQueryCondition } from '../types';
+import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useToggleHeight } from '@/hooks';
 import ToolbarFilter from './ToolbarFilter.vue';
 
@@ -9,7 +8,7 @@ defineOptions({ inheritAttrs: false });
 
 const emit = defineEmits<{
   'page-change': [value: PageInfo];
-  'refresh': [value: QTableTopFilterQueryCondition];
+  'refresh': [value: QTableToolbarFilterParams];
   'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
@@ -34,8 +33,8 @@ const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
 
-const queryCondition = ref<QTableTopFilterQueryCondition>({});
-const onQueryConditionChange = (value: QTableTopFilterQueryCondition) => {
+const queryCondition = ref<QTableToolbarFilterParams>({});
+const onQueryConditionChange = (value: QTableToolbarFilterParams) => {
   if (pagination.value) {
     pagination.value.pageNum = 1;
   }

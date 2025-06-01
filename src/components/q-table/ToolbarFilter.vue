@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
-import type { QTableProps } from '@/types';
-import type { QTableTopFilterQueryCondition } from '../types';
+import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
 import { is } from '@/utils';
 
-const emit = defineEmits<{ 'query-condition-change': [value: QTableTopFilterQueryCondition] }>();
+const emit = defineEmits<{ 'query-condition-change': [value: QTableToolbarFilterParams] }>();
 const { items, options } = defineProps<{
   items: QTableProps['columns'];
   options: QTableProps['toolbarFilterOptions'];
@@ -45,7 +44,7 @@ const colCount = computed(() => Math.floor(formWidth.value / 260));
 const itemLabel = (item: QTableProps['column']) => (item.toolbarFilter?.label || item.title) as string | TNode;
 
 const onSubmit = () => {
-  const result: QTableTopFilterQueryCondition = {};
+  const result: QTableToolbarFilterParams = {};
 
   items.forEach((item) => {
     const value = formData[item.colKey!];
