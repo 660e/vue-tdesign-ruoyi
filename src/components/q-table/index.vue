@@ -24,12 +24,12 @@ const tableColumns = computed(() => {
     if (column.type === 'multiple') {
       column.title = '-';
     }
-    return column.colKey && !column.topFilter?.implicit;
+    return column.colKey && !column.toolbarFilter?.implicit;
   });
 });
 
 const attrs = useAttrs();
-const topFilterItems = computed(() => columns.filter((e) => e.colKey && e.topFilter));
+const topFilterItems = computed(() => columns.filter((e) => e.colKey && e.toolbarFilter));
 const topFilterOptions = computed(() => attrs['top-filter-options'] as QTableProps['topFilterOptions']);
 const topFilterRef = ref();
 const topFilterVisible = ref(true);

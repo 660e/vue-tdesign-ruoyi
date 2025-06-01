@@ -30,7 +30,7 @@ interface QTableTreeSelectFilter extends QTableToolbarFilterBase {
 }
 
 interface QTableToolbarFilter {
-  topFilter?: QTableToolbarFilterItem;
+  toolbarFilter?: QTableToolbarFilterItem;
 }
 
 export interface QTableProps {

@@ -17,7 +17,7 @@ const createEmptyFormData = () => {
   const result: any = {};
 
   items.forEach((item) => {
-    switch (item.topFilter?.type) {
+    switch (item.toolbarFilter?.type) {
       case 'date-range':
         result[item.colKey!] = [];
         break;
@@ -42,18 +42,18 @@ const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
 
-const itemLabel = (item: QTableProps['column']) => (item.topFilter?.label || item.title) as string | TNode;
+const itemLabel = (item: QTableProps['column']) => (item.toolbarFilter?.label || item.title) as string | TNode;
 
 const onSubmit = () => {
   const result: QTableTopFilterQueryCondition = {};
 
   items.forEach((item) => {
     const value = formData[item.colKey!];
-    switch (item.topFilter?.type) {
+    switch (item.toolbarFilter?.type) {
       case 'date-range':
         if (is.array(value) && value.length === 2) {
-          result[item.topFilter.keys?.start || 'start'] = value[0];
-          result[item.topFilter.keys?.end || 'end'] = value[1];
+          result[item.toolbarFilter.keys?.start || 'start'] = value[0];
+          result[item.toolbarFilter.keys?.end || 'end'] = value[1];
         }
         break;
       case 'input':
@@ -77,7 +77,7 @@ const onSubmit = () => {
         <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
           <!-- date-range -->
           <t-date-range-picker
-            v-if="item.topFilter?.type === 'date-range'"
+            v-if="item.toolbarFilter?.type === 'date-range'"
             v-model="formData[item.colKey!]"
             :label="itemLabel(item)"
             class="w-full"
@@ -85,23 +85,23 @@ const onSubmit = () => {
           />
 
           <!-- input -->
-          <t-input v-if="item.topFilter?.type === 'input'" v-model="formData[item.colKey!]" :label="itemLabel(item)" clearable />
+          <t-input v-if="item.toolbarFilter?.type === 'input'" v-model="formData[item.colKey!]" :label="itemLabel(item)" clearable />
 
           <!-- select -->
           <t-select
-            v-if="item.topFilter?.type === 'select'"
+            v-if="item.toolbarFilter?.type === 'select'"
             v-model="formData[item.colKey!]"
             :label="itemLabel(item)"
-            :options="dicts?.get(item.topFilter?.dict)"
+            :options="dicts?.get(item.toolbarFilter?.dict)"
             clearable
           />
 
           <!-- tree-select -->
           <t-tree-select
-            v-if="item.topFilter?.type === 'tree-select'"
+            v-if="item.toolbarFilter?.type === 'tree-select'"
             v-model="formData[item.colKey!]"
             :data="options.treeSelect?.[item.colKey!]"
-            :keys="item.topFilter.keys"
+            :keys="item.toolbarFilter.keys"
             :label="itemLabel(item)"
             clearable
           />
