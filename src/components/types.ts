@@ -37,15 +37,27 @@ interface QTableToolbarFilterOptions {
   treeSelect?: Record<string, TreeOptionData<string | number>[]>;
 }
 
+export interface QTableOperation {
+  value: string;
+  icon?: string;
+  label?: string;
+  popconfirm?: {
+    content: string;
+    theme?: PopconfirmProps['theme'];
+  };
+  theme?: LinkProps['theme'];
+}
+
 export interface QTableProps {
   column: QTableColumn;
   columns: QTableColumn[];
+  operations: QTableOperation[];
   toolbarFilterOptions: QTableToolbarFilterOptions;
+
   //
   //
   //
 
-  operations: QTableOperation[];
   pagination: QTablePagination;
 }
 
@@ -59,17 +71,6 @@ interface QTablePagination {
   pageNum: number;
   pageSize: number;
   total: number;
-}
-
-export interface QTableOperation {
-  value: string;
-  icon?: string;
-  label?: string;
-  popconfirm?: {
-    content: string;
-    theme?: PopconfirmProps['theme'];
-  };
-  theme?: LinkProps['theme'];
 }
 
 export type QTableTopFilterQueryCondition = Record<string, unknown>;

@@ -1,8 +1,7 @@
 <script setup lang="tsx">
-import type { QTableProps } from '@/types';
-import type { QTableOperation } from '../types';
+import type { QTableOperation } from '@/types';
 
-defineProps<{ operations: QTableProps['operations'] }>();
+defineProps<{ operations: QTableOperation[] }>();
 
 const emit = defineEmits<{ handle: [value: string] }>();
 
