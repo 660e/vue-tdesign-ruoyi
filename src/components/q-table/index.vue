@@ -28,11 +28,9 @@ const tableColumns = computed(() => {
   });
 });
 
-const toolbarFilterItems = computed(() => columns.filter((e) => e.colKey && e.toolbarFilter));
 const toolbarFilterRef = ref();
 const toolbarFilterVisible = ref(true);
-useToggleHeight(toolbarFilterRef, toolbarFilterVisible);
-
+const toolbarFilterItems = computed(() => columns.filter((e) => e.colKey && e.toolbarFilter));
 const toolbarFilterParams = ref<QTableToolbarFilterParams>({});
 const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
   if (pagination.value) {
@@ -41,6 +39,7 @@ const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
   toolbarFilterParams.value = structuredClone(toRaw(value));
   emit('refresh', toolbarFilterParams.value);
 };
+useToggleHeight(toolbarFilterRef, toolbarFilterVisible);
 
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
