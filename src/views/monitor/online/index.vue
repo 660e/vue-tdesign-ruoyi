@@ -13,7 +13,7 @@ const tableData = ref();
 
 const operations: QTableProps['operations'] = [{ value: 'logout', icon: 'logout', label: '强制下线' }];
 const columns: QTableProps['columns'] = [
-  { title: '会话编号', colKey: 'tokenId', width: 400 },
+  { title: '会话编号', colKey: 'tokenId', minWidth: 400 },
   { title: '用户名称', colKey: 'userName', width: 200, toolbarFilter: { type: 'input' } },
   { title: '部门名称', colKey: 'deptName', width: 200 },
   { title: 'IP地址', colKey: 'ipaddr', width: 200, toolbarFilter: { type: 'input' } },

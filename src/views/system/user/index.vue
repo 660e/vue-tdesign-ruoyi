@@ -20,11 +20,11 @@ const operations: QTableProps['operations'] = [
   { value: 'assignRoles', icon: 'user-add', label: '分配角色' },
 ];
 const columns: QTableProps['columns'] = [
-  { colKey: 'row-select', type: 'multiple' },
+  { colKey: 'row-select', type: 'multiple', fixed: 'left' },
   { title: '部门名称', colKey: 'deptId', toolbarFilter: { type: 'tree-select', implicit: true, keys: { value: 'id' } } },
-  { title: '用户名称', colKey: 'userName', width: 200, toolbarFilter: { type: 'input' } },
-  { title: '用户昵称', colKey: 'nickName', width: 200 },
-  { title: '部门名称', colKey: 'dept.deptName' },
+  { title: '用户名称', colKey: 'userName', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '用户昵称', colKey: 'nickName', minWidth: 200 },
+  { title: '部门名称', colKey: 'dept.deptName', minWidth: 200 },
   { title: '手机号码', colKey: 'phonenumber', width: 200, toolbarFilter: { type: 'input' } },
   {
     title: '状态',
@@ -39,6 +39,7 @@ const columns: QTableProps['columns'] = [
     colKey: 'operation',
     cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
     width: getOperationColumnWidth(operations),
+    fixed: 'right',
   },
 ];
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
