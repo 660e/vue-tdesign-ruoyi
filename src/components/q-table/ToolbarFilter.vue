@@ -35,15 +35,15 @@ const createEmptyFormData = () => {
 
 const more = ref(false);
 const { dicts } = useInfoStore();
+
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive(createEmptyFormData());
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
+
+const COL_SPAN_ITEMS = ['date-range'];
 const colCount = computed(() => Math.floor(formWidth.value / 260));
-const itemCount = computed(() => {
-  const countCorrection = items.filter((e) => e.toolbarFilter?.type === 'date-range').length;
-  return colCount.value - countCorrection;
-});
+const itemCount = computed(() => colCount.value - items.filter((e) => COL_SPAN_ITEMS.includes(e.toolbarFilter?.type || '')).length);
 
 const itemLabel = (item: QTableProps['column']) => (item.toolbarFilter?.label || item.title) as string | TNode;
 
@@ -79,7 +79,7 @@ const onSubmit = () => {
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
         <t-form-item
           v-for="item in more ? items : items.slice(0, itemCount)"
-          :class="{ 'col-span-2': item.toolbarFilter?.type === 'date-range' }"
+          :class="{ 'col-span-2': COL_SPAN_ITEMS.includes(item.toolbarFilter?.type || '') }"
           :name="item.colKey"
           class="!m-0 !min-w-auto"
           :key="item.colKey"
