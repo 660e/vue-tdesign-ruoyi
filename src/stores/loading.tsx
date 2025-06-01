@@ -14,7 +14,7 @@ export const useFullscreenLoading = defineStore('loading', () => {
       });
     }
     count.value += 1;
-    console.log('loading count:', count.value);
+    console.info(`%cLoading count: ${count.value}`, 'color: #0c0');
   };
 
   const hide = () => {
@@ -25,7 +25,7 @@ export const useFullscreenLoading = defineStore('loading', () => {
       instance.value.hide();
       instance.value = undefined;
     }
-    console.log('loading count:', count.value);
+    console.info(`%cLoading count: ${count.value}`, 'color: #0c0');
   };
 
   return { show, hide };
