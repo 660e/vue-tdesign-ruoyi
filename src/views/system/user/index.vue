@@ -186,6 +186,6 @@ onMounted(async () => {
       </template>
     </q-table>
 
-    <CreateDialog ref="createDialogRef" />
+    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

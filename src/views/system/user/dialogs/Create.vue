@@ -4,6 +4,7 @@ import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { useInfoStore } from '@/stores';
 
+const emit = defineEmits<{ confirm: [] }>();
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 const { dicts } = useInfoStore();
 
@@ -61,6 +62,7 @@ const onConfirm = async () => {
   try {
     const { msg } = await (formData.userId ? updateUser(formData) : createUser(formData));
     MessagePlugin.success(msg);
+    emit('confirm');
     visible.value = false;
   } catch {
   } finally {
