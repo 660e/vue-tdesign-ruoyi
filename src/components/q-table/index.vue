@@ -17,6 +17,7 @@ const { columns = [] } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: (value: 'file-export') => void;
   fileImport?: (value: 'file-import') => void;
+  topFilterOptions: QTableProps['topFilterOptions'];
 }>();
 
 const tableColumns = computed(() => {
@@ -28,9 +29,7 @@ const tableColumns = computed(() => {
   });
 });
 
-const attrs = useAttrs();
 const topFilterItems = computed(() => columns.filter((e) => e.colKey && e.toolbarFilter));
-const topFilterOptions = computed(() => attrs['top-filter-options'] as QTableProps['topFilterOptions']);
 const topFilterRef = ref();
 const topFilterVisible = ref(true);
 useToggleHeight(topFilterRef, topFilterVisible);
