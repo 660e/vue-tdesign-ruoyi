@@ -2,7 +2,7 @@
 import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listOnline } from '@/apis/monitor';
-import { useFullscreenLoading } from '@/hooks';
+import { useFullscreenLoading } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import { Page } from '@/layouts/standard';
 import dayjs from 'dayjs';

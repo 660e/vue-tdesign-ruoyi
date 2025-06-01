@@ -2,7 +2,7 @@
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
-import { useFullscreenLoading } from '@/hooks';
+import { useFullscreenLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import { Page } from '@/layouts/standard';
 import CreateDialog from './dialogs/Create.vue';
@@ -186,6 +186,6 @@ onMounted(async () => {
       </template>
     </q-table>
 
-    <CreateDialog :fullscreen-loading="fullscreenLoading" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
