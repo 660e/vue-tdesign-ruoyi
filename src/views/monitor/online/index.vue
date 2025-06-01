@@ -4,8 +4,8 @@ import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listOnline } from '@/apis/monitor';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth } from '@/utils';
+import { Page } from '@/layouts/standard';
 import dayjs from 'dayjs';
-import Page from '@/layouts/standard/Page.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
 

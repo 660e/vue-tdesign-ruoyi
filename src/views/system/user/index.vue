@@ -4,7 +4,7 @@ import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useLoading } from '@/hooks';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
-import Page from '@/layouts/standard/Page.vue';
+import { Page } from '@/layouts/standard';
 import CreateDialog from './dialogs/Create.vue';
 
 const { showFullscreenLoading, hideFullscreenLoading } = useLoading();
