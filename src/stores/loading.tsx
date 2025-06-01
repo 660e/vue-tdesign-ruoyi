@@ -1,9 +1,8 @@
 import type { LoadingInstance } from 'tdesign-vue-next';
-import type { AppFullscreenLoadingController } from '@/types';
 import { defineStore } from 'pinia';
 import { LoadingPlugin } from 'tdesign-vue-next';
 
-export const useFullscreenLoading = defineStore('loading', (): AppFullscreenLoadingController => {
+export const useFullscreenLoading = defineStore('loading', () => {
   const instance = ref<LoadingInstance>();
   const count = ref(0);
 

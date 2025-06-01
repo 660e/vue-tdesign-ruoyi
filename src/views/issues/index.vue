@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFullscreenLoading } from '@/hooks';
+import { useFullscreenLoading } from '@/stores';
 
 const fullscreenLoading = useFullscreenLoading();
 
