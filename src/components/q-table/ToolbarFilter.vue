@@ -5,7 +5,7 @@ import { useElementSize } from '@vueuse/core';
 import { useInfoStore } from '@/stores';
 import { is } from '@/utils';
 
-const emit = defineEmits<{ 'query-condition-change': [value: QTableToolbarFilterParams] }>();
+const emit = defineEmits<{ change: [value: QTableToolbarFilterParams] }>();
 const { items, options } = defineProps<{
   items: QTableProps['columns'];
   options: QTableProps['toolbarFilterOptions'];
@@ -65,7 +65,7 @@ const onSubmit = () => {
     }
   });
 
-  emit('query-condition-change', result);
+  emit('change', result);
 };
 </script>
 

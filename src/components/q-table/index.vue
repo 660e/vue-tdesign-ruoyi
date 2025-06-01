@@ -58,12 +58,7 @@ const viewSelectedRowData = () => {
 <template>
   <div class="h-full flex flex-col">
     <div v-if="topFilterItems.length" ref="topFilterRef">
-      <ToolbarFilter
-        v-show="topFilterVisible"
-        :items="topFilterItems"
-        :options="toolbarFilterOptions"
-        @query-condition-change="onQueryConditionChange"
-      />
+      <ToolbarFilter v-show="topFilterVisible" :items="topFilterItems" :options="toolbarFilterOptions" @change="onQueryConditionChange" />
     </div>
 
     <div class="p-4 flex gap-2">
