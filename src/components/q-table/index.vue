@@ -3,7 +3,7 @@ import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-
 import type { QTableProps } from '@/types';
 import type { QTableTopFilterQueryCondition } from '../types';
 import { useToggleHeight } from '@/hooks';
-import TopFilter from './TopFilter.vue';
+import ToolbarFilter from './ToolbarFilter.vue';
 
 defineOptions({ inheritAttrs: false });
 
@@ -60,7 +60,7 @@ const viewSelectedRowData = () => {
 <template>
   <div class="h-full flex flex-col">
     <div v-if="topFilterItems.length" ref="topFilterRef">
-      <TopFilter v-show="topFilterVisible" :items="topFilterItems" :options="topFilterOptions" @query-condition-change="onQueryConditionChange" />
+      <ToolbarFilter v-show="topFilterVisible" :items="topFilterItems" :options="topFilterOptions" @query-condition-change="onQueryConditionChange" />
     </div>
 
     <div class="p-4 flex gap-2">
