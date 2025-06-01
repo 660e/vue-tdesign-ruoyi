@@ -2,29 +2,35 @@ import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, 
 import type { AppSystemDictItem } from '@/types';
 
 type QTableColumn = PrimaryTableCol<TableRowData> & QTableToolbarFilter;
+type QTableToolbarFilterItem = QTableDateRangeFilter | QTableInputFilter | QTableSelectFilter | QTableTreeSelectFilter;
 
 interface QTableToolbarFilterBase {
   implicit?: boolean;
   label?: string | TNode;
+  type: 'date-range' | 'input' | 'select' | 'tree-select';
+}
+
+interface QTableDateRangeFilter extends QTableToolbarFilterBase {
+  type: 'date-range';
+  keys?: { start?: string; end?: string };
+}
+
+interface QTableInputFilter extends QTableToolbarFilterBase {
+  type: 'input';
+}
+
+interface QTableSelectFilter extends QTableToolbarFilterBase {
+  type: 'select';
+  dict: AppSystemDictItem;
+}
+
+interface QTableTreeSelectFilter extends QTableToolbarFilterBase {
+  type: 'tree-select';
+  keys?: TreeKeysType;
 }
 
 interface QTableToolbarFilter {
-  topFilter?:
-    | ({
-        type: 'date-range';
-        keys?: { start?: string; end?: string };
-      } & QTableToolbarFilterBase)
-    | ({
-        type: 'input';
-      } & QTableToolbarFilterBase)
-    | ({
-        type: 'select';
-        dict: AppSystemDictItem;
-      } & QTableToolbarFilterBase)
-    | ({
-        type: 'tree-select';
-        keys?: TreeKeysType;
-      } & QTableToolbarFilterBase);
+  topFilter?: QTableToolbarFilterItem;
 }
 
 export interface QTableProps {
