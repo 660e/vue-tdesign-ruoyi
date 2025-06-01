@@ -40,6 +40,10 @@ const formData = reactive(createEmptyFormData());
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260));
+const itemCount = computed(() => {
+  const countCorrection = items.filter((e) => e.toolbarFilter?.type === 'date-range').length;
+  return colCount.value - countCorrection;
+});
 
 const itemLabel = (item: QTableProps['column']) => (item.toolbarFilter?.label || item.title) as string | TNode;
 
@@ -73,7 +77,13 @@ const onSubmit = () => {
   <div class="px-4 pt-4">
     <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
-        <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
+        <t-form-item
+          v-for="item in more ? items : items.slice(0, itemCount)"
+          :class="{ 'col-span-2': item.toolbarFilter?.type === 'date-range' }"
+          :name="item.colKey"
+          class="!m-0 !min-w-auto"
+          :key="item.colKey"
+        >
           <!-- date-range -->
           <t-date-range-picker
             v-if="item.toolbarFilter?.type === 'date-range'"
@@ -107,7 +117,7 @@ const onSubmit = () => {
         </t-form-item>
       </div>
 
-      <t-button v-if="items.length > colCount" @click="more = !more" variant="text">
+      <t-button v-if="items.length > itemCount" @click="more = !more" variant="text">
         <template #icon><t-icon name="unfold-more" /></template>
       </t-button>
       <t-button theme="default" type="reset">
