@@ -15,8 +15,8 @@ const toolbarFilterOptions = reactive<QTableProps['toolbarFilterOptions']>({ tre
 
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
-  { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？', theme: 'danger' } },
-  { value: 'resetPwd', icon: 'secured', label: '重置密码', popconfirm: { content: '确定重置此用户密码？', theme: 'warning' } },
+  { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
+  { value: 'resetPwd', icon: 'secured', label: '重置密码', popconfirm: { content: '确定重置此用户密码？' } },
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },

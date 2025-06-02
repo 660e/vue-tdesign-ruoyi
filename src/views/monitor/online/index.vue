@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listOnline } from '@/apis/monitor';
+import { listOnline, forceLogout } from '@/apis/monitor';
 import { useFullscreenLoading } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import { Page } from '@/layouts/standard';
@@ -11,7 +11,9 @@ const fullscreenLoading = useFullscreenLoading();
 
 const tableData = ref();
 
-const operations: QTableProps['operations'] = [{ value: 'logout', icon: 'logout', label: '强制下线' }];
+const operations: QTableProps['operations'] = [
+  { value: 'logout', icon: 'logout', label: '强制下线', theme: 'danger', popconfirm: { content: '确定将此用户强制下线？' } },
+];
 const columns: QTableProps['columns'] = [
   { title: '会话编号', colKey: 'tokenId', minWidth: 400 },
   { title: '用户名称', colKey: 'userName', width: 200, toolbarFilter: { type: 'input' } },
@@ -37,15 +39,24 @@ const onRefresh = async (value: QTableToolbarFilterParams) => {
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
-  console.log(value);
-  console.log(row);
-
   switch (value) {
     case 'refresh':
       fullscreenLoading.show();
       try {
         const { rows } = await listOnline(queryParams.value);
         tableData.value = rows;
+      } catch {
+      } finally {
+        fullscreenLoading.hide();
+      }
+      break;
+
+    case 'logout':
+      fullscreenLoading.show();
+      try {
+        const { msg } = await forceLogout(row?.tokenId);
+        MessagePlugin.success(msg);
+        await onHandle('refresh');
       } catch {
       } finally {
         fullscreenLoading.hide();
