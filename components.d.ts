@@ -11,6 +11,7 @@ declare module 'vue' {
     QTable: typeof import('./src/components/q-table/index.vue')['default']
     QTableOperationCol: typeof import('./src/components/q-table-operation-col/index.vue')['default']
     QTableTagCol: typeof import('./src/components/q-table-tag-col/index.vue')['default']
+    QTree: typeof import('./src/components/q-tree/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TAvatar: typeof import('tdesign-vue-next')['Avatar']

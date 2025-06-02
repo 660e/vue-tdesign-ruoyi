@@ -185,8 +185,8 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div class="w-60 p-4 border-r border-neutral-200">
-      <t-tree :data="deptIdTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable hover line />
+    <div class="w-60 border-r border-neutral-200">
+      <q-tree :data="deptIdTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable hover />
     </div>
     <q-table
       v-model:pagination="pagination"
