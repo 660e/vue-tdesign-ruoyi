@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { InputProps, TreeProps } from 'tdesign-vue-next';
+import type { InputProps, TreeKeysType, TreeProps } from 'tdesign-vue-next';
 
 defineOptions({ inheritAttrs: false });
 
+const attrs = useAttrs();
 const treeFilter = ref<TreeProps['filter']>();
+
 const onChange: InputProps['onChange'] = (value) => {
-  treeFilter.value = value ? (node) => (node.data.label as string).indexOf(value as string) >= 0 : undefined;
+  treeFilter.value = value ? (node) => String(node.data[(attrs.keys as TreeKeysType).label || 'label']).indexOf(value as string) >= 0 : undefined;
 };
 </script>
 
