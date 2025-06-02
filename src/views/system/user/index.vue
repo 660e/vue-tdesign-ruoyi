@@ -170,7 +170,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Page>
+  <Page class="flex">
+    <div class="w-80 border-r border-neutral-200"></div>
     <q-table
       v-model:pagination="pagination"
       :columns="columns"

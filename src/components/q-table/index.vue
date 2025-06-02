@@ -55,7 +55,7 @@ const viewSelectedRowData = () => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col">
+  <div class="w-full h-full overflow-auto flex flex-col">
     <div v-if="toolbarFilterItems.length" ref="toolbarFilterRef">
       <ToolbarFilter
         v-show="toolbarFilterVisible"
