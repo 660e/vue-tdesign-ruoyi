@@ -5,10 +5,12 @@ import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
 import { useFullscreenLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import { Page } from '@/layouts/standard';
+import AssignRolesDialog from './dialogs/AssignRoles.vue';
 import CreateDialog from './dialogs/Create.vue';
 
 const fullscreenLoading = useFullscreenLoading();
 
+const assignRolesDialogRef = ref();
 const createDialogRef = ref();
 const tableData = ref();
 const toolbarFilterOptions = reactive<QTableProps['toolbarFilterOptions']>({ treeSelect: {} });
@@ -144,6 +146,10 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
     }
+
+    case 'assignRoles':
+      assignRolesDialogRef.value.show(row?.userId);
+      break;
   }
 };
 
@@ -187,5 +193,6 @@ onMounted(async () => {
     </q-table>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <AssignRolesDialog ref="assignRolesDialogRef" />
   </Page>
 </template>
