@@ -5,8 +5,8 @@ export function createUser(data: AppUnknownRecord) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/user', { data });
 }
 
-export function deleteUser(ids: number | string) {
-  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/user/${ids}`);
+export function deleteUser(userIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/user/${userIds}`);
 }
 
 export function updateUser(data: AppUnknownRecord) {
@@ -17,8 +17,8 @@ export function listUser(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/user/list', { params });
 }
 
-export function getUser(id: number) {
-  return request.get<AppResponseData<AppUnknownRecord>>(`/system/user/${id || ''}`);
+export function getUser(userId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/user/${userId || ''}`);
 }
 
 export function deptTree() {

@@ -32,16 +32,19 @@ const userData = ref();
 
 const show = async (row?: TableRowData) => {
   fullscreenLoading.show();
-  userData.value = await getUser(row?.userId);
-  if (row?.userId) {
-    Object.assign(formData, row);
-    formData.postIds = userData.value.postIds;
-    formData.roleIds = userData.value.roleIds;
+  try {
+    userData.value = await getUser(row?.userId);
+    userData.value.deptTree = (await deptTree()).data;
+    if (row?.userId) {
+      Object.assign(formData, row);
+      formData.postIds = userData.value.postIds;
+      formData.roleIds = userData.value.roleIds;
+    }
+    visible.value = true;
+  } catch {
+  } finally {
+    fullscreenLoading.hide();
   }
-  userData.value.deptTree = (await deptTree()).data;
-
-  visible.value = true;
-  fullscreenLoading.hide();
 };
 
 const onClosed = () => {
