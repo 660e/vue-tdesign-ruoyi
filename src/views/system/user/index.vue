@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { TableProps, TableRowData } from 'tdesign-vue-next';
+import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, exportUser, resetPwd } from '@/apis/system';
 import { useFullscreenLoading } from '@/stores';
@@ -10,8 +10,9 @@ import CreateDialog from './dialogs/Create.vue';
 const fullscreenLoading = useFullscreenLoading();
 
 const createDialogRef = ref();
+const deptId = ref();
+const deptIdTree = ref();
 const tableData = ref();
-const toolbarFilterOptions = reactive<QTableProps['toolbarFilterOptions']>({ treeSelect: {} });
 
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
@@ -20,7 +21,6 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '部门名称', colKey: 'deptId', toolbarFilter: { type: 'tree-select', implicit: true, keys: { value: 'id' } } },
   { title: '用户名称', colKey: 'userName', minWidth: 200, toolbarFilter: { type: 'input' } },
   { title: '用户昵称', colKey: 'nickName', minWidth: 200 },
   { title: '部门名称', colKey: 'dept.deptName', minWidth: 200 },
@@ -41,6 +41,13 @@ const columns: QTableProps['columns'] = [
     fixed: 'right',
   },
 ];
+
+const onDeptIdActive: TreeProps['onActive'] = async (value) => {
+  deptId.value = value[0];
+  pagination.pageNum = 1;
+  await onHandle('refresh');
+};
+
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
   pagination.pageNum = pageInfo.current;
@@ -64,7 +71,12 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       fullscreenLoading.show();
       try {
-        const { rows, total } = await listUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize, ...queryParams.value });
+        const { rows, total } = await listUser({
+          deptId: deptId.value,
+          pageNum: pagination.pageNum,
+          pageSize: pagination.pageSize,
+          ...queryParams.value,
+        });
         pagination.total = total || 0;
         tableData.value = rows;
       } catch {
@@ -143,7 +155,12 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'file-export':
       fullscreenLoading.show();
       try {
-        const { data, msg } = await exportUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize, ...queryParams.value });
+        const { data, msg } = await exportUser({
+          deptId: deptId.value,
+          pageNum: pagination.pageNum,
+          pageSize: pagination.pageSize,
+          ...queryParams.value,
+        });
         MessagePlugin.success(msg);
         console.log(data); // TODO
       } catch {
@@ -157,10 +174,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
 onMounted(async () => {
   fullscreenLoading.show();
   try {
-    const { data } = await deptTree();
-    if (toolbarFilterOptions.treeSelect) {
-      toolbarFilterOptions.treeSelect.deptId = data;
-    }
+    deptIdTree.value = (await deptTree()).data;
   } catch {
   } finally {
     await onHandle('refresh');
@@ -171,14 +185,15 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div class="w-80 border-r border-neutral-200"></div>
+    <div class="w-60 p-4 border-r border-neutral-200">
+      <t-tree :data="deptIdTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable hover line />
+    </div>
     <q-table
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
       :file-export="onHandle"
       :file-import="onHandle"
-      :toolbar-filter-options="toolbarFilterOptions"
       @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"
