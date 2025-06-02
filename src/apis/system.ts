@@ -21,6 +21,10 @@ export function getUser(userId: number) {
   return request.get<AppResponseData<AppUnknownRecord>>(`/system/user/${userId || ''}`);
 }
 
+export function exportUser(params?: AppRequestListParams) {
+  return request.post<AppResponseData<AppUnknownRecord[]>>('/system/user/export', { params, responseType: 'blob' });
+}
+
 export function deptTree() {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/user/deptTree');
 }

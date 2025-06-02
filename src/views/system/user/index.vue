@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { deptTree, listUser, deleteUser, resetPwd } from '@/apis/system';
+import { deptTree, listUser, deleteUser, exportUser, resetPwd } from '@/apis/system';
 import { useFullscreenLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import { Page } from '@/layouts/standard';
@@ -64,11 +64,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       fullscreenLoading.show();
       try {
-        const { rows, total } = await listUser({
-          pageNum: pagination.pageNum,
-          pageSize: pagination.pageSize,
-          ...queryParams.value,
-        });
+        const { rows, total } = await listUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize, ...queryParams.value });
         pagination.total = total || 0;
         tableData.value = rows;
       } catch {
@@ -143,6 +139,18 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
     }
+
+    case 'file-export':
+      fullscreenLoading.show();
+      try {
+        const { data, msg } = await exportUser({ pageNum: pagination.pageNum, pageSize: pagination.pageSize, ...queryParams.value });
+        MessagePlugin.success(msg);
+        console.log(data); // TODO
+      } catch {
+      } finally {
+        fullscreenLoading.hide();
+      }
+      break;
   }
 };
 

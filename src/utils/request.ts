@@ -41,7 +41,7 @@ class Request {
             MessagePlugin.error(response.data.msg);
             break;
           default:
-            console.log(response.data.code);
+            console.log(response.data);
         }
       },
       (error) => {
