@@ -25,7 +25,7 @@ export function exportUser(params?: AppRequestListParams) {
   return request.post<AppResponseData<Blob>>('/system/user/export', { params, responseType: 'blob' });
 }
 
-export function ImportUser(file: File, updateSupport = 0) {
+export function importUser(file: File, updateSupport = 0) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/user/importData', { data: fd({ file }), params: { updateSupport } });
 }
 
