@@ -15,7 +15,7 @@ const emit = defineEmits<{
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 const { columns = [], fileExport } = defineProps<{
   columns?: QTableProps['columns'];
-  fileExport?: () => Promise<Blob>;
+  fileExport?: QTableProps['fileExport'];
   fileImport?: (value: 'file-import') => void;
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();

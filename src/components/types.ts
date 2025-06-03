@@ -1,5 +1,5 @@
 import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
-import type { AppSystemDictKey, AppUnknownRecord } from '@/types';
+import type { AppResponseData, AppSystemDictKey, AppUnknownRecord } from '@/types';
 
 type QTableColumn = PrimaryTableCol<TableRowData> & QTableToolbarFilter;
 type QTableToolbarFilterItem = QTableDateRangeFilter | QTableInputFilter | QTableSelectFilter | QTableTreeSelectFilter;
@@ -58,6 +58,7 @@ export interface QTableOperation {
 export interface QTableProps {
   column: QTableColumn;
   columns: QTableColumn[];
+  fileExport: () => Promise<AppResponseData<Blob>>;
   operations: QTableOperation[];
   toolbarFilterOptions: QTableToolbarFilterOptions;
   pagination: QTablePagination;

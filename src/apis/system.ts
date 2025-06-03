@@ -22,7 +22,7 @@ export function getUser(userId: number) {
 }
 
 export function exportUser(params?: AppRequestListParams) {
-  return request.post<AppResponseData<AppUnknownRecord[]>>('/system/user/export', { params, responseType: 'blob' });
+  return request.post<AppResponseData<Blob>>('/system/user/export', { params, responseType: 'blob' });
 }
 
 export function deptTree() {

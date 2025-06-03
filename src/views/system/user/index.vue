@@ -154,8 +154,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
   }
 };
 
-const fileExport = async () => {
-  return await exportUser({
+const fileExport: QTableProps['fileExport'] = () => {
+  return exportUser({
     deptId: deptId.value,
     pageNum: pagination.pageNum,
     pageSize: pagination.pageSize,
