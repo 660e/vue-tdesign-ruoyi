@@ -40,12 +40,15 @@ interface QTableToolbarFilterOptions {
 
 interface QTableFileExportProps {
   api: () => Promise<AppResponseData<Blob>>;
-  name?: string;
-  type?: 'csv' | 'xlsx';
+  fileName?: string;
+  fileType?: 'csv' | 'xlsx';
 }
 
 interface QTableFileImportProps {
-  api: () => Promise<AppResponseData<AppUnknownRecord>>;
+  api: (file: File) => Promise<AppResponseData<AppUnknownRecord>>;
+  template?: () => Promise<AppResponseData<Blob>>;
+  templateName?: string;
+  templateType?: 'csv' | 'xlsx';
 }
 
 interface QTablePagination {
