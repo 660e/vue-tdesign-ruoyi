@@ -74,3 +74,13 @@ export function generatePassword(length = 16) {
 
   return Array.from(array, (byte) => charset[byte % charsetLength]).join('');
 }
+
+export function fd(data: Record<string, string | number | File>) {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, value.toString());
+    }
+  });
+  return formData;
+}

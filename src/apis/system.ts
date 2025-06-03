@@ -1,5 +1,5 @@
 import type { AppRequestListParams, AppResponseData, AppUnknownRecord } from '@/types';
-import { request } from '@/utils/index';
+import { fd, request } from '@/utils';
 
 export function createUser(data: AppUnknownRecord) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/user', { data });
@@ -25,10 +25,8 @@ export function exportUser(params?: AppRequestListParams) {
   return request.post<AppResponseData<Blob>>('/system/user/export', { params, responseType: 'blob' });
 }
 
-export function importUser(file: File, updateSupport = 0) {
-  const data = new FormData();
-  data.append('file', file);
-  return request.post<AppResponseData<AppUnknownRecord>>('/system/user/importData', { data, params: { updateSupport } });
+export function ImportUser(file: File, updateSupport = 0) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/user/importData', { data: fd({ file }), params: { updateSupport } });
 }
 
 export function importUserTemplate() {
