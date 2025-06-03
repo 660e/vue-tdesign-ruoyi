@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { useToggleHeight } from '@/hooks';
+import { useAnimateToggleHeight } from '@/hooks';
 import { useFullscreenLoading } from '@/stores';
 import ToolbarFilter from './ToolbarFilter.vue';
 
@@ -42,7 +42,7 @@ const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
   toolbarFilterParams.value = structuredClone(toRaw(value));
   emit('refresh', toolbarFilterParams.value);
 };
-useToggleHeight(toolbarFilterRef, toolbarFilterVisible);
+useAnimateToggleHeight({ el: toolbarFilterRef, toggle: toolbarFilterVisible });
 
 const fileImportRef = ref();
 const onFileExport = async () => {
