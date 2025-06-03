@@ -48,6 +48,7 @@ const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
 };
 useToggleHeight(toolbarFilterRef, toolbarFilterVisible);
 
+const fileImportRef = ref();
 const onFileExport = async () => {
   fullscreenLoading.show();
   try {
@@ -57,9 +58,6 @@ const onFileExport = async () => {
   } finally {
     fullscreenLoading.hide();
   }
-};
-const onFileImport = () => {
-  fileImport?.api('test123');
 };
 
 const columnControllerVisible = ref(false);
@@ -95,7 +93,7 @@ const viewSelectedRowData = () => {
         </t-button>
       </t-tooltip>
       <t-tooltip v-if="fileImport" content="导入" placement="bottom">
-        <t-button @click="onFileImport" shape="circle" variant="outline">
+        <t-button @click="fileImportRef.show(fileImport)" shape="circle" variant="outline">
           <template #icon><t-icon name="file-import" /></template>
         </t-button>
       </t-tooltip>
@@ -153,6 +151,8 @@ const viewSelectedRowData = () => {
         show-jumper
       />
     </div>
+
+    <q-file-import ref="fileImportRef" />
   </div>
 </template>
 
