@@ -154,13 +154,15 @@ const onHandle = async (value: string, row?: TableRowData) => {
   }
 };
 
-const fileExport: QTableProps['fileExport'] = () => {
-  return exportUser({
-    deptId: deptId.value,
-    pageNum: pagination.pageNum,
-    pageSize: pagination.pageSize,
-    ...queryParams.value,
-  });
+const fileExport: QTableProps['fileExport'] = {
+  api: () => {
+    return exportUser({
+      deptId: deptId.value,
+      pageNum: pagination.pageNum,
+      pageSize: pagination.pageSize,
+      ...queryParams.value,
+    });
+  },
 };
 
 const fileImport = () => {

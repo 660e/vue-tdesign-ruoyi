@@ -38,6 +38,12 @@ interface QTableToolbarFilterOptions {
   treeSelect?: Record<string, TreeOptionData<string | number>[] | undefined>;
 }
 
+interface QTableFileExportProps {
+  api: () => Promise<AppResponseData<Blob>>;
+  name?: string;
+  type?: 'csv' | 'xlsx';
+}
+
 interface QTablePagination {
   pageNum: number;
   pageSize: number;
@@ -58,7 +64,7 @@ export interface QTableOperation {
 export interface QTableProps {
   column: QTableColumn;
   columns: QTableColumn[];
-  fileExport: () => Promise<AppResponseData<Blob>>;
+  fileExport: QTableFileExportProps;
   operations: QTableOperation[];
   toolbarFilterOptions: QTableToolbarFilterOptions;
   pagination: QTablePagination;

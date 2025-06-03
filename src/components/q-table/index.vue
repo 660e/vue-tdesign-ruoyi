@@ -51,7 +51,7 @@ useToggleHeight(toolbarFilterRef, toolbarFilterVisible);
 const onFileExport = async () => {
   fullscreenLoading.show();
   try {
-    const data = await fileExport?.();
+    const data = await fileExport?.api();
     console.log(data); // TODO
   } catch {
   } finally {
