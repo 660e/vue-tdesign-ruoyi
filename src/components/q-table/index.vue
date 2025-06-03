@@ -13,11 +13,7 @@ const emit = defineEmits<{
   'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
-const {
-  columns = [],
-  fileExport,
-  fileImport,
-} = defineProps<{
+const { columns = [], fileExport } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
   fileImport?: QTableProps['fileImport'];
