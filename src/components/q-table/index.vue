@@ -13,10 +13,14 @@ const emit = defineEmits<{
   'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
-const { columns = [], fileExport } = defineProps<{
+const {
+  columns = [],
+  fileExport,
+  fileImport,
+} = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
-  fileImport?: (value: 'file-import') => void;
+  fileImport?: () => void;
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
@@ -54,6 +58,9 @@ const onFileExport = async () => {
     fullscreenLoading.hide();
   }
 };
+const onFileImport = () => {
+  fileImport?.();
+};
 
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
@@ -88,7 +95,7 @@ const viewSelectedRowData = () => {
         </t-button>
       </t-tooltip>
       <t-tooltip v-if="fileImport" content="导入" placement="bottom">
-        <t-button @click="fileImport('file-import')" shape="circle" variant="outline">
+        <t-button @click="onFileImport" shape="circle" variant="outline">
           <template #icon><t-icon name="file-import" /></template>
         </t-button>
       </t-tooltip>

@@ -163,6 +163,10 @@ const fileExport: QTableProps['fileExport'] = () => {
   });
 };
 
+const fileImport = () => {
+  console.log('file-import'); // TODO
+};
+
 onMounted(async () => {
   fullscreenLoading.show();
   try {
@@ -185,7 +189,7 @@ onMounted(async () => {
       :columns="columns"
       :data="tableData"
       :file-export="fileExport"
-      :file-import="onHandle"
+      :file-import="fileImport"
       @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"
