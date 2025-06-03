@@ -9,6 +9,8 @@ const visible = ref(false);
 const show = (fileImport: QTableProps['fileImport']) => {
   importParams.value = fileImport;
   visible.value = true;
+
+  console.log(importParams.value.api); // TODO
 };
 
 const downloadTemplate = async () => {
