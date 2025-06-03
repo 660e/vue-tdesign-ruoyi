@@ -19,6 +19,7 @@ declare module 'vue' {
     TBreadcrumb: typeof import('tdesign-vue-next')['Breadcrumb']
     TBreadcrumbItem: typeof import('tdesign-vue-next')['BreadcrumbItem']
     TButton: typeof import('tdesign-vue-next')['Button']
+    TCheckbox: typeof import('tdesign-vue-next')['Checkbox']
     TDateRangePicker: typeof import('tdesign-vue-next')['DateRangePicker']
     TDialog: typeof import('tdesign-vue-next')['Dialog']
     TForm: typeof import('tdesign-vue-next')['Form']
@@ -43,5 +44,6 @@ declare module 'vue' {
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
     TTree: typeof import('tdesign-vue-next')['Tree']
     TTreeSelect: typeof import('tdesign-vue-next')['TreeSelect']
+    TUpload: typeof import('tdesign-vue-next')['Upload']
   }
 }
