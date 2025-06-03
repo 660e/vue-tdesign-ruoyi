@@ -2,6 +2,7 @@
 import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useToggleHeight } from '@/hooks';
+import { useFullscreenLoading } from '@/stores';
 import ToolbarFilter from './ToolbarFilter.vue';
 
 defineOptions({ inheritAttrs: false });
@@ -12,12 +13,14 @@ const emit = defineEmits<{
   'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
-const { columns = [] } = defineProps<{
+const { columns = [], fileExport } = defineProps<{
   columns?: QTableProps['columns'];
-  fileExport?: (value: 'file-export') => void;
+  fileExport?: () => Promise<Blob>;
   fileImport?: (value: 'file-import') => void;
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
+
+const fullscreenLoading = useFullscreenLoading();
 
 const tableColumns = computed(() => {
   return columns.filter((column) => {
@@ -40,6 +43,17 @@ const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
   emit('refresh', toolbarFilterParams.value);
 };
 useToggleHeight(toolbarFilterRef, toolbarFilterVisible);
+
+const onFileExport = async () => {
+  fullscreenLoading.show();
+  try {
+    const data = await fileExport?.();
+    console.log(data); // TODO
+  } catch {
+  } finally {
+    fullscreenLoading.hide();
+  }
+};
 
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
@@ -79,7 +93,7 @@ const viewSelectedRowData = () => {
         </t-button>
       </t-tooltip>
       <t-tooltip v-if="fileExport" content="导出" placement="bottom">
-        <t-button @click="fileExport('file-export')" shape="circle" variant="outline">
+        <t-button @click="onFileExport" shape="circle" variant="outline">
           <template #icon><t-icon name="file-export" /></template>
         </t-button>
       </t-tooltip>

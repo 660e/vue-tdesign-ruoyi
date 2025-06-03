@@ -151,24 +151,16 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
     }
-
-    case 'file-export':
-      fullscreenLoading.show();
-      try {
-        const { data, msg } = await exportUser({
-          deptId: deptId.value,
-          pageNum: pagination.pageNum,
-          pageSize: pagination.pageSize,
-          ...queryParams.value,
-        });
-        MessagePlugin.success(msg);
-        console.log(data); // TODO
-      } catch {
-      } finally {
-        fullscreenLoading.hide();
-      }
-      break;
   }
+};
+
+const fileExport = async () => {
+  return await exportUser({
+    deptId: deptId.value,
+    pageNum: pagination.pageNum,
+    pageSize: pagination.pageSize,
+    ...queryParams.value,
+  });
 };
 
 onMounted(async () => {
@@ -192,7 +184,7 @@ onMounted(async () => {
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
-      :file-export="onHandle"
+      :file-export="fileExport"
       :file-import="onHandle"
       @page-change="onPageChange"
       @refresh="onRefresh"
