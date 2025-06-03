@@ -45,10 +45,11 @@ interface QTableFileExportProps {
 }
 
 interface QTableFileImportProps {
-  api: (file: File) => Promise<AppResponseData<AppUnknownRecord>>;
+  api: (file: File, replace: boolean) => Promise<AppResponseData<AppUnknownRecord>>;
   template?: () => Promise<AppResponseData<Blob>>;
   templateName?: string;
   templateType?: 'csv' | 'xlsx';
+  replaceable?: boolean;
 }
 
 interface QTablePagination {

@@ -9,8 +9,6 @@ const visible = ref(false);
 const show = (fileImport: QTableProps['fileImport']) => {
   importParams.value = fileImport;
   visible.value = true;
-
-  console.log(importParams.value);
 };
 
 const downloadTemplate = async () => {
@@ -30,9 +28,10 @@ defineExpose({ show });
 <template>
   <t-dialog v-model:visible="visible" header="导入">
     <t-upload draggable />
-    <div v-if="importParams?.template" class="flex justify-between pt-4">
-      <t-link @click="downloadTemplate" theme="primary">下载模板</t-link>
-      <t-checkbox>覆盖原数据</t-checkbox>
+    <div v-if="importParams?.template || importParams?.replaceable" class="flex pt-4">
+      <t-link v-if="importParams.template" @click="downloadTemplate" theme="primary">下载模板</t-link>
+      <div class="flex-1"></div>
+      <t-checkbox v-if="importParams.replaceable">覆盖原数据</t-checkbox>
     </div>
   </t-dialog>
 </template>

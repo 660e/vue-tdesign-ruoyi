@@ -166,8 +166,9 @@ const fileExport: QTableProps['fileExport'] = {
 };
 
 const fileImport: QTableProps['fileImport'] = {
-  api: (file) => importUser(file),
+  api: (file, replace) => importUser(file, replace ? 1 : 0),
   template: () => importUserTemplate(),
+  replaceable: true,
 };
 
 onMounted(async () => {
