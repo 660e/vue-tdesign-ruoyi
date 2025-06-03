@@ -1,41 +1,37 @@
 import { useAnimate } from '@vueuse/core';
-import { is } from '@/utils';
 
 export function useAnimateToggleHeight({
   el,
   toggle,
-  from = 0,
+  from = '0px',
   to = 'auto',
   duration = 140,
   easing = 'ease',
 }: {
   el: Ref;
   toggle: Ref<boolean>;
-  from?: number | string;
-  to?: number | string;
+  from?: string;
+  to?: string;
   duration?: number;
   easing?: string;
 }) {
   const isAnimating = ref(false);
 
   watch(toggle, async (n) => {
-    const element = el.value;
+    const element = el.value instanceof HTMLElement ? el.value : el.value.$el;
     if (!element || isAnimating.value) return;
-
-    const fromValue = is.string(from) ? from : `${from}px`;
-    const toValue = is.string(to) ? to : `${to}px`;
 
     isAnimating.value = true;
     if (n) {
-      element.style.height = fromValue;
+      element.style.height = from;
 
       await nextTick();
       const height = element.scrollHeight;
-      useAnimate(element, [{ height: fromValue }, { height: `${height}px` }], { duration, easing });
-      element.style.height = toValue;
+      useAnimate(element, [{ height: from }, { height: `${height}px` }], { duration, easing });
+      element.style.height = to;
     } else {
       const height = element.scrollHeight;
-      useAnimate(element, [{ height: `${height}px` }, { height: fromValue }], { duration, easing });
+      useAnimate(element, [{ height: `${height}px` }, { height: from }], { duration, easing });
     }
     isAnimating.value = false;
   });

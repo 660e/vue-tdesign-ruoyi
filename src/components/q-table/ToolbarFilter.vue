@@ -2,6 +2,7 @@
 import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useElementSize } from '@vueuse/core';
+import { useAnimateToggleHeight } from '@/hooks';
 import { useInfoStore } from '@/stores';
 import { is } from '@/utils';
 
@@ -41,6 +42,7 @@ const formData = reactive(createEmptyFormData());
 const formTemplateRef = useTemplateRef('formRef');
 const { width: formWidth } = useElementSize(formTemplateRef);
 const colCount = computed(() => Math.floor(formWidth.value / 260)); // TODO
+useAnimateToggleHeight({ el: formRef, toggle: more, from: '32px' });
 
 const itemLabel = (item: QTableProps['column']) => (item.toolbarFilter?.label || item.title) as string | TNode;
 
