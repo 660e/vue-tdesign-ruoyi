@@ -20,7 +20,7 @@ const {
 } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
-  fileImport?: () => void;
+  fileImport?: QTableProps['fileImport'];
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
@@ -59,7 +59,7 @@ const onFileExport = async () => {
   }
 };
 const onFileImport = () => {
-  fileImport?.();
+  fileImport?.api('test123');
 };
 
 const columnControllerVisible = ref(false);

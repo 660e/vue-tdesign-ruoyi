@@ -44,6 +44,10 @@ interface QTableFileExportProps {
   type?: 'csv' | 'xlsx';
 }
 
+interface QTableFileImportProps {
+  api: () => Promise<AppResponseData<AppUnknownRecord>>;
+}
+
 interface QTablePagination {
   pageNum: number;
   pageSize: number;
@@ -65,6 +69,7 @@ export interface QTableProps {
   column: QTableColumn;
   columns: QTableColumn[];
   fileExport: QTableFileExportProps;
+  fileImport: QTableFileImportProps;
   operations: QTableOperation[];
   toolbarFilterOptions: QTableToolbarFilterOptions;
   pagination: QTablePagination;

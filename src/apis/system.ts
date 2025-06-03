@@ -25,6 +25,16 @@ export function exportUser(params?: AppRequestListParams) {
   return request.post<AppResponseData<Blob>>('/system/user/export', { params, responseType: 'blob' });
 }
 
+export function importUser(file: File, updateSupport = 0) {
+  const data = new FormData();
+  data.append('file', file);
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/user/importData', { data, params: { updateSupport } });
+}
+
+export function importUserTemplate() {
+  return request.post<AppResponseData<Blob>>('/system/user/importTemplate', { responseType: 'blob' });
+}
+
 export function deptTree() {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/user/deptTree');
 }

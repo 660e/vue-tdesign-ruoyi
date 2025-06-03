@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { deptTree, listUser, deleteUser, exportUser, resetPwd } from '@/apis/system';
+import { deptTree, listUser, deleteUser, importUser, exportUser, resetPwd } from '@/apis/system';
 import { useFullscreenLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import { Page } from '@/layouts/standard';
@@ -165,8 +165,11 @@ const fileExport: QTableProps['fileExport'] = {
   },
 };
 
-const fileImport = () => {
-  console.log('file-import'); // TODO
+const fileImport: QTableProps['fileImport'] = {
+  api: (test) => {
+    console.log(test);
+    return importUser();
+  },
 };
 
 onMounted(async () => {
