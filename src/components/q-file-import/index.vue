@@ -4,6 +4,7 @@ import type { QTableProps } from '@/types';
 import { useFullscreenLoading } from '@/stores';
 import { is } from '@/utils';
 
+const emit = defineEmits<{ confirm: [] }>();
 const fullscreenLoading = useFullscreenLoading();
 const visible = ref(false);
 const importParams = ref<QTableProps['fileImport']>();
@@ -26,18 +27,15 @@ const downloadTemplate = async () => {
 };
 
 const requestMethod: UploadProps['requestMethod'] = (file) => {
-  return new Promise(async (resolve) => {
+  return new Promise(async () => {
     if (is.array(file)) return;
 
     fullscreenLoading.show();
     try {
       const response = await importParams.value?.api(file.raw!, replace.value);
       console.log(response); // TODO
-
-      resolve({
-        status: 'success',
-        response: { url: '/a/1' },
-      });
+      emit('confirm');
+      visible.value = false;
     } catch {
     } finally {
       fullscreenLoading.hide();
