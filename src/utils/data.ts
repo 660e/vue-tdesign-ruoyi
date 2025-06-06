@@ -78,8 +78,8 @@ export function generatePassword(length = 16) {
 export function fd(data: Record<string, string | number | File>) {
   const formData = new FormData();
   Object.entries(data).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      formData.append(key, value instanceof File ? value : String(value));
+    if (!is.undefined(value) && !is.null(value)) {
+      formData.append(key, is.file(value) ? value : String(value));
     }
   });
   return formData;
