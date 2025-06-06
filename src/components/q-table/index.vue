@@ -148,7 +148,7 @@ const viewSelectedRowData = () => {
       />
     </div>
 
-    <q-file-import ref="fileImportRef" />
+    <q-file-import @confirm="$emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
   </div>
 </template>
 
