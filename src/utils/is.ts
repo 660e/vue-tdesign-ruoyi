@@ -4,7 +4,7 @@ export const is = {
   bigint: (value: unknown): value is bigint => typeof value === 'bigint',
   boolean: (value: unknown): value is boolean => typeof value === 'boolean',
   date: (value: unknown): value is Date => value instanceof Date && !isNaN(value.getTime()),
-  function: (value: unknown): value is Function => typeof value === 'function',
+  function: (value: unknown): value is (...args: unknown[]) => unknown => typeof value === 'function',
   map: (value: unknown): value is Map<unknown, unknown> => value instanceof Map,
   null: (value: unknown): value is null => value === null,
   number: (value: unknown): value is number => typeof value === 'number' && !isNaN(value),
