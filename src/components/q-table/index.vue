@@ -3,6 +3,7 @@ import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useAnimateToggleHeight } from '@/hooks';
 import { useFullscreenLoading } from '@/stores';
+import SelectedSet from './SelectedSet.vue';
 import ToolbarFilter from './ToolbarFilter.vue';
 
 defineOptions({ inheritAttrs: false });
@@ -64,8 +65,9 @@ const onSelectChange: TableProps['onSelectChange'] = (selectedRowKeys, options) 
   selectedRowData.value = options.selectedRowData;
   emit('select-change', selectedRowKeys, options);
 };
+const selectedSetRef = ref();
 const viewSelectedRowData = () => {
-  console.log(selectedRowData.value); // TODO
+  selectedSetRef.value.show(selectedRowData.value);
 };
 </script>
 
@@ -149,6 +151,7 @@ const viewSelectedRowData = () => {
     </div>
 
     <q-file-import @confirm="$emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
+    <SelectedSet ref="selectedSetRef" />
   </div>
 </template>
 
