@@ -20,6 +20,7 @@ declare module 'vue' {
     TBreadcrumbItem: typeof import('tdesign-vue-next')['BreadcrumbItem']
     TButton: typeof import('tdesign-vue-next')['Button']
     TCheckbox: typeof import('tdesign-vue-next')['Checkbox']
+    TConfigProvider: typeof import('tdesign-vue-next')['ConfigProvider']
     TDateRangePicker: typeof import('tdesign-vue-next')['DateRangePicker']
     TDialog: typeof import('tdesign-vue-next')['Dialog']
     TForm: typeof import('tdesign-vue-next')['Form']

@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import type { GlobalConfigProvider } from 'tdesign-vue-next';
+
+const globalConfig: GlobalConfigProvider = {};
+</script>
+
 <template>
-  <RouterView />
+  <t-config-provider :global-config="globalConfig">
+    <RouterView />
+  </t-config-provider>
 </template>
