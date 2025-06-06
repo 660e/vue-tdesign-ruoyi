@@ -10,7 +10,7 @@ defineOptions({ inheritAttrs: false });
 const emit = defineEmits<{
   'page-change': [value: PageInfo];
   'refresh': [value: QTableToolbarFilterParams];
-  'select-change': [value: TableProps['selectedRowKeys'], ctx: SelectOptions<TableRowData>];
+  'select-change': [selectedRowKeys: TableProps['selectedRowKeys'], options: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 const { columns = [], fileExport } = defineProps<{
@@ -60,9 +60,9 @@ const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
 
 const selectedRowData = ref<TableRowData[]>([]);
-const onSelectChange: TableProps['onSelectChange'] = (value, ctx) => {
-  selectedRowData.value = ctx.selectedRowData;
-  emit('select-change', value, ctx);
+const onSelectChange: TableProps['onSelectChange'] = (selectedRowKeys, options) => {
+  selectedRowData.value = options.selectedRowData;
+  emit('select-change', selectedRowKeys, options);
 };
 const viewSelectedRowData = () => {
   console.log(selectedRowData.value); // TODO

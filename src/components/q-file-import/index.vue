@@ -26,13 +26,13 @@ const downloadTemplate = async () => {
   }
 };
 
-const requestMethod: UploadProps['requestMethod'] = (file) => {
+const requestMethod: UploadProps['requestMethod'] = (files) => {
   return new Promise(async () => {
-    if (is.array(file)) return;
+    if (is.array(files)) return;
 
     fullscreenLoading.show();
     try {
-      const response = await importParams.value?.api(file.raw!, replace.value);
+      const response = await importParams.value?.api(files.raw!, replace.value);
       console.log(response); // TODO
       emit('confirm');
       visible.value = false;

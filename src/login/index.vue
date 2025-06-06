@@ -10,7 +10,7 @@ const formData = reactive({
   uuid: '',
 });
 
-const rules: FormProps['rules'] = {
+const formRules: FormProps['rules'] = {
   username: [{ required: true, trigger: 'blur' }],
   password: [{ required: true, trigger: 'blur' }],
   code: [{ required: true, trigger: 'blur' }],
@@ -66,7 +66,7 @@ onMounted(() => refreshCaptcha());
 <template>
   <div class="h-screen flex justify-center items-center">
     <div class="p-6 rounded border border-neutral-200">
-      <t-form :data="formData" :disabled="disabled" :rules="rules" @submit="onSubmit" class="w-80" label-width="0">
+      <t-form :data="formData" :disabled="disabled" :rules="formRules" @submit="onSubmit" class="w-80" label-width="0">
         <t-form-item name="username">
           <t-input v-model="formData.username" placeholder="账户" size="large">
             <template #prefix-icon>

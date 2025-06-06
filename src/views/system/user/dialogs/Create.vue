@@ -23,7 +23,7 @@ const formData = reactive({
   roleIds: [],
   remark: '',
 });
-const rules: FormProps['rules'] = {
+const formRules: FormProps['rules'] = {
   userName: [{ required: true, trigger: 'blur' }],
   password: [{ required: true, trigger: 'blur' }],
   nickName: [{ required: true, trigger: 'blur' }],
@@ -72,7 +72,7 @@ defineExpose({ show });
 
 <template>
   <t-dialog v-model:visible="visible" :header="`${formData.userId ? '修改' : '新增'}用户`" :on-closed="onClosed" :on-confirm="onConfirm" width="700">
-    <t-form :data="formData" :rules="rules" class="grid grid-cols-2" ref="formRef">
+    <t-form :data="formData" :rules="formRules" class="grid grid-cols-2" ref="formRef">
       <t-form-item v-if="!formData.userId" label="用户名称" name="userName">
         <t-input v-model="formData.userName" />
       </t-form-item>
