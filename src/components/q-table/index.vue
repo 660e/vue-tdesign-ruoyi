@@ -31,6 +31,11 @@ const tableColumns = computed(() => {
     return column.colKey && !column.toolbarFilter?.implicit;
   });
 });
+const selectedSetColumns = computed(() => {
+  return columns.filter((column) => {
+    return column.colKey && column.selectedSet;
+  });
+});
 
 const toolbarFilterRef = ref();
 const toolbarFilterVisible = ref(true);
@@ -67,7 +72,7 @@ const onSelectChange: TableProps['onSelectChange'] = (selectedRowKeys, options) 
 };
 const selectedSetRef = ref();
 const viewSelectedRowData = () => {
-  selectedSetRef.value.show(selectedRowData.value);
+  selectedSetRef.value.show(selectedSetColumns.value, selectedRowData.value);
 };
 </script>
 

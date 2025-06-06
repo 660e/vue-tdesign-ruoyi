@@ -6,7 +6,6 @@ type QTableToolbarFilter = QTableToolbarDateRangeFilter | QTableToolbarInputFilt
 export type QTableToolbarFilterParams = AppUnknownRecord;
 
 interface QTableSelectedSet {
-  show: boolean;
   dict?: AppSystemDictKey;
 }
 
@@ -36,7 +35,7 @@ interface QTableToolbarTreeSelectFilter extends QTableToolbarFilterBase {
 }
 
 interface QTableColumnExtra {
-  selectedSet?: QTableSelectedSet;
+  selectedSet?: boolean | QTableSelectedSet;
   toolbarFilter?: QTableToolbarFilter;
 }
 

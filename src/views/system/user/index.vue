@@ -21,7 +21,7 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '用户名称', colKey: 'userName', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '用户名称', colKey: 'userName', minWidth: 200, toolbarFilter: { type: 'input' }, selectedSet: true },
   { title: '用户昵称', colKey: 'nickName', minWidth: 200 },
   { title: '部门名称', colKey: 'dept.deptName', minWidth: 200 },
   { title: '手机号码', colKey: 'phonenumber', width: 200, toolbarFilter: { type: 'input' } },
