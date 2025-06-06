@@ -63,9 +63,6 @@ defineExpose({ show });
 </template>
 
 <style scoped>
-:global(.t-dialog .t-dialog__body) {
-  padding-bottom: 0;
-}
 .t-upload :deep(.t-upload__dragger) {
   width: auto;
 }

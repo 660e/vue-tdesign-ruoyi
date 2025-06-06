@@ -1,3 +1,7 @@
+.t-dialog > .t-dialog__body:last-child {
+  padding-bottom: 0;
+}
+
 .t-table table.t-table--layout-fixed {
   border-collapse: separate;
 }

@@ -16,10 +16,9 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" header="已选数据" placement="center" width="1000px">
+  <t-dialog v-model:visible="visible" :footer="false" header="已选数据" placement="center" width="1000px">
     <div class="max-h-[50vh]">
-      <pre>{{ th }}</pre>
-      <pre>{{ td }}</pre>
+      <t-table :columns="th" :data="td" max-height="50vh" size="small" bordered />
     </div>
   </t-dialog>
 </template>
