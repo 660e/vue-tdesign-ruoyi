@@ -53,12 +53,7 @@ const onClosed = () => {
 };
 
 const onConfirm = async () => {
-  const result = await formRef.value?.validate();
-
-  if (result !== true) {
-    console.log(result); // TODO
-    return;
-  }
+  if ((await formRef.value?.validate()) !== true) return;
 
   fullscreenLoading.show();
   try {
