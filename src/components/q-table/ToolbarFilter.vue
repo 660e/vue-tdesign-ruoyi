@@ -61,7 +61,7 @@ const onSubmit = () => {
       case 'input':
       case 'select':
       case 'tree-select':
-        if (value !== '' && value !== undefined) {
+        if (value !== '' && !is.undefined(value)) {
           result[item.colKey!] = value;
         }
         break;
