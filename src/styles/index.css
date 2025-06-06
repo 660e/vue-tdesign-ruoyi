@@ -7,3 +7,8 @@
   cursor: pointer;
   transition: color 0.2s linear;
 }
+
+.clickable-danger {
+  color: var(--td-error-color);
+  cursor: pointer;
+}

@@ -21,6 +21,7 @@ const { columns = [], fileExport } = defineProps<{
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
+const attrs = useAttrs() as { 'row-key'?: string };
 const fullscreenLoading = useFullscreenLoading();
 
 const tableColumns = computed(() => {
@@ -72,7 +73,7 @@ const onSelectChange: TableProps['onSelectChange'] = (selectedRowKeys, options) 
 };
 const selectedSetRef = ref();
 const viewSelectedRowData = () => {
-  selectedSetRef.value.show(selectedSetColumns.value, selectedRowData.value);
+  selectedSetRef.value.show(attrs['row-key'], selectedSetColumns.value, selectedRowData.value);
 };
 </script>
 
