@@ -7,6 +7,7 @@ export type QTableToolbarFilterParams = AppUnknownRecord;
 
 interface QTableSelectedSet {
   show: boolean;
+  dict?: AppSystemDictKey;
 }
 
 interface QTableToolbarFilterBase {
