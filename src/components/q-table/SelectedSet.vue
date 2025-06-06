@@ -26,8 +26,8 @@ defineExpose({ show });
 
 <template>
   <t-dialog v-model:visible="visible" :footer="false" header="已选数据" placement="center" width="1000px">
-    <div class="max-h-[50vh] border-t border-neutral-200">
-      <t-table :columns="tableColumns" :data="tableData" :row-key="rowKey" max-height="50vh" size="small">
+    <div class="border-t border-neutral-200">
+      <t-table :columns="tableColumns" :data="tableData" :row-key="rowKey" max-height="70vh" size="small">
         <template #operation="{ row }">
           <t-icon @click="remove(row[rowKey])" class="clickable-danger" name="delete" />
         </template>
