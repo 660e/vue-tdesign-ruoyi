@@ -1,9 +1,13 @@
 import type { LinkProps, PopconfirmProps, PrimaryTableCol, TableRowData, TNode, TreeKeysType, TreeOptionData } from 'tdesign-vue-next';
 import type { AppResponseData, AppSystemDictKey, AppUnknownRecord } from '@/types';
 
-type QTableColumn = PrimaryTableCol<TableRowData> & QTableToolbarFilter;
-type QTableToolbarFilterItem = QTableDateRangeFilter | QTableInputFilter | QTableSelectFilter | QTableTreeSelectFilter;
+type QTableColumn = PrimaryTableCol<TableRowData> & QTableColumnExtra;
+type QTableToolbarFilter = QTableToolbarDateRangeFilter | QTableToolbarInputFilter | QTableToolbarSelectFilter | QTableToolbarTreeSelectFilter;
 export type QTableToolbarFilterParams = AppUnknownRecord;
+
+interface QTableSelectedSet {
+  show: boolean;
+}
 
 interface QTableToolbarFilterBase {
   implicit?: boolean;
@@ -11,27 +15,28 @@ interface QTableToolbarFilterBase {
   type: 'date-range' | 'input' | 'select' | 'tree-select';
 }
 
-interface QTableDateRangeFilter extends QTableToolbarFilterBase {
+interface QTableToolbarDateRangeFilter extends QTableToolbarFilterBase {
   type: 'date-range';
   keys?: { start?: string; end?: string };
 }
 
-interface QTableInputFilter extends QTableToolbarFilterBase {
+interface QTableToolbarInputFilter extends QTableToolbarFilterBase {
   type: 'input';
 }
 
-interface QTableSelectFilter extends QTableToolbarFilterBase {
+interface QTableToolbarSelectFilter extends QTableToolbarFilterBase {
   type: 'select';
   dict: AppSystemDictKey;
 }
 
-interface QTableTreeSelectFilter extends QTableToolbarFilterBase {
+interface QTableToolbarTreeSelectFilter extends QTableToolbarFilterBase {
   type: 'tree-select';
   keys?: TreeKeysType;
 }
 
-interface QTableToolbarFilter {
-  toolbarFilter?: QTableToolbarFilterItem;
+interface QTableColumnExtra {
+  selectedSet?: QTableSelectedSet;
+  toolbarFilter?: QTableToolbarFilter;
 }
 
 interface QTableToolbarFilterOptions {
