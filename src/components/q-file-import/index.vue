@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import type { UploadProps } from 'tdesign-vue-next';
 import type { QTableProps } from '@/types';
 import { useFullscreenLoading } from '@/stores';
+import { is } from '@/utils';
 
 const fullscreenLoading = useFullscreenLoading();
-const importParams = ref<QTableProps['fileImport']>();
 const visible = ref(false);
+const importParams = ref<QTableProps['fileImport']>();
+const replace = ref(false);
 
 const show = (fileImport: QTableProps['fileImport']) => {
   importParams.value = fileImport;
   visible.value = true;
-
-  console.log(importParams.value.api); // TODO
 };
 
 const downloadTemplate = async () => {
@@ -24,16 +25,41 @@ const downloadTemplate = async () => {
   }
 };
 
+const requestMethod: UploadProps['requestMethod'] = (file) => {
+  return new Promise(async (resolve) => {
+    if (is.array(file)) return;
+
+    fullscreenLoading.show();
+    try {
+      const response = await importParams.value?.api(file.raw!, replace.value);
+      console.log(response); // TODO
+
+      resolve({
+        status: 'success',
+        response: { url: '/a/1' },
+      });
+    } catch {
+    } finally {
+      fullscreenLoading.hide();
+    }
+  });
+};
+
 defineExpose({ show });
 </script>
 
 <template>
   <t-dialog v-model:visible="visible" :footer="false" header="导入">
-    <t-upload :accept="importParams?.templateType ? `.${importParams.templateType}` : undefined" :auto-upload="false" draggable />
+    <t-upload
+      :accept="importParams?.templateType ? `.${importParams.templateType}` : undefined"
+      :auto-upload="false"
+      :request-method="requestMethod"
+      draggable
+    />
     <div v-if="importParams?.template || importParams?.replaceable" class="flex pt-4">
       <t-link v-if="importParams.template" @click="downloadTemplate" theme="primary">下载模板</t-link>
       <div class="flex-1"></div>
-      <t-checkbox v-if="importParams.replaceable">覆盖原数据</t-checkbox>
+      <t-checkbox v-if="importParams.replaceable" v-model="replace">覆盖原数据</t-checkbox>
     </div>
   </t-dialog>
 </template>

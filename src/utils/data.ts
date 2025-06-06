@@ -79,7 +79,7 @@ export function fd(data: Record<string, string | number | File>) {
   const formData = new FormData();
   Object.entries(data).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
-      formData.append(key, value.toString());
+      formData.append(key, value instanceof File ? value : String(value));
     }
   });
   return formData;
