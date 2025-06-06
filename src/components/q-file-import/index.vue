@@ -28,8 +28,8 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" header="导入">
-    <t-upload draggable />
+  <t-dialog v-model:visible="visible" :footer="false" header="导入">
+    <t-upload :accept="importParams?.templateType ? `.${importParams.templateType}` : undefined" :auto-upload="false" draggable />
     <div v-if="importParams?.template || importParams?.replaceable" class="flex pt-4">
       <t-link v-if="importParams.template" @click="downloadTemplate" theme="primary">下载模板</t-link>
       <div class="flex-1"></div>
@@ -39,6 +39,9 @@ defineExpose({ show });
 </template>
 
 <style scoped>
+:global(.t-dialog .t-dialog__body) {
+  padding-bottom: 0;
+}
 .t-upload :deep(.t-upload__dragger) {
   width: auto;
 }

@@ -168,6 +168,7 @@ const fileExport: QTableProps['fileExport'] = {
 const fileImport: QTableProps['fileImport'] = {
   api: (file, replace) => importUser(file, replace ? 1 : 0),
   template: () => importUserTemplate(),
+  templateType: 'xlsx',
   replaceable: true,
 };
 
