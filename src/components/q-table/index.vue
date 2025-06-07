@@ -116,7 +116,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       </t-table>
     </div>
 
-    <div v-if="pagination" class="p-4 flex">
+    <div v-if="fileImport || fileExport || pagination" class="p-4 flex">
       <div class="flex gap-2">
         <t-button v-if="fileImport" @click="fileImportRef.show(fileImport)" theme="default">
           <template #icon><t-icon name="file-import" /></template><span>导入</span>
