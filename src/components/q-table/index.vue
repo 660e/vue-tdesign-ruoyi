@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
+import type { PageInfo, TableProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useAnimateToggleHeight } from '@/hooks';
 import { useFullscreenLoading } from '@/stores';
-import SelectedSet from './SelectedSet.vue';
 import ToolbarFilter from './ToolbarFilter.vue';
 
 defineOptions({ inheritAttrs: false });
@@ -11,17 +10,16 @@ defineOptions({ inheritAttrs: false });
 const emit = defineEmits<{
   'page-change': [value: PageInfo];
   'refresh': [value: QTableToolbarFilterParams];
-  'select-change': [selectedRowKeys: TableProps['selectedRowKeys'], options: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 const { columns = [], fileExport } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
   fileImport?: QTableProps['fileImport'];
+  selectedRowKeys?: TableProps['selectedRowKeys'];
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
-const attrs = useAttrs() as { 'row-key'?: string };
 const fullscreenLoading = useFullscreenLoading();
 
 const tableColumns = computed(() => {
@@ -30,11 +28,6 @@ const tableColumns = computed(() => {
       column.title = '-';
     }
     return column.colKey && !column.toolbarFilter?.implicit;
-  });
-});
-const selectedSetColumns = computed(() => {
-  return columns.filter((column) => {
-    return column.colKey && column.selectedSet;
   });
 });
 
@@ -65,23 +58,6 @@ const onFileExport = async () => {
 
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
-
-const selectedSetRef = ref();
-const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);
-const selectOptions = ref<SelectOptions<TableRowData>>();
-const onSelectChange: TableProps['onSelectChange'] = (value, ctx) => {
-  selectedRowKeys.value = value;
-  selectOptions.value = ctx;
-  emit('select-change', value, ctx);
-};
-const viewSelectedRowData = () => {
-  selectedSetRef.value.show(attrs['row-key'], selectedSetColumns.value, selectOptions.value?.selectedRowData);
-};
-const removeSelectedRow = (id: number | string) => {
-  selectedRowKeys.value = selectedRowKeys.value?.filter((e) => e !== id);
-  selectOptions.value!.selectedRowData = selectOptions.value!.selectedRowData?.filter((e) => e[attrs['row-key']!] !== id);
-  emit('select-change', selectedRowKeys.value, selectOptions.value!);
-};
 </script>
 
 <template>
@@ -130,8 +106,6 @@ const removeSelectedRow = (id: number | string) => {
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
         :columns="tableColumns"
-        :selected-row-keys="selectedRowKeys"
-        @select-change="onSelectChange"
         class="h-full"
         height="100%"
         row-key="id"
@@ -150,8 +124,7 @@ const removeSelectedRow = (id: number | string) => {
         class="w-1 mr-2"
       ></div>
       <div v-if="selectedRowKeys?.length" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
-        <t-link @click="viewSelectedRowData" theme="primary">已选 {{ selectedRowKeys.length }} 条数据</t-link>
-        <span>，</span>
+        <span>已选 {{ selectedRowKeys.length }} 条数据，</span>
       </div>
       <t-pagination
         v-if="pagination"
@@ -165,7 +138,6 @@ const removeSelectedRow = (id: number | string) => {
     </div>
 
     <q-file-import @confirm="$emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
-    <SelectedSet @remove="removeSelectedRow" ref="selectedSetRef" />
   </div>
 </template>
 
