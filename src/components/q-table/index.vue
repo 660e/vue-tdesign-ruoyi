@@ -85,16 +85,6 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>
-      <t-tooltip v-if="fileImport" content="导入" placement="bottom">
-        <t-button @click="fileImportRef.show(fileImport)" shape="circle" variant="outline">
-          <template #icon><t-icon name="file-import" /></template>
-        </t-button>
-      </t-tooltip>
-      <t-tooltip v-if="fileExport" content="导出" placement="bottom">
-        <t-button @click="onFileExport" shape="circle" variant="outline">
-          <template #icon><t-icon name="file-export" /></template>
-        </t-button>
-      </t-tooltip>
       <t-tooltip content="列设置" placement="bottom">
         <t-button @click="columnControllerVisible = true" shape="circle" variant="outline">
           <template #icon><t-icon name="view-column" /></template>
@@ -127,6 +117,12 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
     </div>
 
     <div v-if="pagination" class="p-4 flex">
+      <t-button v-if="fileImport" @click="fileImportRef.show(fileImport)" theme="default">
+        <template #icon><t-icon name="file-import" /></template><span>导入</span>
+      </t-button>
+      <t-button v-if="fileExport" @click="onFileExport" theme="default">
+        <template #icon><t-icon name="file-export" /></template><span>导出</span>
+      </t-button>
       <div
         :style="{ backgroundColor: selectedRowKeys?.length ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
         class="w-1 mr-2"
