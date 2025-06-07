@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageInfo, TableProps } from 'tdesign-vue-next';
+import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useAnimateToggleHeight } from '@/hooks';
 import { useFullscreenLoading } from '@/stores';
@@ -10,13 +10,14 @@ defineOptions({ inheritAttrs: false });
 const emit = defineEmits<{
   'page-change': [value: PageInfo];
   'refresh': [value: QTableToolbarFilterParams];
+  'select-change': [selectedRowKeys: TableProps['selectedRowKeys'], options: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
+const selectedRowKeys = defineModel<TableProps['selectedRowKeys']>('selectedRowKeys', { default: () => [] });
 const { columns = [], fileExport } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
   fileImport?: QTableProps['fileImport'];
-  selectedRowKeys?: TableProps['selectedRowKeys'];
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
@@ -58,6 +59,11 @@ const onFileExport = async () => {
 
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
+
+const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
+  selectedRowKeys.value = value;
+  emit('select-change', value, options);
+};
 </script>
 
 <template>
@@ -106,6 +112,8 @@ const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
         :columns="tableColumns"
+        :selected-row-keys="selectedRowKeys"
+        @select-change="onSelectChange"
         class="h-full"
         height="100%"
         row-key="id"
