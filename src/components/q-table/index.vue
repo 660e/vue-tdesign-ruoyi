@@ -117,18 +117,22 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
     </div>
 
     <div v-if="pagination" class="p-4 flex">
-      <t-button v-if="fileImport" @click="fileImportRef.show(fileImport)" theme="default">
-        <template #icon><t-icon name="file-import" /></template><span>导入</span>
-      </t-button>
-      <t-button v-if="fileExport" @click="onFileExport" theme="default">
-        <template #icon><t-icon name="file-export" /></template><span>导出</span>
-      </t-button>
-      <div
-        :style="{ backgroundColor: selectedRowKeys?.length ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
-        class="w-1 mr-2"
-      ></div>
-      <div v-if="selectedRowKeys?.length" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
-        <span>已选 {{ selectedRowKeys.length }} 条数据，</span>
+      <div class="flex gap-2">
+        <t-button v-if="fileImport" @click="fileImportRef.show(fileImport)" theme="default">
+          <template #icon><t-icon name="file-import" /></template><span>导入</span>
+        </t-button>
+        <t-button v-if="fileExport" @click="onFileExport" theme="default">
+          <template #icon><t-icon name="file-export" /></template><span>导出</span>
+        </t-button>
+        <div
+          :class="{ 'mr-2': selectedRowKeys?.length === 0 }"
+          :style="{ backgroundColor: selectedRowKeys?.length ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
+          class="w-1"
+        ></div>
+        <div v-if="selectedRowKeys?.length" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
+          <span>已选 {{ selectedRowKeys.length }} 条数据</span>
+          <span v-if="pagination">，</span>
+        </div>
       </div>
       <t-pagination
         v-if="pagination"
