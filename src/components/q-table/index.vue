@@ -66,14 +66,21 @@ const onFileExport = async () => {
 const columnControllerVisible = ref(false);
 const displayColumns = ref<TableProps['displayColumns']>(columns.filter((e) => e.colKey).map((e) => e.colKey!));
 
-const selectedRowData = ref<TableRowData[]>([]);
-const onSelectChange: TableProps['onSelectChange'] = (selectedRowKeys, options) => {
-  selectedRowData.value = options.selectedRowData;
-  emit('select-change', selectedRowKeys, options);
-};
 const selectedSetRef = ref();
+const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);
+const selectOptions = ref<SelectOptions<TableRowData>>();
+const onSelectChange: TableProps['onSelectChange'] = (value, ctx) => {
+  selectedRowKeys.value = value;
+  selectOptions.value = ctx;
+  emit('select-change', value, ctx);
+};
 const viewSelectedRowData = () => {
-  selectedSetRef.value.show(attrs['row-key'], selectedSetColumns.value, selectedRowData.value);
+  selectedSetRef.value.show(attrs['row-key'], selectedSetColumns.value, selectOptions.value?.selectedRowData);
+};
+const removeSelectedRow = (id: number | string) => {
+  selectedRowKeys.value = selectedRowKeys.value?.filter((e) => e !== id);
+  selectOptions.value!.selectedRowData = selectOptions.value!.selectedRowData?.filter((e) => e[attrs['row-key']!] !== id);
+  emit('select-change', selectedRowKeys.value, selectOptions.value!);
 };
 </script>
 
@@ -123,6 +130,7 @@ const viewSelectedRowData = () => {
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
         :columns="tableColumns"
+        :selected-row-keys="selectedRowKeys"
         @select-change="onSelectChange"
         class="h-full"
         height="100%"
@@ -138,11 +146,11 @@ const viewSelectedRowData = () => {
 
     <div v-if="pagination" class="p-4 flex">
       <div
-        :style="{ backgroundColor: selectedRowData.length ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
+        :style="{ backgroundColor: selectedRowKeys?.length ? 'var(--td-brand-color)' : 'var(--td-bg-color-secondarycontainer)' }"
         class="w-1 mr-2"
       ></div>
-      <div v-if="selectedRowData.length" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
-        <t-link @click="viewSelectedRowData" theme="primary">已选 {{ selectedRowData.length }} 条数据</t-link>
+      <div v-if="selectedRowKeys?.length" :style="{ color: 'var(--td-text-color-secondary)' }" class="text-sm flex items-center">
+        <t-link @click="viewSelectedRowData" theme="primary">已选 {{ selectedRowKeys.length }} 条数据</t-link>
         <span>，</span>
       </div>
       <t-pagination
@@ -157,7 +165,7 @@ const viewSelectedRowData = () => {
     </div>
 
     <q-file-import @confirm="$emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
-    <SelectedSet ref="selectedSetRef" />
+    <SelectedSet @remove="removeSelectedRow" ref="selectedSetRef" />
   </div>
 </template>
 
