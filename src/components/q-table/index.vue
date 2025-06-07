@@ -77,7 +77,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       />
     </div>
 
-    <div class="p-4 flex gap-2">
+    <div v-if="$slots.topContent" class="px-4 pt-4 flex gap-2">
       <slot name="topContent"></slot>
       <div class="flex-1"></div>
       <t-tooltip content="刷新" placement="bottom">
@@ -97,7 +97,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       </t-tooltip>
     </div>
 
-    <div class="flex-1 overflow-auto border-t border-neutral-200">
+    <div class="flex-1 mt-4 overflow-auto border-t border-neutral-200">
       <t-table
         v-model:column-controller-visible="columnControllerVisible"
         v-model:display-columns="displayColumns"
@@ -106,7 +106,6 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
         @select-change="onSelectChange"
         class="h-full"
         height="100%"
-        row-key="id"
         v-bind:="$attrs"
         hover
       >
