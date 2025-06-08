@@ -80,7 +80,7 @@ function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[
     });
 }
 
-export const useAppStore = defineStore('info', () => {
+export const useAppStore = defineStore('app', () => {
   const dicts = ref<AppSystemDictMap>();
   const permissions = ref();
   const postGroup = ref();
