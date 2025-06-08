@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useInfoStore } from '@/stores';
+import { useAppStore } from '@/stores';
 
-const { postGroup, roleGroup, user } = useInfoStore();
+const { postGroup, roleGroup, user } = useAppStore();
 </script>
 
 <template>

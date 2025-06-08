@@ -3,10 +3,10 @@ import type { ProgressStatus } from 'tdesign-vue-next';
 import { getInfo } from '@/apis/login';
 import { dict, userProfile } from '@/apis/system';
 import { DICTS } from '@/constants';
-import { useInfoStore } from '@/stores';
+import { useAppStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
-const { setPermissions, setPostGroup, setRoleGroup, setRoles, setUser, setDicts } = useInfoStore();
+const { setPermissions, setPostGroup, setRoleGroup, setRoles, setUser, setDicts } = useAppStore();
 const progress = reactive<{
   text: string;
   percentage: number;

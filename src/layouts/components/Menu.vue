@@ -1,11 +1,11 @@
 <script setup lang="tsx">
 import type { RouteRecordRaw } from 'vue-router';
 import type { MenuValue } from 'tdesign-vue-next';
-import { useInfoStore } from '@/stores';
+import { useAppStore } from '@/stores';
 
 const route = useRoute();
 const router = useRouter();
-const infoStore = useInfoStore();
+const appStore = useAppStore();
 const collapsed = ref(false);
 const defaultValue = ref();
 const defaultExpanded = ref();
@@ -70,7 +70,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
     <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
   </div>
   <t-menu :collapsed="collapsed" :expanded="defaultExpanded" :value="defaultValue" @expand="expand" class="flex-1 overflow-auto" expand-mutex>
-    <MenuItem :routes="infoStore.routes" />
+    <MenuItem :routes="appStore.routes" />
   </t-menu>
 </template>
 

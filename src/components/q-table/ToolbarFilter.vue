@@ -3,7 +3,7 @@ import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useElementSize } from '@vueuse/core';
 import { useAnimateToggleHeight } from '@/hooks';
-import { useInfoStore } from '@/stores';
+import { useAppStore } from '@/stores';
 import { is } from '@/utils';
 
 const emit = defineEmits<{ change: [value: QTableToolbarFilterParams] }>();
@@ -35,7 +35,7 @@ const createEmptyFormData = () => {
 };
 
 const more = ref(false);
-const { dicts } = useInfoStore();
+const { dicts } = useAppStore();
 
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive(createEmptyFormData());
