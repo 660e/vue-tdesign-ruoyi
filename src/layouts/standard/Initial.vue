@@ -6,7 +6,7 @@ import { DICTS } from '@/constants';
 import { useAppStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
-const { setPermissions, setPostGroup, setRoleGroup, setRoles, setUser, setDicts } = useAppStore();
+const { setPermissions, setPostGroup, setRoleGroup, setRoles, setUser, setDicts, signOut } = useAppStore();
 const progress = reactive<{
   text: string;
   percentage: number;
@@ -46,12 +46,6 @@ onMounted(async () => {
     setProgress('初始化失败，请重新登录', 100, 'error');
   }
 });
-
-const router = useRouter();
-const signOut = () => {
-  localStorage.removeItem('token');
-  router.push({ name: 'login' });
-};
 </script>
 
 <template>

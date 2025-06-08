@@ -1,7 +1,6 @@
 import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import type { AppRequestConfig } from '@/types';
 import axios from 'axios';
-import router from '@/router';
 
 class Request {
   private instance;
@@ -31,8 +30,7 @@ class Request {
             return response.data;
           }
           case 401:
-            localStorage.removeItem('token');
-            router.push({ name: 'login' });
+            console.log('401');
             break;
           case 404:
             console.log('404');

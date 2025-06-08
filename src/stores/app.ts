@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { AppRoute, AppSystemDictMap } from '@/types';
 import { defineStore } from 'pinia';
+import router from '@/router';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const views = import.meta.glob<{ default: any }>('@/views/**/index.vue', { eager: true });
@@ -102,7 +103,8 @@ export const useAppStore = defineStore('app', () => {
   const setUser = (n: unknown) => (user.value = n);
 
   const signOut = () => {
-    console.log('Sign out');
+    localStorage.removeItem('token');
+    router.push({ name: 'login' });
   };
 
   return {
