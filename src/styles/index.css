@@ -2,10 +2,13 @@
 @import 'tailwindcss';
 @import './tdesign.css';
 
-.clickable:hover {
-  color: var(--td-brand-color);
+.clickable {
   cursor: pointer;
   transition-duration: 200ms;
+}
+
+.clickable:hover {
+  color: var(--td-brand-color);
 }
 
 .clickable-danger {
