@@ -30,7 +30,7 @@ const visible = ref(false);
       <div class="list-item">
         <t-icon name="calendar-2" /><span>注册日期</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
       </div>
-      <div class="h-px my-3 bg-neutral-200"></div>
+      <t-divider class="!my-3" />
       <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="file-1" /><span>修改基本资料</span></div>
       <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="lock-on" /><span>修改密码</span></div>
     </div>
