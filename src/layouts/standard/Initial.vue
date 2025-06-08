@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { ProgressStatus } from 'tdesign-vue-next';
 import { getInfo } from '@/apis/login';
-import { dict } from '@/apis/system';
+import { dict, userProfile } from '@/apis/system';
 import { DICTS } from '@/constants';
 import { useInfoStore } from '@/stores';
 
 const emit = defineEmits<{ done: [] }>();
-const { setPermissions, setRoles, setUser, setDicts } = useInfoStore();
+const { setPermissions, setPostGroup, setRoleGroup, setRoles, setUser, setDicts } = useInfoStore();
 const progress = reactive<{
   text: string;
   percentage: number;
@@ -25,13 +25,18 @@ const setProgress = (text: string, percentage: number, status?: ProgressStatus) 
 
 onMounted(async () => {
   try {
-    setProgress('获取用户信息', 20);
-    const { permissions, roles, user } = await getInfo();
+    setProgress('获取用户资料', 20);
+    const { data, postGroup, roleGroup } = await userProfile();
+    setUser(data);
+    setPostGroup(postGroup);
+    setRoleGroup(roleGroup);
+
+    setProgress('获取用户权限', 40);
+    const { permissions, roles } = await getInfo();
     setPermissions(permissions);
     setRoles(roles);
-    setUser(user);
 
-    setProgress('获取字典信息', 40);
+    setProgress('获取字典数据', 60);
     const dicts = await Promise.all(DICTS.map((e) => dict(e)));
     setDicts(dicts.map((e) => e.data));
 

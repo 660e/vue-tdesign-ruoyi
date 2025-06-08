@@ -83,8 +83,8 @@ function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[
 export const useInfoStore = defineStore('info', () => {
   const dicts = ref<AppSystemDictMap>();
   const permissions = ref();
-  const postGroup = ref<string>();
-  const roleGroup = ref<string>();
+  const postGroup = ref();
+  const roleGroup = ref();
   const roles = ref();
   const routes = ref<RouteRecordRaw[]>([]);
   const user = ref();
@@ -95,8 +95,8 @@ export const useInfoStore = defineStore('info', () => {
     dicts.value = new Map(standardizeDicts.map((e) => [e[0].type, e])) as AppSystemDictMap;
   };
   const setPermissions = (n: unknown) => (permissions.value = n);
-  const setPostGroup = (n: string) => (postGroup.value = n);
-  const setRoleGroup = (n: string) => (roleGroup.value = n);
+  const setPostGroup = (n = '-') => (postGroup.value = n);
+  const setRoleGroup = (n = '-') => (roleGroup.value = n);
   const setRoles = (n: unknown) => (roles.value = n);
   const setRoutes = (n: AppRoute[]) => (routes.value = standardizeRoutes(n));
   const setUser = (n: unknown) => (user.value = n);
