@@ -101,6 +101,10 @@ export const useAppStore = defineStore('app', () => {
   const setRoutes = (n: AppRoute[]) => (routes.value = standardizeRoutes(n));
   const setUser = (n: unknown) => (user.value = n);
 
+  const signOut = () => {
+    console.log('Sign out');
+  };
+
   return {
     dicts,
     permissions,
@@ -109,6 +113,7 @@ export const useAppStore = defineStore('app', () => {
     roles,
     routes,
     user,
+
     setDicts,
     setPermissions,
     setPostGroup,
@@ -116,5 +121,7 @@ export const useAppStore = defineStore('app', () => {
     setRoles,
     setRoutes,
     setUser,
+
+    signOut,
   };
 });

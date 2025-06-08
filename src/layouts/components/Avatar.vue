@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores';
 
-const { postGroup, roleGroup, user } = useAppStore();
+const { postGroup, roleGroup, user, signOut } = useAppStore();
+
+const logout = () => {
+  signOut();
+};
 </script>
 
 <template>
   <div class="flex items-center gap-2">
     <div>{{ user.nickName }}</div>
     <t-popup :overlay-inner-style="{ padding: 0 }" placement="bottom-right" trigger="click">
-      <t-avatar class="cursor-pointer">{{ user.nickName }}</t-avatar>
+      <t-avatar class="cursor-pointer" />
       <template #content>
         <div class="pb-3 flex flex-col text-neutral-600">
           <div class="w-[300px] h-[150px] m-3 flex flex-col justify-center items-center rounded bg-neutral-100">
-            <t-avatar size="64px">{{ user.nickName }}</t-avatar>
+            <t-avatar size="64px" />
             <div class="font-bold pt-2 pb-1">{{ user.nickName }} · {{ roleGroup }}</div>
             <div class="text-xs">{{ user.phonenumber }}</div>
           </div>
@@ -31,7 +35,7 @@ const { postGroup, roleGroup, user } = useAppStore();
           <div class="h-px my-3 bg-neutral-200"></div>
           <div class="list-item clickable hover:bg-blue-50"><t-icon name="file-1" /><span>修改基本资料</span></div>
           <div class="list-item clickable hover:bg-blue-50"><t-icon name="lock-on" /><span>修改密码</span></div>
-          <div class="list-item clickable-danger hover:bg-red-50"><t-icon name="logout" /><span>退出登录</span></div>
+          <div @click="logout" class="list-item clickable-danger hover:bg-red-50"><t-icon name="logout" /><span>退出登录</span></div>
         </div>
       </template>
     </t-popup>
