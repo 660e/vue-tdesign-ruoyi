@@ -1,16 +1,40 @@
 <script setup lang="ts">
-import type { PopupProps } from 'tdesign-vue-next';
+import { userProfile } from '@/apis/system';
+import { useFullscreenLoading } from '@/stores';
 
-const onVisibleChange: PopupProps['onVisibleChange'] = (visible) => {
-  console.log(visible);
+const fullscreenLoading = useFullscreenLoading();
+const visible = ref(false);
+const profileData = ref({});
+
+const show = async () => {
+  if (visible.value) return;
+
+  fullscreenLoading.show();
+  try {
+    profileData.value = await userProfile();
+    visible.value = true;
+  } catch {
+  } finally {
+    fullscreenLoading.hide();
+
+    console.log(profileData.value);
+  }
 };
+
+onMounted(() => {
+  window.addEventListener('click', () => {
+    if (visible.value) {
+      visible.value = false;
+    }
+  });
+});
 </script>
 
 <template>
   <div class="flex items-center gap-2">
     <div>Min</div>
-    <t-popup :on-visible-change="onVisibleChange" :overlay-inner-style="{ padding: 0 }" placement="bottom-right" trigger="click">
-      <t-avatar class="cursor-pointer">M</t-avatar>
+    <t-popup :overlay-inner-style="{ padding: 0 }" :visible="visible" placement="bottom-right" trigger="click">
+      <t-avatar @click="show" class="cursor-pointer">M</t-avatar>
       <template #content>
         <div class="pb-3 flex flex-col">
           <div class="w-[300px] h-[150px] m-3 flex flex-col justify-center items-center rounded bg-neutral-100">

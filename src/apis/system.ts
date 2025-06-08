@@ -1,6 +1,10 @@
 import type { AppRequestListParams, AppResponseData, AppUnknownRecord } from '@/types';
 import { fd, request } from '@/utils';
 
+export function userProfile() {
+  return request.get<AppResponseData<AppUnknownRecord>>('/system/user/profile');
+}
+
 export function createUser(data: AppUnknownRecord) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/user', { data });
 }
