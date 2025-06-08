@@ -6,10 +6,11 @@ const visible = ref(false);
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div @click="visible = true" class="cursor-pointer flex items-center gap-2">
     <div>{{ user.nickName }}</div>
-    <t-avatar @click="visible = true" class="cursor-pointer" />
+    <t-avatar />
   </div>
+
   <t-drawer v-model:visible="visible" size="350">
     <div class="h-36 flex flex-col justify-center items-center rounded bg-neutral-100">
       <t-avatar size="64px" />

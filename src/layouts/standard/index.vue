@@ -14,9 +14,11 @@ const initialized = ref(false);
 
 <template>
   <div v-if="initialized" class="h-screen overflow-hidden flex flex-col">
-    <div class="h-14 px-4 flex items-center gap-2 border-b border-neutral-200">
-      <img class="h-6" src="@/assets/logo.svg" />
-      <div class="text-xl">TDesign Starter</div>
+    <div class="h-14 px-4 flex items-center gap-4 border-b border-neutral-200">
+      <div class="flex items-center gap-2">
+        <img class="h-6" src="@/assets/logo.svg" />
+        <div class="text-xl">TDesign Starter</div>
+      </div>
       <div class="flex-1"></div>
       <Search />
       <Avatar />
