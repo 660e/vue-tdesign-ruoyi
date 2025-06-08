@@ -12,7 +12,7 @@ export default [
     component: () => import('@/layouts/standard/index.vue'),
     redirect: '/home',
     meta: {
-      icon: 'desktop',
+      icon: 'app',
     },
     children: [
       {

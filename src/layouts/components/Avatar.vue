@@ -17,20 +17,20 @@ const { postGroup, roleGroup, user } = useInfoStore();
             <div class="text-xs">{{ user.phonenumber }}</div>
           </div>
           <div class="list-item">
-            <t-icon name="file-1" /><span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
+            <t-icon name="desktop" /><span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
           </div>
           <div class="list-item">
-            <t-icon name="file-1" /><span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
+            <t-icon name="mail" /><span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
           </div>
           <div class="list-item">
-            <t-icon name="file-1" /><span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
+            <t-icon name="tree-square-dot" /><span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
           </div>
           <div class="list-item">
-            <t-icon name="file-1" /><span>注册日期</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
+            <t-icon name="calendar-2" /><span>注册日期</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
           </div>
           <div class="h-px my-3 bg-neutral-200"></div>
           <div class="list-item clickable hover:bg-blue-50"><t-icon name="file-1" /><span>修改基本资料</span></div>
-          <div class="list-item clickable hover:bg-blue-50"><t-icon name="user-password" /><span>修改密码</span></div>
+          <div class="list-item clickable hover:bg-blue-50"><t-icon name="lock-on" /><span>修改密码</span></div>
           <div class="list-item clickable-danger hover:bg-red-50"><t-icon name="logout" /><span>退出登录</span></div>
         </div>
       </template>

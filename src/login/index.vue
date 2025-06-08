@@ -69,23 +69,17 @@ onMounted(() => refreshCaptcha());
       <t-form :data="formData" :disabled="disabled" :rules="formRules" @submit="onSubmit" class="w-80" label-width="0">
         <t-form-item name="username">
           <t-input v-model="formData.username" placeholder="账户" size="large">
-            <template #prefix-icon>
-              <t-icon name="desktop" />
-            </template>
+            <template #prefix-icon><t-icon name="desktop" /></template>
           </t-input>
         </t-form-item>
         <t-form-item name="password">
           <t-input v-model="formData.password" placeholder="密码" size="large" type="password">
-            <template #prefix-icon>
-              <t-icon name="lock-on" />
-            </template>
+            <template #prefix-icon><t-icon name="lock-on" /></template>
           </t-input>
         </t-form-item>
         <t-form-item name="code">
           <t-input v-model="formData.code" class="flex-1 !w-0" placeholder="验证码" size="large">
-            <template #prefix-icon>
-              <t-icon name="barcode-1" />
-            </template>
+            <template #prefix-icon><t-icon name="barcode-1" /></template>
           </t-input>
           <div
             :class="{
