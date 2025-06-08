@@ -23,6 +23,8 @@ export interface AppResponseData<T> {
   code: number;
   msg: string;
   data?: T;
+  postGroup?: string;
+  roleGroup?: string;
   rows?: T;
   total?: number;
 }
