@@ -23,7 +23,7 @@ const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
   { title: '用户名称', colKey: 'userName', minWidth: 200, toolbarFilter: { type: 'input' }, selectedSet: true },
   { title: '用户昵称', colKey: 'nickName', minWidth: 200 },
-  { title: '部门名称', colKey: 'dept.deptName', minWidth: 200 },
+  { title: '所属部门', colKey: 'dept.deptName', minWidth: 200 },
   { title: '手机号码', colKey: 'phonenumber', width: 200, toolbarFilter: { type: 'input' } },
   {
     title: '状态',
@@ -32,7 +32,7 @@ const columns: QTableProps['columns'] = [
     width: 100,
     toolbarFilter: { type: 'select', dict: 'sys_normal_disable' },
   },
-  { title: '创建时间', colKey: 'createTime', width: 200, toolbarFilter: { type: 'date-range', keys: { start: 'beginTime', end: 'endTime' } } },
+  { title: '注册时间', colKey: 'createTime', width: 200, toolbarFilter: { type: 'date-range', keys: { start: 'beginTime', end: 'endTime' } } },
   {
     title: '操作',
     colKey: 'operation',

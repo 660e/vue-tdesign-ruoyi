@@ -3,6 +3,10 @@ import { useAppStore } from '@/stores';
 
 const { postGroup, roleGroup, user, signOut } = useAppStore();
 const visible = ref(true);
+
+const onClose = () => {
+  console.log('onClose');
+};
 </script>
 
 <template>
@@ -11,7 +15,7 @@ const visible = ref(true);
     <t-avatar image="https://picsum.photos/200" />
   </div>
 
-  <t-drawer v-model:visible="visible" size="350">
+  <t-drawer v-model:visible="visible" :on-close="onClose" size="350">
     <div
       :class="[user.sex === '0' ? 'bg-blue-100' : user.sex === '1' ? 'bg-red-100' : 'bg-neutral-100']"
       class="h-36 flex flex-col justify-center items-center rounded"
@@ -31,7 +35,7 @@ const visible = ref(true);
         <t-icon name="tree-square-dot" /><span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
       </div>
       <div class="list-item">
-        <t-icon name="calendar-2" /><span>注册日期</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
+        <t-icon name="calendar-2" /><span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
       </div>
       <t-divider class="!my-3" />
       <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="file-1" /><span>修改基本资料</span></div>

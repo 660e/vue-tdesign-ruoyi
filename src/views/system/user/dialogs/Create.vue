@@ -89,13 +89,13 @@ defineExpose({ show });
       <t-form-item label="用户昵称" name="nickName">
         <t-input v-model="formData.nickName" />
       </t-form-item>
-      <t-form-item label="部门" name="deptId">
+      <t-form-item label="所属部门" name="deptId">
         <t-tree-select v-model="formData.deptId" :data="userData?.deptTree" :keys="{ value: 'id' }" />
       </t-form-item>
       <t-form-item label="手机号码" name="phonenumber">
         <t-input v-model="formData.phonenumber" />
       </t-form-item>
-      <t-form-item label="邮箱" name="email">
+      <t-form-item label="安全邮箱" name="email">
         <t-input v-model="formData.email" />
       </t-form-item>
       <t-form-item label="性别" name="sex">
