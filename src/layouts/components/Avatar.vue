@@ -4,6 +4,8 @@ import { useAppStore } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
 const visible = ref(true);
+const editProfile = ref(false);
+const editPassword = ref(false);
 const confirmSignOut = ref(false);
 
 const formData = reactive({
@@ -11,19 +13,42 @@ const formData = reactive({
   phonenumber: '',
   email: '',
   sex: '2',
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: '',
 });
 const formRules: FormProps['rules'] = {
   nickName: [{ required: true, trigger: 'blur' }],
   phonenumber: [{ required: true, trigger: 'blur' }],
+  oldPassword: [{ required: true, trigger: 'blur' }],
+  newPassword: [{ required: true, trigger: 'blur' }],
+  confirmPassword: [{ required: true, trigger: 'blur' }],
 };
 
 const onBeforeOpen = () => {
-  formData.nickName = user.nickName;
-  formData.phonenumber = user.phonenumber;
-  formData.email = user.email;
-  formData.sex = user.sex;
-
+  editProfile.value = false;
+  editPassword.value = false;
   confirmSignOut.value = false;
+};
+
+const edit = (type: 'profile' | 'password') => {
+  switch (type) {
+    case 'profile':
+      formData.nickName = user.nickName;
+      formData.phonenumber = user.phonenumber;
+      formData.email = user.email;
+      formData.sex = user.sex;
+      editProfile.value = true;
+      break;
+    case 'password':
+      editPassword.value = true;
+      break;
+  }
+};
+
+const onReset = () => {
+  editProfile.value = false;
+  editPassword.value = false;
 };
 </script>
 
@@ -35,8 +60,8 @@ const onBeforeOpen = () => {
 
   <t-drawer v-model:visible="visible" :on-before-open="onBeforeOpen" size="350">
     <div
-      :class="[user.sex === '0' ? 'bg-blue-100' : user.sex === '1' ? 'bg-red-100' : 'bg-neutral-100']"
-      class="h-36 flex flex-col justify-center items-center rounded"
+      :class="[user.sex === '0' ? 'bg-blue-100' : user.sex === '1' ? 'bg-pink-100' : 'bg-neutral-100']"
+      class="h-36 flex flex-col justify-center items-center rounded text-neutral-800"
     >
       <t-avatar image="https://picsum.photos/200" size="64px" />
       <div class="font-bold pt-2 pb-1">{{ user.nickName }} · {{ roleGroup }}</div>
@@ -56,24 +81,44 @@ const onBeforeOpen = () => {
         <t-icon name="calendar-2" /><span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
       </div>
       <t-divider class="!my-3" />
-      <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="file-1" /><span>修改基本资料</span></div>
-      <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="lock-on" /><span>修改密码</span></div>
 
-      <t-form :data="formData" :rules="formRules" label-width="0">
-        <t-form-item label="用户昵称" name="nickName">
-          <t-input v-model="formData.nickName" label="用户昵称" />
-        </t-form-item>
-        <t-form-item label="手机号码" name="phonenumber">
-          <t-input v-model="formData.phonenumber" label="手机号码" />
-        </t-form-item>
-        <t-form-item label="安全邮箱" name="email">
-          <t-input v-model="formData.email" label="安全邮箱" />
-        </t-form-item>
-        <t-form-item label="性别" name="sex">
-          <t-radio-group v-model="formData.sex" variant="default-filled">
-            <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
-          </t-radio-group>
-        </t-form-item>
+      <template v-if="!editProfile && !editPassword">
+        <div @click="edit('profile')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
+          <t-icon name="file-1" /><span>修改基本资料</span>
+        </div>
+        <div @click="edit('password')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
+          <t-icon name="lock-on" /><span>修改密码</span>
+        </div>
+      </template>
+
+      <t-form v-else :data="formData" :rules="formRules" @reset="onReset" label-width="0">
+        <template v-if="editProfile">
+          <t-form-item label="用户昵称" name="nickName">
+            <t-input v-model="formData.nickName" label="用户昵称" />
+          </t-form-item>
+          <t-form-item label="手机号码" name="phonenumber">
+            <t-input v-model="formData.phonenumber" label="手机号码" />
+          </t-form-item>
+          <t-form-item label="安全邮箱" name="email">
+            <t-input v-model="formData.email" label="安全邮箱" />
+          </t-form-item>
+          <t-form-item label="性别" name="sex">
+            <t-radio-group v-model="formData.sex" variant="default-filled">
+              <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
+            </t-radio-group>
+          </t-form-item>
+        </template>
+        <template v-if="editPassword">
+          <t-form-item label="原密码" name="oldPassword">
+            <t-input v-model="formData.oldPassword" label="原密码" type="password" />
+          </t-form-item>
+          <t-form-item label="新密码" name="newPassword">
+            <t-input v-model="formData.newPassword" label="新密码" type="password" />
+          </t-form-item>
+          <t-form-item label="确认密码" name="confirmPassword">
+            <t-input v-model="formData.confirmPassword" label="确认密码" type="password" />
+          </t-form-item>
+        </template>
 
         <t-form-item>
           <div class="flex-1 flex gap-2">
@@ -98,6 +143,6 @@ const onBeforeOpen = () => {
   display: flex;
   align-items: center;
   gap: theme('space.2');
-  padding: theme('space.1') 0;
+  height: theme('height.8');
 }
 </style>
