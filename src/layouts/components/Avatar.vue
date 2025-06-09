@@ -2,18 +2,21 @@
 import { useAppStore } from '@/stores';
 
 const { postGroup, roleGroup, user, signOut } = useAppStore();
-const visible = ref(false);
+const visible = ref(true);
 </script>
 
 <template>
   <div @click="visible = true" class="cursor-pointer flex items-center gap-2">
     <div>{{ user.nickName }}</div>
-    <t-avatar />
+    <t-avatar image="https://picsum.photos/200" />
   </div>
 
   <t-drawer v-model:visible="visible" size="350">
-    <div class="h-36 flex flex-col justify-center items-center rounded bg-neutral-100">
-      <t-avatar size="64px" />
+    <div
+      :class="[user.sex === '0' ? 'bg-blue-100' : user.sex === '1' ? 'bg-red-100' : 'bg-neutral-100']"
+      class="h-36 flex flex-col justify-center items-center rounded"
+    >
+      <t-avatar image="https://picsum.photos/200" size="64px" />
       <div class="font-bold pt-2 pb-1">{{ user.nickName }} · {{ roleGroup }}</div>
       <div class="text-xs">{{ user.phonenumber }}</div>
     </div>
