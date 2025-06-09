@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProgressStatus } from 'tdesign-vue-next';
 import { getInfo } from '@/apis/login';
-import { dict, userProfile } from '@/apis/system';
+import { dict, getUserProfile } from '@/apis/system';
 import { DICTS } from '@/constants';
 import { useAppStore } from '@/stores';
 
@@ -26,7 +26,7 @@ const setProgress = (text: string, percentage: number, status?: ProgressStatus) 
 onMounted(async () => {
   try {
     setProgress('获取用户资料', 20);
-    const { data, postGroup, roleGroup } = await userProfile();
+    const { data, postGroup, roleGroup } = await getUserProfile();
     setUser(data);
     setPostGroup(postGroup);
     setRoleGroup(roleGroup);

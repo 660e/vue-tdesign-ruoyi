@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { FormProps } from 'tdesign-vue-next';
+import { updateUserProfile } from '@/apis/system';
 import { useAppStore } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
-const visible = ref(true);
+const visible = ref(false);
 const editType = ref();
 const confirmSignOut = ref(false);
 
@@ -42,6 +43,22 @@ const onEdit = (type: 'profile' | 'password') => {
       break;
   }
 };
+
+const onSubmit: FormProps['onSubmit'] = ({ validateResult }) => {
+  if (validateResult === true) {
+    console.log(updateUserProfile);
+    switch (editType.value) {
+      case 'profile':
+        try {
+        } catch {
+        } finally {
+        }
+        break;
+      case 'password':
+        break;
+    }
+  }
+};
 </script>
 
 <template>
@@ -74,7 +91,7 @@ const onEdit = (type: 'profile' | 'password') => {
       </div>
       <t-divider class="!my-3" />
 
-      <t-form v-if="editType" :data="formData" :rules="formRules" @reset="() => (editType = null)" label-width="0">
+      <t-form v-if="editType" :data="formData" :on-submit="onSubmit" :rules="formRules" @reset="() => (editType = null)" label-width="0">
         <template v-if="editType === 'profile'">
           <t-form-item label="用户昵称" name="nickName">
             <t-input v-model="formData.nickName" label="用户昵称" />

@@ -1,7 +1,11 @@
 import type { AppRequestListParams, AppResponseData, AppUnknownRecord } from '@/types';
 import { fd, request } from '@/utils';
 
-export function userProfile() {
+export function updateUserProfile(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/user/profile', { data });
+}
+
+export function getUserProfile() {
   return request.get<AppResponseData<AppUnknownRecord>>('/system/user/profile');
 }
 
