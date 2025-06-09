@@ -18,6 +18,11 @@ const formRules: FormProps['rules'] = {
 };
 
 const onBeforeOpen = () => {
+  formData.nickName = user.nickName;
+  formData.phonenumber = user.phonenumber;
+  formData.email = user.email;
+  formData.sex = user.sex;
+
   confirmSignOut.value = false;
 };
 </script>
@@ -68,6 +73,13 @@ const onBeforeOpen = () => {
           <t-radio-group v-model="formData.sex" variant="default-filled">
             <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
           </t-radio-group>
+        </t-form-item>
+
+        <t-form-item>
+          <div class="flex-1 flex gap-2">
+            <t-button class="flex-1" type="submit">保存</t-button>
+            <t-button class="flex-1" theme="default" type="reset">取消</t-button>
+          </div>
         </t-form-item>
       </t-form>
     </div>
