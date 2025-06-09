@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormProps } from 'tdesign-vue-next';
-import { updateUserProfile } from '@/apis/system';
-import { useAppStore } from '@/stores';
+import { updateUserProfile, updatePassword } from '@/apis/system';
+import { useAppStore, useFullscreenLoading } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
 const visible = ref(false);
@@ -44,17 +44,35 @@ const onEdit = (type: 'profile' | 'password') => {
   }
 };
 
-const onSubmit: FormProps['onSubmit'] = ({ validateResult }) => {
+const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
   if (validateResult === true) {
-    console.log(updateUserProfile);
+    useFullscreenLoading().show();
     switch (editType.value) {
       case 'profile':
         try {
+          const { code } = await updateUserProfile({
+            email: formData.email,
+            nickName: formData.nickName,
+            phonenumber: formData.phonenumber,
+            sex: formData.sex,
+          });
+          if (code) window.location.reload();
         } catch {
         } finally {
+          useFullscreenLoading().hide();
         }
         break;
       case 'password':
+        try {
+          const { code } = await updatePassword({
+            newPassword: formData.newPassword,
+            oldPassword: formData.oldPassword,
+          });
+          if (code) signOut();
+        } catch {
+        } finally {
+          useFullscreenLoading().hide();
+        }
         break;
     }
   }

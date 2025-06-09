@@ -9,6 +9,10 @@ export function getUserProfile() {
   return request.get<AppResponseData<AppUnknownRecord>>('/system/user/profile');
 }
 
+export function updatePassword(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/user/profile/updatePwd', { data });
+}
+
 export function createUser(data: AppUnknownRecord) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/user', { data });
 }
