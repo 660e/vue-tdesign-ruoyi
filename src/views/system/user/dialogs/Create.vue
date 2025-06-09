@@ -27,6 +27,7 @@ const formRules: FormProps['rules'] = {
   userName: [{ required: true, trigger: 'blur' }],
   password: [{ required: true, trigger: 'blur' }],
   nickName: [{ required: true, trigger: 'blur' }],
+  phonenumber: [{ required: true, trigger: 'blur' }],
 };
 const userData = ref();
 

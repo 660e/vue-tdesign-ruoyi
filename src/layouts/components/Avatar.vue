@@ -1,9 +1,21 @@
 <script setup lang="ts">
+import type { FormProps } from 'tdesign-vue-next';
 import { useAppStore } from '@/stores';
 
-const { postGroup, roleGroup, user, signOut } = useAppStore();
+const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
 const visible = ref(true);
 const confirmSignOut = ref(false);
+
+const formData = reactive({
+  nickName: '',
+  phonenumber: '',
+  email: '',
+  sex: '2',
+});
+const formRules: FormProps['rules'] = {
+  nickName: [{ required: true, trigger: 'blur' }],
+  phonenumber: [{ required: true, trigger: 'blur' }],
+};
 
 const onBeforeOpen = () => {
   confirmSignOut.value = false;
@@ -41,6 +53,23 @@ const onBeforeOpen = () => {
       <t-divider class="!my-3" />
       <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="file-1" /><span>修改基本资料</span></div>
       <div class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50"><t-icon name="lock-on" /><span>修改密码</span></div>
+
+      <t-form :data="formData" :rules="formRules" label-width="0">
+        <t-form-item label="用户昵称" name="nickName">
+          <t-input v-model="formData.nickName" label="用户昵称" />
+        </t-form-item>
+        <t-form-item label="手机号码" name="phonenumber">
+          <t-input v-model="formData.phonenumber" label="手机号码" />
+        </t-form-item>
+        <t-form-item label="安全邮箱" name="email">
+          <t-input v-model="formData.email" label="安全邮箱" />
+        </t-form-item>
+        <t-form-item label="性别" name="sex">
+          <t-radio-group v-model="formData.sex" variant="default-filled">
+            <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
+          </t-radio-group>
+        </t-form-item>
+      </t-form>
     </div>
 
     <template #footer>
