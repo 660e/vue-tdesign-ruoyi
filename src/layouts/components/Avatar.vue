@@ -4,8 +4,7 @@ import { useAppStore } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
 const visible = ref(true);
-const editProfile = ref(false);
-const editPassword = ref(false);
+const editType = ref();
 const confirmSignOut = ref(false);
 
 const formData = reactive({
@@ -26,29 +25,22 @@ const formRules: FormProps['rules'] = {
 };
 
 const onBeforeOpen = () => {
-  editProfile.value = false;
-  editPassword.value = false;
+  editType.value = null;
   confirmSignOut.value = false;
 };
 
-const edit = (type: 'profile' | 'password') => {
+const onEdit = (type: 'profile' | 'password') => {
+  editType.value = type;
   switch (type) {
     case 'profile':
       formData.nickName = user.nickName;
       formData.phonenumber = user.phonenumber;
       formData.email = user.email;
       formData.sex = user.sex;
-      editProfile.value = true;
       break;
     case 'password':
-      editPassword.value = true;
       break;
   }
-};
-
-const onReset = () => {
-  editProfile.value = false;
-  editPassword.value = false;
 };
 </script>
 
@@ -82,17 +74,8 @@ const onReset = () => {
       </div>
       <t-divider class="!my-3" />
 
-      <template v-if="!editProfile && !editPassword">
-        <div @click="edit('profile')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
-          <t-icon name="file-1" /><span>修改基本资料</span>
-        </div>
-        <div @click="edit('password')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
-          <t-icon name="lock-on" /><span>修改密码</span>
-        </div>
-      </template>
-
-      <t-form v-else :data="formData" :rules="formRules" @reset="onReset" label-width="0">
-        <template v-if="editProfile">
+      <t-form v-if="editType" :data="formData" :rules="formRules" @reset="() => (editType = null)" label-width="0">
+        <template v-if="editType === 'profile'">
           <t-form-item label="用户昵称" name="nickName">
             <t-input v-model="formData.nickName" label="用户昵称" />
           </t-form-item>
@@ -108,7 +91,7 @@ const onReset = () => {
             </t-radio-group>
           </t-form-item>
         </template>
-        <template v-if="editPassword">
+        <template v-if="editType === 'password'">
           <t-form-item label="原密码" name="oldPassword">
             <t-input v-model="formData.oldPassword" label="原密码" type="password" />
           </t-form-item>
@@ -127,6 +110,15 @@ const onReset = () => {
           </div>
         </t-form-item>
       </t-form>
+
+      <template v-else>
+        <div @click="onEdit('profile')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
+          <t-icon name="file-1" /><span>修改基本资料</span>
+        </div>
+        <div @click="onEdit('password')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
+          <t-icon name="lock-on" /><span>修改密码</span>
+        </div>
+      </template>
     </div>
 
     <template #footer>
