@@ -4,7 +4,6 @@ import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
 import { useFullscreenLoading, useAppStore } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
-const fullscreenLoading = useFullscreenLoading();
 const { dicts } = useAppStore();
 
 const visible = ref(false);
@@ -32,7 +31,7 @@ const formRules: FormProps['rules'] = {
 const userData = ref();
 
 const show = async (row?: TableRowData) => {
-  fullscreenLoading.show();
+  useFullscreenLoading().show();
   try {
     userData.value = await getUser(row?.userId);
     userData.value.deptTree = (await deptTree()).data;
@@ -44,7 +43,7 @@ const show = async (row?: TableRowData) => {
     visible.value = true;
   } catch {
   } finally {
-    fullscreenLoading.hide();
+    useFullscreenLoading().hide();
   }
 };
 
@@ -56,7 +55,7 @@ const onClosed = () => {
 const onConfirm = async () => {
   if ((await formRef.value?.validate()) !== true) return;
 
-  fullscreenLoading.show();
+  useFullscreenLoading().show();
   try {
     const { msg } = await (formData.userId ? updateUser(formData) : createUser(formData));
     MessagePlugin.success(msg);
@@ -64,7 +63,7 @@ const onConfirm = async () => {
     visible.value = false;
   } catch {
   } finally {
-    fullscreenLoading.hide();
+    useFullscreenLoading().hide();
   }
 };
 

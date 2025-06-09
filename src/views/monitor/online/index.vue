@@ -7,8 +7,6 @@ import { getOperationColumnWidth } from '@/utils';
 import { Page } from '@/layouts/standard';
 import dayjs from 'dayjs';
 
-const fullscreenLoading = useFullscreenLoading();
-
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -41,25 +39,25 @@ const onRefresh = async (value: QTableToolbarFilterParams) => {
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      fullscreenLoading.show();
+      useFullscreenLoading().show();
       try {
         const { rows } = await listOnline(queryParams.value);
         tableData.value = rows;
       } catch {
       } finally {
-        fullscreenLoading.hide();
+        useFullscreenLoading().hide();
       }
       break;
 
     case 'logout':
-      fullscreenLoading.show();
+      useFullscreenLoading().show();
       try {
         const { msg } = await forceLogout(row?.tokenId);
         MessagePlugin.success(msg);
         await onHandle('refresh');
       } catch {
       } finally {
-        fullscreenLoading.hide();
+        useFullscreenLoading().hide();
       }
       break;
   }

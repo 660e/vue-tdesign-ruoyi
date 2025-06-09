@@ -21,8 +21,6 @@ const { columns = [], fileExport } = defineProps<{
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 
-const fullscreenLoading = useFullscreenLoading();
-
 const tableColumns = computed(() => {
   return columns.filter((column) => {
     if (column.type === 'multiple') {
@@ -47,13 +45,13 @@ useAnimateToggleHeight({ el: toolbarFilterRef, toggle: toolbarFilterVisible });
 
 const fileImportRef = ref();
 const onFileExport = async () => {
-  fullscreenLoading.show();
+  useFullscreenLoading().show();
   try {
     const data = await fileExport?.api();
     console.log(data); // TODO
   } catch {
   } finally {
-    fullscreenLoading.hide();
+    useFullscreenLoading().hide();
   }
 };
 
