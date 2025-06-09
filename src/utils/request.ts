@@ -1,5 +1,6 @@
 import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import type { AppRequestConfig } from '@/types';
+import { useAppStore } from '@/stores';
 import axios from 'axios';
 
 class Request {
@@ -29,11 +30,13 @@ class Request {
             }
             return response.data;
           }
-          case 401:
-            console.log('401');
+          case 401: {
+            MessagePlugin.error(response.data.msg);
+            useAppStore().signOut();
             break;
+          }
           case 404:
-            console.log('404');
+            MessagePlugin.error(response.data.msg);
             break;
           case 500:
             MessagePlugin.error(response.data.msg);
