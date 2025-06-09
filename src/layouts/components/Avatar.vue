@@ -95,16 +95,16 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       <div class="text-xs">{{ user.phonenumber }}</div>
     </div>
     <div class="pt-3">
-      <div class="list-item">
+      <div class="q-list-item">
         <t-icon name="desktop" /><span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
       </div>
-      <div class="list-item">
+      <div class="q-list-item">
         <t-icon name="mail" /><span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
       </div>
-      <div class="list-item">
+      <div class="q-list-item">
         <t-icon name="tree-square-dot" /><span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
       </div>
-      <div class="list-item">
+      <div class="q-list-item">
         <t-icon name="calendar-2" /><span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
       </div>
       <t-divider class="!my-3" />
@@ -147,12 +147,8 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       </t-form>
 
       <template v-else>
-        <div @click="onEdit('profile')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
-          <t-icon name="file-1" /><span>修改基本资料</span>
-        </div>
-        <div @click="onEdit('password')" class="list-item clickable rounded hover:!pl-2 hover:bg-blue-50">
-          <t-icon name="lock-on" /><span>修改密码</span>
-        </div>
+        <div @click="onEdit('profile')" class="q-list-item q-clickable"><t-icon name="file-1" /><span>修改基本资料</span></div>
+        <div @click="onEdit('password')" class="q-list-item q-clickable"><t-icon name="lock-on" /><span>修改密码</span></div>
       </template>
     </div>
 
@@ -164,12 +160,3 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     </template>
   </t-drawer>
 </template>
-
-<style scoped>
-.list-item {
-  display: flex;
-  align-items: center;
-  gap: theme('space.2');
-  height: theme('height.8');
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <t-popup placement="top-right" trigger="click">
-    <div class="flex items-center gap-1 clickable">
+    <div class="flex items-center gap-1 q-clickable">
       <div :style="{ backgroundColor: 'var(--td-error-color)' }" class="px-2 rounded-full text-xs text-white">100</div>
       <t-icon name="notification" />
     </div>
