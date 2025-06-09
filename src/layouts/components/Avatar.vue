@@ -3,9 +3,10 @@ import { useAppStore } from '@/stores';
 
 const { postGroup, roleGroup, user, signOut } = useAppStore();
 const visible = ref(true);
+const confirmSignOut = ref(false);
 
-const onClose = () => {
-  console.log('onClose');
+const onBeforeOpen = () => {
+  confirmSignOut.value = false;
 };
 </script>
 
@@ -15,7 +16,7 @@ const onClose = () => {
     <t-avatar image="https://picsum.photos/200" />
   </div>
 
-  <t-drawer v-model:visible="visible" :on-close="onClose" size="350">
+  <t-drawer v-model:visible="visible" :on-before-open="onBeforeOpen" size="350">
     <div
       :class="[user.sex === '0' ? 'bg-blue-100' : user.sex === '1' ? 'bg-red-100' : 'bg-neutral-100']"
       class="h-36 flex flex-col justify-center items-center rounded"
@@ -43,7 +44,10 @@ const onClose = () => {
     </div>
 
     <template #footer>
-      <t-button @click="signOut" theme="danger" variant="outline" block>退出登录</t-button>
+      <div class="flex">
+        <t-button @click="confirmSignOut = true" class="flex-1" theme="danger" variant="outline">退出登录</t-button>
+        <t-button v-if="confirmSignOut" @click="signOut" theme="danger">确认</t-button>
+      </div>
     </template>
   </t-drawer>
 </template>
