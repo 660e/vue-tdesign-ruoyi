@@ -100,13 +100,13 @@ defineExpose({ show });
         <t-input v-model="formData.email" />
       </t-form-item>
       <t-form-item label="性别" name="sex">
-        <t-radio-group v-model="formData.sex">
-          <t-radio v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
+        <t-radio-group v-model="formData.sex" variant="default-filled">
+          <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
         </t-radio-group>
       </t-form-item>
       <t-form-item label="状态" name="status">
-        <t-radio-group v-model="formData.status">
-          <t-radio v-for="dict in dicts?.get('sys_normal_disable')" :label="dict.label" :value="dict.value" :key="dict.value" />
+        <t-radio-group v-model="formData.status" variant="default-filled">
+          <t-radio-button v-for="dict in dicts?.get('sys_normal_disable')" :label="dict.label" :value="dict.value" :key="dict.value" />
         </t-radio-group>
       </t-form-item>
       <t-form-item class="col-span-2" label="岗位" name="postIds">
