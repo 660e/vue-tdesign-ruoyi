@@ -69,7 +69,9 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
   >
     <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
   </div>
-  <t-menu :collapsed="collapsed" :expanded="defaultExpanded" :value="defaultValue" @expand="expand" class="flex-1 overflow-auto" expand-mutex>
-    <MenuItem :routes="appStore.routes" />
-  </t-menu>
+  <div class="flex-1 overflow-y-auto">
+    <t-menu :collapsed="collapsed" :expanded="defaultExpanded" :value="defaultValue" @expand="expand" class="!h-auto" expand-mutex>
+      <MenuItem :routes="appStore.routes" />
+    </t-menu>
+  </div>
 </template>
