@@ -44,7 +44,7 @@ onMounted(async () => await onHandle('refresh'));
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list size="small" split>
-          <t-list-item v-for="row in tableData" class="duration-200 hover:bg-neutral-100" :key="row.roleId">
+          <t-list-item v-for="row in tableData" class="cursor-pointer duration-200 hover:bg-neutral-100" :key="row.roleId">
             <div class="flex-1 flex items-center gap-2">
               <span class="w-8 overflow-x-hidden font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
               <span>{{ row.roleName }}（{{ row.roleKey }}）</span>
