@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { listNotice } from '@/apis/system';
 import { useAppStore, useFullscreenLoading } from '@/stores';
 
@@ -14,6 +14,15 @@ onMounted(async () => {
     useFullscreenLoading().hide();
   }
 });
+
+const NoticeType = ({ type }: { type: string }) => {
+  const theme = type === '1' ? 'warning' : type === '2' ? 'success' : 'default';
+  return (
+    <t-tag theme={theme} class="!mr-2" size="small" variant="light">
+      {dicts?.get('sys_notice_type')?.find((e) => e.value === type)?.label}
+    </t-tag>
+  );
+};
 </script>
 
 <template>
@@ -28,7 +37,7 @@ onMounted(async () => {
       <div class="w-[550px]">
         <t-list size="small" split>
           <t-list-item v-for="notice in notices?.rows" :key="notice.noticeId">
-            <t-tag class="!mr-2" size="small" theme="primary" variant="light">{{ notice.noticeType }}</t-tag>
+            <NoticeType :type="notice.noticeType" />
             <span>{{ notice.noticeTitle }}</span>
             <span class="flex-1"></span>
             <span class="text-neutral-400">{{ notice.createTime }}</span>
