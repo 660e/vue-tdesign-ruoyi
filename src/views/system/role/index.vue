@@ -28,7 +28,7 @@ onMounted(async () => await onHandle('refresh'));
 
 <template>
   <Page class="flex">
-    <div class="w-96 flex flex-col border-r border-neutral-200">
+    <div class="w-80 flex flex-col border-r border-neutral-200">
       <div class="p-2 flex gap-2 border-b border-neutral-200">
         <t-input class="flex-1">
           <template #prefix-icon><t-icon name="search" /></template>
