@@ -11,5 +11,5 @@ const item = (dicts?.get(dict) || []).find((e) => e.value === value);
 </script>
 
 <template>
-  <t-tag :theme="themes[index]" size="small">{{ item?.label }}</t-tag>
+  <t-tag :theme="themes[index]" size="small" variant="light">{{ item?.label }}</t-tag>
 </template>
