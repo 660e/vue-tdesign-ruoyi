@@ -87,9 +87,10 @@ export function fd(data: Record<string, string | number | File>) {
 
 export function iconTransverter(icon: string) {
   const map = new Map([
-    ['1', 'a'],
-    ['2', 'b'],
-    ['3', 'c'],
+    ['system', 'system-setting'],
+    ['monitor', 'chart-line'],
+    ['tool', 'tools'],
+    ['guide', 'send'],
   ]);
   return map.get(icon) || 'menu-application';
 }
