@@ -3,6 +3,11 @@
   padding-bottom: 0;
 }
 
+/* t-drawer */
+.t-drawer .t-drawer__body:first-child {
+  padding: 0;
+}
+
 /* t-menu */
 .t-menu .t-menu__item > .t-menu__content {
   flex: 1;
