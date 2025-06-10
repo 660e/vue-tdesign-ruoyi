@@ -73,9 +73,3 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
     <MenuItem :routes="appStore.routes" />
   </t-menu>
 </template>
-
-<style scoped>
-.t-default-menu :deep(.t-menu__item) .t-menu__content {
-  flex: 1;
-}
-</style>

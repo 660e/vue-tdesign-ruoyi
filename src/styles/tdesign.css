@@ -1,7 +1,17 @@
+/* t-dialog */
 .t-dialog > .t-dialog__body:last-child {
   padding-bottom: 0;
 }
 
+/* t-menu */
+.t-menu .t-menu__item > .t-menu__content {
+  flex: 1;
+}
+.t-menu__popup .t-menu__item {
+  gap: theme('space.1');
+}
+
+/* t-table */
 .t-table table.t-table--layout-fixed {
   border-collapse: separate;
 }
