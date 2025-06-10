@@ -23,7 +23,6 @@ declare module 'vue' {
     TConfigProvider: typeof import('tdesign-vue-next')['ConfigProvider']
     TDateRangePicker: typeof import('tdesign-vue-next')['DateRangePicker']
     TDialog: typeof import('tdesign-vue-next')['Dialog']
-    TDivider: typeof import('tdesign-vue-next')['Divider']
     TDrawer: typeof import('tdesign-vue-next')['Drawer']
     TForm: typeof import('tdesign-vue-next')['Form']
     TFormItem: typeof import('tdesign-vue-next')['FormItem']
