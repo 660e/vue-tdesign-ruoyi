@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
 import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
-import { useFullscreenLoading, useAppStore } from '@/stores';
+import { useAppStore, useFullscreenLoading } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
 const { dicts } = useAppStore();

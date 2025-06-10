@@ -53,6 +53,10 @@ export function resetPwd(userId: number, password: string) {
   return request.put<AppResponseData<AppUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
 }
 
+export function listNotice(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
+}
+
 //
 
 export function dict(name: string) {

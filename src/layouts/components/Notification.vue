@@ -1,23 +1,37 @@
+<script setup lang="ts">
+import { listNotice } from '@/apis/system';
+import { useAppStore, useFullscreenLoading } from '@/stores';
+
+const { dicts } = useAppStore();
+const notices = ref();
+
+onMounted(async () => {
+  useFullscreenLoading().show();
+  try {
+    notices.value = await listNotice();
+  } catch {
+  } finally {
+    useFullscreenLoading().hide();
+  }
+});
+</script>
+
 <template>
   <t-popup placement="top-right" trigger="click">
     <div class="flex items-center gap-1 cursor-pointer duration-200 hover:text-blue-700">
-      <div :style="{ backgroundColor: 'var(--td-error-color)' }" class="px-2 rounded-full text-xs text-white">100</div>
+      <div v-if="notices?.total" :style="{ backgroundColor: 'var(--td-error-color)' }" class="px-2 rounded-full text-xs text-white">
+        {{ notices.total }}
+      </div>
       <t-icon name="notification" />
     </div>
     <template #content>
-      <div class="w-[600px]">
+      <div class="w-[550px]">
         <t-list size="small" split>
-          <t-list-item>
-            <t-tag class="!mr-2" size="small" theme="primary" variant="light">通知</t-tag>
-            <span>列表内容的描述性文字</span><span class="flex-1"></span><span class="text-neutral-400">2025-06-09 18:00:00</span>
-          </t-list-item>
-          <t-list-item>
-            <t-tag class="!mr-2" size="small" theme="primary" variant="light">通知</t-tag>
-            <span>列表内容的描述性文字</span><span class="flex-1"></span><span class="text-neutral-400">2025-06-09 18:00:00</span>
-          </t-list-item>
-          <t-list-item>
-            <t-tag class="!mr-2" size="small" theme="primary" variant="light">通知</t-tag>
-            <span>列表内容的描述性文字</span><span class="flex-1"></span><span class="text-neutral-400">2025-06-09 18:00:00</span>
+          <t-list-item v-for="notice in notices?.rows" :key="notice.noticeId">
+            <t-tag class="!mr-2" size="small" theme="primary" variant="light">{{ notice.noticeType }}</t-tag>
+            <span>{{ notice.noticeTitle }}</span>
+            <span class="flex-1"></span>
+            <span class="text-neutral-400">{{ notice.createTime }}</span>
           </t-list-item>
         </t-list>
 
