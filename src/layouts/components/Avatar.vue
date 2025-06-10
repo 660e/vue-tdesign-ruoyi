@@ -116,6 +116,12 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
 
     <div class="py-6">
       <t-form v-if="editType" :data="formData" :on-submit="onSubmit" :rules="formRules" @reset="() => (editType = null)" label-width="0">
+        <t-form-item>
+          <div class="flex-1 flex gap-2">
+            <t-button class="flex-1" type="submit">保存</t-button>
+            <t-button class="flex-1" theme="default" type="reset">取消</t-button>
+          </div>
+        </t-form-item>
         <template v-if="editType === 'profile'">
           <t-form-item label="用户昵称" name="nickName">
             <t-input v-model="formData.nickName" label="用户昵称" />
@@ -143,12 +149,6 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
             <t-input v-model="formData.confirmPassword" label="确认密码" type="password" />
           </t-form-item>
         </template>
-        <t-form-item>
-          <div class="flex-1 flex gap-2">
-            <t-button class="flex-1" type="submit">保存</t-button>
-            <t-button class="flex-1" theme="default" type="reset">取消</t-button>
-          </div>
-        </t-form-item>
       </t-form>
 
       <div v-else class="flex gap-2">
