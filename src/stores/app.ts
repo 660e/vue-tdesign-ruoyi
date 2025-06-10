@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { AppRoute, AppSystemDictMap } from '@/types';
+import { iconTransverter } from '@/utils';
 import { defineStore } from 'pinia';
 import router from '@/router';
 
@@ -20,7 +21,7 @@ function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[
               meta: {
                 frameBlank: true,
                 frameSrc: route.meta.link,
-                icon: route.meta.icon,
+                icon: iconTransverter(route.meta.icon),
                 title: route.meta.title,
               },
             };
@@ -30,7 +31,7 @@ function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[
               name: route.name.toLowerCase(),
               redirect: '/',
               meta: {
-                icon: route.meta.icon,
+                icon: iconTransverter(route.meta.icon),
                 title: route.meta.title,
               },
               children: standardizeRoutes(route.children, route.name.toLowerCase()),
@@ -47,7 +48,7 @@ function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[
               name: `${parentName}-${route.name.toLowerCase()}`,
               redirect: '/',
               meta: {
-                icon: route.meta.icon,
+                icon: iconTransverter(route.meta.icon),
                 title: route.meta.title,
               },
               children: standardizeRoutes(route.children, `${parentName}-${route.name.toLowerCase()}`),
@@ -65,7 +66,7 @@ function standardizeRoutes(routes: AppRoute[], parentName = ''): RouteRecordRaw[
               name: `${parentName}-${route.name.toLowerCase()}`,
               component: markRaw(view.default),
               meta: {
-                icon: route.meta.icon,
+                icon: iconTransverter(route.meta.icon),
                 title: route.meta.title,
               },
             };

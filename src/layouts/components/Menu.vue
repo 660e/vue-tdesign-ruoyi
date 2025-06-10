@@ -37,7 +37,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
       return (
         <t-submenu title={menu.meta?.title} value={menu.name}>
           {{
-            icon: () => <t-icon name="menu-application" />,
+            icon: () => <t-icon name={menu.meta?.icon} />,
             default: () => MenuItem({ routes: menu.children || [] }),
           }}
         </t-submenu>
@@ -46,7 +46,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
     return (
       <t-menu-item onClick={() => to(menu)} value={menu.name}>
         {{
-          icon: () => <t-icon name="menu-application" />,
+          icon: () => <t-icon name={menu.meta?.icon} />,
           default: () => {
             return (
               <div class="flex justify-between items-center">

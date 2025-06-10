@@ -84,3 +84,12 @@ export function fd(data: Record<string, string | number | File>) {
   });
   return formData;
 }
+
+export function iconTransverter(icon: string) {
+  const map = new Map([
+    ['1', 'a'],
+    ['2', 'b'],
+    ['3', 'c'],
+  ]);
+  return map.get(icon) || 'menu-application';
+}
