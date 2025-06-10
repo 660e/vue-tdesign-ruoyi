@@ -29,7 +29,19 @@ onMounted(async () => await onHandle('refresh'));
 <template>
   <Page class="flex">
     <div class="w-96 flex flex-col border-r border-neutral-200">
-      <div>filter</div>
+      <div class="p-2 flex gap-2 border-b border-neutral-200">
+        <t-input class="flex-1">
+          <template #prefix-icon><t-icon name="search" /></template>
+        </t-input>
+        <t-radio-group default-value="1" variant="default-filled">
+          <t-radio-button value="1">
+            <div class="flex items-center gap-1"><span>序号</span><t-icon name="arrow-down" /></div>
+          </t-radio-button>
+          <t-radio-button value="2">
+            <div class="flex items-center gap-1"><span>状态</span><t-icon name="arrow-down" /></div>
+          </t-radio-button>
+        </t-radio-group>
+      </div>
       <div class="flex-1 overflow-y-auto">
         <t-list size="small" split>
           <t-list-item v-for="row in tableData" class="duration-200 hover:bg-neutral-100" :key="row.roleId">
@@ -41,7 +53,6 @@ onMounted(async () => await onHandle('refresh'));
               <t-icon name="chevron-right" />
             </div>
           </t-list-item>
-          <div class="h-[2000px]"></div>
         </t-list>
       </div>
     </div>
