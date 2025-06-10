@@ -27,8 +27,9 @@ onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
-  <Page>
-    <div>
+  <Page class="flex">
+    <div class="w-96 border-r border-neutral-200"></div>
+    <div class="flex-1">
       <pre>{{ tableData }}</pre>
     </div>
   </Page>

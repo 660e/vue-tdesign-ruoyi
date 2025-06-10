@@ -34,7 +34,7 @@ const NoticeType = ({ type }: { type: string }) => {
       <t-icon name="notification" />
     </div>
     <template #content>
-      <div class="w-[550px]">
+      <div class="w-xl">
         <t-list size="small" split>
           <t-list-item v-for="notice in notices?.rows" :key="notice.noticeId">
             <NoticeType :type="notice.noticeType" />
