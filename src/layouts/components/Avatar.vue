@@ -4,7 +4,7 @@ import { updateUserProfile, updatePassword } from '@/apis/system';
 import { useAppStore, useFullscreenLoading } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
-const visible = ref(false);
+const visible = ref(true);
 const editType = ref();
 const confirmSignOut = ref(false);
 
@@ -149,6 +149,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       <template v-else>
         <div @click="onEdit('profile')" class="q-list-item q-clickable"><t-icon name="file-1" /><span>修改基本资料</span></div>
         <div @click="onEdit('password')" class="q-list-item q-clickable"><t-icon name="lock-on" /><span>修改密码</span></div>
+        <t-link>修改基本资料</t-link>
       </template>
     </div>
 
