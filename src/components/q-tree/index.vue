@@ -13,11 +13,15 @@ const onChange: InputProps['onChange'] = (value) => {
 </script>
 
 <template>
-  <div class="w-full p-4">
-    <t-input v-if="filter" @change="onChange" class="w-full mb-1" clearable>
-      <template #prefix-icon><t-icon name="search" /></template>
-    </t-input>
-    <t-tree v-bind="$attrs" :filter="treeFilter" line />
+  <div class="h-full flex flex-col">
+    <div class="p-4 pb-2">
+      <t-input v-if="filter" @change="onChange" clearable>
+        <template #prefix-icon><t-icon name="search" /></template>
+      </t-input>
+    </div>
+    <div class="px-4 flex-1 overflow-y-auto">
+      <t-tree v-bind="$attrs" :filter="treeFilter" line />
+    </div>
   </div>
 </template>
 

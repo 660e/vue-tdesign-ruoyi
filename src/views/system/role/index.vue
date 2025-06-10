@@ -28,8 +28,9 @@ onMounted(async () => await onHandle('refresh'));
 
 <template>
   <Page class="flex">
-    <div class="w-96 border-r border-neutral-200">
-      <t-list size="small" split>
+    <div class="w-96 flex flex-col border-r border-neutral-200">
+      <div>filter</div>
+      <t-list class="flex-1 overflow-y-auto" size="small" split>
         <t-list-item v-for="row in tableData" class="duration-200 hover:bg-neutral-100" :key="row.roleId">
           <div class="flex-1 flex items-center gap-2">
             <span class="w-8 overflow-x-hidden font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
@@ -39,9 +40,10 @@ onMounted(async () => await onHandle('refresh'));
             <t-icon name="chevron-right" />
           </div>
         </t-list-item>
+        <div class="h-[2000px]"></div>
       </t-list>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 overflow-y-auto">
       <pre>{{ tableData }}</pre>
     </div>
   </Page>
