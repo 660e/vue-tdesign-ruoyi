@@ -7,13 +7,13 @@
     <template #content>
       <div class="w-[600px]">
         <div class="px-3 py-1.5">
-          <div class="q-list-item q-clickable hover:!bg-transparent">
+          <div>
             <t-tag size="small" theme="primary" variant="light">通知</t-tag>
             <span>Lorem ipsum dolor sit amet.</span>
             <span class="flex-1"></span>
             <span class="text-neutral-400">2025-06-09 18:00:00</span>
           </div>
-          <div class="q-list-item q-clickable hover:!bg-transparent">
+          <div>
             <t-tag size="small" theme="danger" variant="light">公告</t-tag>
             <span>Natus tenetur veritatis aperiam cum?</span>
             <span class="flex-1"></span>
