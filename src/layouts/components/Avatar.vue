@@ -4,7 +4,7 @@ import { updateUserProfile, updatePassword } from '@/apis/system';
 import { useAppStore, useFullscreenLoading } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
-const visible = ref(true);
+const visible = ref(false);
 const editType = ref();
 const confirmSignOut = ref(false);
 
@@ -94,21 +94,27 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       <div class="font-bold pt-2 pb-1">{{ user.nickName }} · {{ roleGroup }}</div>
       <div class="text-xs">{{ user.phonenumber }}</div>
     </div>
-    <div class="pt-3">
-      <div>
-        <t-icon name="desktop" /><span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
-      </div>
-      <div>
-        <t-icon name="mail" /><span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
-      </div>
-      <div>
-        <t-icon name="tree-square-dot" /><span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
-      </div>
-      <div>
-        <t-icon name="calendar-2" /><span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
-      </div>
-      <t-divider class="!my-3" />
 
+    <t-list size="small" split>
+      <t-list-item>
+        <t-icon class="mr-2" name="desktop" />
+        <span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
+      </t-list-item>
+      <t-list-item>
+        <t-icon class="mr-2" name="mail" />
+        <span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
+      </t-list-item>
+      <t-list-item>
+        <t-icon class="mr-2" name="tree-square-dot" />
+        <span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
+      </t-list-item>
+      <t-list-item>
+        <t-icon class="mr-2" name="calendar-2" />
+        <span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
+      </t-list-item>
+    </t-list>
+
+    <div class="py-6">
       <t-form v-if="editType" :data="formData" :on-submit="onSubmit" :rules="formRules" @reset="() => (editType = null)" label-width="0">
         <template v-if="editType === 'profile'">
           <t-form-item label="用户昵称" name="nickName">
@@ -137,7 +143,6 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
             <t-input v-model="formData.confirmPassword" label="确认密码" type="password" />
           </t-form-item>
         </template>
-
         <t-form-item>
           <div class="flex-1 flex gap-2">
             <t-button class="flex-1" type="submit">保存</t-button>
@@ -146,11 +151,10 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
         </t-form-item>
       </t-form>
 
-      <template v-else>
-        <div @click="onEdit('profile')"><t-icon name="file-1" /><span>修改基本资料</span></div>
-        <div @click="onEdit('password')"><t-icon name="lock-on" /><span>修改密码</span></div>
-        <t-link>修改基本资料</t-link>
-      </template>
+      <div v-else class="flex gap-2">
+        <t-button @click="onEdit('profile')" class="flex-1" variant="outline">修改基本资料</t-button>
+        <t-button @click="onEdit('password')" class="flex-1" variant="outline">修改密码</t-button>
+      </div>
     </div>
 
     <template #footer>
