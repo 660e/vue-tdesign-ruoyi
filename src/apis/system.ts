@@ -53,11 +53,15 @@ export function resetPwd(userId: number, password: string) {
   return request.put<AppResponseData<AppUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
 }
 
-export function listNotice(params?: AppRequestListParams) {
-  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
+export function listRole(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/role/list', { params });
 }
 
 //
+
+export function listNotice(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
+}
 
 export function dict(name: string) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/dict/data/type/${name}`);
