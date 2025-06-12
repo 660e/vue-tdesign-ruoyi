@@ -53,6 +53,18 @@ export function resetPwd(userId: number, password: string) {
   return request.put<AppResponseData<AppUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
 }
 
+export function createRole(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/role', { data });
+}
+
+export function deleteRole(roleIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/role/${roleIds}`);
+}
+
+export function updateRole(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/role', { data });
+}
+
 export function listRole(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/role/list', { params });
 }
