@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { FormProps } from 'tdesign-vue-next';
 import { updateUserProfile, updatePassword } from '@/apis/system';
+import { useDict } from '@/hooks';
 import { useAppStore, useLoadingStore } from '@/stores';
 
-const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
+const { postGroup, roleGroup, user, signOut } = useAppStore();
 const loadingStore = useLoadingStore();
 const visible = ref(false);
 const editType = ref();
@@ -133,7 +134,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
             </t-form-item>
             <t-form-item label="性别" name="sex">
               <t-radio-group v-model="formData.sex" variant="default-filled">
-                <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
+                <t-radio-button v-for="dict in useDict('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
               </t-radio-group>
             </t-form-item>
           </template>

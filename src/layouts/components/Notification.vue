@@ -1,8 +1,8 @@
 <script setup lang="tsx">
 import { listNotice } from '@/apis/system';
-import { useAppStore, useLoadingStore } from '@/stores';
+import { useDict } from '@/hooks';
+import { useLoadingStore } from '@/stores';
 
-const { dicts } = useAppStore();
 const loadingStore = useLoadingStore();
 const notices = ref();
 
@@ -20,7 +20,7 @@ const NoticeType = ({ type }: { type: string }) => {
   const theme = type === '1' ? 'warning' : type === '2' ? 'success' : 'default';
   return (
     <t-tag theme={theme} class="!mr-2" size="small" variant="light">
-      {dicts?.get('sys_notice_type')?.find((e) => e.value === type)?.label}
+      {useDict('sys_notice_type')?.find((e) => e.value === type)?.label}
     </t-tag>
   );
 };

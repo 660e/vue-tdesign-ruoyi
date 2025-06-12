@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
 import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
-import { useAppStore, useLoadingStore } from '@/stores';
+import { useDict } from '@/hooks';
+import { useLoadingStore } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
-const { dicts } = useAppStore();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -101,12 +101,12 @@ defineExpose({ show });
       </t-form-item>
       <t-form-item label="性别" name="sex">
         <t-radio-group v-model="formData.sex" variant="default-filled">
-          <t-radio-button v-for="dict in dicts?.get('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
+          <t-radio-button v-for="dict in useDict('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
         </t-radio-group>
       </t-form-item>
       <t-form-item label="状态" name="status">
         <t-radio-group v-model="formData.status" variant="default-filled">
-          <t-radio-button v-for="dict in dicts?.get('sys_normal_disable')" :label="dict.label" :value="dict.value" :key="dict.value" />
+          <t-radio-button v-for="dict in useDict('sys_normal_disable')" :label="dict.label" :value="dict.value" :key="dict.value" />
         </t-radio-group>
       </t-form-item>
       <t-form-item class="col-span-2" label="岗位" name="postIds">
