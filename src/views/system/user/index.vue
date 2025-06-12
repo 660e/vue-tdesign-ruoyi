@@ -2,7 +2,7 @@
 import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
-import { useFullscreenLoading } from '@/stores';
+import { useLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import { Page } from '@/layouts/standard';
 import CreateDialog from './dialogs/Create.vue';
@@ -67,7 +67,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value) => {
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      useFullscreenLoading().show();
+      useLoading().show();
       try {
         const { rows, total } = await listUser({
           deptId: deptId.value,
@@ -79,7 +79,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         tableData.value = rows;
       } catch {
       } finally {
-        useFullscreenLoading().hide();
+        useLoading().hide();
       }
       break;
 
@@ -93,13 +93,13 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
     case 'delete':
       if (row) {
-        useFullscreenLoading().show();
+        useLoading().show();
         try {
           const { msg } = await deleteUser(row.userId);
           MessagePlugin.success(msg);
         } catch {
         } finally {
-          useFullscreenLoading().hide();
+          useLoading().hide();
         }
       } else {
         const DialogInstance = DialogPlugin.confirm({
@@ -107,7 +107,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
           body: `确定删除选中的 ${selectedRowKeys.value?.length} 条数据？`,
           confirmBtn: { content: '删除', theme: 'danger' },
           onConfirm: async () => {
-            useFullscreenLoading().show();
+            useLoading().show();
             try {
               const { msg } = await deleteUser((selectedRowKeys.value || []).join(','));
               MessagePlugin.success(msg);
@@ -115,7 +115,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
               DialogInstance.hide();
             } catch {
             } finally {
-              useFullscreenLoading().hide();
+              useLoading().hide();
             }
           },
           onClosed: () => DialogInstance.destroy(),
@@ -124,7 +124,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'resetPwd': {
-      useFullscreenLoading().show();
+      useLoading().show();
       const password = generatePassword();
       try {
         const { code } = await resetPwd(row?.userId, password);
@@ -145,7 +145,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         }
       } catch {
       } finally {
-        useFullscreenLoading().hide();
+        useLoading().hide();
       }
       break;
     }
@@ -171,13 +171,13 @@ const fileImport: QTableProps['fileImport'] = {
 };
 
 onMounted(async () => {
-  useFullscreenLoading().show();
+  useLoading().show();
   try {
     deptIdTree.value = (await deptTree()).data;
   } catch {
   } finally {
     await onHandle('refresh');
-    useFullscreenLoading().hide();
+    useLoading().hide();
   }
 });
 </script>

@@ -2,7 +2,7 @@
 import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useAnimateToggleHeight } from '@/hooks';
-import { useFullscreenLoading } from '@/stores';
+import { useLoading } from '@/stores';
 import ToolbarFilter from './ToolbarFilter.vue';
 
 defineOptions({ inheritAttrs: false });
@@ -45,13 +45,13 @@ useAnimateToggleHeight({ el: toolbarFilterRef, toggle: toolbarFilterVisible });
 
 const fileImportRef = ref();
 const onFileExport = async () => {
-  useFullscreenLoading().show();
+  useLoading().show();
   try {
     const data = await fileExport?.api();
     console.log(data); // TODO
   } catch {
   } finally {
-    useFullscreenLoading().hide();
+    useLoading().hide();
   }
 };
 

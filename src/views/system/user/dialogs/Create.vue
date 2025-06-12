@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
 import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
-import { useAppStore, useFullscreenLoading } from '@/stores';
+import { useAppStore, useLoading } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
 const { dicts } = useAppStore();
@@ -31,7 +31,7 @@ const formRules: FormProps['rules'] = {
 const userData = ref();
 
 const show = async (row?: TableRowData) => {
-  useFullscreenLoading().show();
+  useLoading().show();
   try {
     userData.value = await getUser(row?.userId);
     userData.value.deptTree = (await deptTree()).data;
@@ -43,7 +43,7 @@ const show = async (row?: TableRowData) => {
     visible.value = true;
   } catch {
   } finally {
-    useFullscreenLoading().hide();
+    useLoading().hide();
   }
 };
 
@@ -55,7 +55,7 @@ const onClosed = () => {
 const onConfirm = async () => {
   if ((await formRef.value?.validate()) !== true) return;
 
-  useFullscreenLoading().show();
+  useLoading().show();
   try {
     const { msg } = await (formData.userId ? updateUser(formData) : createUser(formData));
     MessagePlugin.success(msg);
@@ -63,7 +63,7 @@ const onConfirm = async () => {
     visible.value = false;
   } catch {
   } finally {
-    useFullscreenLoading().hide();
+    useLoading().hide();
   }
 };
 

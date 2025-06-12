@@ -2,7 +2,7 @@
 import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listOnline, forceLogout } from '@/apis/monitor';
-import { useFullscreenLoading } from '@/stores';
+import { useLoading } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import { Page } from '@/layouts/standard';
 import dayjs from 'dayjs';
@@ -39,25 +39,25 @@ const onRefresh = async (value: QTableToolbarFilterParams) => {
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      useFullscreenLoading().show();
+      useLoading().show();
       try {
         const { rows } = await listOnline(queryParams.value);
         tableData.value = rows;
       } catch {
       } finally {
-        useFullscreenLoading().hide();
+        useLoading().hide();
       }
       break;
 
     case 'logout':
-      useFullscreenLoading().show();
+      useLoading().show();
       try {
         const { msg } = await forceLogout(row?.tokenId);
         MessagePlugin.success(msg);
         await onHandle('refresh');
       } catch {
       } finally {
-        useFullscreenLoading().hide();
+        useLoading().hide();
       }
       break;
   }

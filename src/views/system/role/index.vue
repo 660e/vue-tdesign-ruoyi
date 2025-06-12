@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { listRole } from '@/apis/system';
-import { useFullscreenLoading } from '@/stores';
+import { useLoading } from '@/stores';
 import { Page } from '@/layouts/standard';
 
 const currentData = ref();
@@ -9,7 +9,7 @@ const listData = ref();
 const onHandle = async (value: string) => {
   switch (value) {
     case 'refresh':
-      useFullscreenLoading().show();
+      useLoading().show();
       try {
         const { rows } = await listRole({
           pageNum: 1,
@@ -18,7 +18,7 @@ const onHandle = async (value: string) => {
         listData.value = rows;
       } catch {
       } finally {
-        useFullscreenLoading().hide();
+        useLoading().hide();
       }
       break;
   }

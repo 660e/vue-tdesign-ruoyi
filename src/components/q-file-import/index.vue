@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UploadProps } from 'tdesign-vue-next';
 import type { QTableProps } from '@/types';
-import { useFullscreenLoading } from '@/stores';
+import { useLoading } from '@/stores';
 import { is } from '@/utils';
 
 const emit = defineEmits<{ confirm: [] }>();
@@ -15,13 +15,13 @@ const show = (fileImport: QTableProps['fileImport']) => {
 };
 
 const downloadTemplate = async () => {
-  useFullscreenLoading().show();
+  useLoading().show();
   try {
     const data = await importParams.value?.template?.();
     console.log(data); // TODO
   } catch {
   } finally {
-    useFullscreenLoading().hide();
+    useLoading().hide();
   }
 };
 
@@ -29,7 +29,7 @@ const requestMethod: UploadProps['requestMethod'] = (files) => {
   return new Promise(async () => {
     if (is.array(files)) return;
 
-    useFullscreenLoading().show();
+    useLoading().show();
     try {
       const response = await importParams.value?.api(files.raw!, replace.value);
       console.log(response); // TODO
@@ -37,7 +37,7 @@ const requestMethod: UploadProps['requestMethod'] = (files) => {
       visible.value = false;
     } catch {
     } finally {
-      useFullscreenLoading().hide();
+      useLoading().hide();
     }
   });
 };

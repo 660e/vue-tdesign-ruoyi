@@ -1,17 +1,17 @@
 <script setup lang="tsx">
 import { listNotice } from '@/apis/system';
-import { useAppStore, useFullscreenLoading } from '@/stores';
+import { useAppStore, useLoading } from '@/stores';
 
 const { dicts } = useAppStore();
 const notices = ref();
 
 onMounted(async () => {
-  useFullscreenLoading().show();
+  useLoading().show();
   try {
     notices.value = await listNotice();
   } catch {
   } finally {
-    useFullscreenLoading().hide();
+    useLoading().hide();
   }
 });
 
