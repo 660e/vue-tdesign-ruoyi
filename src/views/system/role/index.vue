@@ -52,7 +52,7 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div class="w-96 flex flex-col border-r border-neutral-200">
+    <div class="w-80 flex flex-col border-r border-neutral-200">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
         <t-button @click="onHandle('create')">
           <template #icon><t-icon name="add" /></template><span>新增</span>
