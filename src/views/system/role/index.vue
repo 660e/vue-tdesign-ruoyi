@@ -1,5 +1,5 @@
-<script setup lang="tsx">
-import type { DropdownProps, TableRowData } from 'tdesign-vue-next';
+<script setup lang="ts">
+import type { TableRowData } from 'tdesign-vue-next';
 import { listRole } from '@/apis/system';
 import { Page } from '@/layouts/standard';
 import { useLoading } from '@/stores';
@@ -8,11 +8,6 @@ import CreateDialog from './dialogs/Create.vue';
 const createDialogRef = ref();
 const currentData = ref();
 const listData = ref();
-
-const handleOptions: DropdownProps['options'] = [
-  { content: '修改', value: 'edit', prefixIcon: () => <t-icon name="edit" /> },
-  { content: '删除', value: 'delete', prefixIcon: () => <t-icon name="delete" />, theme: 'error' },
-];
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
@@ -78,9 +73,7 @@ onMounted(async () => await onHandle('refresh'));
               <span>{{ row.roleName }}（{{ row.roleKey }}）</span>
               <span class="flex-1"></span>
               <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
-              <t-dropdown :on-click="(value) => onHandle(value.value as string, row)" :options="handleOptions" placement="right-top">
-                <t-icon class="duration-200 hover:text-blue-700" name="more" />
-              </t-dropdown>
+              <t-icon name="chevron-right" />
             </div>
           </t-list-item>
         </t-list>
