@@ -37,7 +37,7 @@ const onClosed = () => {
 const onConfirm = async () => {
   if ((await formRef.value?.validate()) !== true) return;
 
-  useLoading().show();
+  loadingStore.show();
   try {
     const { msg } = await (formData.roleId ? updateRole(formData) : createRole(formData));
     MessagePlugin.success(msg);
@@ -45,7 +45,7 @@ const onConfirm = async () => {
     visible.value = false;
   } catch {
   } finally {
-    useLoading().hide();
+    loadingStore.hide();
   }
 };
 

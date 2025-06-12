@@ -22,7 +22,7 @@ export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnkn
       },
       confirmBtn: { content: '删除', theme: 'danger' },
       onConfirm: async () => {
-        useLoading().show();
+        loadingStore.show();
         try {
           const { msg } = await api();
           MessagePlugin.success(msg);
@@ -31,7 +31,7 @@ export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnkn
         } catch {
           resolve(false);
         } finally {
-          useLoading().hide();
+          loadingStore.hide();
         }
       },
       onClosed: () => DialogInstance.destroy(),

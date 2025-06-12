@@ -46,13 +46,13 @@ useAnimateToggleHeight({ el: toolbarFilterRef, toggle: toolbarFilterVisible });
 
 const fileImportRef = ref();
 const onFileExport = async () => {
-  useLoading().show();
+  loadingStore.show();
   try {
     const data = await fileExport?.api();
     console.log(data); // TODO
   } catch {
   } finally {
-    useLoading().hide();
+    loadingStore.hide();
   }
 };
 

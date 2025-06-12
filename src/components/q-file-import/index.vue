@@ -16,13 +16,13 @@ const show = (fileImport: QTableProps['fileImport']) => {
 };
 
 const downloadTemplate = async () => {
-  useLoading().show();
+  loadingStore.show();
   try {
     const data = await importParams.value?.template?.();
     console.log(data); // TODO
   } catch {
   } finally {
-    useLoading().hide();
+    loadingStore.hide();
   }
 };
 
@@ -30,7 +30,7 @@ const requestMethod: UploadProps['requestMethod'] = (files) => {
   return new Promise(async () => {
     if (is.array(files)) return;
 
-    useLoading().show();
+    loadingStore.show();
     try {
       const response = await importParams.value?.api(files.raw!, replace.value);
       console.log(response); // TODO
@@ -38,7 +38,7 @@ const requestMethod: UploadProps['requestMethod'] = (files) => {
       visible.value = false;
     } catch {
     } finally {
-      useLoading().hide();
+      loadingStore.hide();
     }
   });
 };

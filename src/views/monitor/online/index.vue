@@ -40,25 +40,25 @@ const onRefresh = async (value: QTableToolbarFilterParams) => {
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      useLoading().show();
+      loadingStore.show();
       try {
         const { rows } = await listOnline(queryParams.value);
         tableData.value = rows;
       } catch {
       } finally {
-        useLoading().hide();
+        loadingStore.hide();
       }
       break;
 
     case 'logout':
-      useLoading().show();
+      loadingStore.show();
       try {
         const { msg } = await forceLogout(row?.tokenId);
         MessagePlugin.success(msg);
         await onHandle('refresh');
       } catch {
       } finally {
-        useLoading().hide();
+        loadingStore.hide();
       }
       break;
   }

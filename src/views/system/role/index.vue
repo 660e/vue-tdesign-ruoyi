@@ -15,7 +15,7 @@ const listData = ref();
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      useLoading().show();
+      loadingStore.show();
       try {
         const { rows } = await listRole({
           pageNum: 1,
@@ -24,7 +24,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         listData.value = rows;
       } catch {
       } finally {
-        useLoading().hide();
+        loadingStore.hide();
       }
       break;
 

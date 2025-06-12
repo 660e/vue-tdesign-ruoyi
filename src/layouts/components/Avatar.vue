@@ -47,7 +47,7 @@ const onEdit = (type: 'profile' | 'password') => {
 
 const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
   if (validateResult === true) {
-    useLoading().show();
+    loadingStore.show();
     switch (editType.value) {
       case 'profile':
         try {
@@ -60,7 +60,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
           if (code) window.location.reload();
         } catch {
         } finally {
-          useLoading().hide();
+          loadingStore.hide();
         }
         break;
       case 'password':
@@ -72,7 +72,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
           if (code) signOut();
         } catch {
         } finally {
-          useLoading().hide();
+          loadingStore.hide();
         }
         break;
     }

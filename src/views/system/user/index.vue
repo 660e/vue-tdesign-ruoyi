@@ -69,7 +69,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value) => {
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
-      useLoading().show();
+      loadingStore.show();
       try {
         const { rows, total } = await listUser({
           deptId: deptId.value,
@@ -81,7 +81,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         tableData.value = rows;
       } catch {
       } finally {
-        useLoading().hide();
+        loadingStore.hide();
       }
       break;
 
@@ -95,13 +95,13 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
     case 'delete':
       if (row) {
-        useLoading().show();
+        loadingStore.show();
         try {
           const { msg } = await deleteUser(row.userId);
           MessagePlugin.success(msg);
         } catch {
         } finally {
-          useLoading().hide();
+          loadingStore.hide();
         }
       } else {
         const success = await useHandleDelete(() => deleteUser((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
@@ -111,7 +111,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'resetPwd': {
-      useLoading().show();
+      loadingStore.show();
       const password = generatePassword();
       try {
         const { code } = await resetPwd(row?.userId, password);
@@ -132,7 +132,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         }
       } catch {
       } finally {
-        useLoading().hide();
+        loadingStore.hide();
       }
       break;
     }
@@ -158,13 +158,13 @@ const fileImport: QTableProps['fileImport'] = {
 };
 
 onMounted(async () => {
-  useLoading().show();
+  loadingStore.show();
   try {
     deptIdTree.value = (await deptTree()).data;
   } catch {
   } finally {
     await onHandle('refresh');
-    useLoading().hide();
+    loadingStore.hide();
   }
 });
 </script>

@@ -32,7 +32,7 @@ const formRules: FormProps['rules'] = {
 const userData = ref();
 
 const show = async (row?: TableRowData) => {
-  useLoading().show();
+  loadingStore.show();
   try {
     userData.value = await getUser(row?.userId);
     userData.value.deptTree = (await deptTree()).data;
@@ -44,7 +44,7 @@ const show = async (row?: TableRowData) => {
     visible.value = true;
   } catch {
   } finally {
-    useLoading().hide();
+    loadingStore.hide();
   }
 };
 
@@ -56,7 +56,7 @@ const onClosed = () => {
 const onConfirm = async () => {
   if ((await formRef.value?.validate()) !== true) return;
 
-  useLoading().show();
+  loadingStore.show();
   try {
     const { msg } = await (formData.userId ? updateUser(formData) : createUser(formData));
     MessagePlugin.success(msg);
@@ -64,7 +64,7 @@ const onConfirm = async () => {
     visible.value = false;
   } catch {
   } finally {
-    useLoading().hide();
+    loadingStore.hide();
   }
 };
 

@@ -7,12 +7,12 @@ const loadingStore = useLoadingStore();
 const notices = ref();
 
 onMounted(async () => {
-  useLoading().show();
+  loadingStore.show();
   try {
     notices.value = await listNotice();
   } catch {
   } finally {
-    useLoading().hide();
+    loadingStore.hide();
   }
 });
 
