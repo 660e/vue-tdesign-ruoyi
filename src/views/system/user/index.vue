@@ -2,8 +2,8 @@
 import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
-import { Page } from '@/layouts/standard';
 import { useHandleDelete } from '@/hooks';
+import { Page } from '@/layouts/standard';
 import { useLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';

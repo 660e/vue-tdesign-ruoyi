@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
 import { listRole, deleteRole } from '@/apis/system';
+import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoading } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
@@ -35,34 +36,9 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'delete': {
-      const DialogInstance = DialogPlugin.confirm({
-        header: '删除',
-        body: () => {
-          return (
-            <div class="flex items-center gap-2">
-              <span>确定删除</span>
-              <t-tag size="small" theme="primary" variant="light">
-                {row?.roleName}
-              </t-tag>
-              <span>？</span>
-            </div>
-          );
-        },
-        confirmBtn: { content: '删除', theme: 'danger' },
-        onConfirm: async () => {
-          useLoading().show();
-          try {
-            const { msg } = await deleteRole(row?.roleId);
-            MessagePlugin.success(msg);
-            await onHandle('refresh');
-            DialogInstance.hide();
-          } catch {
-          } finally {
-            useLoading().hide();
-          }
-        },
-        onClosed: () => DialogInstance.destroy(),
-      });
+      const success = await useHandleDelete(() => deleteRole(row?.roleId), row?.roleName);
+      if (!success) return;
+      await onHandle('refresh');
       break;
     }
   }
