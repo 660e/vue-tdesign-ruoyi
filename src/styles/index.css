@@ -5,5 +5,6 @@
 @import './tdesign.css';
 
 #nprogress .bar {
+  background-color: var(--td-brand-color);
   z-index: 9999;
 }
