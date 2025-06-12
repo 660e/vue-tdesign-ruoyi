@@ -2,8 +2,7 @@
 import type { FormInstanceFunctions, TNode } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useElementSize } from '@vueuse/core';
-import { useAnimateToggleHeight } from '@/hooks';
-import { useAppStore } from '@/stores';
+import { useAnimateToggleHeight, useDict } from '@/hooks';
 import { is } from '@/utils';
 
 const emit = defineEmits<{ change: [value: QTableToolbarFilterParams] }>();
@@ -35,8 +34,6 @@ const createEmptyFormData = () => {
 };
 
 const more = ref(false);
-const { dicts } = useAppStore();
-
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive(createEmptyFormData());
 const formTemplateRef = useTemplateRef('formRef');
@@ -94,7 +91,7 @@ const onSubmit = () => {
             v-if="item.toolbarFilter?.type === 'select'"
             v-model="formData[item.colKey!]"
             :label="itemLabel(item)"
-            :options="dicts?.get(item.toolbarFilter?.dict)"
+            :options="useDict(item.toolbarFilter?.dict)"
             clearable
           />
 
