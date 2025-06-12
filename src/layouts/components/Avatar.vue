@@ -93,33 +93,33 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
         <div class="text-xs">{{ user.phonenumber }}</div>
       </div>
 
-      <t-list size="small" split>
-        <t-list-item>
-          <t-icon class="mr-2" name="desktop" />
-          <span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
-        </t-list-item>
-        <t-list-item>
-          <t-icon class="mr-2" name="mail" />
-          <span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
-        </t-list-item>
-        <t-list-item>
-          <t-icon class="mr-2" name="tree-square-dot" />
-          <span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
-        </t-list-item>
-        <t-list-item>
-          <t-icon class="mr-2" name="calendar-2" />
-          <span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
-        </t-list-item>
-      </t-list>
+      <template v-if="!editType">
+        <t-list size="small" split>
+          <t-list-item>
+            <t-icon class="mr-2" name="desktop" />
+            <span>用户名称</span><span class="flex-1"></span><span>{{ user.userName }}</span>
+          </t-list-item>
+          <t-list-item>
+            <t-icon class="mr-2" name="mail" />
+            <span>安全邮箱</span><span class="flex-1"></span><span>{{ user.email }}</span>
+          </t-list-item>
+          <t-list-item>
+            <t-icon class="mr-2" name="tree-square-dot" />
+            <span>所属部门</span><span class="flex-1"></span><span>{{ user.dept.deptName }}/{{ postGroup }}</span>
+          </t-list-item>
+          <t-list-item>
+            <t-icon class="mr-2" name="calendar-2" />
+            <span>注册时间</span><span class="flex-1"></span><span>{{ user.createTime }}</span>
+          </t-list-item>
+        </t-list>
+        <div class="py-6 flex gap-2">
+          <t-button @click="onEdit('profile')" class="flex-1" variant="outline">修改基本资料</t-button>
+          <t-button @click="onEdit('password')" class="flex-1" variant="outline">修改密码</t-button>
+        </div>
+      </template>
 
-      <div class="py-6">
-        <t-form v-if="editType" :data="formData" :on-submit="onSubmit" :rules="formRules" @reset="() => (editType = null)" label-width="0">
-          <t-form-item>
-            <div class="flex-1 flex gap-2">
-              <t-button class="flex-1" type="submit">保存</t-button>
-              <t-button class="flex-1" theme="default" type="reset">取消</t-button>
-            </div>
-          </t-form-item>
+      <div v-else class="py-6">
+        <t-form :data="formData" :on-submit="onSubmit" :rules="formRules" @reset="() => (editType = null)" label-width="0">
           <template v-if="editType === 'profile'">
             <t-form-item label="用户昵称" name="nickName">
               <t-input v-model="formData.nickName" label="用户昵称" />
@@ -147,12 +147,13 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
               <t-input v-model="formData.confirmPassword" label="确认密码" type="password" />
             </t-form-item>
           </template>
+          <t-form-item>
+            <div class="flex-1 flex gap-2">
+              <t-button class="flex-1" type="submit">保存</t-button>
+              <t-button class="flex-1" theme="default" type="reset">取消</t-button>
+            </div>
+          </t-form-item>
         </t-form>
-
-        <div v-else class="flex gap-2">
-          <t-button @click="onEdit('profile')" class="flex-1" variant="outline">修改基本资料</t-button>
-          <t-button @click="onEdit('password')" class="flex-1" variant="outline">修改密码</t-button>
-        </div>
       </div>
     </div>
 
