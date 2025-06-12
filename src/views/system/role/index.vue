@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
 import { listRole, deleteRole } from '@/apis/system';
 import { Page } from '@/layouts/standard';
@@ -37,7 +37,17 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'delete': {
       const DialogInstance = DialogPlugin.confirm({
         header: '删除',
-        body: `确定删除 ${row?.roleName} ？`,
+        body: () => {
+          return (
+            <div class="flex items-center gap-2">
+              <span>确定删除</span>
+              <t-tag size="small" theme="primary" variant="light">
+                {row?.roleName}
+              </t-tag>
+              <span>？</span>
+            </div>
+          );
+        },
         confirmBtn: { content: '删除', theme: 'danger' },
         onConfirm: async () => {
           useLoading().show();
