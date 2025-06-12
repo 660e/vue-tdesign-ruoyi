@@ -7,7 +7,7 @@ import CreateDialog from './dialogs/Create.vue';
 import Description from './Description.vue';
 
 const createDialogRef = ref();
-const currentData = ref();
+const currentRowData = ref();
 const listData = ref();
 
 const onHandle = async (value: string, row?: TableRowData) => {
@@ -42,7 +42,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
 onMounted(async () => {
   await onHandle('refresh');
-  currentData.value = listData.value.find((e: TableRowData) => e.roleId === 1);
+  currentRowData.value = listData.value.find((e: TableRowData) => e.roleId === 1);
 });
 </script>
 
@@ -67,8 +67,8 @@ onMounted(async () => {
         <t-list size="small" split>
           <t-list-item
             v-for="row in listData"
-            :style="{ backgroundColor: row.roleId === currentData?.roleId ? 'var(--td-brand-color-light)' : '' }"
-            @click="currentData = row"
+            :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-light)' : '' }"
+            @click="currentRowData = row"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
             :key="row.roleId"
           >
@@ -84,7 +84,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <Description v-if="currentData" :current-data="currentData" />
+    <Description v-if="currentRowData" :row="currentRowData" @handle="onHandle" />
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

@@ -22,6 +22,8 @@ declare module 'vue' {
     TCheckbox: typeof import('tdesign-vue-next')['Checkbox']
     TConfigProvider: typeof import('tdesign-vue-next')['ConfigProvider']
     TDateRangePicker: typeof import('tdesign-vue-next')['DateRangePicker']
+    TDescriptions: typeof import('tdesign-vue-next')['Descriptions']
+    TDescriptionsItem: typeof import('tdesign-vue-next')['DescriptionsItem']
     TDialog: typeof import('tdesign-vue-next')['Dialog']
     TDrawer: typeof import('tdesign-vue-next')['Drawer']
     TForm: typeof import('tdesign-vue-next')['Form']
