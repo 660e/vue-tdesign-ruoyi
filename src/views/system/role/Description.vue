@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import type { TableRowData } from 'tdesign-vue-next';
+import type { RadioValue, TableRowData } from 'tdesign-vue-next';
 import { useDict } from '@/hooks';
 
 defineEmits<{ handle: [value: string, row: TableRowData] }>();
 
 const { row } = defineProps<{ row: TableRowData }>();
+
+const tab = ref(1);
+const onTabChange = (value: RadioValue) => {
+  console.log(value);
+};
 </script>
 
 <template>
   <div class="flex-1 flex flex-col">
     <div class="p-4 flex">
-      <t-radio-group default-value="1" variant="default-filled">
-        <t-radio-button value="1">基本信息</t-radio-button>
-        <t-radio-button value="2">菜单权限</t-radio-button>
-        <t-radio-button value="3">数据权限</t-radio-button>
-        <t-radio-button value="4">分配用户</t-radio-button>
+      <t-radio-group v-model="tab" :on-change="onTabChange" variant="default-filled">
+        <t-radio-button :value="1">基本信息</t-radio-button>
+        <t-radio-button :value="2">菜单权限</t-radio-button>
+        <t-radio-button :value="3">数据权限</t-radio-button>
+        <t-radio-button :value="4">分配用户</t-radio-button>
       </t-radio-group>
     </div>
+
     <div class="flex-1 overflow-y-auto">
-      <div class="px-4">
+      <div v-if="tab === 1" class="px-4 pb-4">
         <t-descriptions :column="1" :label-style="{ width: '120px' }" bordered>
           <t-descriptions-item label="序号">{{ row.roleSort }}</t-descriptions-item>
           <t-descriptions-item label="角色名称">{{ row.roleName }}</t-descriptions-item>
@@ -36,6 +42,12 @@ const { row } = defineProps<{ row: TableRowData }>();
           </t-button>
         </div>
       </div>
+
+      <div v-if="tab === 2">菜单权限</div>
+
+      <div v-if="tab === 3">数据权限</div>
+
+      <div v-if="tab === 4">分配用户</div>
     </div>
   </div>
 </template>
