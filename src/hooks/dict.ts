@@ -1,5 +1,8 @@
-import type { AppSystemDictKey } from '@/types';
+import type { AppSystemDictItem, AppSystemDictKey } from '@/types';
 import { useAppStore } from '@/stores';
+
+export function useDict(key: AppSystemDictKey, value: string): string;
+export function useDict(key: AppSystemDictKey): AppSystemDictItem[];
 
 export function useDict(key: AppSystemDictKey, value?: string) {
   const { dicts } = useAppStore();

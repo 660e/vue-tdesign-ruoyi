@@ -5,7 +5,7 @@ export * from '@/apis/types';
 export * from '@/components/types';
 
 export type AppSystemDictKey = (typeof DICTS)[number];
-export type AppSystemDictMap = Map<AppSystemDictKey, { label: string; type: string; value: string }[]>;
+export type AppSystemDictMap = Map<AppSystemDictKey, AppSystemDictItem[]>;
 export type AppUnknownRecord = Record<string, unknown>;
 
 export interface AppRequestConfig {
@@ -40,4 +40,10 @@ export interface AppRoute {
   };
   name: string;
   path: string;
+}
+
+export interface AppSystemDictItem {
+  label: string;
+  type: string;
+  value: string;
 }
