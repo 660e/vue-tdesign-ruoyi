@@ -3,10 +3,11 @@ import type { TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listOnline, forceLogout } from '@/apis/monitor';
 import { Page } from '@/layouts/standard';
-import { useLoading } from '@/stores';
+import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import dayjs from 'dayjs';
 
+const loadingStore = useLoadingStore();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [

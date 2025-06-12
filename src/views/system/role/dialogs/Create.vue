@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
 import { createRole, updateRole } from '@/apis/system';
-import { useAppStore, useLoading } from '@/stores';
+import { useAppStore, useLoadingStore } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
 const { dicts } = useAppStore();
+const loadingStore = useLoadingStore();
 
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();

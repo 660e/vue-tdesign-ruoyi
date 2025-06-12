@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { FormProps } from 'tdesign-vue-next';
 import { updateUserProfile, updatePassword } from '@/apis/system';
-import { useAppStore, useLoading } from '@/stores';
+import { useAppStore, useLoadingStore } from '@/stores';
 
 const { dicts, postGroup, roleGroup, user, signOut } = useAppStore();
+const loadingStore = useLoadingStore();
 const visible = ref(false);
 const editType = ref();
 const confirmSignOut = ref(false);

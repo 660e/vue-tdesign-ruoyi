@@ -2,7 +2,7 @@
 import type { PageInfo, SelectOptions, TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { useAnimateToggleHeight } from '@/hooks';
-import { useLoading } from '@/stores';
+import { useLoadingStore } from '@/stores';
 import ToolbarFilter from './ToolbarFilter.vue';
 
 defineOptions({ inheritAttrs: false });
@@ -20,6 +20,7 @@ const { columns = [], fileExport } = defineProps<{
   fileImport?: QTableProps['fileImport'];
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
+const loadingStore = useLoadingStore();
 
 const tableColumns = computed(() => {
   return columns.filter((column) => {

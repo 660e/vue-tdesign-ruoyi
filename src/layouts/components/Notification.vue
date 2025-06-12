@@ -1,8 +1,9 @@
 <script setup lang="tsx">
 import { listNotice } from '@/apis/system';
-import { useAppStore, useLoading } from '@/stores';
+import { useAppStore, useLoadingStore } from '@/stores';
 
 const { dicts } = useAppStore();
+const loadingStore = useLoadingStore();
 const notices = ref();
 
 onMounted(async () => {

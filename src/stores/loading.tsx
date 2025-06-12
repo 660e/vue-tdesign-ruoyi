@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 
 NProgress.configure({ showSpinner: false });
 
-export const useLoading = defineStore('loading', () => {
+export const useLoadingStore = defineStore('loading', () => {
   const instance = ref<LoadingInstance>();
   const status = ref(0);
 

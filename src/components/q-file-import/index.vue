@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { UploadProps } from 'tdesign-vue-next';
 import type { QTableProps } from '@/types';
-import { useLoading } from '@/stores';
+import { useLoadingStore } from '@/stores';
 import { is } from '@/utils';
 
 const emit = defineEmits<{ confirm: [] }>();
+const loadingStore = useLoadingStore();
 const visible = ref(false);
 const importParams = ref<QTableProps['fileImport']>();
 const replace = ref(false);

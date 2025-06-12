@@ -4,10 +4,11 @@ import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
-import { useLoading } from '@/stores';
+import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
 
+const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const deptId = ref();
 const deptIdTree = ref();

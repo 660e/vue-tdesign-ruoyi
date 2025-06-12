@@ -3,10 +3,11 @@ import type { TableRowData } from 'tdesign-vue-next';
 import { listRole, deleteRole } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
-import { useLoading } from '@/stores';
+import { useLoadingStore } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
 import Description from './Description.vue';
 
+const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const currentRowData = ref();
 const listData = ref();

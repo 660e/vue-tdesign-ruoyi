@@ -1,9 +1,11 @@
 import type { AppResponseData, AppUnknownRecord } from '@/types';
 import { Tag } from 'tdesign-vue-next';
-import { useLoading } from '@/stores';
+import { useLoadingStore } from '@/stores';
 import { is } from '@/utils';
 
 export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnknownRecord>>, value: number | string | undefined) {
+  const loadingStore = useLoadingStore();
+
   return new Promise((resolve) => {
     const DialogInstance = DialogPlugin.confirm({
       header: `${is.number(value) ? '批量' : ''}删除`,
