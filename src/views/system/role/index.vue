@@ -1,12 +1,20 @@
-<script setup lang="ts">
+<script setup lang="tsx">
+import type { DropdownProps, TableRowData } from 'tdesign-vue-next';
 import { listRole } from '@/apis/system';
 import { Page } from '@/layouts/standard';
 import { useLoading } from '@/stores';
+import CreateDialog from './dialogs/Create.vue';
 
+const createDialogRef = ref();
 const currentData = ref();
 const listData = ref();
 
-const onHandle = async (value: string) => {
+const handleOptions: DropdownProps['options'] = [
+  { content: '修改', value: 'edit', prefixIcon: () => <t-icon name="edit" /> },
+  { content: '删除', value: 'delete', prefixIcon: () => <t-icon name="delete" />, theme: 'error' },
+];
+
+const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
       useLoading().show();
@@ -21,6 +29,18 @@ const onHandle = async (value: string) => {
         useLoading().hide();
       }
       break;
+
+    case 'create':
+      createDialogRef.value.show();
+      break;
+
+    case 'edit':
+      createDialogRef.value.show(row);
+      break;
+
+    case 'delete':
+      console.log(row);
+      break;
   }
 };
 
@@ -31,9 +51,10 @@ onMounted(async () => await onHandle('refresh'));
   <Page class="flex">
     <div class="w-96 flex flex-col border-r border-neutral-200">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-input class="flex-1 !w-0" clearable>
-          <template #prefix-icon><t-icon name="search" /></template>
-        </t-input>
+        <t-button @click="onHandle('create')">
+          <template #icon><t-icon name="add" /></template><span>新增</span>
+        </t-button>
+        <div class="flex-1"></div>
         <t-radio-group default-value="1" variant="default-filled">
           <t-radio-button value="1">
             <div class="flex items-center gap-1"><span>序号</span><t-icon name="arrow-down" /></div>
@@ -44,7 +65,7 @@ onMounted(async () => await onHandle('refresh'));
         </t-radio-group>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <t-list size="small" split>
+        <t-list split>
           <t-list-item
             v-for="row in listData"
             :style="{ backgroundColor: row.roleId === currentData?.roleId ? 'var(--td-brand-color-light)' : '' }"
@@ -57,7 +78,9 @@ onMounted(async () => await onHandle('refresh'));
               <span>{{ row.roleName }}（{{ row.roleKey }}）</span>
               <span class="flex-1"></span>
               <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
-              <t-icon name="chevron-right" />
+              <t-dropdown :on-click="(value) => onHandle(value.value as string, row)" :options="handleOptions" placement="right-top">
+                <t-icon class="duration-200 hover:text-blue-700" name="more" />
+              </t-dropdown>
             </div>
           </t-list-item>
         </t-list>
@@ -66,5 +89,7 @@ onMounted(async () => await onHandle('refresh'));
     <div class="flex-1 overflow-y-auto">
       <pre>{{ currentData }}</pre>
     </div>
+
+    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
