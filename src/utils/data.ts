@@ -85,7 +85,7 @@ export function fd(data: Record<string, string | number | File>) {
   return formData;
 }
 
-export function iconTransverter(icon: string) {
+export function iconConverter(icon: string) {
   const map = new Map([
     ['system', 'system-setting'],
     ['monitor', 'chart-line'],

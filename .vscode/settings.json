@@ -6,5 +6,6 @@
   "editor.formatOnSave": true,
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "cSpell.words": ["activable", "nprogress", "popconfirm", "tdesign", "vueuse"]
 }
