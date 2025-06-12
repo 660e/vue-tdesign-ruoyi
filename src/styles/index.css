@@ -8,3 +8,15 @@
   background-color: var(--td-brand-color);
   z-index: 9999;
 }
+
+/***
+
+var(--td-bg-color-secondarycontainer)
+var(--td-brand-color-light)
+
+var(--td-brand-color)
+var(--td-error-color)
+
+var(--td-text-color-secondary)
+
+***/
