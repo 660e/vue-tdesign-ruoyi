@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableRowData } from 'tdesign-vue-next';
-import { listRole } from '@/apis/system';
+import { listRole, deleteRole } from '@/apis/system';
 import { Page } from '@/layouts/standard';
 import { useLoading } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
@@ -34,9 +34,27 @@ const onHandle = async (value: string, row?: TableRowData) => {
       createDialogRef.value.show(row);
       break;
 
-    case 'delete':
-      console.log(row);
+    case 'delete': {
+      const DialogInstance = DialogPlugin.confirm({
+        header: '删除',
+        body: `确定删除 ${row?.roleName} ？`,
+        confirmBtn: { content: '删除', theme: 'danger' },
+        onConfirm: async () => {
+          useLoading().show();
+          try {
+            const { msg } = await deleteRole(row?.roleId);
+            MessagePlugin.success(msg);
+            await onHandle('refresh');
+            DialogInstance.hide();
+          } catch {
+          } finally {
+            useLoading().hide();
+          }
+        },
+        onClosed: () => DialogInstance.destroy(),
+      });
       break;
+    }
   }
 };
 
