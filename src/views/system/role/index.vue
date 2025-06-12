@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { listRole } from '@/apis/system';
-import { useLoading } from '@/stores';
 import { Page } from '@/layouts/standard';
+import { useLoading } from '@/stores';
 
 const currentData = ref();
 const listData = ref();

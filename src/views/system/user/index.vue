@@ -2,9 +2,9 @@
 import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
+import { Page } from '@/layouts/standard';
 import { useLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
-import { Page } from '@/layouts/standard';
 import CreateDialog from './dialogs/Create.vue';
 
 const createDialogRef = ref();
