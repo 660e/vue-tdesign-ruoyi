@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import type { TableRowData } from 'tdesign-vue-next';
-import { useAppStore } from '@/stores';
+import { useDict } from '@/hooks';
 
 defineEmits<{ handle: [value: string, row: TableRowData] }>();
 
 const { row } = defineProps<{ row: TableRowData }>();
-
-const { dicts } = useAppStore();
 </script>
 
 <template>
@@ -25,7 +23,7 @@ const { dicts } = useAppStore();
           <t-descriptions-item label="序号">{{ row.roleSort }}</t-descriptions-item>
           <t-descriptions-item label="角色名称">{{ row.roleName }}</t-descriptions-item>
           <t-descriptions-item label="权限字符">{{ row.roleKey }}</t-descriptions-item>
-          <t-descriptions-item label="状态">{{ dicts?.get('sys_normal_disable')?.find((e) => e.value === row.status)?.label }}</t-descriptions-item>
+          <t-descriptions-item label="状态">{{ useDict('sys_normal_disable', row.status) }}</t-descriptions-item>
           <t-descriptions-item label="创建时间">{{ row.createTime }}</t-descriptions-item>
           <t-descriptions-item label="备注">{{ row.remark }}</t-descriptions-item>
         </t-descriptions>
