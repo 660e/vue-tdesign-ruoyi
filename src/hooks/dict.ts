@@ -4,5 +4,9 @@ import { useAppStore } from '@/stores';
 export function useDict(key: AppSystemDictKey, value?: string) {
   const { dicts } = useAppStore();
 
-  return value ? dicts?.get(key)?.find((e) => e.value === value)?.label || '-' : dicts?.get(key) || [];
+  if (arguments.length === 2) {
+    return dicts?.get(key)?.find((e) => e.value === value)?.label || '-';
+  } else {
+    return dicts?.get(key) || [];
+  }
 }
