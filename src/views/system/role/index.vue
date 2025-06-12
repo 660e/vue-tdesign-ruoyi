@@ -3,7 +3,8 @@ import { listRole } from '@/apis/system';
 import { useFullscreenLoading } from '@/stores';
 import { Page } from '@/layouts/standard';
 
-const tableData = ref();
+const currentData = ref();
+const listData = ref();
 
 const onHandle = async (value: string) => {
   switch (value) {
@@ -14,7 +15,7 @@ const onHandle = async (value: string) => {
           pageNum: 1,
           pageSize: 9999,
         });
-        tableData.value = rows;
+        listData.value = rows;
       } catch {
       } finally {
         useFullscreenLoading().hide();
@@ -44,7 +45,13 @@ onMounted(async () => await onHandle('refresh'));
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list size="small" split>
-          <t-list-item v-for="row in tableData" class="cursor-pointer duration-200 hover:bg-neutral-100" :key="row.roleId">
+          <t-list-item
+            v-for="row in listData"
+            :style="{ backgroundColor: row.roleId === currentData?.roleId ? 'var(--td-brand-color-light)' : '' }"
+            @click="currentData = row"
+            class="cursor-pointer duration-200 hover:bg-neutral-100"
+            :key="row.roleId"
+          >
             <div class="flex-1 flex items-center gap-2">
               <span class="w-8 overflow-x-hidden font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
               <span>{{ row.roleName }}（{{ row.roleKey }}）</span>
@@ -57,7 +64,7 @@ onMounted(async () => await onHandle('refresh'));
       </div>
     </div>
     <div class="flex-1 overflow-y-auto">
-      <pre>{{ tableData }}</pre>
+      <pre>{{ currentData }}</pre>
     </div>
   </Page>
 </template>
