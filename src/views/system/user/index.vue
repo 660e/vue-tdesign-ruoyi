@@ -3,6 +3,7 @@ import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { deptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
 import { Page } from '@/layouts/standard';
+import { useHandleDelete } from '@/hooks';
 import { useLoading } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
@@ -102,24 +103,27 @@ const onHandle = async (value: string, row?: TableRowData) => {
           useLoading().hide();
         }
       } else {
-        const DialogInstance = DialogPlugin.confirm({
-          header: '批量删除',
-          body: `确定删除选中的 ${selectedRowKeys.value?.length} 条数据？`,
-          confirmBtn: { content: '删除', theme: 'danger' },
-          onConfirm: async () => {
-            useLoading().show();
-            try {
-              const { msg } = await deleteUser((selectedRowKeys.value || []).join(','));
-              MessagePlugin.success(msg);
-              await onHandle('refresh');
-              DialogInstance.hide();
-            } catch {
-            } finally {
-              useLoading().hide();
-            }
-          },
-          onClosed: () => DialogInstance.destroy(),
-        });
+        const response = await useHandleDelete(() => deleteUser((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
+        if (!response) return;
+        await onHandle('refresh');
+        // const DialogInstance = DialogPlugin.confirm({
+        //   header: '批量删除',
+        //   body: `确定删除选中的 ${selectedRowKeys.value?.length} 条数据？`,
+        //   confirmBtn: { content: '删除', theme: 'danger' },
+        //   onConfirm: async () => {
+        //     useLoading().show();
+        //     try {
+        //       const { msg } = await deleteUser((selectedRowKeys.value || []).join(','));
+        //       MessagePlugin.success(msg);
+        //       await onHandle('refresh');
+        //       DialogInstance.hide();
+        //     } catch {
+        //     } finally {
+        //       useLoading().hide();
+        //     }
+        //   },
+        //   onClosed: () => DialogInstance.destroy(),
+        // });
       }
       break;
 
