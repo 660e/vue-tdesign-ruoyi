@@ -39,7 +39,10 @@ const onHandle = async (value: string, row?: TableRowData) => {
   }
 };
 
-onMounted(async () => await onHandle('refresh'));
+onMounted(async () => {
+  await onHandle('refresh');
+  currentData.value = listData.value.find((e: TableRowData) => e.roleId === 1);
+});
 </script>
 
 <template>
@@ -79,8 +82,19 @@ onMounted(async () => await onHandle('refresh'));
         </t-list>
       </div>
     </div>
-    <div class="flex-1 overflow-y-auto">
-      <pre>{{ currentData }}</pre>
+
+    <div v-if="currentData" class="flex-1 flex flex-col">
+      <div class="p-4 flex">
+        <t-radio-group default-value="1" variant="default-filled">
+          <t-radio-button value="1">基本信息</t-radio-button>
+          <t-radio-button value="2">菜单权限</t-radio-button>
+          <t-radio-button value="3">数据权限</t-radio-button>
+          <t-radio-button value="4">分配用户</t-radio-button>
+        </t-radio-group>
+      </div>
+      <div class="flex-1 overflow-y-auto">
+        <div class="h-[2000px]"></div>
+      </div>
     </div>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
