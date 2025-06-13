@@ -9,6 +9,13 @@ defineEmits<{ handle: [value: string, row: TableRowData] }>();
 const { row } = defineProps<{ row: TableRowData }>();
 const loadingStore = useLoadingStore();
 
+watch(
+  () => row.roleId,
+  (n) => {
+    console.log(n);
+  },
+);
+
 const tab = ref(1);
 const onTabChange: RadioGroupProps['onChange'] = async (value) => {
   switch (value) {
