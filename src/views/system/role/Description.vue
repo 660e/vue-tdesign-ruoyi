@@ -30,6 +30,8 @@ const onTabChange = async (value: RadioValue) => {
         checkedKeys.value = response.checkedKeys;
         menus.value = response.menus;
       } catch {
+        checkedKeys.value = undefined;
+        menus.value = undefined;
       } finally {
         loadingStore.hide();
       }
@@ -66,11 +68,17 @@ const onTabChange = async (value: RadioValue) => {
         </t-button>
       </template>
       <template v-if="tab === 2">
+        <t-button @click="onTabChange(tab)" theme="default">
+          <template #icon><t-icon name="refresh" /></template><span>刷新</span>
+        </t-button>
         <t-button>
           <template #icon><t-icon name="save" /></template><span>保存</span>
         </t-button>
       </template>
       <template v-if="tab === 3">
+        <t-button @click="onTabChange(tab)" theme="default">
+          <template #icon><t-icon name="refresh" /></template><span>刷新</span>
+        </t-button>
         <t-button>
           <template #icon><t-icon name="save" /></template><span>保存</span>
         </t-button>
