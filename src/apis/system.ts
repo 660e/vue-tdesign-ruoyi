@@ -71,6 +71,12 @@ export function listRole(params?: AppRequestListParams) {
 
 //
 
+export function getMenuTree(roleId: number) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/menu/roleMenuTreeselect/${roleId}`);
+}
+
+//
+
 export function listNotice(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
 }

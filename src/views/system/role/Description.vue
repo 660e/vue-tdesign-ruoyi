@@ -1,21 +1,48 @@
 <script setup lang="ts">
 import type { RadioGroupProps, TableRowData } from 'tdesign-vue-next';
+import { getMenuTree } from '@/apis/system';
 import { useDict } from '@/hooks';
+import { useLoadingStore } from '@/stores';
 
 defineEmits<{ handle: [value: string, row: TableRowData] }>();
 
 const { row } = defineProps<{ row: TableRowData }>();
+const loadingStore = useLoadingStore();
 
 const tab = ref(1);
-const onChange: RadioGroupProps['onChange'] = (value) => {
-  console.log(value);
+const onTabChange: RadioGroupProps['onChange'] = async (value) => {
+  switch (value) {
+    case 1:
+      break;
+
+    case 2: {
+      loadingStore.show();
+      try {
+        const { checkedKeys, menus } = await getMenuTree(row.roleId);
+        console.log(checkedKeys);
+        console.log(menus);
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
+      break;
+    }
+
+    case 3:
+      // Data Permissions
+      break;
+
+    case 4:
+      // Assign Users
+      break;
+  }
 };
 </script>
 
 <template>
   <div class="flex-1 flex flex-col">
     <div class="p-4 flex gap-2">
-      <t-radio-group v-model="tab" :on-change="onChange" variant="default-filled">
+      <t-radio-group v-model="tab" :on-change="onTabChange" variant="default-filled">
         <t-radio-button :value="1">基本信息</t-radio-button>
         <t-radio-button :value="2">菜单权限</t-radio-button>
         <t-radio-button :value="3">数据权限</t-radio-button>
@@ -58,9 +85,13 @@ const onChange: RadioGroupProps['onChange'] = (value) => {
         <pre>{{ row }}</pre>
       </div>
 
-      <div v-if="tab === 3">数据权限</div>
+      <div v-if="tab === 3">
+        <pre>{{ row }}</pre>
+      </div>
 
-      <div v-if="tab === 4">分配用户</div>
+      <div v-if="tab === 4">
+        <pre>{{ row }}</pre>
+      </div>
     </div>
   </div>
 </template>

@@ -22,7 +22,9 @@ export interface AppRequestListParams {
 export interface AppResponseData<T> {
   code: number;
   msg: string;
+  checkedKeys?: number[];
   data?: T;
+  menus?: T;
   postGroup?: string;
   roleGroup?: string;
   rows?: T;
