@@ -97,9 +97,13 @@ const save = () => {
       </t-descriptions>
     </div>
 
-    <div v-if="tab === 2" class="px-4 pb-4 flex gap-4">
-      <t-tree v-model="checkedMenuKeys" :data="menuTree" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
-      <t-tree v-model="checkedDeptKeys" :data="deptTree" :expand-level="2" :keys="{ value: 'id' }" class="flex-1" checkable line />
+    <div v-if="tab === 2" class="flex-1 overflow-auto px-4 pb-4 flex gap-4">
+      <div class="flex-1 overflow-y-auto">
+        <t-tree v-model="checkedMenuKeys" :data="menuTree" :expand-level="1" :keys="{ value: 'id' }" checkable line />
+      </div>
+      <div class="flex-1 overflow-y-auto">
+        <t-tree v-model="checkedDeptKeys" :data="deptTree" :expand-level="2" :keys="{ value: 'id' }" checkable line />
+      </div>
     </div>
 
     <div v-if="tab === 3">
