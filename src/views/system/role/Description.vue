@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RadioValue, TableRowData } from 'tdesign-vue-next';
-import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole } from '@/apis/system';
+import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole, listAllocated, listUnallocated, allocateUsers, unallocateUsers } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -14,6 +14,8 @@ const checkedMenuKeys = ref();
 const menuTree = ref();
 const checkedDeptKeys = ref();
 const deptTree = ref();
+const allocatedUsers = ref();
+const unallocatedUsers = ref();
 
 watch(
   () => row.roleId,
@@ -23,9 +25,11 @@ watch(
 const onTabChange = async (value: RadioValue) => {
   switch (value) {
     case 1:
+      console.log(allocateUsers);
+      console.log(unallocateUsers);
       break;
 
-    case 2: {
+    case 2:
       loadingStore.show();
       try {
         const response = await Promise.all([getMenuTreeByRoleId(row.roleId), getDeptTreeByRoleId(row.roleId)]);
@@ -42,9 +46,20 @@ const onTabChange = async (value: RadioValue) => {
         loadingStore.hide();
       }
       break;
-    }
 
     case 3:
+      loadingStore.show();
+      try {
+        const response = await Promise.all([
+          listAllocated({ pageNum: 1, pageSize: 10, roleId: row.roleId }),
+          listUnallocated({ pageNum: 1, pageSize: 10, roleId: row.roleId }),
+        ]);
+        allocatedUsers.value = response[0].rows;
+        unallocatedUsers.value = response[1].rows;
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
       break;
   }
 };
@@ -87,7 +102,9 @@ const save = async () => {
         </t-button>
       </template>
       <template v-if="tab === 3">
-        <div></div>
+        <t-button @click="onTabChange(tab)" theme="default">
+          <template #icon><t-icon name="refresh" /></template><span>刷新</span>
+        </t-button>
       </template>
     </div>
 
@@ -112,7 +129,8 @@ const save = async () => {
     </div>
 
     <div v-if="tab === 3">
-      <pre>{{ row }}</pre>
+      <pre>{{ allocatedUsers }}</pre>
+      <pre>{{ unallocatedUsers }}</pre>
     </div>
   </div>
 </template>
