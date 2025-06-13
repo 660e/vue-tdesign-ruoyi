@@ -29,7 +29,6 @@ const onTabChange = async (value: RadioValue) => {
       loadingStore.show();
       try {
         const response = await Promise.all([getMenuTreeByRoleId(row.roleId), getDeptTreeByRoleId(row.roleId)]);
-
         checkedMenuKeys.value = response[0].checkedKeys;
         menuTree.value = response[0].menus;
         checkedDeptKeys.value = response[1].checkedKeys;
@@ -49,7 +48,11 @@ const onTabChange = async (value: RadioValue) => {
 };
 
 const save = () => {
-  console.log({ menuIds: checkedMenuKeys.value });
+  console.log(row);
+  console.log({
+    menuIds: checkedMenuKeys.value,
+    deptIds: checkedDeptKeys.value,
+  });
 };
 </script>
 
