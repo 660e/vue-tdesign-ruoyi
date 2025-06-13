@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RadioGroupProps, TableRowData } from 'tdesign-vue-next';
+import type { RadioValue, TableRowData } from 'tdesign-vue-next';
 import { getMenuTree } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
@@ -9,15 +9,16 @@ defineEmits<{ handle: [value: string, row: TableRowData] }>();
 const { row } = defineProps<{ row: TableRowData }>();
 const loadingStore = useLoadingStore();
 
+const tab = ref(1);
+const checkedKeys = ref();
+const menus = ref();
+
 watch(
   () => row.roleId,
-  (n) => {
-    console.log(n);
-  },
+  () => onTabChange(tab.value),
 );
 
-const tab = ref(1);
-const onTabChange: RadioGroupProps['onChange'] = async (value) => {
+const onTabChange = async (value: RadioValue) => {
   switch (value) {
     case 1:
       break;
@@ -25,9 +26,9 @@ const onTabChange: RadioGroupProps['onChange'] = async (value) => {
     case 2: {
       loadingStore.show();
       try {
-        const { checkedKeys, menus } = await getMenuTree(row.roleId);
-        console.log(checkedKeys);
-        console.log(menus);
+        const response = await getMenuTree(row.roleId);
+        checkedKeys.value = response.checkedKeys;
+        menus.value = response.menus;
       } catch {
       } finally {
         loadingStore.hide();
@@ -49,7 +50,7 @@ const onTabChange: RadioGroupProps['onChange'] = async (value) => {
 <template>
   <div class="flex-1 flex flex-col">
     <div class="p-4 flex gap-2">
-      <t-radio-group v-model="tab" :on-change="onTabChange" variant="default-filled">
+      <t-radio-group v-model="tab" :on-change="(value) => onTabChange(value)" variant="default-filled">
         <t-radio-button :value="1">基本信息</t-radio-button>
         <t-radio-button :value="2">菜单权限</t-radio-button>
         <t-radio-button :value="3">数据权限</t-radio-button>
@@ -89,7 +90,8 @@ const onTabChange: RadioGroupProps['onChange'] = async (value) => {
       </div>
 
       <div v-if="tab === 2">
-        <pre>{{ row }}</pre>
+        <pre>{{ checkedKeys }}</pre>
+        <pre>{{ menus }}</pre>
       </div>
 
       <div v-if="tab === 3">
