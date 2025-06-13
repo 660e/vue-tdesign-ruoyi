@@ -86,26 +86,24 @@ const save = () => {
       </template>
     </div>
 
-    <div class="flex-1 overflow-y-auto">
-      <div v-if="tab === 1" class="px-4 pb-4">
-        <t-descriptions :column="1" :label-style="{ width: '120px' }" bordered>
-          <t-descriptions-item label="序号">{{ row.roleSort }}</t-descriptions-item>
-          <t-descriptions-item label="角色名称">{{ row.roleName }}</t-descriptions-item>
-          <t-descriptions-item label="权限字符">{{ row.roleKey }}</t-descriptions-item>
-          <t-descriptions-item label="状态">{{ useDict('sys_normal_disable', row.status) }}</t-descriptions-item>
-          <t-descriptions-item label="创建时间">{{ row.createTime }}</t-descriptions-item>
-          <t-descriptions-item label="备注">{{ row.remark }}</t-descriptions-item>
-        </t-descriptions>
-      </div>
+    <div v-if="tab === 1" class="flex-1 overflow-y-auto px-4 pb-4">
+      <t-descriptions :column="1" :label-style="{ width: '120px' }" bordered>
+        <t-descriptions-item label="序号">{{ row.roleSort }}</t-descriptions-item>
+        <t-descriptions-item label="角色名称">{{ row.roleName }}</t-descriptions-item>
+        <t-descriptions-item label="权限字符">{{ row.roleKey }}</t-descriptions-item>
+        <t-descriptions-item label="状态">{{ useDict('sys_normal_disable', row.status) }}</t-descriptions-item>
+        <t-descriptions-item label="创建时间">{{ row.createTime }}</t-descriptions-item>
+        <t-descriptions-item label="备注">{{ row.remark }}</t-descriptions-item>
+      </t-descriptions>
+    </div>
 
-      <div v-if="tab === 2" class="px-4 pb-4 flex gap-4">
-        <t-tree v-model="checkedMenuKeys" :data="menuTree" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
-        <t-tree v-model="checkedDeptKeys" :data="deptTree" :expand-level="2" :keys="{ value: 'id' }" class="flex-1" checkable line />
-      </div>
+    <div v-if="tab === 2" class="px-4 pb-4 flex gap-4">
+      <t-tree v-model="checkedMenuKeys" :data="menuTree" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
+      <t-tree v-model="checkedDeptKeys" :data="deptTree" :expand-level="2" :keys="{ value: 'id' }" class="flex-1" checkable line />
+    </div>
 
-      <div v-if="tab === 3">
-        <pre>{{ row }}</pre>
-      </div>
+    <div v-if="tab === 3">
+      <pre>{{ row }}</pre>
     </div>
   </div>
 </template>
