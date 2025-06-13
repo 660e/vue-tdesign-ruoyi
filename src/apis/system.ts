@@ -1,6 +1,8 @@
 import type { AppRequestListParams, AppResponseData, AppUnknownRecord } from '@/types';
 import { fd, request } from '@/utils';
 
+// ----- user
+
 export function updateUserProfile(data: AppUnknownRecord) {
   return request.put<AppResponseData<AppUnknownRecord>>('/system/user/profile', { data });
 }
@@ -53,6 +55,8 @@ export function resetPwd(userId: number, password: string) {
   return request.put<AppResponseData<AppUnknownRecord>>('/system/user/resetPwd', { data: { userId, password } });
 }
 
+// ----- role
+
 export function createRole(data: AppUnknownRecord) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/role', { data });
 }
@@ -73,17 +77,19 @@ export function getDeptTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/role/deptTree/${roleId}`);
 }
 
-//
+// ----- menu
 
 export function getMenuTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/menu/roleMenuTreeselect/${roleId}`);
 }
 
-//
+// ----- notice
 
 export function listNotice(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
 }
+
+// ----- dict
 
 export function dict(name: string) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/dict/data/type/${name}`);
