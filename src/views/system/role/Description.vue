@@ -128,9 +128,12 @@ const save = async () => {
       </div>
     </div>
 
-    <div v-if="tab === 3">
-      <pre>{{ allocatedUsers }}</pre>
-      <pre>{{ unallocatedUsers }}</pre>
+    <div v-if="tab === 3" class="flex-1 px-4 pb-4">
+      <t-transfer :operation="['移除', '授权']">
+        <template #title="props">
+          <div>{{ props.type === 'target' ? '已授权用户' : '未授权用户' }}</div>
+        </template>
+      </t-transfer>
     </div>
   </div>
 </template>
