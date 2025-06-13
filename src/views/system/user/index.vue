@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { deptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
+import { getDeptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -11,7 +11,7 @@ import CreateDialog from './dialogs/Create.vue';
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const deptId = ref();
-const deptIdTree = ref();
+const deptTree = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -160,7 +160,7 @@ const fileImport: QTableProps['fileImport'] = {
 onMounted(async () => {
   loadingStore.show();
   try {
-    deptIdTree.value = (await deptTree()).data;
+    deptTree.value = (await getDeptTree()).data;
   } catch {
   } finally {
     await onHandle('refresh');
@@ -172,7 +172,7 @@ onMounted(async () => {
 <template>
   <Page class="flex">
     <div class="w-52 border-r border-neutral-200">
-      <q-tree :data="deptIdTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable filter hover />
+      <q-tree :data="deptTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable filter hover />
     </div>
     <q-table
       v-model:pagination="pagination"

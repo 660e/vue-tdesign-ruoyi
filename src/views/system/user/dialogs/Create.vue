@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { getUser, deptTree, createUser, updateUser } from '@/apis/system';
+import { getUser, getDeptTree, createUser, updateUser } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -35,7 +35,7 @@ const show = async (row?: TableRowData) => {
   loadingStore.show();
   try {
     userData.value = await getUser(row?.userId);
-    userData.value.deptTree = (await deptTree()).data;
+    userData.value.deptTree = (await getDeptTree()).data;
     if (row?.userId) {
       Object.assign(formData, row);
       formData.postIds = userData.value.postIds;

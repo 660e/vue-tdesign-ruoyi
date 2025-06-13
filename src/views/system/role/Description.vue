@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RadioValue, TableRowData } from 'tdesign-vue-next';
-import { getMenuTree } from '@/apis/system';
+import { getMenuTreeByRoleId, getDeptTreeByRoleId } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -10,8 +10,10 @@ const { row } = defineProps<{ row: TableRowData }>();
 const loadingStore = useLoadingStore();
 
 const tab = ref(1);
-const checkedKeys = ref();
-const menus = ref();
+const checkedMenuKeys = ref();
+const menuTree = ref();
+const checkedDeptKeys = ref();
+const deptTree = ref();
 
 watch(
   () => row.roleId,
@@ -26,12 +28,15 @@ const onTabChange = async (value: RadioValue) => {
     case 2: {
       loadingStore.show();
       try {
-        const response = await getMenuTree(row.roleId);
-        checkedKeys.value = response.checkedKeys;
-        menus.value = response.menus;
+        const response = await Promise.all([getMenuTreeByRoleId(row.roleId), getDeptTreeByRoleId(row.roleId)]);
+
+        checkedMenuKeys.value = response[0].checkedKeys;
+        menuTree.value = response[0].menus;
+        checkedDeptKeys.value = response[1].checkedKeys;
+        deptTree.value = response[1].depts;
       } catch {
-        checkedKeys.value = undefined;
-        menus.value = undefined;
+        checkedMenuKeys.value = undefined;
+        menuTree.value = undefined;
       } finally {
         loadingStore.hide();
       }
@@ -44,7 +49,7 @@ const onTabChange = async (value: RadioValue) => {
 };
 
 const save = () => {
-  console.log({ menuIds: checkedKeys.value });
+  console.log({ menuIds: checkedMenuKeys.value });
 };
 </script>
 
@@ -91,8 +96,8 @@ const save = () => {
       </div>
 
       <div v-if="tab === 2" class="px-4 pb-4 flex gap-4">
-        <t-tree v-model="checkedKeys" :data="menus" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
-        <t-tree v-model="checkedKeys" :data="menus" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
+        <t-tree v-model="checkedMenuKeys" :data="menuTree" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
+        <t-tree v-model="checkedDeptKeys" :data="deptTree" :expand-level="2" :keys="{ value: 'id' }" class="flex-1" checkable line />
       </div>
 
       <div v-if="tab === 3">

@@ -45,7 +45,7 @@ export function importUserTemplate() {
   return request.post<AppResponseData<Blob>>('/system/user/importTemplate', { responseType: 'blob' });
 }
 
-export function deptTree() {
+export function getDeptTree() {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/user/deptTree');
 }
 
@@ -69,9 +69,13 @@ export function listRole(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/role/list', { params });
 }
 
+export function getDeptTreeByRoleId(roleId: number) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/role/deptTree/${roleId}`);
+}
+
 //
 
-export function getMenuTree(roleId: number) {
+export function getMenuTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/menu/roleMenuTreeselect/${roleId}`);
 }
 

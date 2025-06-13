@@ -24,6 +24,7 @@ export interface AppResponseData<T> {
   msg: string;
   checkedKeys?: number[];
   data?: T;
+  depts?: T;
   menus?: T;
   postGroup?: string;
   roleGroup?: string;
