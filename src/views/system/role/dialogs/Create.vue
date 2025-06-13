@@ -72,11 +72,9 @@ defineExpose({ show });
         <t-input v-model="formData.roleKey" />
       </t-form-item>
       <t-form-item label="状态" name="status">
-        <t-radio-group v-model="formData.status" variant="default-filled">
-          <t-radio-button v-for="dict in useDict('sys_normal_disable')" :label="dict.label" :value="dict.value" :key="dict.value" />
-        </t-radio-group>
+        <t-radio-group v-model="formData.status" :options="useDict('sys_normal_disable')" theme="button" variant="default-filled" />
       </t-form-item>
-      <t-form-item class="col-span-2" label="备注" name="remark">
+      <t-form-item label="备注" name="remark">
         <t-textarea v-model="formData.remark" />
       </t-form-item>
     </t-form>

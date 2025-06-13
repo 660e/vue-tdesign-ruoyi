@@ -133,9 +133,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
               <t-input v-model="formData.email" label="安全邮箱" />
             </t-form-item>
             <t-form-item label="性别" name="sex">
-              <t-radio-group v-model="formData.sex" variant="default-filled">
-                <t-radio-button v-for="dict in useDict('sys_user_sex')" :label="dict.label" :value="dict.value" :key="dict.value" />
-              </t-radio-group>
+              <t-radio-group v-model="formData.sex" :options="useDict('sys_user_sex')" theme="button" variant="default-filled" />
             </t-form-item>
           </template>
           <template v-if="editType === 'password'">
