@@ -13,7 +13,7 @@ const currentRowData = ref();
 const listData = ref();
 
 const onChange: RadioGroupProps['onChange'] = (value) => {
-  console.log(value);
+  (listData.value as TableRowData[]).sort((a, b) => Number(a[value as string]) - Number(b[value as string]));
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
