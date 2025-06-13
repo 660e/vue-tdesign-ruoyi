@@ -9,8 +9,8 @@ import Description from './Description.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
-const currentRowData = ref();
 const listData = ref();
+const currentRowData = ref();
 const sortBy = ref('roleSort');
 
 const onHandle = async (value: string, row?: TableRowData) => {
@@ -20,6 +20,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       try {
         const { rows } = await listRole({ pageNum: 1, pageSize: 9999 });
         listData.value = rows;
+        currentRowData.value = rows?.find((e: TableRowData) => e.roleId === currentRowData.value?.roleId || 1);
         onHandle('sort');
       } catch {
       } finally {
@@ -48,10 +49,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
   }
 };
 
-onMounted(async () => {
-  await onHandle('refresh');
-  currentRowData.value = listData.value.find((e: TableRowData) => e.roleId === 1);
-});
+onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
