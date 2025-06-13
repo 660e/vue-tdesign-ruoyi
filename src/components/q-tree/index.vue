@@ -24,12 +24,3 @@ const onChange: InputProps['onChange'] = (value) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.t-tree :deep(.t-tree__empty) {
-  min-height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
