@@ -54,7 +54,9 @@ const onChange: RadioGroupProps['onChange'] = (value) => {
         </t-descriptions>
       </div>
 
-      <div v-if="tab === 2">菜单权限</div>
+      <div v-if="tab === 2">
+        <pre>{{ row }}</pre>
+      </div>
 
       <div v-if="tab === 3">数据权限</div>
 

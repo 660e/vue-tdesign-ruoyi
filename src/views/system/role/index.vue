@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { RadioGroupProps, TableRowData } from 'tdesign-vue-next';
+import type { TableRowData } from 'tdesign-vue-next';
 import { listRole, deleteRole } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
@@ -11,25 +11,24 @@ const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const currentRowData = ref();
 const listData = ref();
-
-const onChange: RadioGroupProps['onChange'] = (value) => {
-  (listData.value as TableRowData[]).sort((a, b) => Number(a[value as string]) - Number(b[value as string]));
-};
+const sortBy = ref('roleSort');
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows } = await listRole({
-          pageNum: 1,
-          pageSize: 9999,
-        });
+        const { rows } = await listRole({ pageNum: 1, pageSize: 9999 });
         listData.value = rows;
+        onHandle('sort');
       } catch {
       } finally {
         loadingStore.hide();
       }
+      break;
+
+    case 'sort':
+      (listData.value as TableRowData[]).sort((a, b) => Number(a[sortBy.value]) - Number(b[sortBy.value]));
       break;
 
     case 'create':
@@ -63,7 +62,7 @@ onMounted(async () => {
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <div class="flex-1"></div>
-        <t-radio-group :on-change="onChange" default-value="roleSort" variant="default-filled">
+        <t-radio-group v-model="sortBy" :on-change="() => onHandle('sort')" variant="default-filled">
           <t-radio-button value="roleSort">
             <div class="flex items-center gap-1"><span>序号</span><t-icon name="arrow-down" /></div>
           </t-radio-button>
