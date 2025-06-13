@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RadioValue, TableRowData } from 'tdesign-vue-next';
-import { getMenuTreeByRoleId, getDeptTreeByRoleId } from '@/apis/system';
+import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -36,6 +36,8 @@ const onTabChange = async (value: RadioValue) => {
       } catch {
         checkedMenuKeys.value = undefined;
         menuTree.value = undefined;
+        checkedDeptKeys.value = undefined;
+        deptTree.value = undefined;
       } finally {
         loadingStore.hide();
       }
@@ -47,12 +49,15 @@ const onTabChange = async (value: RadioValue) => {
   }
 };
 
-const save = () => {
-  console.log(row);
-  console.log({
-    menuIds: checkedMenuKeys.value,
-    deptIds: checkedDeptKeys.value,
-  });
+const save = async () => {
+  loadingStore.show();
+  try {
+    const { msg } = await updateRole({ ...row, menuIds: checkedMenuKeys.value, deptIds: checkedDeptKeys.value });
+    MessagePlugin.success(msg);
+  } catch {
+  } finally {
+    loadingStore.hide();
+  }
 };
 </script>
 
