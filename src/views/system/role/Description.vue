@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RadioValue, TableRowData } from 'tdesign-vue-next';
+import type { RadioGroupProps, TableRowData } from 'tdesign-vue-next';
 import { useDict } from '@/hooks';
 
 defineEmits<{ handle: [value: string, row: TableRowData] }>();
@@ -7,7 +7,7 @@ defineEmits<{ handle: [value: string, row: TableRowData] }>();
 const { row } = defineProps<{ row: TableRowData }>();
 
 const tab = ref(1);
-const onTabChange = (value: RadioValue) => {
+const onChange: RadioGroupProps['onChange'] = (value) => {
   console.log(value);
 };
 </script>
@@ -15,7 +15,7 @@ const onTabChange = (value: RadioValue) => {
 <template>
   <div class="flex-1 flex flex-col">
     <div class="p-4 flex gap-2">
-      <t-radio-group v-model="tab" :on-change="onTabChange" variant="default-filled">
+      <t-radio-group v-model="tab" :on-change="onChange" variant="default-filled">
         <t-radio-button :value="1">基本信息</t-radio-button>
         <t-radio-button :value="2">菜单权限</t-radio-button>
         <t-radio-button :value="3">数据权限</t-radio-button>

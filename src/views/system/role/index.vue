@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import type { TableRowData } from 'tdesign-vue-next';
+import type { RadioGroupProps, TableRowData } from 'tdesign-vue-next';
 import { listRole, deleteRole } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
@@ -11,6 +11,10 @@ const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const currentRowData = ref();
 const listData = ref();
+
+const onChange: RadioGroupProps['onChange'] = (value) => {
+  console.log(value);
+};
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
@@ -59,11 +63,11 @@ onMounted(async () => {
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <div class="flex-1"></div>
-        <t-radio-group default-value="1" variant="default-filled">
-          <t-radio-button value="1">
+        <t-radio-group :on-change="onChange" default-value="roleSort" variant="default-filled">
+          <t-radio-button value="roleSort">
             <div class="flex items-center gap-1"><span>序号</span><t-icon name="arrow-down" /></div>
           </t-radio-button>
-          <t-radio-button value="2">
+          <t-radio-button value="status">
             <div class="flex items-center gap-1"><span>状态</span><t-icon name="arrow-down" /></div>
           </t-radio-button>
         </t-radio-group>
