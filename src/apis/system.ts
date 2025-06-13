@@ -77,6 +77,22 @@ export function getDeptTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/role/deptTree/${roleId}`);
 }
 
+export function listAllocated(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/role/authUser/allocatedList', { params });
+}
+
+export function listUnallocated(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/role/authUser/unallocatedList', { params });
+}
+
+export function allocateUsers(roleId: number, userIds: string) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/role/authUser/selectAll', { params: { roleId, userIds } });
+}
+
+export function unallocateUsers(roleId: number, userIds: string) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/role/authUser/cancelAll', { params: { roleId, userIds } });
+}
+
 // ----- menu
 
 export function getMenuTreeByRoleId(roleId: number) {
