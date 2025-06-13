@@ -97,9 +97,8 @@ const onTabChange = async (value: RadioValue) => {
         </t-descriptions>
       </div>
 
-      <div v-if="tab === 2">
-        <pre>{{ checkedKeys }}</pre>
-        <pre>{{ menus }}</pre>
+      <div v-if="tab === 2" class="px-4 pb-4">
+        <t-tree v-model="checkedKeys" :data="menus" :expand-level="1" :keys="{ value: 'id' }" checkable line />
       </div>
 
       <div v-if="tab === 3">
