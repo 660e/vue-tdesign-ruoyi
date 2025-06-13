@@ -39,13 +39,12 @@ const onTabChange = async (value: RadioValue) => {
     }
 
     case 3:
-      // Data Permissions
-      break;
-
-    case 4:
-      // Assign Users
       break;
   }
+};
+
+const save = () => {
+  console.log({ menuIds: checkedKeys.value });
 };
 </script>
 
@@ -54,9 +53,8 @@ const onTabChange = async (value: RadioValue) => {
     <div class="p-4 flex gap-2">
       <t-radio-group v-model="tab" :on-change="(value) => onTabChange(value)" variant="default-filled">
         <t-radio-button :value="1">基本信息</t-radio-button>
-        <t-radio-button :value="2">菜单权限</t-radio-button>
-        <t-radio-button :value="3">数据权限</t-radio-button>
-        <t-radio-button :value="4">分配用户</t-radio-button>
+        <t-radio-button :value="2">菜单/数据权限</t-radio-button>
+        <t-radio-button :value="3">分配用户</t-radio-button>
       </t-radio-group>
 
       <template v-if="tab === 1">
@@ -71,17 +69,12 @@ const onTabChange = async (value: RadioValue) => {
         <t-button @click="onTabChange(tab)" theme="default">
           <template #icon><t-icon name="refresh" /></template><span>刷新</span>
         </t-button>
-        <t-button>
+        <t-button @click="save">
           <template #icon><t-icon name="save" /></template><span>保存</span>
         </t-button>
       </template>
       <template v-if="tab === 3">
-        <t-button @click="onTabChange(tab)" theme="default">
-          <template #icon><t-icon name="refresh" /></template><span>刷新</span>
-        </t-button>
-        <t-button>
-          <template #icon><t-icon name="save" /></template><span>保存</span>
-        </t-button>
+        <div></div>
       </template>
     </div>
 
@@ -97,15 +90,12 @@ const onTabChange = async (value: RadioValue) => {
         </t-descriptions>
       </div>
 
-      <div v-if="tab === 2" class="px-4 pb-4">
-        <t-tree v-model="checkedKeys" :data="menus" :expand-level="1" :keys="{ value: 'id' }" checkable line />
+      <div v-if="tab === 2" class="px-4 pb-4 flex gap-4">
+        <t-tree v-model="checkedKeys" :data="menus" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
+        <t-tree v-model="checkedKeys" :data="menus" :expand-level="1" :keys="{ value: 'id' }" class="flex-1" checkable line />
       </div>
 
       <div v-if="tab === 3">
-        <pre>{{ row }}</pre>
-      </div>
-
-      <div v-if="tab === 4">
         <pre>{{ row }}</pre>
       </div>
     </div>

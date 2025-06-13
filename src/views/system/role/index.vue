@@ -20,7 +20,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       try {
         const { rows } = await listRole({ pageNum: 1, pageSize: 9999 });
         listData.value = rows;
-        currentRowData.value = rows?.find((e: TableRowData) => e.roleId === (currentRowData.value?.roleId || 1));
+        currentRowData.value = rows?.find((e: TableRowData) => e.roleId === (currentRowData.value?.roleId || 2));
         onHandle('sort');
       } catch {
       } finally {
