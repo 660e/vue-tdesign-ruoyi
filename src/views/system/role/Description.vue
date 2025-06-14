@@ -14,8 +14,8 @@ const checkedMenuKeys = ref();
 const menuTree = ref();
 const checkedDeptKeys = ref();
 const deptTree = ref();
-const allocatedUsers = ref();
-const unallocatedUsers = ref();
+const allUsers = ref();
+const allocatedUserKeys = ref<number[]>([]);
 
 watch(
   () => row.roleId,
@@ -54,8 +54,8 @@ const onTabChange = async (value: RadioValue) => {
           listAllocated({ pageNum: 1, pageSize: 9999, roleId: row.roleId }),
           listUnallocated({ pageNum: 1, pageSize: 9999, roleId: row.roleId }),
         ]);
-        allocatedUsers.value = response[0].rows;
-        unallocatedUsers.value = response[1].rows;
+        allUsers.value = [...(response[0].rows || []), ...(response[1].rows || [])];
+        allocatedUserKeys.value = response[1].rows?.map((e) => e.userId as number) || [];
       } catch {
       } finally {
         loadingStore.hide();
@@ -129,7 +129,13 @@ const save = async () => {
     </div>
 
     <div v-if="tab === 3" class="flex-1 px-4 pb-4">
-      <t-transfer :data="unallocatedUsers" :keys="{ value: 'userId', label: 'userName' }" :operation="['移除', '授权']" class="h-full">
+      <t-transfer
+        v-model="allocatedUserKeys"
+        :data="allUsers"
+        :keys="{ value: 'userId', label: 'userName' }"
+        :operation="['移除', '授权']"
+        class="h-full"
+      >
         <template #title="props">
           <div>{{ props.type === 'target' ? '已授权用户' : '未授权用户' }}</div>
         </template>
