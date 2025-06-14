@@ -39,7 +39,7 @@ const onConfirm = async () => {
 
   loadingStore.show();
   try {
-    const { msg } = await (formData.roleId ? updateRole(formData) : createRole(formData));
+    const { msg } = await (formData.roleId ? updateRole : createRole)(formData);
     MessagePlugin.success(msg);
     emit('confirm');
     visible.value = false;

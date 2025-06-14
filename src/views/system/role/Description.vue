@@ -78,7 +78,7 @@ const save = async () => {
 const onChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
   loadingStore.show();
   try {
-    const { msg } = await (type === 'target' ? allocateUsers(row.roleId, movedValue.join(',')) : unallocateUsers(row.roleId, movedValue.join(',')));
+    const { msg } = await (type === 'target' ? allocateUsers : unallocateUsers)(row.roleId, movedValue.join(','));
     MessagePlugin.success(msg);
   } catch {
   } finally {
