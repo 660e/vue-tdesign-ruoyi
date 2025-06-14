@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RadioValue, TableRowData } from 'tdesign-vue-next';
+import type { RadioValue, TableRowData, TransferProps } from 'tdesign-vue-next';
 import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole, listAllocated, listUnallocated, allocateUsers, unallocateUsers } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
@@ -25,8 +25,6 @@ watch(
 const onTabChange = async (value: RadioValue) => {
   switch (value) {
     case 1:
-      console.log(allocateUsers);
-      console.log(unallocateUsers);
       break;
 
     case 2:
@@ -57,6 +55,8 @@ const onTabChange = async (value: RadioValue) => {
         allUsers.value = [...(response[0].rows || []), ...(response[1].rows || [])];
         allocatedUserKeys.value = response[1].rows?.map((e) => e.userId as number) || [];
       } catch {
+        allUsers.value = [];
+        allocatedUserKeys.value = [];
       } finally {
         loadingStore.hide();
       }
@@ -68,6 +68,17 @@ const save = async () => {
   loadingStore.show();
   try {
     const { msg } = await updateRole({ ...row, menuIds: checkedMenuKeys.value, deptIds: checkedDeptKeys.value });
+    MessagePlugin.success(msg);
+  } catch {
+  } finally {
+    loadingStore.hide();
+  }
+};
+
+const onChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
+  loadingStore.show();
+  try {
+    const { msg } = await (type === 'target' ? allocateUsers(row.roleId, movedValue.join(',')) : unallocateUsers(row.roleId, movedValue.join(',')));
     MessagePlugin.success(msg);
   } catch {
   } finally {
@@ -133,6 +144,7 @@ const save = async () => {
         v-model="allocatedUserKeys"
         :data="allUsers"
         :keys="{ value: 'userId', label: 'userName' }"
+        :on-change="onChange"
         :operation="['移除', '授权']"
         class="h-full"
       >
