@@ -23,6 +23,13 @@ watch(
 );
 
 const onTabChange = async (value: RadioValue) => {
+  checkedMenuKeys.value = undefined;
+  menuTree.value = undefined;
+  checkedDeptKeys.value = undefined;
+  deptTree.value = undefined;
+  allUsers.value = [];
+  allocatedUserKeys.value = [];
+
   switch (value) {
     case 1:
       break;
@@ -36,10 +43,6 @@ const onTabChange = async (value: RadioValue) => {
         checkedDeptKeys.value = response[1].checkedKeys;
         deptTree.value = response[1].depts;
       } catch {
-        checkedMenuKeys.value = undefined;
-        menuTree.value = undefined;
-        checkedDeptKeys.value = undefined;
-        deptTree.value = undefined;
       } finally {
         loadingStore.hide();
       }
@@ -55,8 +58,6 @@ const onTabChange = async (value: RadioValue) => {
         allUsers.value = [...(response[0].rows || []), ...(response[1].rows || [])];
         allocatedUserKeys.value = response[1].rows?.map((e) => e.userId as number) || [];
       } catch {
-        allUsers.value = [];
-        allocatedUserKeys.value = [];
       } finally {
         loadingStore.hide();
       }
