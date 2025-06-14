@@ -51,8 +51,8 @@ const onTabChange = async (value: RadioValue) => {
       loadingStore.show();
       try {
         const response = await Promise.all([
-          listAllocated({ pageNum: 1, pageSize: 10, roleId: row.roleId }),
-          listUnallocated({ pageNum: 1, pageSize: 10, roleId: row.roleId }),
+          listAllocated({ pageNum: 1, pageSize: 9999, roleId: row.roleId }),
+          listUnallocated({ pageNum: 1, pageSize: 9999, roleId: row.roleId }),
         ]);
         allocatedUsers.value = response[0].rows;
         unallocatedUsers.value = response[1].rows;
@@ -129,7 +129,7 @@ const save = async () => {
     </div>
 
     <div v-if="tab === 3" class="flex-1 px-4 pb-4">
-      <t-transfer :operation="['移除', '授权']" class="h-full">
+      <t-transfer :data="unallocatedUsers" :keys="{ value: 'userId', label: 'userName' }" :operation="['移除', '授权']" class="h-full">
         <template #title="props">
           <div>{{ props.type === 'target' ? '已授权用户' : '未授权用户' }}</div>
         </template>
