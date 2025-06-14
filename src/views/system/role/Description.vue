@@ -19,7 +19,7 @@ const allocatedUserKeys = ref<number[]>([]);
 
 watch(
   () => row.roleId,
-  () => onTabChange(tab.value),
+  () => refresh(),
 );
 
 const onTabChange = async (value: RadioValue) => {
@@ -64,7 +64,9 @@ const onTabChange = async (value: RadioValue) => {
   }
 };
 
-const save = async () => {
+const refresh = () => onTabChange(tab.value);
+
+const saveRoles = async () => {
   loadingStore.show();
   try {
     const { msg } = await updateRole({ ...row, menuIds: checkedMenuKeys.value, deptIds: checkedDeptKeys.value });
@@ -75,12 +77,13 @@ const save = async () => {
   }
 };
 
-const onChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
+const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
   loadingStore.show();
   try {
     const { msg } = await (type === 'target' ? allocateUsers : unallocateUsers)(row.roleId, movedValue.join(','));
     MessagePlugin.success(msg);
   } catch {
+    refresh();
   } finally {
     loadingStore.hide();
   }
@@ -105,15 +108,15 @@ const onChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
         </t-button>
       </template>
       <template v-if="tab === 2">
-        <t-button @click="onTabChange(tab)" theme="default">
+        <t-button @click="refresh" theme="default">
           <template #icon><t-icon name="refresh" /></template><span>刷新</span>
         </t-button>
-        <t-button @click="save">
+        <t-button @click="saveRoles">
           <template #icon><t-icon name="save" /></template><span>保存</span>
         </t-button>
       </template>
       <template v-if="tab === 3">
-        <t-button @click="onTabChange(tab)" theme="default">
+        <t-button @click="refresh" theme="default">
           <template #icon><t-icon name="refresh" /></template><span>刷新</span>
         </t-button>
       </template>
@@ -144,7 +147,7 @@ const onChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
         v-model="allocatedUserKeys"
         :data="allUsers"
         :keys="{ value: 'userId', label: 'userName' }"
-        :on-change="onChange"
+        :on-change="onAllocatedChange"
         :operation="['移除', '授权']"
         class="h-full"
       >
