@@ -129,7 +129,7 @@ const save = async () => {
     </div>
 
     <div v-if="tab === 3" class="flex-1 px-4 pb-4">
-      <t-transfer :operation="['移除', '授权']">
+      <t-transfer :operation="['移除', '授权']" class="h-full">
         <template #title="props">
           <div>{{ props.type === 'target' ? '已授权用户' : '未授权用户' }}</div>
         </template>
@@ -137,3 +137,10 @@ const save = async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.t-transfer :deep(.t-transfer__list) {
+  flex: 1;
+  height: 100%;
+}
+</style>
