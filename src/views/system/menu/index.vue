@@ -11,6 +11,7 @@ const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const listData = ref();
 const menuCascader = reactive<TableRowData[][]>([]);
+const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
@@ -92,7 +93,7 @@ onMounted(async () => {
           <t-list-item
             v-for="row in list"
             :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
-            :style="{ backgroundColor: row.menuId === activeMenus[activeMenus.length - 1]?.menuId ? 'var(--td-brand-color-light)' : '' }"
+            :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-light)' : '' }"
             @click="onHandle('view', row, index)"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
             :key="row.menuId"
@@ -104,10 +105,7 @@ onMounted(async () => {
               <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
               <t-icon :name="row._icon" />
               <b
-                :style="{
-                  backgroundColor: 'var(--td-brand-color)',
-                  height: row.menuId === activeMenus[activeMenus.length - 1]?.menuId ? '100%' : '0',
-                }"
+                :style="{ backgroundColor: 'var(--td-brand-color)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
               ></b>
             </div>
@@ -116,8 +114,16 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto">
-      <pre>{{ activeMenus[activeMenus.length - 1] }}</pre>
+    <div v-if="activeMenu" class="flex-1 flex flex-col">
+      <div class="p-4 flex gap-2 border-b border-neutral-200">
+        <t-button @click="onHandle('edit', activeMenu)" theme="default">
+          <template #icon><t-icon name="edit" /></template><span>修改</span>
+        </t-button>
+        <t-button @click="onHandle('delete', activeMenu)" theme="danger">
+          <template #icon><t-icon name="delete" /></template><span>删除</span>
+        </t-button>
+      </div>
+      <pre>{{ activeMenu }}</pre>
     </div>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
