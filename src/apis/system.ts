@@ -95,6 +95,22 @@ export function unallocateUsers(roleId: number, userIds: string) {
 
 // ----- menu
 
+export function createMenu(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/menu', { data });
+}
+
+export function deleteMenu(menuIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/menu/${menuIds}`);
+}
+
+export function updateMenu(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/menu', { data });
+}
+
+export function listMenu() {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/menu/list');
+}
+
 export function getMenuTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/menu/roleMenuTreeselect/${roleId}`);
 }
