@@ -93,7 +93,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
 
 <template>
   <div class="flex-1 flex flex-col">
-    <div class="p-4 flex gap-2">
+    <div class="p-4 flex gap-2 border-b border-neutral-200">
       <t-radio-group v-model="tab" :on-change="(value) => onTabChange(value)" variant="default-filled">
         <t-radio-button :value="1">基本信息</t-radio-button>
         <t-radio-button :value="2">菜单/数据权限</t-radio-button>
@@ -124,17 +124,41 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
     </div>
 
     <div v-if="tab === 1" class="flex-1 overflow-y-auto px-4 pb-4">
-      <t-descriptions :column="1" :label-style="{ width: '100px' }" size="small" bordered>
-        <t-descriptions-item label="序号">{{ row.roleSort }}</t-descriptions-item>
-        <t-descriptions-item label="角色名称">{{ row.roleName }}</t-descriptions-item>
-        <t-descriptions-item label="权限字符">{{ row.roleKey }}</t-descriptions-item>
-        <t-descriptions-item label="状态">{{ useDict('sys_normal_disable', row.status) }}</t-descriptions-item>
-        <t-descriptions-item label="创建时间">{{ row.createTime }}</t-descriptions-item>
-        <t-descriptions-item label="备注">{{ row.remark }}</t-descriptions-item>
-      </t-descriptions>
+      <t-list size="small" split>
+        <t-list-item>
+          <div class="flex">
+            <span class="w-24 pr-4 text-right">序号</span><span>{{ row.roleSort }}</span>
+          </div>
+        </t-list-item>
+        <t-list-item>
+          <div class="flex">
+            <span class="w-24 pr-4 text-right">角色名称</span><span>{{ row.roleName }}</span>
+          </div>
+        </t-list-item>
+        <t-list-item>
+          <div class="flex">
+            <span class="w-24 pr-4 text-right">权限字符</span><span>{{ row.roleKey }}</span>
+          </div>
+        </t-list-item>
+        <t-list-item>
+          <div class="flex">
+            <span class="w-24 pr-4 text-right">状态</span><span>{{ useDict('sys_normal_disable', row.status) }}</span>
+          </div>
+        </t-list-item>
+        <t-list-item>
+          <div class="flex">
+            <span class="w-24 pr-4 text-right">创建时间</span><span>{{ row.createTime }}</span>
+          </div>
+        </t-list-item>
+        <t-list-item>
+          <div class="flex">
+            <span class="w-24 pr-4 text-right">备注</span><span>{{ row.remark }}</span>
+          </div>
+        </t-list-item>
+      </t-list>
     </div>
 
-    <div v-if="tab === 2" class="flex-1 overflow-auto px-4 pb-4 flex gap-4">
+    <div v-if="tab === 2" class="flex-1 overflow-auto p-4 flex gap-4">
       <div class="flex-1 overflow-y-auto">
         <t-tree v-model="checkedMenuKeys" :data="menuTree" :expand-level="1" :keys="{ value: 'id' }" checkable line />
       </div>
@@ -143,7 +167,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
       </div>
     </div>
 
-    <div v-if="tab === 3" class="flex-1 px-4 pb-4">
+    <div v-if="tab === 3" class="flex-1 p-4">
       <t-transfer
         v-model="allocatedUserKeys"
         :data="allUsers"
