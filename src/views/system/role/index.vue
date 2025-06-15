@@ -70,7 +70,7 @@ onMounted(async () => await onHandle('refresh'));
         </t-radio-group>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <t-list size="small" split>
+        <t-list split>
           <t-list-item
             v-for="row in listData"
             :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-light)' : '' }"
