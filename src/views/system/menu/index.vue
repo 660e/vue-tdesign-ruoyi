@@ -4,12 +4,14 @@ import { listMenu, deleteMenu } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
+// import { iconConverter } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const listData = ref();
-const currentRowData = ref();
+// const currentRowData = ref();
+const menuCascader = reactive<TableRowData[]>([]);
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
@@ -42,7 +44,14 @@ const onHandle = async (value: string, row?: TableRowData) => {
   }
 };
 
-onMounted(async () => await onHandle('refresh'));
+const dataFilter = (parentId: number) => {
+  return listData.value.filter((e: TableRowData) => e.parentId === parentId);
+};
+
+onMounted(async () => {
+  await onHandle('refresh');
+  menuCascader.push(dataFilter(0));
+});
 </script>
 
 <template>
@@ -57,18 +66,22 @@ onMounted(async () => await onHandle('refresh'));
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list split>
-          <t-list-item v-for="row in listData" class="cursor-pointer duration-200 hover:bg-neutral-100" :key="row.menuId">
+          <!-- <t-list-item v-for="row in menuCascader" class="cursor-pointer duration-200 hover:bg-neutral-100" :key="row.menuId">
             <div class="flex-1 flex items-center gap-2">
+              <t-icon :name="iconConverter(row.icon)" />
               <span>{{ row.menuName }}</span>
             </div>
-          </t-list-item>
+          </t-list-item> -->
         </t-list>
       </div>
     </div>
 
     <div class="flex-1 overflow-y-auto">
+      <pre>{{ menuCascader }}</pre>
+    </div>
+
+    <div class="flex-1 overflow-y-auto">
       <pre>{{ listData }}</pre>
-      <pre>{{ currentRowData }}</pre>
     </div>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
