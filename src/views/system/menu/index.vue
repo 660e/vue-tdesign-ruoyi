@@ -17,10 +17,9 @@ const activeMenus = reactive<TableRowData[]>([]);
 
 const descriptions = {
   group: [
-    { label: '菜单类型', prop: 'menuType' },
+    { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
-    { label: '是否外链', prop: 'isFrame' },
     { label: '路由地址', prop: 'path' },
     { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
@@ -147,9 +146,10 @@ onMounted(async () => {
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list size="small" split>
           <t-list-item v-for="item in descriptions[activeMenu._type as keyof typeof descriptions]" :key="item.prop">
-            <div class="flex">
+            <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
-              <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeMenu[item.prop]) : activeMenu[item.prop] }}</span>
+              <t-icon v-if="item.prop === 'icon'" :name="iconConverter(activeMenu[item.prop])" />
+              <span v-else>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeMenu[item.prop]) : activeMenu[item.prop] }}</span>
             </div>
           </t-list-item>
         </t-list>
