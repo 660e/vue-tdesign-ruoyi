@@ -124,7 +124,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
     </div>
 
     <div v-if="tab === 1" class="flex-1 overflow-y-auto px-4 pb-4">
-      <t-descriptions :column="1" :label-style="{ width: '100px' }" bordered>
+      <t-descriptions :column="1" :label-style="{ width: '100px' }" size="small" bordered>
         <t-descriptions-item label="序号">{{ row.roleSort }}</t-descriptions-item>
         <t-descriptions-item label="角色名称">{{ row.roleName }}</t-descriptions-item>
         <t-descriptions-item label="权限字符">{{ row.roleKey }}</t-descriptions-item>

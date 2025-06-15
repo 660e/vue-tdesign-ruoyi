@@ -79,7 +79,7 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div v-for="(list, index) in menuCascader" class="w-80 flex flex-col border-r border-neutral-200" :key="index">
+    <div v-for="(list, index) in menuCascader" class="w-1/5 min-w-60 flex flex-col border-r border-neutral-200" :key="index">
       <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
         <t-button @click="onHandle('create')">
           <template #icon><t-icon name="add" /></template><span>新增</span>
@@ -88,7 +88,7 @@ onMounted(async () => {
         <div>{{ index + 1 }}级菜单</div>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <t-list split>
+        <t-list size="small" split>
           <t-list-item
             v-for="row in list"
             :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"

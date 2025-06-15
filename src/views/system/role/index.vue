@@ -54,7 +54,7 @@ onMounted(async () => await onHandle('refresh'));
 
 <template>
   <Page class="flex">
-    <div class="w-80 flex flex-col border-r border-neutral-200">
+    <div class="w-1/5 min-w-80 flex flex-col border-r border-neutral-200">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
         <t-button @click="onHandle('create')">
           <template #icon><t-icon name="add" /></template><span>新增</span>
@@ -70,7 +70,7 @@ onMounted(async () => await onHandle('refresh'));
         </t-radio-group>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <t-list split>
+        <t-list size="small" split>
           <t-list-item
             v-for="row in listData"
             :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-light)' : '' }"
