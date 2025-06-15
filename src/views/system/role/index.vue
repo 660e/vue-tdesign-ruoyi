@@ -84,6 +84,13 @@ onMounted(async () => await onHandle('refresh'));
               <span class="flex-1"></span>
               <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
               <t-icon name="chevron-right" />
+              <b
+                :style="{
+                  backgroundColor: 'var(--td-brand-color)',
+                  height: row.roleId === currentRowData?.roleId ? '100%' : '0',
+                }"
+                class="absolute top-0 right-0 w-1 duration-200"
+              ></b>
             </div>
           </t-list-item>
         </t-list>

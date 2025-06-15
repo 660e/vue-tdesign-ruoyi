@@ -103,6 +103,13 @@ onMounted(async () => {
               <span class="flex-1"></span>
               <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
               <t-icon :name="row._icon" />
+              <b
+                :style="{
+                  backgroundColor: 'var(--td-brand-color)',
+                  height: row.menuId === activeMenus[activeMenus.length - 1]?.menuId ? '100%' : '0',
+                }"
+                class="absolute top-0 right-0 w-1 duration-200"
+              ></b>
             </div>
           </t-list-item>
         </t-list>
