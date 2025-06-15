@@ -90,14 +90,18 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
 
 const dataFilter = (parentId: number) => {
   return listData.value.filter((row: TableRowData) => {
-    if (row.menuType === 'M' && row.isFrame === '1') {
-      row._type = 'group';
-      row._icon = 'chevron-right';
-    } else if (row.menuType === 'C' || (row.menuType === 'M' && row.isFrame === '0')) {
-      row._type = 'menu';
-      row._icon = 'menu';
-    } else if (row.menuType === 'F') {
-      row._type = 'button';
+    switch (row.menuType) {
+      case 'M':
+        row._type = row.isFrame === '1' ? 'group' : 'link';
+        row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
+        break;
+      case 'C':
+        row._type = 'menu';
+        row._icon = 'menu';
+        break;
+      case 'F':
+        row._type = 'button';
+        break;
     }
     return row.parentId === parentId;
   });
