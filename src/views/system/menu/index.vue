@@ -11,7 +11,7 @@ const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const listData = ref();
 // const currentRowData = ref();
-const menuCascader = reactive<TableRowData[]>([]);
+const menuCascader = reactive<TableRowData[][]>([]);
 
 const onHandle = async (value: string, row?: TableRowData) => {
   switch (value) {
@@ -45,7 +45,18 @@ const onHandle = async (value: string, row?: TableRowData) => {
 };
 
 const dataFilter = (parentId: number) => {
-  return listData.value.filter((e: TableRowData) => e.parentId === parentId);
+  return listData.value.filter((row: TableRowData) => {
+    if (row.menuType === 'M' && row.isFrame === '1') {
+      row._type = 'group';
+      row._icon = 'chevron-right';
+    } else if (row.menuType === 'C' || (row.menuType === 'M' && row.isFrame === '0')) {
+      row._type = 'menu';
+      row._icon = 'menu';
+    } else {
+      row._type = 'other';
+    }
+    return row.parentId === parentId;
+  });
 };
 
 onMounted(async () => {
@@ -70,6 +81,9 @@ onMounted(async () => {
             <div class="flex-1 flex items-center gap-2">
               <t-icon :name="iconConverter(row.icon)" />
               <span>{{ row.menuName }}</span>
+              <span class="flex-1"></span>
+              <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
+              <t-icon :name="row._icon" />
             </div>
           </t-list-item>
         </t-list>
