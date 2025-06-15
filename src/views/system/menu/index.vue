@@ -15,14 +15,35 @@ const menuCascader = reactive<TableRowData[][]>([]);
 const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
-const rowDescriptions = [
-  { label: '序号', prop: 'roleSort' },
-  { label: '角色名称', prop: 'roleName' },
-  { label: '权限字符', prop: 'roleKey' },
-  { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
-  { label: '创建时间', prop: 'createTime' },
-  { label: '备注', prop: 'remark' },
-];
+const descriptions = {
+  group: [
+    { label: '菜单类型', prop: 'menuType' },
+    { label: '菜单图标', prop: 'icon' },
+    { label: '菜单名称', prop: 'menuName' },
+    { label: '是否外链', prop: 'isFrame' },
+    { label: '路由地址', prop: 'path' },
+    { label: '显示状态', prop: 'visible', dictType: 'sys_show_hide' },
+    { label: '菜单状态', prop: 'status', dictType: 'sys_normal_disable' },
+  ],
+  menu: [
+    { label: '菜单名称', prop: 'menuName' },
+    { label: '菜单类型', prop: 'menuType', dictType: 'sys_menu_type' },
+    { label: '路由地址', prop: 'path' },
+    { label: '组件路径', prop: 'component' },
+    { label: '权限标识', prop: 'perms' },
+    { label: '图标', prop: 'icon' },
+    { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
+    { label: '创建时间', prop: 'createTime' },
+    { label: '备注', prop: 'remark' },
+  ],
+  button: [
+    { label: '按钮名称', prop: 'menuName' },
+    { label: '权限标识', prop: 'perms' },
+    { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
+    { label: '创建时间', prop: 'createTime' },
+    { label: '备注', prop: 'remark' },
+  ],
+};
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
   switch (value) {
@@ -112,6 +133,7 @@ onMounted(async () => {
               <t-icon :name="iconConverter(row.icon)" />
               <span>{{ row.menuName }}</span>
               <span class="flex-1"></span>
+              <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light">{{ useDict('sys_show_hide', '1') }}</t-tag>
               <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
               <t-icon :name="row._icon" />
               <b
@@ -135,7 +157,7 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list size="small" split>
-          <t-list-item v-for="item in rowDescriptions" :key="item.prop">
+          <t-list-item v-for="item in descriptions[activeMenu._type as keyof typeof descriptions]" :key="item.prop">
             <div class="flex">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
               <span>{{ item.dictType ? useDict(item.dictType as AppSystemDictKey, activeMenu[item.prop]) : activeMenu[item.prop] }}</span>
