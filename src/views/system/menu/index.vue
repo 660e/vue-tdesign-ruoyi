@@ -12,7 +12,7 @@ const createDialogRef = ref();
 const listData = ref();
 const menuCascader = reactive<TableRowData[][]>([]);
 
-const onHandle = async (value: string, row?: TableRowData) => {
+const onHandle = async (value: string, row?: TableRowData, index = 0) => {
   switch (value) {
     case 'refresh':
       loadingStore.show();
@@ -23,6 +23,12 @@ const onHandle = async (value: string, row?: TableRowData) => {
       } finally {
         loadingStore.hide();
       }
+      break;
+
+    case 'view':
+      console.log(row);
+      console.log(index);
+      console.log(menuCascader[index + 1]);
       break;
 
     case 'create':
@@ -75,7 +81,12 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list split>
-          <t-list-item v-for="row in list" class="cursor-pointer duration-200 hover:bg-neutral-100" :key="row.menuId">
+          <t-list-item
+            v-for="row in list"
+            @click="onHandle('view', row, index)"
+            class="cursor-pointer duration-200 hover:bg-neutral-100"
+            :key="row.menuId"
+          >
             <div class="flex-1 flex items-center gap-2">
               <t-icon :name="iconConverter(row.icon)" />
               <span>{{ row.menuName }}</span>
