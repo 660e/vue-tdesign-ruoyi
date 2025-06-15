@@ -15,31 +15,21 @@ const menuCascader = reactive<TableRowData[][]>([]);
 const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
-const descriptions = {
-  group: [
+const descriptions: Record<string, { label: string; prop: string; dict?: string }[]> = {
+  _prefix: [
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
-    { label: '路由地址', prop: 'path' },
-    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
-  link: [
-    { label: '类型', prop: 'menuType' },
-    { label: '菜单图标', prop: 'icon' },
-    { label: '菜单名称', prop: 'menuName' },
-    { label: '外链地址', prop: 'path' },
-    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
-  ],
+  group: [{ label: '路由地址', prop: 'path' }],
+  link: [{ label: '外链地址', prop: 'path' }],
   menu: [
-    { label: '类型', prop: 'menuType' },
-    { label: '菜单图标', prop: 'icon' },
-    { label: '菜单名称', prop: 'menuName' },
     { label: '路由地址', prop: 'path' },
     { label: '组件路径', prop: 'component' },
     { label: '权限字符', prop: 'perms' },
     { label: '是否缓存', prop: 'isCache' },
+  ],
+  _suffix: [
     { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
@@ -161,7 +151,7 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list size="small" split>
-          <t-list-item v-for="item in descriptions[activeMenu._type as keyof typeof descriptions]" :key="item.prop">
+          <t-list-item v-for="item in [...descriptions._prefix, ...descriptions[activeMenu._type], ...descriptions._suffix]" :key="item.prop">
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
               <t-icon v-if="item.prop === 'icon'" :name="iconConverter(activeMenu[item.prop])" />
