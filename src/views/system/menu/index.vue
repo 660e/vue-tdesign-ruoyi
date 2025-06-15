@@ -22,27 +22,31 @@ const descriptions = {
     { label: '菜单名称', prop: 'menuName' },
     { label: '是否外链', prop: 'isFrame' },
     { label: '路由地址', prop: 'path' },
-    { label: '显示状态', prop: 'visible', dictType: 'sys_show_hide' },
-    { label: '菜单状态', prop: 'status', dictType: 'sys_normal_disable' },
+    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
+    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
-  menu: [
-    { label: '菜单名称', prop: 'menuName' },
-    { label: '菜单类型', prop: 'menuType', dictType: 'sys_menu_type' },
-    { label: '路由地址', prop: 'path' },
-    { label: '组件路径', prop: 'component' },
-    { label: '权限标识', prop: 'perms' },
-    { label: '图标', prop: 'icon' },
-    { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
-    { label: '创建时间', prop: 'createTime' },
-    { label: '备注', prop: 'remark' },
-  ],
-  button: [
-    { label: '按钮名称', prop: 'menuName' },
-    { label: '权限标识', prop: 'perms' },
-    { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
-    { label: '创建时间', prop: 'createTime' },
-    { label: '备注', prop: 'remark' },
-  ],
+  link: [],
+  menu: [],
+  button: [],
+};
+
+const dataFilter = (parentId: number) => {
+  return listData.value.filter((row: TableRowData) => {
+    switch (row.menuType) {
+      case 'M':
+        row._type = row.isFrame === '1' ? 'group' : 'link';
+        row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
+        break;
+      case 'C':
+        row._type = 'menu';
+        row._icon = 'menu';
+        break;
+      case 'F':
+        row._type = 'button';
+        break;
+    }
+    return row.parentId === parentId;
+  });
 };
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
@@ -86,25 +90,6 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
     }
   }
-};
-
-const dataFilter = (parentId: number) => {
-  return listData.value.filter((row: TableRowData) => {
-    switch (row.menuType) {
-      case 'M':
-        row._type = row.isFrame === '1' ? 'group' : 'link';
-        row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
-        break;
-      case 'C':
-        row._type = 'menu';
-        row._icon = 'menu';
-        break;
-      case 'F':
-        row._type = 'button';
-        break;
-    }
-    return row.parentId === parentId;
-  });
 };
 
 onMounted(async () => {
@@ -164,7 +149,7 @@ onMounted(async () => {
           <t-list-item v-for="item in descriptions[activeMenu._type as keyof typeof descriptions]" :key="item.prop">
             <div class="flex">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
-              <span>{{ item.dictType ? useDict(item.dictType as AppSystemDictKey, activeMenu[item.prop]) : activeMenu[item.prop] }}</span>
+              <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeMenu[item.prop]) : activeMenu[item.prop] }}</span>
             </div>
           </t-list-item>
         </t-list>

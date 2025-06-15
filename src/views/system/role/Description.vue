@@ -14,7 +14,7 @@ const rowDescriptions = [
   { label: '序号', prop: 'roleSort' },
   { label: '角色名称', prop: 'roleName' },
   { label: '权限字符', prop: 'roleKey' },
-  { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
+  { label: '状态', prop: 'status', dict: 'sys_normal_disable' },
   { label: '创建时间', prop: 'createTime' },
   { label: '备注', prop: 'remark' },
 ];
@@ -137,7 +137,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
         <t-list-item v-for="item in rowDescriptions" :key="item.prop">
           <div class="flex">
             <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
-            <span>{{ item.dictType ? useDict(item.dictType as AppSystemDictKey, row[item.prop]) : row[item.prop] }}</span>
+            <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, row[item.prop]) : row[item.prop] }}</span>
           </div>
         </t-list-item>
       </t-list>
