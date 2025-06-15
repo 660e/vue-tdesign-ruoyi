@@ -11,6 +11,7 @@ const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const listData = ref();
 const menuCascader = reactive<TableRowData[][]>([]);
+const activeMenus = reactive<TableRowData[]>([]);
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
   switch (value) {
@@ -29,9 +30,13 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       if (row?._type === 'group') {
         menuCascader[index + 1] = dataFilter(row.menuId);
         menuCascader.splice(index + 2);
-      } else {
+      } else if (row?._type === 'menu') {
         menuCascader.splice(index + 1);
+      } else {
+        menuCascader.splice(1);
       }
+      activeMenus[index] = row || {};
+      activeMenus.splice(index + 1);
       break;
 
     case 'create':
@@ -86,6 +91,8 @@ onMounted(async () => {
         <t-list split>
           <t-list-item
             v-for="row in list"
+            :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
+            :style="{ backgroundColor: row.menuId === activeMenus[activeMenus.length - 1]?.menuId ? 'var(--td-brand-color-light)' : '' }"
             @click="onHandle('view', row, index)"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
             :key="row.menuId"
@@ -103,7 +110,7 @@ onMounted(async () => {
     </div>
 
     <div class="flex-1 overflow-y-auto">
-      <pre>{{ listData }}</pre>
+      <pre>{{ activeMenus[activeMenus.length - 1] }}</pre>
     </div>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
