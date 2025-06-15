@@ -143,12 +143,17 @@ onMounted(async () => {
             :key="row.menuId"
           >
             <div class="flex-1 flex items-center gap-2">
-              <t-icon :name="iconConverter(row.icon)" />
-              <span>{{ row.menuName }}</span>
-              <span class="flex-1"></span>
-              <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light">{{ useDict('sys_show_hide', '1') }}</t-tag>
-              <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
-              <t-icon :name="row._icon" />
+              <template v-if="list.some((e) => e._type === 'button')">
+                <div>button</div>
+              </template>
+              <template v-else>
+                <t-icon :name="iconConverter(row.icon)" />
+                <span>{{ row.menuName }}</span>
+                <span class="flex-1"></span>
+                <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light">{{ useDict('sys_show_hide', '1') }}</t-tag>
+                <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
+                <t-icon :name="row._icon" />
+              </template>
               <b
                 :style="{ backgroundColor: 'var(--td-brand-color)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
