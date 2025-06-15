@@ -16,8 +16,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows } = await listMenu();
-        listData.value = rows;
+        const { data } = await listMenu();
+        listData.value = data;
         // currentRowData.value = rows?.find((e: TableRowData) => e.menuId === (currentRowData.value?.menuId || 1));
       } catch {
       } finally {
@@ -47,7 +47,27 @@ onMounted(async () => await onHandle('refresh'));
 
 <template>
   <Page class="flex">
-    <pre>{{ currentRowData }}</pre>
+    <div class="w-80 flex flex-col border-r border-neutral-200">
+      <div class="p-4 flex gap-2 border-b border-neutral-200">
+        <t-button @click="onHandle('create')">
+          <template #icon><t-icon name="add" /></template><span>新增</span>
+        </t-button>
+      </div>
+      <div class="flex-1 overflow-y-auto">
+        <t-list size="small" split>
+          <t-list-item v-for="row in listData" class="cursor-pointer duration-200 hover:bg-neutral-100" :key="row.menuId">
+            <div class="flex-1 flex items-center gap-2">
+              <span>{{ row.menuName }}</span>
+            </div>
+          </t-list-item>
+        </t-list>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto">
+      <pre>{{ listData }}</pre>
+      <pre>{{ currentRowData }}</pre>
+    </div>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
