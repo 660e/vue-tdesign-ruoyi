@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RadioValue, TableRowData, TransferProps } from 'tdesign-vue-next';
+import type { AppSystemDictKey } from '@/types';
 import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole, listAllocated, listUnallocated, allocateUsers, unallocateUsers } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
@@ -9,6 +10,14 @@ defineEmits<{ handle: [value: string, row: TableRowData] }>();
 const { row } = defineProps<{ row: TableRowData }>();
 const loadingStore = useLoadingStore();
 
+const rowDescriptions = [
+  { label: '序号', prop: 'roleSort' },
+  { label: '角色名称', prop: 'roleName' },
+  { label: '权限字符', prop: 'roleKey' },
+  { label: '状态', prop: 'status', dictType: 'sys_normal_disable' },
+  { label: '创建时间', prop: 'createTime' },
+  { label: '备注', prop: 'remark' },
+];
 const tab = ref(1);
 const checkedMenuKeys = ref();
 const menuTree = ref();
@@ -125,34 +134,10 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
 
     <div v-if="tab === 1" class="flex-1 overflow-y-auto px-4 pb-4">
       <t-list size="small" split>
-        <t-list-item>
+        <t-list-item v-for="item in rowDescriptions" :key="item.prop">
           <div class="flex">
-            <span class="w-24 pr-4 text-right">序号</span><span>{{ row.roleSort }}</span>
-          </div>
-        </t-list-item>
-        <t-list-item>
-          <div class="flex">
-            <span class="w-24 pr-4 text-right">角色名称</span><span>{{ row.roleName }}</span>
-          </div>
-        </t-list-item>
-        <t-list-item>
-          <div class="flex">
-            <span class="w-24 pr-4 text-right">权限字符</span><span>{{ row.roleKey }}</span>
-          </div>
-        </t-list-item>
-        <t-list-item>
-          <div class="flex">
-            <span class="w-24 pr-4 text-right">状态</span><span>{{ useDict('sys_normal_disable', row.status) }}</span>
-          </div>
-        </t-list-item>
-        <t-list-item>
-          <div class="flex">
-            <span class="w-24 pr-4 text-right">创建时间</span><span>{{ row.createTime }}</span>
-          </div>
-        </t-list-item>
-        <t-list-item>
-          <div class="flex">
-            <span class="w-24 pr-4 text-right">备注</span><span>{{ row.remark }}</span>
+            <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
+            <span>{{ item.dictType ? useDict(item.dictType as AppSystemDictKey, row[item.prop]) : row[item.prop] }}</span>
           </div>
         </t-list-item>
       </t-list>
