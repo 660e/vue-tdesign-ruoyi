@@ -10,7 +10,6 @@ import CreateDialog from './dialogs/Create.vue';
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const listData = ref();
-// const currentRowData = ref();
 const menuCascader = reactive<TableRowData[][]>([]);
 
 const onHandle = async (value: string, row?: TableRowData) => {
@@ -20,7 +19,6 @@ const onHandle = async (value: string, row?: TableRowData) => {
       try {
         const { data } = await listMenu();
         listData.value = data;
-        // currentRowData.value = rows?.find((e: TableRowData) => e.menuId === (currentRowData.value?.menuId || 1));
       } catch {
       } finally {
         loadingStore.hide();
