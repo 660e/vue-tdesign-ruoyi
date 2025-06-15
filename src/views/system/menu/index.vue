@@ -16,22 +16,38 @@ const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
 const descriptions: Record<string, { label: string; prop: string; dict?: string }[]> = {
-  _prefix: [
+  group: [
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
+    { label: '路由地址', prop: 'path' },
+    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
+    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
-  group: [{ label: '路由地址', prop: 'path' }],
-  link: [{ label: '外链地址', prop: 'path' }],
+  link: [
+    { label: '类型', prop: 'menuType' },
+    { label: '菜单图标', prop: 'icon' },
+    { label: '菜单名称', prop: 'menuName' },
+    { label: '外链地址', prop: 'path' },
+    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
+    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
+  ],
   menu: [
+    { label: '类型', prop: 'menuType' },
+    { label: '菜单图标', prop: 'icon' },
+    { label: '菜单名称', prop: 'menuName' },
     { label: '路由地址', prop: 'path' },
     { label: '组件路径', prop: 'component' },
     { label: '权限字符', prop: 'perms' },
     { label: '是否缓存', prop: 'isCache' },
-  ],
-  _suffix: [
     { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
+  ],
+  button: [
+    { label: '类型', prop: 'menuType' },
+    { label: '按钮名称', prop: 'menuName' },
+    { label: '权限字符', prop: 'perms' },
+    { label: '按钮状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
 };
 
@@ -68,13 +84,11 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'view':
-      if (row?._type === 'group') {
-        menuCascader[index + 1] = dataFilter(row.menuId);
+      if (['group', 'menu'].includes(row?._type)) {
+        menuCascader[index + 1] = dataFilter(row?.menuId);
         menuCascader.splice(index + 2);
-      } else if (row?._type === 'menu') {
-        menuCascader.splice(index + 1);
       } else {
-        menuCascader.splice(1);
+        menuCascader.splice(index + 1);
       }
       activeMenus[index] = row || {};
       activeMenus.splice(index + 1);
@@ -105,7 +119,12 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div v-for="(list, index) in menuCascader" class="w-1/5 min-w-60 flex flex-col border-r border-neutral-200" :key="index">
+    <div
+      v-for="(list, index) in menuCascader"
+      v-show="index > menuCascader.length - 4"
+      class="w-1/5 min-w-60 flex flex-col border-r border-neutral-200"
+      :key="index"
+    >
       <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
         <t-button @click="onHandle('create')">
           <template #icon><t-icon name="add" /></template><span>新增</span>
@@ -151,7 +170,7 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list size="small" split>
-          <t-list-item v-for="item in [...descriptions._prefix, ...descriptions[activeMenu._type], ...descriptions._suffix]" :key="item.prop">
+          <t-list-item v-for="item in descriptions[activeMenu._type]" :key="item.prop">
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
               <t-icon v-if="item.prop === 'icon'" :name="iconConverter(activeMenu[item.prop])" />
