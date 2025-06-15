@@ -26,9 +26,12 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'view':
-      console.log(row);
-      console.log(index);
-      console.log(menuCascader[index + 1]);
+      if (row?._type === 'group') {
+        menuCascader[index + 1] = dataFilter(row.menuId);
+        menuCascader.splice(index + 2);
+      } else {
+        menuCascader.splice(index + 1);
+      }
       break;
 
     case 'create':
@@ -56,8 +59,8 @@ const dataFilter = (parentId: number) => {
     } else if (row.menuType === 'C' || (row.menuType === 'M' && row.isFrame === '0')) {
       row._type = 'menu';
       row._icon = 'menu';
-    } else {
-      row._type = 'other';
+    } else if (row.menuType === 'F') {
+      row._type = 'button';
     }
     return row.parentId === parentId;
   });
