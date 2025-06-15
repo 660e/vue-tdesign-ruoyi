@@ -24,7 +24,14 @@ const descriptions = {
     { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
-  link: [],
+  link: [
+    { label: '类型', prop: 'menuType' },
+    { label: '菜单图标', prop: 'icon' },
+    { label: '菜单名称', prop: 'menuName' },
+    { label: '外链地址', prop: 'path' },
+    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
+    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
+  ],
   menu: [],
   button: [],
 };
