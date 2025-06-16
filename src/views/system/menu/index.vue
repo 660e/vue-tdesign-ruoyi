@@ -15,33 +15,33 @@ const menuCascader = reactive<TableRowData[][]>([]);
 const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
-const descriptions: Record<string, { label: string; prop: string; dict?: string }[]> = {
+const itemMaps: Record<string, { label: string; name: string; dict?: string }[]> = {
   M: [
-    { label: '序号', prop: 'orderNum' },
-    { label: '类型', prop: 'menuType' },
-    { label: '菜单图标', prop: 'icon' },
-    { label: '菜单名称', prop: 'menuName' },
-    { label: '地址', prop: 'path' },
-    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
+    { label: '序号', name: 'orderNum' },
+    { label: '类型', name: 'menuType' },
+    { label: '菜单图标', name: 'icon' },
+    { label: '菜单名称', name: 'menuName' },
+    { label: '地址', name: 'path' },
+    { label: '显示状态', name: 'visible', dict: 'sys_show_hide' },
+    { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
   ],
   C: [
-    { label: '序号', prop: 'orderNum' },
-    { label: '类型', prop: 'menuType' },
-    { label: '菜单图标', prop: 'icon' },
-    { label: '菜单名称', prop: 'menuName' },
-    { label: '路由地址', prop: 'path' },
-    { label: '组件路径', prop: 'component' },
-    { label: '权限字符', prop: 'perms' },
-    { label: '是否缓存', prop: 'isCache' },
-    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
+    { label: '序号', name: 'orderNum' },
+    { label: '类型', name: 'menuType' },
+    { label: '菜单图标', name: 'icon' },
+    { label: '菜单名称', name: 'menuName' },
+    { label: '路由地址', name: 'path' },
+    { label: '组件路径', name: 'component' },
+    { label: '权限字符', name: 'perms' },
+    { label: '是否缓存', name: 'isCache' },
+    { label: '显示状态', name: 'visible', dict: 'sys_show_hide' },
+    { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
   ],
   F: [
-    { label: '类型', prop: 'menuType' },
-    { label: '按钮名称', prop: 'menuName' },
-    { label: '权限字符', prop: 'perms' },
-    { label: '按钮状态', prop: 'status', dict: 'sys_normal_disable' },
+    { label: '类型', name: 'menuType' },
+    { label: '按钮名称', name: 'menuName' },
+    { label: '权限字符', name: 'perms' },
+    { label: '按钮状态', name: 'status', dict: 'sys_normal_disable' },
   ],
 };
 
@@ -163,17 +163,17 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list split>
-          <t-list-item v-for="item in descriptions[activeMenu.menuType]" :key="item.prop">
+          <t-list-item v-for="item in itemMaps[activeMenu.menuType]" :key="item.name">
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
-              <t-icon v-if="item.prop === 'icon'" :name="iconConverter(activeMenu[item.prop])" />
-              <span v-else>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeMenu[item.prop]) : activeMenu[item.prop] }}</span>
+              <t-icon v-if="item.name === 'icon'" :name="iconConverter(activeMenu[item.name])" />
+              <span v-else>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeMenu[item.name]) : activeMenu[item.name] }}</span>
             </div>
           </t-list-item>
         </t-list>
       </div>
     </div>
 
-    <CreateDialog :form="descriptions" :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :item-maps="itemMaps" :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

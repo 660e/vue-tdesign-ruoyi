@@ -7,8 +7,11 @@ import { buildTree } from '@/utils';
 
 type MenuType = 'M' | 'C' | 'F' | undefined;
 
-const { form = {}, menus = [] } = defineProps<{ form: Record<string, { label: string; prop: string; dict?: string }[]>; menus: TableRowData[] }>();
 const emit = defineEmits<{ confirm: [] }>();
+const { itemMaps = {}, menus = [] } = defineProps<{
+  itemMaps: Record<string, { label: string; name: string; dict?: string }[]>;
+  menus: TableRowData[];
+}>();
 
 const loadingStore = useLoadingStore();
 const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(menus, { idKey: 'menuId' })]);
@@ -29,7 +32,7 @@ const show = (row?: TableRowData, type?: MenuType) => {
   if (row?.menuId) {
     menuType.value = type;
     Object.assign(formData, row);
-    console.log(form);
+    console.log(itemMaps);
   }
   visible.value = true;
 };
@@ -70,13 +73,13 @@ defineExpose({ show });
       <t-form-item label="上级菜单" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
       </t-form-item>
-      <template v-if="menuType === 'M'"></template>
+      <!-- <template v-if="menuType === 'M'"></template>
       <template v-if="menuType === 'C'"></template>
       <template v-if="menuType === 'F'">
         <t-form-item label="按钮名称" name="menuName">
           <t-input v-model="formData.menuName" />
         </t-form-item>
-      </template>
+      </template> -->
       <pre>{{ formData }}</pre>
       <!-- <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />
