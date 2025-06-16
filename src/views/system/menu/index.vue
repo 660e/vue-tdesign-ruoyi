@@ -60,7 +60,6 @@ const dataFilter = (parentId: number) => {
         break;
       case 'C':
         row._type = 'menu';
-        row._icon = 'menu';
         break;
       case 'F':
         row._type = 'button';
@@ -130,7 +129,7 @@ onMounted(async () => {
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <div class="flex-1"></div>
-        <div>{{ index + 1 }}级菜单</div>
+        <div>{{ list.some((e) => e._type === 'button') ? '按钮列表' : `${index + 1}级菜单` }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list size="small" split>
@@ -144,15 +143,18 @@ onMounted(async () => {
           >
             <div class="flex-1 flex items-center gap-2">
               <template v-if="list.some((e) => e._type === 'button')">
-                <div>button</div>
+                <span>{{ row.menuName }}</span>
+                <span class="flex-1"></span>
+                <t-tag size="small" variant="light-outline">{{ row.perms }}</t-tag>
+                <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
               </template>
               <template v-else>
                 <t-icon :name="iconConverter(row.icon)" />
                 <span>{{ row.menuName }}</span>
                 <span class="flex-1"></span>
-                <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light">{{ useDict('sys_show_hide', '1') }}</t-tag>
-                <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
-                <t-icon :name="row._icon" />
+                <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light-outline">{{ useDict('sys_show_hide', '1') }}</t-tag>
+                <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
+                <t-icon v-if="row._icon" :name="row._icon" />
               </template>
               <b
                 :style="{ backgroundColor: 'var(--td-brand-color)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"

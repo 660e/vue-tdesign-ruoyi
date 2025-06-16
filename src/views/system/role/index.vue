@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
 import { listRole, deleteRole } from '@/apis/system';
-import { useHandleDelete } from '@/hooks';
+import { useDict, useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
@@ -80,9 +80,10 @@ onMounted(async () => await onHandle('refresh'));
           >
             <div class="flex-1 flex items-center gap-2">
               <span class="w-8 overflow-x-hidden font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
-              <span>{{ row.roleName }}（{{ row.roleKey }}）</span>
+              <span>{{ row.roleName }}</span>
               <span class="flex-1"></span>
-              <q-table-tag-col :themes="['success', 'danger']" :value="row.status" dict="sys_normal_disable" />
+              <t-tag size="small" variant="light-outline">{{ row.roleKey }}</t-tag>
+              <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
               <t-icon name="chevron-right" />
               <b
                 :style="{ backgroundColor: 'var(--td-brand-color)', height: row.roleId === currentRowData?.roleId ? '100%' : '0' }"

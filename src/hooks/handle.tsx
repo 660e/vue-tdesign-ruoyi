@@ -13,7 +13,7 @@ export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnkn
         return (
           <div class="flex items-center gap-2">
             <span>确定删除{is.number(value) ? '选中的' : ''}</span>
-            <Tag size="small" theme="danger" variant="light">
+            <Tag size="small" theme="danger" variant="light-outline">
               {value}
             </Tag>
             <span>{is.number(value) ? '条数据' : ''}吗？</span>
