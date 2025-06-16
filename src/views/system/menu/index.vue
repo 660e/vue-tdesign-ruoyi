@@ -16,25 +16,16 @@ const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
 const descriptions: Record<string, { label: string; prop: string; dict?: string }[]> = {
-  group: [
+  M: [
     { label: '序号', prop: 'orderNum' },
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
-    { label: '路由地址', prop: 'path' },
+    { label: '地址', prop: 'path' },
     { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
-  link: [
-    { label: '序号', prop: 'orderNum' },
-    { label: '类型', prop: 'menuType' },
-    { label: '菜单图标', prop: 'icon' },
-    { label: '菜单名称', prop: 'menuName' },
-    { label: '外链地址', prop: 'path' },
-    { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
-  ],
-  menu: [
+  C: [
     { label: '序号', prop: 'orderNum' },
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
@@ -46,7 +37,7 @@ const descriptions: Record<string, { label: string; prop: string; dict?: string 
     { label: '显示状态', prop: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
-  button: [
+  F: [
     { label: '类型', prop: 'menuType' },
     { label: '按钮名称', prop: 'menuName' },
     { label: '权限字符', prop: 'perms' },
@@ -56,17 +47,8 @@ const descriptions: Record<string, { label: string; prop: string; dict?: string 
 
 const dataFilter = (parentId: number) => {
   return listData.value.filter((row: TableRowData) => {
-    switch (row.menuType) {
-      case 'M':
-        row._type = row.isFrame === '1' ? 'group' : 'link';
-        row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
-        break;
-      case 'C':
-        row._type = 'menu';
-        break;
-      case 'F':
-        row._type = 'button';
-        break;
+    if (row.menuType === 'M') {
+      row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
     }
     return row.parentId === parentId;
   });
@@ -86,7 +68,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'view':
-      if (['group', 'menu'].includes(row?._type)) {
+      if ((row?.menuType === 'M' && row?.isFrame !== '0') || row?.menuType === 'C') {
         menuCascader[index + 1] = dataFilter(row?.menuId);
         menuCascader.splice(index + 2);
       } else {
@@ -132,7 +114,7 @@ onMounted(async () => {
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <div class="flex-1"></div>
-        <div>{{ list.some((e) => e._type === 'button') ? '按钮列表' : `${index + 1}级菜单` }}</div>
+        <div>{{ list.some((e) => e.menuType === 'F') ? '按钮列表' : `${index + 1}级菜单` }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list split>
@@ -145,7 +127,7 @@ onMounted(async () => {
             :key="row.menuId"
           >
             <div class="flex-1 flex items-center gap-2">
-              <template v-if="list.some((e) => e._type === 'button')">
+              <template v-if="list.some((e) => e.menuType === 'F')">
                 <span>{{ row.menuName }}</span>
                 <span class="flex-1"></span>
                 <t-tag size="small" variant="light-outline">{{ row.perms }}</t-tag>
@@ -181,7 +163,7 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list split>
-          <t-list-item v-for="item in descriptions[activeMenu._type]" :key="item.prop">
+          <t-list-item v-for="item in descriptions[activeMenu.menuType]" :key="item.prop">
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
               <t-icon v-if="item.prop === 'icon'" :name="iconConverter(activeMenu[item.prop])" />
