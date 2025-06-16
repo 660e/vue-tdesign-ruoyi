@@ -15,7 +15,7 @@ const menuCascader = reactive<TableRowData[][]>([]);
 const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
-const itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]> = {
+const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]> = {
   M: [
     { label: '序号', name: 'orderNum' },
     { label: '菜单图标', name: 'icon' },
@@ -160,7 +160,7 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list split>
-          <t-list-item v-for="item in itemMaps[activeMenu.menuType]" :key="item.name">
+          <t-list-item v-for="item in itemMap[activeMenu.menuType]" :key="item.name">
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
               <t-icon v-if="item.name === 'icon'" :name="iconConverter(activeMenu[item.name])" />
@@ -171,6 +171,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <CreateDialog :item-maps="itemMaps" :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :item-map="itemMap" :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

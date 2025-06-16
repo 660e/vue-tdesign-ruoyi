@@ -7,13 +7,27 @@ import { useLoadingStore } from '@/stores';
 import { buildTree } from '@/utils';
 
 const emit = defineEmits<{ confirm: [] }>();
-const { itemMaps = {}, menus = [] } = defineProps<{
-  itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
+const { itemMap = {}, menus = [] } = defineProps<{
+  itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   menus: TableRowData[];
 }>();
 
 const loadingStore = useLoadingStore();
 const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(menus, { idKey: 'menuId' })]);
+const dialogHeader = computed(() => {
+  if (formData.menuId) {
+    switch (formData.menuType) {
+      case 'M':
+        return '修改目录';
+      case 'C':
+        return '修改菜单';
+      case 'F':
+        return '修改按钮';
+    }
+  } else {
+    return '新增';
+  }
+});
 
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
@@ -55,31 +69,21 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog
-    v-model:visible="visible"
-    :header="`${formData.menuId ? '修改' : '新增'}菜单`"
-    :on-closed="onClosed"
-    :on-confirm="onConfirm"
-    placement="center"
-    width="500"
-  >
+  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-closed="onClosed" :on-confirm="onConfirm" placement="center" width="500">
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
-      <t-form-item label="上级菜单" name="parentId">
+      <t-form-item label="上级目录" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
       </t-form-item>
 
-      <template v-for="item in itemMaps[formData.menuType || 'M']" :key="item.name">
-        <t-form-item :label="item.label" :name="item.name">
+      <template v-for="item in itemMap[formData.menuType || 'M']" :key="item.name">
+        <t-form-item v-if="item.name === 'orderNum'" :label="item.label" :name="item.name">
+          <t-input-number v-model="formData[item.name]" />
+        </t-form-item>
+        <t-form-item v-else :label="item.label" :name="item.name">
           <t-radio-group v-if="item.dict" v-model="formData[item.name]" :options="useDict(item.dict)" theme="button" variant="default-filled" />
           <t-input v-else v-model="formData[item.name]" />
         </t-form-item>
       </template>
-
-      <!--
-      <t-form-item label="序号" name="roleSort">
-        <t-input-number v-model="formData.roleSort" />
-      </t-form-item>
-      -->
     </t-form>
   </t-dialog>
 </template>
