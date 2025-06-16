@@ -101,7 +101,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'edit':
-      createDialogRef.value.show(activeMenu.value);
+      createDialogRef.value.show(activeMenu.value, activeMenu.value.menuType);
       break;
 
     case 'delete': {
@@ -192,6 +192,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <CreateDialog :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :form="descriptions" :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

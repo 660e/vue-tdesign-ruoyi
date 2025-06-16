@@ -5,23 +5,31 @@ import { createMenu, updateMenu } from '@/apis/system';
 import { useLoadingStore } from '@/stores';
 import { buildTree } from '@/utils';
 
-const { menus = [] } = defineProps<{ menus: TableRowData[] }>();
+type MenuType = 'M' | 'C' | 'F' | undefined;
 
+const { form = {}, menus = [] } = defineProps<{ form: Record<string, { label: string; prop: string; dict?: string }[]>; menus: TableRowData[] }>();
 const emit = defineEmits<{ confirm: [] }>();
+
 const loadingStore = useLoadingStore();
 const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(menus, { idKey: 'menuId' })]);
 
 const visible = ref(false);
+const menuType = ref<MenuType>();
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive({
   menuId: undefined,
   parentId: undefined,
+  menuName: '',
 });
-const formRules: FormProps['rules'] = {};
+const formRules: FormProps['rules'] = {
+  menuName: [{ required: true, trigger: 'blur' }],
+};
 
-const show = (row?: TableRowData) => {
+const show = (row?: TableRowData, type?: MenuType) => {
   if (row?.menuId) {
+    menuType.value = type;
     Object.assign(formData, row);
+    console.log(form);
   }
   visible.value = true;
 };
@@ -62,13 +70,18 @@ defineExpose({ show });
       <t-form-item label="上级菜单" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
       </t-form-item>
+      <template v-if="menuType === 'M'"></template>
+      <template v-if="menuType === 'C'"></template>
+      <template v-if="menuType === 'F'">
+        <t-form-item label="按钮名称" name="menuName">
+          <t-input v-model="formData.menuName" />
+        </t-form-item>
+      </template>
       <pre>{{ formData }}</pre>
       <!-- <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />
       </t-form-item>
-      <t-form-item label="角色名称" name="roleName">
-        <t-input v-model="formData.roleName" />
-      </t-form-item>
+      
       <t-form-item label="权限字符" name="roleKey">
         <t-input v-model="formData.roleKey" />
       </t-form-item>
