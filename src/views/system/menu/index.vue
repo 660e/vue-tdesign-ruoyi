@@ -98,11 +98,11 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'edit':
-      createDialogRef.value.show(row);
+      createDialogRef.value.show(activeMenu.value);
       break;
 
     case 'delete': {
-      const success = await useHandleDelete(() => deleteMenu(row?.menuId), row?.menuName);
+      const success = await useHandleDelete(() => deleteMenu(activeMenu.value.menuId), activeMenu.value.menuName);
       if (!success) return;
       await onHandle('refresh');
       break;
