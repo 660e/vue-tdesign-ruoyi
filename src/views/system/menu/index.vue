@@ -17,6 +17,7 @@ const activeMenus = reactive<TableRowData[]>([]);
 
 const descriptions: Record<string, { label: string; prop: string; dict?: string }[]> = {
   group: [
+    { label: '序号', prop: 'orderNum' },
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
@@ -25,6 +26,7 @@ const descriptions: Record<string, { label: string; prop: string; dict?: string 
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
   link: [
+    { label: '序号', prop: 'orderNum' },
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
@@ -33,6 +35,7 @@ const descriptions: Record<string, { label: string; prop: string; dict?: string 
     { label: '菜单状态', prop: 'status', dict: 'sys_normal_disable' },
   ],
   menu: [
+    { label: '序号', prop: 'orderNum' },
     { label: '类型', prop: 'menuType' },
     { label: '菜单图标', prop: 'icon' },
     { label: '菜单名称', prop: 'menuName' },
@@ -132,7 +135,7 @@ onMounted(async () => {
         <div>{{ list.some((e) => e._type === 'button') ? '按钮列表' : `${index + 1}级菜单` }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <t-list size="small" split>
+        <t-list split>
           <t-list-item
             v-for="row in list"
             :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
@@ -149,6 +152,7 @@ onMounted(async () => {
                 <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
               </template>
               <template v-else>
+                <span class="font-mono text-right">{{ row.orderNum.toString().padStart(3, 0) }}</span>
                 <t-icon :name="iconConverter(row.icon)" />
                 <span>{{ row.menuName }}</span>
                 <span class="flex-1"></span>
@@ -176,7 +180,7 @@ onMounted(async () => {
         </t-button>
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
-        <t-list size="small" split>
+        <t-list split>
           <t-list-item v-for="item in descriptions[activeMenu._type]" :key="item.prop">
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>

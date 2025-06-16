@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { createRole, updateRole } from '@/apis/system';
-import { useDict } from '@/hooks';
+import { createMenu, updateMenu } from '@/apis/system';
+// import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
 const emit = defineEmits<{ confirm: [] }>();
@@ -10,20 +10,20 @@ const loadingStore = useLoadingStore();
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive({
-  roleId: undefined,
-  roleSort: 1,
-  roleName: '',
-  roleKey: '',
-  status: '0',
-  remark: '',
+  menuId: undefined,
+  // roleSort: 1,
+  // roleName: '',
+  // roleKey: '',
+  // status: '0',
+  // remark: '',
 });
 const formRules: FormProps['rules'] = {
-  roleName: [{ required: true, trigger: 'blur' }],
-  roleKey: [{ required: true, trigger: 'blur' }],
+  // roleName: [{ required: true, trigger: 'blur' }],
+  // roleKey: [{ required: true, trigger: 'blur' }],
 };
 
 const show = (row?: TableRowData) => {
-  if (row?.roleId) {
+  if (row?.menuId) {
     Object.assign(formData, row);
   }
   visible.value = true;
@@ -31,7 +31,7 @@ const show = (row?: TableRowData) => {
 
 const onClosed = () => {
   formRef.value?.reset();
-  formData.roleId = undefined;
+  formData.menuId = undefined;
 };
 
 const onConfirm = async () => {
@@ -39,7 +39,7 @@ const onConfirm = async () => {
 
   loadingStore.show();
   try {
-    const { msg } = await (formData.roleId ? updateRole : createRole)(formData);
+    const { msg } = await (formData.menuId ? updateMenu : createMenu)(formData);
     MessagePlugin.success(msg);
     emit('confirm');
     visible.value = false;
@@ -55,14 +55,14 @@ defineExpose({ show });
 <template>
   <t-dialog
     v-model:visible="visible"
-    :header="`${formData.roleId ? '修改' : '新增'}角色`"
+    :header="`${formData.menuId ? '修改' : '新增'}菜单`"
     :on-closed="onClosed"
     :on-confirm="onConfirm"
     placement="center"
     width="500"
   >
     <t-form :data="formData" :rules="formRules" ref="formRef">
-      <t-form-item label="序号" name="roleSort">
+      <!-- <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />
       </t-form-item>
       <t-form-item label="角色名称" name="roleName">
@@ -76,7 +76,7 @@ defineExpose({ show });
       </t-form-item>
       <t-form-item label="备注" name="remark">
         <t-textarea v-model="formData.remark" />
-      </t-form-item>
+      </t-form-item> -->
     </t-form>
   </t-dialog>
 </template>

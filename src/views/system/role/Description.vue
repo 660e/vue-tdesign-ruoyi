@@ -133,7 +133,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
     </div>
 
     <div v-if="tab === 1" class="flex-1 overflow-y-auto px-4 pb-4">
-      <t-list size="small" split>
+      <t-list split>
         <t-list-item v-for="item in rowDescriptions" :key="item.prop">
           <div class="flex">
             <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>

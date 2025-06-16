@@ -70,7 +70,7 @@ onMounted(async () => await onHandle('refresh'));
         </t-radio-group>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <t-list size="small" split>
+        <t-list split>
           <t-list-item
             v-for="row in listData"
             :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-light)' : '' }"
@@ -79,7 +79,7 @@ onMounted(async () => await onHandle('refresh'));
             :key="row.roleId"
           >
             <div class="flex-1 flex items-center gap-2">
-              <span class="w-8 overflow-x-hidden font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
+              <span class="font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
               <span>{{ row.roleName }}</span>
               <span class="flex-1"></span>
               <t-tag size="small" variant="light-outline">{{ row.roleKey }}</t-tag>
