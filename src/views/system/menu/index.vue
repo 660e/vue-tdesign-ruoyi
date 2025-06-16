@@ -15,7 +15,7 @@ const menuCascader = reactive<TableRowData[][]>([]);
 const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
 const activeMenus = reactive<TableRowData[]>([]);
 
-const itemMaps: Record<string, { label: string; name: string; dict?: string }[]> = {
+const itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]> = {
   M: [
     { label: '序号', name: 'orderNum' },
     { label: '类型', name: 'menuType' },
@@ -167,7 +167,7 @@ onMounted(async () => {
             <div class="flex items-center">
               <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
               <t-icon v-if="item.name === 'icon'" :name="iconConverter(activeMenu[item.name])" />
-              <span v-else>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeMenu[item.name]) : activeMenu[item.name] }}</span>
+              <span v-else>{{ item.dict ? useDict(item.dict, activeMenu[item.name]) : activeMenu[item.name] }}</span>
             </div>
           </t-list-item>
         </t-list>

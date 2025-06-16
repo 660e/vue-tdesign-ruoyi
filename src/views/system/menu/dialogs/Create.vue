@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
+import type { AppSystemDictKey } from '@/types';
 import { createMenu, updateMenu } from '@/apis/system';
-// import { useDict } from '@/hooks';
+import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 import { buildTree } from '@/utils';
 
 const emit = defineEmits<{ confirm: [] }>();
 const { itemMaps = {}, menus = [] } = defineProps<{
-  itemMaps: Record<string, { label: string; name: string; dict?: string }[]>;
+  itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   menus: TableRowData[];
 }>();
 
@@ -67,7 +68,8 @@ defineExpose({ show });
 
       <template v-for="item in itemMaps[formData.menuType || 'M']" :key="item.name">
         <t-form-item :label="item.label" :name="item.name">
-          <t-input v-model="formData[item.name]" />
+          <t-radio-group v-if="item.dict" v-model="formData[item.name]" :options="useDict(item.dict)" theme="button" variant="default-filled" />
+          <t-input v-else v-model="formData[item.name]" />
         </t-form-item>
       </template>
       <!-- <template v-if="menuType === 'M'"></template>
