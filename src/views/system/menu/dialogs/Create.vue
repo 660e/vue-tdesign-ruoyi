@@ -19,11 +19,8 @@ const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildT
 const visible = ref(false);
 const menuType = ref<MenuType>();
 const formRef = ref<FormInstanceFunctions>();
-const formData = reactive({
-  menuId: undefined,
-  parentId: undefined,
-  menuName: '',
-});
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const formData = reactive<any>({});
 const formRules: FormProps['rules'] = {
   menuName: [{ required: true, trigger: 'blur' }],
 };
@@ -32,7 +29,6 @@ const show = (row?: TableRowData, type?: MenuType) => {
   if (row?.menuId) {
     menuType.value = type;
     Object.assign(formData, row);
-    console.log(itemMaps);
   }
   visible.value = true;
 };
@@ -73,6 +69,12 @@ defineExpose({ show });
       <t-form-item label="上级菜单" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
       </t-form-item>
+
+      <template v-for="item in menuType ? itemMaps[menuType] : []" :key="item.name">
+        <t-form-item :label="item.label" :name="item.name">
+          <t-input v-model="formData[item.name]" />
+        </t-form-item>
+      </template>
       <!-- <template v-if="menuType === 'M'"></template>
       <template v-if="menuType === 'C'"></template>
       <template v-if="menuType === 'F'">
@@ -80,6 +82,7 @@ defineExpose({ show });
           <t-input v-model="formData.menuName" />
         </t-form-item>
       </template> -->
+      <pre>{{ menuType ? itemMaps[menuType] : {} }}</pre>
       <pre>{{ formData }}</pre>
       <!-- <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />
