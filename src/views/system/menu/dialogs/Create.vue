@@ -3,24 +3,21 @@ import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue
 import { createMenu, updateMenu } from '@/apis/system';
 // import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
+import { buildTree } from '@/utils';
+
+const { menus = [] } = defineProps<{ menus: TableRowData[] }>();
 
 const emit = defineEmits<{ confirm: [] }>();
 const loadingStore = useLoadingStore();
+const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(menus, { idKey: 'menuId' })]);
 
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive({
   menuId: undefined,
-  // roleSort: 1,
-  // roleName: '',
-  // roleKey: '',
-  // status: '0',
-  // remark: '',
+  parentId: undefined,
 });
-const formRules: FormProps['rules'] = {
-  // roleName: [{ required: true, trigger: 'blur' }],
-  // roleKey: [{ required: true, trigger: 'blur' }],
-};
+const formRules: FormProps['rules'] = {};
 
 const show = (row?: TableRowData) => {
   if (row?.menuId) {
@@ -62,6 +59,9 @@ defineExpose({ show });
     width="500"
   >
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
+      <t-form-item label="上级菜单" name="parentId">
+        <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
+      </t-form-item>
       <pre>{{ formData }}</pre>
       <!-- <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />

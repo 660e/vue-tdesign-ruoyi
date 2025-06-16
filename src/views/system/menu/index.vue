@@ -192,6 +192,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :menus="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
