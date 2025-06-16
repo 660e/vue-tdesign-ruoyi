@@ -20,6 +20,8 @@ const formRef = ref<FormInstanceFunctions>();
 const formData = reactive<Record<string, number | string | undefined>>({});
 const formRules: FormProps['rules'] = {
   menuName: [{ required: true, trigger: 'blur' }],
+
+  perms: [{ required: true, trigger: 'blur' }],
 };
 
 const show = (row?: TableRowData) => {
@@ -72,27 +74,12 @@ defineExpose({ show });
           <t-input v-else v-model="formData[item.name]" />
         </t-form-item>
       </template>
-      <!-- <template v-if="menuType === 'M'"></template>
-      <template v-if="menuType === 'C'"></template>
-      <template v-if="menuType === 'F'">
-        <t-form-item label="按钮名称" name="menuName">
-          <t-input v-model="formData.menuName" />
-        </t-form-item>
-      </template> -->
-      <pre>{{ formData }}</pre>
-      <!-- <t-form-item label="序号" name="roleSort">
+
+      <!--
+      <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />
       </t-form-item>
-      
-      <t-form-item label="权限字符" name="roleKey">
-        <t-input v-model="formData.roleKey" />
-      </t-form-item>
-      <t-form-item label="状态" name="status">
-        <t-radio-group v-model="formData.status" :options="useDict('sys_normal_disable')" theme="button" variant="default-filled" />
-      </t-form-item>
-      <t-form-item label="备注" name="remark">
-        <t-textarea v-model="formData.remark" />
-      </t-form-item> -->
+      -->
     </t-form>
   </t-dialog>
 </template>

@@ -18,7 +18,6 @@ const activeMenus = reactive<TableRowData[]>([]);
 const itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]> = {
   M: [
     { label: '序号', name: 'orderNum' },
-    { label: '类型', name: 'menuType' },
     { label: '菜单图标', name: 'icon' },
     { label: '菜单名称', name: 'menuName' },
     { label: '地址', name: 'path' },
@@ -27,7 +26,6 @@ const itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDi
   ],
   C: [
     { label: '序号', name: 'orderNum' },
-    { label: '类型', name: 'menuType' },
     { label: '菜单图标', name: 'icon' },
     { label: '菜单名称', name: 'menuName' },
     { label: '路由地址', name: 'path' },
@@ -38,7 +36,6 @@ const itemMaps: Record<string, { label: string; name: string; dict?: AppSystemDi
     { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
   ],
   F: [
-    { label: '类型', name: 'menuType' },
     { label: '按钮名称', name: 'menuName' },
     { label: '权限字符', name: 'perms' },
     { label: '按钮状态', name: 'status', dict: 'sys_normal_disable' },
