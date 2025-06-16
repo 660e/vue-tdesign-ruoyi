@@ -61,7 +61,8 @@ defineExpose({ show });
     placement="center"
     width="500"
   >
-    <t-form :data="formData" :rules="formRules" ref="formRef">
+    <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
+      <pre>{{ formData }}</pre>
       <!-- <t-form-item label="序号" name="roleSort">
         <t-input-number v-model="formData.roleSort" />
       </t-form-item>

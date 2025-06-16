@@ -51,6 +51,8 @@ const show = async (row?: TableRowData) => {
 const onClosed = () => {
   formRef.value?.reset();
   formData.userId = undefined;
+  formData.userName = '';
+  formData.password = '';
 };
 
 const onConfirm = async () => {
@@ -80,7 +82,7 @@ defineExpose({ show });
     placement="center"
     width="700"
   >
-    <t-form :data="formData" :rules="formRules" class="grid grid-cols-2" ref="formRef">
+    <t-form :data="formData" :rules="formRules" class="grid grid-cols-2" reset-type="initial" ref="formRef">
       <t-form-item v-if="!formData.userId" label="用户名称" name="userName">
         <t-input v-model="formData.userName" />
       </t-form-item>
