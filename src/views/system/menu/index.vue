@@ -83,7 +83,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'edit':
-      createDialogRef.value.show(activeMenu.value, activeMenu.value.menuType);
+      createDialogRef.value.show(activeMenu.value);
       break;
 
     case 'delete': {
