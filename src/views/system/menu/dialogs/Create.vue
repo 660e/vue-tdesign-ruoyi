@@ -33,8 +33,11 @@ const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive<Record<string, number | string | undefined>>({});
 const formRules: FormProps['rules'] = {
+  orderNum: [{ required: true, trigger: 'blur' }],
+  icon: [{ required: true, trigger: 'blur' }],
   menuName: [{ required: true, trigger: 'blur' }],
-
+  path: [{ required: true, trigger: 'blur' }],
+  component: [{ required: true, trigger: 'blur' }],
   perms: [{ required: true, trigger: 'blur' }],
 };
 
