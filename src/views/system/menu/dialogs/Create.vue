@@ -52,7 +52,7 @@ const show = (row?: TableRowData, index = 0) => {
   if (row?.menuId) {
     menuType.value = undefined;
     Object.assign(formData, row);
-    formData.icon = iconConverter((formData.icon as string) || '');
+    formData.icon = iconConverter(formData.icon as string);
   } else {
     menuType.value = activeMenus[index - 1]?.menuType === 'C' ? 'F' : 'M';
     formData.menuId = undefined;
