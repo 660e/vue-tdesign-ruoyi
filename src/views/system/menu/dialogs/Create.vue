@@ -13,12 +13,10 @@ const {
   activeMenus = [],
   itemMap = {},
   listData = [],
-  menuCascader = [],
 } = defineProps<{
   activeMenus: TableRowData[];
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   listData: TableRowData[];
-  menuCascader: TableRowData[][];
 }>();
 
 const loadingStore = useLoadingStore();
@@ -53,29 +51,25 @@ const formRules: FormProps['rules'] = {
 
 const show = (row?: TableRowData, index = 0) => {
   if (row?.menuId) {
+    menuType.value = undefined;
     Object.assign(formData, row);
   } else {
-    menuType.value = menuCascader[index].some((e) => e.menuType === 'F') ? 'F' : 'M';
+    menuType.value = activeMenus[index - 1]?.menuType === 'C' ? 'F' : 'M';
+    formData.menuId = undefined;
     formData.parentId = activeMenus[index - 1]?.menuId || 0;
     formData.menuType = menuType.value;
+    formData.orderNum = 0;
+    formData.icon = '';
+    formData.menuName = '';
+    formData.path = '';
+    formData.component = '';
+    formData.perms = '';
+    formData.isCache = '0';
+    formData.isFrame = '0';
+    formData.visible = '0';
+    formData.status = '0';
   }
   visible.value = true;
-};
-
-const onClosed = () => {
-  menuType.value = undefined;
-  formData.menuId = undefined;
-  formData.parentId = 0;
-  formData.orderNum = 0;
-  formData.icon = '';
-  formData.menuName = '';
-  formData.path = '';
-  formData.component = '';
-  formData.perms = '';
-  formData.isCache = '0';
-  formData.isFrame = '0';
-  formData.visible = '0';
-  formData.status = '0';
 };
 
 const onConfirm = async () => {
@@ -97,7 +91,7 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-closed="onClosed" :on-confirm="onConfirm" placement="center" width="500">
+  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-confirm="onConfirm" placement="center" width="500">
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
       <t-form-item label="上级目录" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :disabled="!!menuType" :keys="{ label: 'menuName', value: 'menuId' }" />
