@@ -110,15 +110,14 @@ onMounted(async () => {
     >
       <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
         <t-button @click="onHandle('create', undefined, index)">
-          <template #icon><t-icon name="add" /></template><span>新增</span>
+          <template #icon><t-icon name="add" /></template>
+          <span>新增</span>{{ list.some((e) => e.menuType === 'F') ? '按钮' : `${index + 1}级菜单` }}
         </t-button>
-        <div class="flex-1"></div>
-        <div>{{ list.some((e) => e.menuType === 'F') ? '按钮列表' : `${index + 1}级菜单` }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
         <t-list split>
           <t-list-item
-            v-for="row in list"
+            v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
             :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
             :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-light)' : '' }"
             @click="onHandle('view', row, index)"
