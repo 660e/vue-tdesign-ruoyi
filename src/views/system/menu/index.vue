@@ -21,6 +21,7 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
     { label: '菜单图标', name: 'icon' },
     { label: '菜单名称', name: 'menuName' },
     { label: '地址', name: 'path' },
+    { label: '是否外链', name: 'isFrame' },
     { label: '显示状态', name: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
   ],
@@ -32,6 +33,7 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
     { label: '组件路径', name: 'component' },
     { label: '权限字符', name: 'perms' },
     { label: '是否缓存', name: 'isCache' },
+    { label: '是否外链', name: 'isFrame' },
     { label: '显示状态', name: 'visible', dict: 'sys_show_hide' },
     { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
   ],
@@ -76,7 +78,8 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'create':
-      createDialogRef.value.show();
+      console.log(menuCascader[index]);
+      // createDialogRef.value.show();
       break;
 
     case 'edit':
@@ -107,7 +110,7 @@ onMounted(async () => {
       :key="index"
     >
       <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
-        <t-button @click="onHandle('create')">
+        <t-button @click="onHandle('create', undefined, index)">
           <template #icon><t-icon name="add" /></template><span>新增</span>
         </t-button>
         <div class="flex-1"></div>
