@@ -6,6 +6,8 @@ import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 import { buildTree } from '@/utils';
 
+type MenuType = 'M' | 'C' | 'F' | undefined;
+
 const emit = defineEmits<{ confirm: [] }>();
 const { itemMap = {}, menus = [] } = defineProps<{
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
@@ -14,6 +16,7 @@ const { itemMap = {}, menus = [] } = defineProps<{
 
 const loadingStore = useLoadingStore();
 const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(menus, { idKey: 'menuId' })]);
+const menuType = ref<MenuType>();
 const dialogHeader = computed(() => {
   if (formData.menuId) {
     switch (formData.menuType) {
@@ -41,9 +44,14 @@ const formRules: FormProps['rules'] = {
   perms: [{ required: true, trigger: 'blur' }],
 };
 
-const show = (row?: TableRowData) => {
+const show = (row?: TableRowData, type?: MenuType) => {
   if (row?.menuId) {
     Object.assign(formData, row);
+  } else {
+    menuType.value = type;
+    formData.menuType = type;
+    formData.visible = '0';
+    formData.status = '0';
   }
   visible.value = true;
 };
@@ -77,7 +85,17 @@ defineExpose({ show });
       <t-form-item label="上级目录" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
       </t-form-item>
-
+      <t-form-item v-if="menuType && menuType !== 'F'" label="菜单类型" name="menuType">
+        <t-radio-group
+          v-model="formData.menuType"
+          :options="[
+            { label: '目录', value: 'M' },
+            { label: '菜单', value: 'C' },
+          ]"
+          theme="button"
+          variant="default-filled"
+        />
+      </t-form-item>
       <template v-for="item in itemMap[formData.menuType || 'M']" :key="item.name">
         <t-form-item v-if="item.name === 'orderNum'" :label="item.label" :name="item.name">
           <t-input-number v-model="formData[item.name]" />

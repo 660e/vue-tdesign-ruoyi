@@ -78,8 +78,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'create':
-      console.log(menuCascader[index]);
-      // createDialogRef.value.show();
+      createDialogRef.value.show(undefined, menuCascader[index].some((e) => e.menuType === 'F') ? 'F' : 'M');
       break;
 
     case 'edit':
