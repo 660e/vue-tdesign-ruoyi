@@ -10,10 +10,12 @@ type MenuType = 'M' | 'C' | 'F' | undefined;
 
 const emit = defineEmits<{ confirm: [] }>();
 const {
+  activeMenus = [],
   itemMap = {},
   listData = [],
   menuCascader = [],
 } = defineProps<{
+  activeMenus: TableRowData[];
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   listData: TableRowData[];
   menuCascader: TableRowData[][];
@@ -54,10 +56,10 @@ const show = (row?: TableRowData, index = 0) => {
     Object.assign(formData, row);
   } else {
     menuType.value = menuCascader[index].some((e) => e.menuType === 'F') ? 'F' : 'M';
+    formData.parentId = activeMenus[index - 1]?.menuId || 0;
     formData.menuType = menuType.value;
     formData.visible = '0';
     formData.status = '0';
-    // console.log(index);
   }
   visible.value = true;
 };
@@ -90,7 +92,7 @@ defineExpose({ show });
   <t-dialog v-model:visible="visible" :header="dialogHeader" :on-closed="onClosed" :on-confirm="onConfirm" placement="center" width="500">
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
       <t-form-item label="上级目录" name="parentId">
-        <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" />
+        <t-tree-select v-model="formData.parentId" :data="menuTree" :disabled="!!menuType" :keys="{ label: 'menuName', value: 'menuId' }" />
       </t-form-item>
       <t-form-item v-if="menuType && menuType !== 'F'" label="菜单类型" name="menuType">
         <t-radio-group
