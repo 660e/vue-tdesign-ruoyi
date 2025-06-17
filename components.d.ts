@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     QFileImport: typeof import('./src/components/q-file-import/index.vue')['default']
+    QIconSelect: typeof import('./src/components/q-icon-select/index.vue')['default']
     QTable: typeof import('./src/components/q-table/index.vue')['default']
     QTableOperationCol: typeof import('./src/components/q-table-operation-col/index.vue')['default']
     QTableTagCol: typeof import('./src/components/q-table-tag-col/index.vue')['default']

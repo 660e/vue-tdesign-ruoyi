@@ -111,6 +111,9 @@ defineExpose({ show });
         <t-form-item v-if="item.name === 'orderNum'" :label="item.label" :name="item.name">
           <t-input-number v-model="formData[item.name]" />
         </t-form-item>
+        <t-form-item v-else-if="item.name === 'icon'" :label="item.label" :name="item.name">
+          <q-icon-select v-model="formData[item.name]" />
+        </t-form-item>
         <t-form-item v-else :label="item.label" :name="item.name">
           <t-radio-group v-if="item.dict" v-model="formData[item.name]" :options="useDict(item.dict)" theme="button" variant="default-filled" />
           <t-input v-else v-model="formData[item.name]" />
