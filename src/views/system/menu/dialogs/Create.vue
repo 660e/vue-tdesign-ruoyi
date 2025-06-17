@@ -58,16 +58,24 @@ const show = (row?: TableRowData, index = 0) => {
     menuType.value = menuCascader[index].some((e) => e.menuType === 'F') ? 'F' : 'M';
     formData.parentId = activeMenus[index - 1]?.menuId || 0;
     formData.menuType = menuType.value;
-    formData.visible = '0';
-    formData.status = '0';
   }
   visible.value = true;
 };
 
 const onClosed = () => {
   menuType.value = undefined;
-  formRef.value?.reset();
   formData.menuId = undefined;
+  formData.parentId = 0;
+  formData.orderNum = 0;
+  formData.icon = '';
+  formData.menuName = '';
+  formData.path = '';
+  formData.component = '';
+  formData.perms = '';
+  formData.isCache = '0';
+  formData.isFrame = '0';
+  formData.visible = '0';
+  formData.status = '0';
 };
 
 const onConfirm = async () => {
