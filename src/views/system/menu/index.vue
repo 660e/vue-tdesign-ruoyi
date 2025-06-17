@@ -78,7 +78,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'create':
-      createDialogRef.value.show(undefined, menuCascader[index].some((e) => e.menuType === 'F') ? 'F' : 'M');
+      createDialogRef.value.show(undefined, index);
       break;
 
     case 'edit':
@@ -173,6 +173,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <CreateDialog :item-map="itemMap" :list-data="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :item-map="itemMap" :list-data="listData" :menu-cascader="menuCascader" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

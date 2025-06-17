@@ -9,9 +9,14 @@ import { buildTree } from '@/utils';
 type MenuType = 'M' | 'C' | 'F' | undefined;
 
 const emit = defineEmits<{ confirm: [] }>();
-const { itemMap = {}, listData = [] } = defineProps<{
+const {
+  itemMap = {},
+  listData = [],
+  menuCascader = [],
+} = defineProps<{
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   listData: TableRowData[];
+  menuCascader: TableRowData[][];
 }>();
 
 const loadingStore = useLoadingStore();
@@ -44,19 +49,21 @@ const formRules: FormProps['rules'] = {
   perms: [{ required: true, trigger: 'blur' }],
 };
 
-const show = (row?: TableRowData, type?: MenuType) => {
+const show = (row?: TableRowData, index = 0) => {
   if (row?.menuId) {
     Object.assign(formData, row);
   } else {
-    menuType.value = type;
-    formData.menuType = type;
+    menuType.value = menuCascader[index].some((e) => e.menuType === 'F') ? 'F' : 'M';
+    formData.menuType = menuType.value;
     formData.visible = '0';
     formData.status = '0';
+    // console.log(index);
   }
   visible.value = true;
 };
 
 const onClosed = () => {
+  menuType.value = undefined;
   formRef.value?.reset();
   formData.menuId = undefined;
 };
