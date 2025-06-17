@@ -4,7 +4,7 @@ import type { AppSystemDictKey } from '@/types';
 import { createMenu, updateMenu } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
-import { buildTree } from '@/utils';
+import { buildTree, iconConverter } from '@/utils';
 
 type MenuType = 'M' | 'C' | 'F' | undefined;
 
@@ -42,7 +42,6 @@ const formRef = ref<FormInstanceFunctions>();
 const formData = reactive<Record<string, number | string | undefined>>({});
 const formRules: FormProps['rules'] = {
   orderNum: [{ required: true, trigger: 'blur' }],
-  icon: [{ required: true, trigger: 'blur' }],
   menuName: [{ required: true, trigger: 'blur' }],
   path: [{ required: true, trigger: 'blur' }],
   component: [{ required: true, trigger: 'blur' }],
@@ -53,6 +52,7 @@ const show = (row?: TableRowData, index = 0) => {
   if (row?.menuId) {
     menuType.value = undefined;
     Object.assign(formData, row);
+    formData.icon = iconConverter((formData.icon as string) || '');
   } else {
     menuType.value = activeMenus[index - 1]?.menuType === 'C' ? 'F' : 'M';
     formData.menuId = undefined;
@@ -112,7 +112,7 @@ defineExpose({ show });
           <t-input-number v-model="formData[item.name]" />
         </t-form-item>
         <t-form-item v-else-if="item.name === 'icon'" :label="item.label" :name="item.name">
-          <q-icon-select v-model="formData[item.name]" />
+          <q-icon-select v-model="formData[item.name]" clearable />
         </t-form-item>
         <t-form-item v-else :label="item.label" :name="item.name">
           <t-radio-group v-if="item.dict" v-model="formData[item.name]" :options="useDict(item.dict)" theme="button" variant="default-filled" />
