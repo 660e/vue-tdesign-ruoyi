@@ -9,13 +9,13 @@ import { buildTree } from '@/utils';
 type MenuType = 'M' | 'C' | 'F' | undefined;
 
 const emit = defineEmits<{ confirm: [] }>();
-const { itemMap = {}, menus = [] } = defineProps<{
+const { itemMap = {}, listData = [] } = defineProps<{
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
-  menus: TableRowData[];
+  listData: TableRowData[];
 }>();
 
 const loadingStore = useLoadingStore();
-const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(menus, { idKey: 'menuId' })]);
+const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(listData, { idKey: 'menuId' })]);
 const menuType = ref<MenuType>();
 const dialogHeader = computed(() => {
   if (formData.menuId) {
