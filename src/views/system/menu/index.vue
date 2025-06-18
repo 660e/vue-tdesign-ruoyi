@@ -117,8 +117,7 @@ onMounted(async () => {
       >
         <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
           <t-button @click="onHandle('create', undefined, index)">
-            <template #icon><t-icon name="add" /></template>
-            <span>新增</span>{{ list.some((e) => e.menuType === 'F') ? '按钮' : `${index + 1}级菜单` }}
+            <template #icon><t-icon name="add" /></template><span>新增</span>
           </t-button>
         </div>
         <div class="flex-1 overflow-y-auto pb-16">
