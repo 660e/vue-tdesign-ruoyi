@@ -69,7 +69,7 @@ onMounted(async () => await onHandle('refresh'));
           </t-radio-button>
         </t-radio-group>
       </div>
-      <div class="flex-1 overflow-y-auto">
+      <div class="flex-1 overflow-y-auto pb-8">
         <t-list split>
           <t-list-item
             v-for="row in listData"

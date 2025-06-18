@@ -102,51 +102,57 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div
-      v-for="(list, index) in menuCascader"
-      v-show="index > menuCascader.length - 4"
-      class="w-80 flex flex-col border-r border-neutral-200"
-      :key="index"
-    >
-      <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
-        <t-button @click="onHandle('create', undefined, index)">
-          <template #icon><t-icon name="add" /></template>
-          <span>新增</span>{{ list.some((e) => e.menuType === 'F') ? '按钮' : `${index + 1}级菜单` }}
-        </t-button>
-      </div>
-      <div class="flex-1 overflow-y-auto">
-        <t-list split>
-          <t-list-item
-            v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
-            :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
-            :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-light)' : '' }"
-            @click="onHandle('view', row, index)"
-            class="cursor-pointer duration-200 hover:bg-neutral-100"
-            :key="row.menuId"
-          >
-            <div class="flex-1 flex items-center gap-2">
-              <template v-if="list.some((e) => e.menuType === 'F')">
-                <span>{{ row.menuName }}</span>
-                <span class="flex-1"></span>
-                <t-tag size="small" variant="light-outline">{{ row.perms }}</t-tag>
-                <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
-              </template>
-              <template v-else>
-                <span class="font-mono text-right">{{ row.orderNum.toString().padStart(3, 0) }}</span>
-                <t-icon :name="iconConverter(row.icon)" />
-                <span>{{ row.menuName }}</span>
-                <span class="flex-1"></span>
-                <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light-outline">{{ useDict('sys_show_hide', '1') }}</t-tag>
-                <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
-                <t-icon v-if="row._icon" :name="row._icon" />
-              </template>
-              <b
-                :style="{ backgroundColor: 'var(--td-brand-color)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
-                class="absolute top-0 right-0 w-1 duration-200"
-              ></b>
-            </div>
-          </t-list-item>
-        </t-list>
+    <div class="flex">
+      <div
+        v-for="(list, index) in menuCascader"
+        v-show="index > menuCascader.length - 4"
+        class="w-80 flex flex-col border-r border-neutral-200"
+        :key="index"
+      >
+        <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
+          <t-button @click="onHandle('create', undefined, index)">
+            <template #icon><t-icon name="add" /></template>
+            <span>新增</span>{{ list.some((e) => e.menuType === 'F') ? '按钮' : `${index + 1}级菜单` }}
+          </t-button>
+        </div>
+        <div class="flex-1 overflow-y-auto pb-8">
+          <t-list split>
+            <t-list-item
+              v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
+              :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
+              :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-light)' : '' }"
+              @click="onHandle('view', row, index)"
+              class="cursor-pointer duration-200 hover:bg-neutral-100"
+              :key="row.menuId"
+            >
+              <div class="flex-1 flex items-center gap-2">
+                <template v-if="list.some((e) => e.menuType === 'F')">
+                  <span>{{ row.menuName }}</span>
+                  <span class="flex-1"></span>
+                  <t-tag size="small" variant="light-outline">{{ row.perms }}</t-tag>
+                  <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">
+                    {{ useDict('sys_normal_disable', '1') }}
+                  </t-tag>
+                </template>
+                <template v-else>
+                  <span class="font-mono text-right">{{ row.orderNum.toString().padStart(3, 0) }}</span>
+                  <t-icon :name="iconConverter(row.icon)" />
+                  <span>{{ row.menuName }}</span>
+                  <span class="flex-1"></span>
+                  <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light-outline">{{ useDict('sys_show_hide', '1') }}</t-tag>
+                  <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">
+                    {{ useDict('sys_normal_disable', '1') }}
+                  </t-tag>
+                  <t-icon v-if="row._icon" :name="row._icon" />
+                </template>
+                <b
+                  :style="{ backgroundColor: 'var(--td-brand-color)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
+                  class="absolute top-0 right-0 w-1 duration-200"
+                ></b>
+              </div>
+            </t-list-item>
+          </t-list>
+        </div>
       </div>
     </div>
 
