@@ -5,15 +5,15 @@
 @import './tdesign.css';
 
 #nprogress .bar {
-  background-color: var(--td-brand-color);
+  background-color: var(--td-brand-color-7);
   z-index: 9999;
 }
 
 /***
 
-var(--td-brand-color)
-var(--td-brand-color-light)
-var(--td-error-color)
+var(--td-brand-color-1)
+var(--td-brand-color-7)
+var(--td-error-color-6)
 var(--td-font-gray-2)
 
 bg-blue-50

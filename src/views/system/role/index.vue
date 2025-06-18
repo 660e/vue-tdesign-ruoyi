@@ -73,7 +73,7 @@ onMounted(async () => await onHandle('refresh'));
         <t-list split>
           <t-list-item
             v-for="row in listData"
-            :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-light)' : '' }"
+            :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-1)' : '' }"
             @click="currentRowData = row"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
             :key="row.roleId"
@@ -86,7 +86,7 @@ onMounted(async () => await onHandle('refresh'));
               <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
               <t-icon name="chevron-right" />
               <b
-                :style="{ backgroundColor: 'var(--td-brand-color)', height: row.roleId === currentRowData?.roleId ? '100%' : '0' }"
+                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.roleId === currentRowData?.roleId ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
               ></b>
             </div>

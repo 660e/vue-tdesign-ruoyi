@@ -29,7 +29,7 @@ const NoticeType = ({ type }: { type: string }) => {
 <template>
   <t-popup placement="top-right" trigger="click">
     <div class="flex items-center gap-1 cursor-pointer duration-200 hover:text-blue-700">
-      <div v-if="notices?.total" :style="{ backgroundColor: 'var(--td-error-color)' }" class="px-2 rounded-full text-xs text-white">
+      <div v-if="notices?.total" :style="{ backgroundColor: 'var(--td-error-color-6)' }" class="px-2 rounded-full text-xs text-white">
         {{ notices.total }}
       </div>
       <t-icon name="notification" />

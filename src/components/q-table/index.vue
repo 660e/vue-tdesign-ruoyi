@@ -124,7 +124,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
         </t-button>
         <div
           :class="{ 'mr-2': selectedRowKeys?.length === 0 }"
-          :style="{ backgroundColor: selectedRowKeys?.length ? 'var(--td-brand-color)' : '' }"
+          :style="{ backgroundColor: selectedRowKeys?.length ? 'var(--td-brand-color-7)' : '' }"
           class="w-1 bg-neutral-200"
         ></div>
         <div v-if="selectedRowKeys?.length" :style="{ color: 'var(--td-font-gray-2)' }" class="text-sm flex items-center">

@@ -131,7 +131,7 @@ onMounted(async () => {
             <t-list-item
               v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
               :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
-              :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-light)' : '' }"
+              :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-1)' : '' }"
               @click="onHandle('view', row, index)"
               class="cursor-pointer duration-200 hover:bg-neutral-100"
               :key="row.menuId"
@@ -157,7 +157,7 @@ onMounted(async () => {
                   <t-icon v-if="row._icon" :name="row._icon" />
                 </template>
                 <b
-                  :style="{ backgroundColor: 'var(--td-brand-color)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
+                  :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
                   class="absolute top-0 right-0 w-1 duration-200"
                 ></b>
               </div>
@@ -177,7 +177,7 @@ onMounted(async () => {
               (menuCascader[n - 1]?.[0]?._visible ?? true) ? 'bg-neutral-100' : '',
               n === 1 || n === menuCascader.length ? 'cursor-not-allowed' : 'cursor-pointer',
             ]"
-            :style="{ color: menuCascader[n - 1]?.find((e) => e.menuId === activeMenu?.menuId) ? 'var(--td-brand-color)' : '' }"
+            :style="{ color: menuCascader[n - 1]?.find((e) => e.menuId === activeMenu?.menuId) ? 'var(--td-brand-color-7)' : '' }"
             @click="markVisibleAroundIndex(n - 1)"
             class="w-6 flex justify-center items-center text-sm"
             :key="n"
