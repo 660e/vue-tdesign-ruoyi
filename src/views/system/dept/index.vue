@@ -66,7 +66,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'view':
-      if (listData.value.some((e: TableRowData) => e.parentId === activeDept.value.deptId)) {
+      if (row?._icon) {
         deptCascader[index + 1] = dataFilter(row?.deptId);
         deptCascader.splice(index + 2);
         markVisibleAroundIndex(index);
@@ -117,9 +117,9 @@ onMounted(async () => {
       >
         <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
           <div class="w-1 h-full bg-neutral-200"></div>
-          <span v-if="activeDepts[index - 1]?.menuType === 'M'">{{ index + 1 }}级目录</span>
-          <span v-else-if="activeDepts[index - 1]?.menuType === 'C'">按钮组</span>
-          <span v-else>根目录</span>
+          <span v-if="index === 0">总公司</span>
+          <span v-else-if="index === 1">子公司</span>
+          <span v-else>{{ index - 1 }}级部门</span>
           <span class="flex-1"></span>
           <t-button @click="onHandle('create', undefined, index)">
             <template #icon><t-icon name="add" /></template><span>新增</span>
@@ -138,7 +138,6 @@ onMounted(async () => {
               <div class="flex-1 flex items-center gap-2">
                 <span>{{ row.deptName }}</span>
                 <span class="flex-1"></span>
-                <t-tag v-if="row.visible === '1'" size="small" theme="warning" variant="light-outline">{{ useDict('sys_show_hide', '1') }}</t-tag>
                 <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">
                   {{ useDict('sys_normal_disable', '1') }}
                 </t-tag>
