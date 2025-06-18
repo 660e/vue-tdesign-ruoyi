@@ -115,6 +115,23 @@ export function getMenuTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/menu/roleMenuTreeselect/${roleId}`);
 }
 
+// ----- dept
+export function createDept(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/dept', { data });
+}
+
+export function deleteDept(deptIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/dept/${deptIds}`);
+}
+
+export function updateDept(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/dept', { data });
+}
+
+export function listDept() {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/dept/list');
+}
+
 // ----- notice
 
 export function listNotice(params?: AppRequestListParams) {
