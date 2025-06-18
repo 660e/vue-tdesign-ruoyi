@@ -70,6 +70,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       if ((row?.menuType === 'M' && row?.isFrame !== '0') || row?.menuType === 'C') {
         menuCascader[index + 1] = dataFilter(row?.menuId);
         menuCascader.splice(index + 2);
+        markVisibleAroundIndex(index);
       } else {
         menuCascader.splice(index + 1);
       }
@@ -92,6 +93,11 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
     }
   }
+};
+
+const markVisibleAroundIndex = (index: number) => {
+  menuCascader.flat().forEach((e) => (e._visible = false));
+  [index - 1, index, index + 1].forEach((i) => menuCascader[i]?.forEach((e) => (e._visible = true)));
 };
 
 onMounted(async () => {
@@ -155,7 +161,14 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="absolute left-1/2 bottom-4 h-8 w-1/2 -translate-x-1/2 rounded border border-neutral-200 bg-white">{{ activeMenus.length }}</div>
+      <div
+        v-if="menuCascader.length > 1"
+        class="absolute left-1/2 bottom-4 w-1/2 -translate-x-1/2 rounded shadow-md border flex justify-center border-neutral-200 bg-white"
+      >
+        <div class="flex">
+          <div v-for="n in menuCascader.length" class="h-8 w-6 flex justify-center items-center text-sm" :key="n">{{ n }}</div>
+        </div>
+      </div>
     </div>
 
     <div v-if="activeMenu" class="flex-1 flex flex-col">
