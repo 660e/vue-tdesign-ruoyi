@@ -102,7 +102,7 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div class="flex">
+    <div class="flex relative">
       <div
         v-for="(list, index) in menuCascader"
         v-show="index > menuCascader.length - 4"
@@ -115,7 +115,7 @@ onMounted(async () => {
             <span>新增</span>{{ list.some((e) => e.menuType === 'F') ? '按钮' : `${index + 1}级菜单` }}
           </t-button>
         </div>
-        <div class="flex-1 overflow-y-auto pb-8">
+        <div class="flex-1 overflow-y-auto pb-16">
           <t-list split>
             <t-list-item
               v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
@@ -154,6 +154,8 @@ onMounted(async () => {
           </t-list>
         </div>
       </div>
+
+      <div class="absolute left-1/2 bottom-4 h-8 w-1/2 -translate-x-1/2 rounded border border-neutral-200 bg-white">{{ activeMenus.length }}</div>
     </div>
 
     <div v-if="activeMenu" class="flex-1 flex flex-col">
