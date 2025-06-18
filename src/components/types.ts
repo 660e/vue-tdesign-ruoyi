@@ -5,10 +5,6 @@ type QTableColumn = PrimaryTableCol<TableRowData> & QTableColumnExtra;
 type QTableToolbarFilter = QTableToolbarDateRangeFilter | QTableToolbarInputFilter | QTableToolbarSelectFilter | QTableToolbarTreeSelectFilter;
 export type QTableToolbarFilterParams = AppUnknownRecord;
 
-interface QTableSelectedSet {
-  dict?: AppSystemDictKey;
-}
-
 interface QTableToolbarFilterBase {
   implicit?: boolean;
   label?: string | TNode;
@@ -35,7 +31,6 @@ interface QTableToolbarTreeSelectFilter extends QTableToolbarFilterBase {
 }
 
 interface QTableColumnExtra {
-  selectedSet?: boolean | QTableSelectedSet;
   toolbarFilter?: QTableToolbarFilter;
 }
 
