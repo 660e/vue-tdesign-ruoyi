@@ -96,6 +96,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
 };
 
 const markVisibleAroundIndex = (index: number) => {
+  if (index === 0 || index === menuCascader.length - 1) return;
   menuCascader.flat().forEach((e) => (e._visible = false));
   [index - 1, index, index + 1].forEach((i) => menuCascader[i]?.forEach((e) => (e._visible = true)));
 };
@@ -172,8 +173,12 @@ onMounted(async () => {
         <div class="h-8 p-0.5 flex gap-0.5">
           <div
             v-for="n in menuCascader.length"
-            :class="{ 'bg-neutral-100': menuCascader[n - 1]?.[0]?._visible ?? true }"
-            class="w-6 flex justify-center items-center text-sm cursor-pointer"
+            :class="[
+              (menuCascader[n - 1]?.[0]?._visible ?? true) ? 'bg-neutral-100' : '',
+              n === 1 || n === menuCascader.length ? 'cursor-not-allowed' : 'cursor-pointer',
+            ]"
+            @click="markVisibleAroundIndex(n - 1)"
+            class="w-6 flex justify-center items-center text-sm"
             :key="n"
           >
             {{ n }}
