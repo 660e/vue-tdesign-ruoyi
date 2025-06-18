@@ -10,12 +10,12 @@ type MenuType = 'M' | 'C' | 'F' | undefined;
 
 const emit = defineEmits<{ confirm: [] }>();
 const {
-  activeMenus = [],
-  itemMap = {},
+  activeDepts = [],
+  itemMap = [],
   listData = [],
 } = defineProps<{
-  activeMenus: TableRowData[];
-  itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
+  activeDepts: TableRowData[];
+  itemMap: { label: string; name: string; dict?: AppSystemDictKey }[];
   listData: TableRowData[];
 }>();
 
@@ -60,9 +60,9 @@ const show = (row?: TableRowData, index = 0) => {
     Object.assign(formData, row);
     formData.icon = iconConverter(formData.icon as string);
   } else {
-    menuType.value = activeMenus[index - 1]?.menuType === 'C' ? 'F' : 'M';
+    menuType.value = activeDepts[index - 1]?.menuType === 'C' ? 'F' : 'M';
     formData.menuId = undefined;
-    formData.parentId = activeMenus[index - 1]?.menuId || 0;
+    formData.parentId = activeDepts[index - 1]?.menuId || 0;
     formData.menuType = menuType.value;
     formData.orderNum = 0;
     formData.icon = '';

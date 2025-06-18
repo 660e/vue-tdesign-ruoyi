@@ -14,34 +14,14 @@ const deptCascader = reactive<TableRowData[][]>([]);
 const activeDept = computed(() => activeDepts[activeDepts.length - 1]);
 const activeDepts = reactive<TableRowData[]>([]);
 
-const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]> = {
-  M: [
-    { label: '序号', name: 'orderNum' },
-    { label: '菜单图标', name: 'icon' },
-    { label: '菜单名称', name: 'deptName' },
-    { label: '地址', name: 'path' },
-    { label: '是否外链', name: 'isFrame' },
-    { label: '显示状态', name: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
-  ],
-  C: [
-    { label: '序号', name: 'orderNum' },
-    { label: '菜单图标', name: 'icon' },
-    { label: '菜单名称', name: 'deptName' },
-    { label: '路由地址', name: 'path' },
-    { label: '组件路径', name: 'component' },
-    { label: '权限字符', name: 'perms' },
-    { label: '是否缓存', name: 'isCache' },
-    { label: '是否外链', name: 'isFrame' },
-    { label: '显示状态', name: 'visible', dict: 'sys_show_hide' },
-    { label: '菜单状态', name: 'status', dict: 'sys_normal_disable' },
-  ],
-  F: [
-    { label: '按钮名称', name: 'deptName' },
-    { label: '权限字符', name: 'perms' },
-    { label: '按钮状态', name: 'status', dict: 'sys_normal_disable' },
-  ],
-};
+const itemMap: { label: string; name: string; dict?: AppSystemDictKey }[] = [
+  { label: '序号', name: 'orderNum' },
+  { label: '部门名称', name: 'deptName' },
+  { label: '负责人', name: 'leader' },
+  { label: '联系电话', name: 'phone' },
+  { label: '邮箱', name: 'email' },
+  { label: '部门状态', name: 'status', dict: 'sys_normal_disable' },
+];
 
 const dataFilter = (parentId: number) => {
   return listData.value.filter((row: TableRowData) => row.parentId === parentId);
@@ -185,7 +165,7 @@ onMounted(async () => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list split>
-          <t-list-item v-for="item in itemMap[activeDept.menuType]" :key="item.name">
+          <t-list-item v-for="item in itemMap" :key="item.name">
             <div class="flex items-center">
               <span class="w-20 pr-4 text-right font-bold">{{ item.label }}</span>
               <span>{{ item.dict ? useDict(item.dict, activeDept[item.name]) : activeDept[item.name] }}</span>
@@ -195,6 +175,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <CreateDialog :active-menus="activeDepts" :item-map="itemMap" :list-data="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :active-depts="activeDepts" :item-map="itemMap" :list-data="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
