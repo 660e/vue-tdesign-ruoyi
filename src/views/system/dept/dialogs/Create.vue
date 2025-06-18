@@ -40,7 +40,7 @@ const show = (row?: TableRowData, index = 0) => {
   if (row?.deptId) {
     Object.assign(formData, row);
   } else {
-    console.log(activeDepts[index]);
+    formData.parentId = activeDepts[index - 1]?.deptId || 0;
   }
   visible.value = true;
 };
@@ -79,7 +79,7 @@ defineExpose({ show });
   >
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
       <t-form-item label="上级部门" name="parentId">
-        <t-tree-select v-model="formData.parentId" :data="deptTree" :keys="{ label: 'deptName', value: 'deptId' }" />
+        <t-tree-select v-model="formData.parentId" :data="deptTree" :disabled="!formData.deptId" :keys="{ label: 'deptName', value: 'deptId' }" />
       </t-form-item>
       <template v-for="item in itemMap" :key="item.name">
         <t-form-item v-if="item.name === 'orderNum'" :label="item.label" :name="item.name">
