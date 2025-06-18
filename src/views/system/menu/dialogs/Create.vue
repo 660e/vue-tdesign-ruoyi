@@ -33,7 +33,13 @@ const dialogHeader = computed(() => {
         return '修改按钮';
     }
   } else {
-    return '新增';
+    switch (menuType.value) {
+      case 'M':
+      case 'C':
+        return '新增目录/菜单';
+      case 'F':
+        return '新增按钮';
+    }
   }
 });
 
