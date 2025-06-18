@@ -167,7 +167,7 @@ onMounted(async () => {
       </div>
 
       <div
-        v-if="menuCascader.length > 1"
+        v-if="menuCascader.length > 3"
         class="absolute left-1/2 bottom-4 w-1/2 -translate-x-1/2 rounded border flex justify-center border-neutral-200 bg-white"
       >
         <div class="h-8 p-0.5 flex gap-0.5">
@@ -177,6 +177,7 @@ onMounted(async () => {
               (menuCascader[n - 1]?.[0]?._visible ?? true) ? 'bg-neutral-100' : '',
               n === 1 || n === menuCascader.length ? 'cursor-not-allowed' : 'cursor-pointer',
             ]"
+            :style="{ color: menuCascader[n - 1]?.find((e) => e.menuId === activeMenu?.menuId) ? 'var(--td-brand-color)' : '' }"
             @click="markVisibleAroundIndex(n - 1)"
             class="w-6 flex justify-center items-center text-sm"
             :key="n"
