@@ -136,7 +136,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
       <t-list split>
         <t-list-item v-for="item in rowDescriptions" :key="item.prop">
           <div class="flex">
-            <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
+            <span class="w-20 pr-4 text-right font-bold">{{ item.label }}</span>
             <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, row[item.prop]) : row[item.prop] }}</span>
           </div>
         </t-list-item>

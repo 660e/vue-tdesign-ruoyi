@@ -105,7 +105,7 @@ onMounted(async () => {
     <div
       v-for="(list, index) in menuCascader"
       v-show="index > menuCascader.length - 4"
-      class="w-1/5 min-w-60 flex flex-col border-r border-neutral-200"
+      class="w-80 flex flex-col border-r border-neutral-200"
       :key="index"
     >
       <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
@@ -163,7 +163,7 @@ onMounted(async () => {
         <t-list split>
           <t-list-item v-for="item in itemMap[activeMenu.menuType]" :key="item.name">
             <div class="flex items-center">
-              <span class="w-24 pr-4 text-right font-bold">{{ item.label }}</span>
+              <span class="w-20 pr-4 text-right font-bold">{{ item.label }}</span>
               <t-icon v-if="item.name === 'icon'" :name="iconConverter(activeMenu[item.name])" />
               <span v-else>{{ item.dict ? useDict(item.dict, activeMenu[item.name]) : activeMenu[item.name] }}</span>
             </div>
