@@ -45,12 +45,14 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
 };
 
 const dataFilter = (parentId: number) => {
-  return listData.value.filter((row: TableRowData) => {
-    if (row.menuType === 'M') {
-      row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
-    }
-    return row.parentId === parentId;
-  });
+  return listData.value
+    .filter((row: TableRowData) => row.parentId === parentId)
+    .map((row: TableRowData) => {
+      if (row.menuType === 'M') {
+        row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
+      }
+      return row;
+    });
 };
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {

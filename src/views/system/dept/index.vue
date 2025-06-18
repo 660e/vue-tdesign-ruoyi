@@ -46,9 +46,7 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
 
 const dataFilter = (parentId: number) => {
   return listData.value
-    .filter((row: TableRowData) => {
-      return row.parentId === parentId;
-    })
+    .filter((row: TableRowData) => row.parentId === parentId)
     .map((row: TableRowData) => {
       if (listData.value.some((e: TableRowData) => e.parentId === row.deptId)) {
         row._icon = 'chevron-right';
