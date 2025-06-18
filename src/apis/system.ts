@@ -116,6 +116,7 @@ export function getMenuTreeByRoleId(roleId: number) {
 }
 
 // ----- dept
+
 export function createDept(data: AppUnknownRecord) {
   return request.post<AppResponseData<AppUnknownRecord>>('/system/dept', { data });
 }
@@ -130,6 +131,24 @@ export function updateDept(data: AppUnknownRecord) {
 
 export function listDept() {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/dept/list');
+}
+
+// ----- post
+
+export function createPost(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/post', { data });
+}
+
+export function deletePost(postIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/post/${postIds}`);
+}
+
+export function updatePost(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/post', { data });
+}
+
+export function listPost(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/post/list', { params });
 }
 
 // ----- notice
