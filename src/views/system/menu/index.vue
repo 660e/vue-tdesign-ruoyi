@@ -111,7 +111,7 @@ onMounted(async () => {
     <div class="flex relative">
       <div
         v-for="(list, index) in menuCascader"
-        v-show="index > menuCascader.length - 4"
+        v-show="list[0]?._visible ?? true"
         class="w-80 flex flex-col border-r border-neutral-200"
         :key="index"
       >
@@ -167,10 +167,17 @@ onMounted(async () => {
 
       <div
         v-if="menuCascader.length > 1"
-        class="absolute left-1/2 bottom-4 w-1/2 -translate-x-1/2 rounded shadow-md border flex justify-center border-neutral-200 bg-white"
+        class="absolute left-1/2 bottom-4 w-1/2 -translate-x-1/2 rounded border flex justify-center border-neutral-200 bg-white"
       >
-        <div class="flex">
-          <div v-for="n in menuCascader.length" class="h-8 w-6 flex justify-center items-center text-sm" :key="n">{{ n }}</div>
+        <div class="h-8 p-0.5 flex gap-0.5">
+          <div
+            v-for="n in menuCascader.length"
+            :class="{ 'bg-neutral-100': menuCascader[n - 1]?.[0]?._visible ?? true }"
+            class="w-6 flex justify-center items-center text-sm cursor-pointer"
+            :key="n"
+          >
+            {{ n }}
+          </div>
         </div>
       </div>
     </div>
