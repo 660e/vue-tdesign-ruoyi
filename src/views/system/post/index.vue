@@ -18,7 +18,7 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '用户名称', colKey: 'postName', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '岗位名称', colKey: 'postName', minWidth: 200, toolbarFilter: { type: 'input' } },
   { title: '岗位编码', colKey: 'postCode', minWidth: 200, toolbarFilter: { type: 'input' } },
   {
     title: '状态',
