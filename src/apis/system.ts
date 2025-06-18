@@ -151,6 +151,10 @@ export function listPost(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/post/list', { params });
 }
 
+export function exportPost(params?: AppRequestListParams) {
+  return request.post<AppResponseData<Blob>>('/system/post/export', { params, responseType: 'blob' });
+}
+
 // ----- notice
 
 export function listNotice(params?: AppRequestListParams) {

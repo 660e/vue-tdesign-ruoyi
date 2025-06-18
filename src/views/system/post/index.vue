@@ -1,23 +1,20 @@
 <script setup lang="tsx">
-import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
+import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { getDeptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
+import { listPost, deletePost, exportPost } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
-import { getOperationColumnWidth, generatePassword } from '@/utils';
+import { getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
-const deptId = ref();
-const deptTree = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
-  { value: 'resetPwd', icon: 'secured', label: '重置密码', popconfirm: { content: '确定重置此用户密码？' } },
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
@@ -42,12 +39,6 @@ const columns: QTableProps['columns'] = [
   },
 ];
 
-const onDeptIdActive: TreeProps['onActive'] = async (value) => {
-  deptId.value = value[0];
-  pagination.pageNum = 1;
-  await onHandle('refresh');
-};
-
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
   pagination.pageNum = pageInfo.current;
@@ -71,8 +62,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows, total } = await listUser({
-          deptId: deptId.value,
+        const { rows, total } = await listPost({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
           ...queryParams.value,
@@ -97,52 +87,24 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (row) {
         loadingStore.show();
         try {
-          const { msg } = await deleteUser(row.userId);
+          const { msg } = await deletePost(row.postId);
           MessagePlugin.success(msg);
         } catch {
         } finally {
           loadingStore.hide();
         }
       } else {
-        const success = await useHandleDelete(() => deleteUser((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
+        const success = await useHandleDelete(() => deletePost((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
         if (!success) return;
         await onHandle('refresh');
       }
       break;
-
-    case 'resetPwd': {
-      loadingStore.show();
-      const password = generatePassword();
-      try {
-        const { code } = await resetPwd(row?.userId, password);
-        if (code) {
-          const DialogInstance = DialogPlugin({
-            header: '新密码',
-            body: password,
-            cancelBtn: null,
-            confirmBtn: { content: '复制密码', theme: 'success' },
-            onConfirm: () => {
-              navigator.clipboard
-                .writeText(password)
-                .then(() => MessagePlugin.success('密码已复制到剪贴板'))
-                .catch(() => MessagePlugin.error('复制失败，请手动复制'));
-            },
-            onClosed: () => DialogInstance.destroy(),
-          });
-        }
-      } catch {
-      } finally {
-        loadingStore.hide();
-      }
-      break;
-    }
   }
 };
 
 const fileExport: QTableProps['fileExport'] = {
   api: () => {
-    return exportUser({
-      deptId: deptId.value,
+    return exportPost({
       pageNum: pagination.pageNum,
       pageSize: pagination.pageSize,
       ...queryParams.value,
@@ -150,40 +112,20 @@ const fileExport: QTableProps['fileExport'] = {
   },
 };
 
-const fileImport: QTableProps['fileImport'] = {
-  api: (file, replace) => importUser(file, replace ? 1 : 0),
-  template: () => importUserTemplate(),
-  templateType: 'xlsx',
-  replaceable: true,
-};
-
-onMounted(async () => {
-  loadingStore.show();
-  try {
-    deptTree.value = (await getDeptTree()).data;
-  } catch {
-  } finally {
-    await onHandle('refresh');
-    loadingStore.hide();
-  }
-});
+onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
-  <Page class="flex">
-    <div class="w-60 border-r border-neutral-200">
-      <q-tree :data="deptTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable filter hover />
-    </div>
+  <Page>
     <q-table
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
       :file-export="fileExport"
-      :file-import="fileImport"
       @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"
-      row-key="userId"
+      row-key="postId"
     >
       <template #topContent>
         <t-button @click="onHandle('create')">
