@@ -155,14 +155,58 @@ export function exportPost(params?: AppRequestListParams) {
   return request.post<AppResponseData<Blob>>('/system/post/export', { params, responseType: 'blob' });
 }
 
+// ----- dict
+
+export function createDictType(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/dict/type', { data });
+}
+
+export function deleteDictType(dictIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/dict/type/${dictIds}`);
+}
+
+export function updateDictType(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/dict/type', { data });
+}
+
+export function listDictType(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/dict/type/list', { params });
+}
+
+export function exportDictType(params?: AppRequestListParams) {
+  return request.post<AppResponseData<Blob>>('/system/dict/type/export', { params, responseType: 'blob' });
+}
+
+export function refreshCache() {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/dict/type/refreshCache');
+}
+
+export function createDictData(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/dict/data', { data });
+}
+
+export function deleteDictData(dictCodes: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/dict/data/${dictCodes}`);
+}
+
+export function updateDictData(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/dict/data', { data });
+}
+
+export function listDictData(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/dict/data/list', { params });
+}
+
+export function exportDictData(params?: AppRequestListParams) {
+  return request.post<AppResponseData<Blob>>('/system/dict/data/export', { params, responseType: 'blob' });
+}
+
+export function getDictDataByType(dictType: string) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/dict/data/type/${dictType}`);
+}
+
 // ----- notice
 
 export function listNotice(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
-}
-
-// ----- dict
-
-export function dict(name: string) {
-  return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/dict/data/type/${name}`);
 }

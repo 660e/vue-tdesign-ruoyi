@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProgressStatus } from 'tdesign-vue-next';
 import { getInfo } from '@/apis/login';
-import { dict, getUserProfile } from '@/apis/system';
+import { getDictDataByType, getUserProfile } from '@/apis/system';
 import { DICTS } from '@/constants';
 import { useAppStore } from '@/stores';
 
@@ -37,7 +37,7 @@ onMounted(async () => {
     setRoles(roles);
 
     setProgress('获取字典数据', 60);
-    const dicts = await Promise.all(DICTS.map((e) => dict(e)));
+    const dicts = await Promise.all(DICTS.map((e) => getDictDataByType(e)));
     setDicts(dicts.map((e) => e.data));
 
     setProgress('初始化完成', 100, 'success');
