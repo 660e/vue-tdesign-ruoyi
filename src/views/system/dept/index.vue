@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableRowData } from 'tdesign-vue-next';
 import type { AppSystemDictKey } from '@/types';
-import { listMenu, deleteMenu } from '@/apis/system';
+import { listDept, deleteDept } from '@/apis/system';
 import { useDict, useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -45,12 +45,16 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
 };
 
 const dataFilter = (parentId: number) => {
-  return listData.value.filter((row: TableRowData) => {
-    if (row.menuType === 'M') {
-      row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
-    }
-    return row.parentId === parentId;
-  });
+  return listData.value
+    .filter((row: TableRowData) => {
+      return row.parentId === parentId;
+    })
+    .map((row: TableRowData) => {
+      if (listData.value.some((e: TableRowData) => e.parentId === row.deptId)) {
+        row._icon = 'chevron-right';
+      }
+      return row;
+    });
 };
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
@@ -58,7 +62,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { data } = await listMenu();
+        const { data } = await listDept();
         listData.value = data;
       } catch {
       } finally {
@@ -87,7 +91,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'delete': {
-      const success = await useHandleDelete(() => deleteMenu(activeMenu.value.menuId), activeMenu.value.menuName);
+      const success = await useHandleDelete(() => deleteDept(activeMenu.value.menuId), activeMenu.value.menuName);
       if (!success) return;
       await onHandle('refresh');
       break;
