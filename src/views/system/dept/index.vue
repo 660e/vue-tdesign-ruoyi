@@ -44,14 +44,7 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
 };
 
 const dataFilter = (parentId: number) => {
-  return listData.value
-    .filter((row: TableRowData) => row.parentId === parentId)
-    .map((row: TableRowData) => {
-      if (listData.value.some((e: TableRowData) => e.parentId === row.deptId)) {
-        row._icon = 'chevron-right';
-      }
-      return row;
-    });
+  return listData.value.filter((row: TableRowData) => row.parentId === parentId);
 };
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
@@ -60,7 +53,12 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       loadingStore.show();
       try {
         const { data } = await listDept();
-        listData.value = data;
+        listData.value = data?.map((item) => {
+          if (data.some((e) => e.parentId === item.deptId)) {
+            item._icon = 'chevron-right';
+          }
+          return item;
+        });
       } catch {
       } finally {
         loadingStore.hide();
@@ -68,7 +66,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'view':
-      if ((row?.menuType === 'M' && row?.isFrame !== '0') || row?.menuType === 'C') {
+      if (listData.value.some((e: TableRowData) => e.parentId === activeDept.value.deptId)) {
         deptCascader[index + 1] = dataFilter(row?.deptId);
         deptCascader.splice(index + 2);
         markVisibleAroundIndex(index);

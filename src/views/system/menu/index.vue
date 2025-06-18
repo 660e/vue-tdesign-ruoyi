@@ -45,14 +45,7 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
 };
 
 const dataFilter = (parentId: number) => {
-  return listData.value
-    .filter((row: TableRowData) => row.parentId === parentId)
-    .map((row: TableRowData) => {
-      if (row.menuType === 'M') {
-        row._icon = row.isFrame === '1' ? 'chevron-right' : 'jump';
-      }
-      return row;
-    });
+  return listData.value.filter((row: TableRowData) => row.parentId === parentId);
 };
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
@@ -61,7 +54,12 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       loadingStore.show();
       try {
         const { data } = await listMenu();
-        listData.value = data;
+        listData.value = data?.map((item) => {
+          if (item.menuType === 'M') {
+            item._icon = item.isFrame === '1' ? 'chevron-right' : 'jump';
+          }
+          return item;
+        });
       } catch {
       } finally {
         loadingStore.hide();
