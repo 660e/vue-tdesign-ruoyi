@@ -116,6 +116,11 @@ onMounted(async () => {
         :key="index"
       >
         <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
+          <div class="w-1 h-full bg-neutral-200"></div>
+          <span v-if="activeMenus[index - 1]?.menuType === 'M'">{{ index + 1 }}级目录</span>
+          <span v-else-if="activeMenus[index - 1]?.menuType === 'C'">按钮</span>
+          <span v-else>根目录</span>
+          <span class="flex-1"></span>
           <t-button @click="onHandle('create', undefined, index)">
             <template #icon><t-icon name="add" /></template><span>新增</span>
           </t-button>
