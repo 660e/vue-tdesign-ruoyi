@@ -171,7 +171,7 @@ onMounted(async () => {
 
 <template>
   <Page class="flex">
-    <div class="w-52 border-r border-neutral-200">
+    <div class="w-60 border-r border-neutral-200">
       <q-tree :data="deptTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable filter hover />
     </div>
     <q-table
