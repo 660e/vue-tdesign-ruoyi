@@ -19,7 +19,7 @@ const onChange: InputProps['onChange'] = (value) => {
         <template #prefix-icon><t-icon name="search" /></template>
       </t-input>
     </div>
-    <div class="px-4 flex-1 overflow-y-auto">
+    <div class="flex-1 overflow-y-auto px-4">
       <t-tree v-bind="$attrs" :filter="treeFilter" line />
     </div>
   </div>

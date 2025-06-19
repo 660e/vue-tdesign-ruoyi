@@ -88,7 +88,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
   </div>
 
   <t-drawer v-model:visible="visible" :on-before-open="onBeforeOpen" size="350">
-    <div class="h-full p-4 overflow-y-auto">
+    <div class="h-full overflow-y-auto p-4">
       <div class="h-36 flex flex-col justify-center items-center rounded text-neutral-800 bg-neutral-100">
         <t-avatar image="https://picsum.photos/200" size="64px" />
         <div class="font-bold pt-2 pb-1">{{ user.nickName }} · {{ roleGroup }}</div>
