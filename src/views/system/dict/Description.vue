@@ -14,7 +14,10 @@ const onHandle = async (value: string, row?: TableRowData) => {
       loadingStore.show();
       try {
         const { rows } = await listDictData({ pageNum: 1, pageSize: 9999, dictType: activeRowData.dictType });
-        tableData.value = rows;
+        tableData.value = rows?.map((item) => {
+          item._editable = false;
+          return item;
+        });
       } catch {
       } finally {
         loadingStore.hide();
@@ -55,18 +58,34 @@ onMounted(async () => await onHandle('refresh'));
 <template>
   <div class="flex-1 overflow-y-auto p-4 space-y-4">
     <div v-for="row in tableData" class="flex gap-2" :key="row.dictCode">
-      <t-input-number v-model="row.dictSort" class="!w-28" label="序号" theme="column" />
-      <t-input v-model="row.dictLabel" class="flex-1" label="标签" />
-      <t-input v-model="row.dictValue" class="flex-1" label="键值" />
-      <t-radio-group v-model="row.status" :options="useDict('sys_normal_disable')" theme="button" variant="default-filled" />
-      <t-button @click="onHandle('edit')" shape="square" theme="default">
-        <template #icon><t-icon name="edit" /></template>
-      </t-button>
-      <t-popconfirm @confirm="onHandle('delete', row)" content="确定删除此条数据？" placement="left" theme="danger">
-        <t-button shape="square" theme="danger">
-          <template #icon><t-icon name="delete" /></template>
+      <t-input-number v-model="row.dictSort" :readonly="!row._editable" class="!w-28" label="序号" theme="column" />
+      <t-input v-model="row.dictLabel" :readonly="!row._editable" class="flex-1" label="标签" />
+      <t-input v-model="row.dictValue" :readonly="!row._editable" class="flex-1" label="键值" />
+      <t-radio-group
+        v-model="row.status"
+        :options="useDict('sys_normal_disable')"
+        :readonly="!row._editable"
+        theme="button"
+        variant="default-filled"
+      />
+      <template v-if="row._editable">
+        <t-button @click="onHandle('edit')" shape="square" theme="default">
+          <template #icon><t-icon name="edit" /></template>
         </t-button>
-      </t-popconfirm>
+        <t-button @click="onHandle('edit')" shape="square" theme="default">
+          <template #icon><t-icon name="edit" /></template>
+        </t-button>
+      </template>
+      <template v-else>
+        <t-button @click="onHandle('edit')" shape="square" theme="default">
+          <template #icon><t-icon name="edit" /></template>
+        </t-button>
+        <t-popconfirm @confirm="onHandle('delete', row)" content="确定删除此条数据？" placement="left" theme="danger">
+          <t-button shape="square" theme="danger">
+            <template #icon><t-icon name="delete" /></template>
+          </t-button>
+        </t-popconfirm>
+      </template>
     </div>
   </div>
 </template>
