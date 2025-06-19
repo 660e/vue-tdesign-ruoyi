@@ -10,17 +10,17 @@ type MenuType = 'M' | 'C' | 'F' | undefined;
 
 const emit = defineEmits<{ confirm: [] }>();
 const {
-  activeMenus = [],
+  activeRowsData = [],
   itemMap = {},
-  listData = [],
+  tableData = [],
 } = defineProps<{
-  activeMenus: TableRowData[];
+  activeRowsData: TableRowData[];
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
-  listData: TableRowData[];
+  tableData: TableRowData[];
 }>();
 
 const loadingStore = useLoadingStore();
-const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(listData, { idKey: 'menuId' })]);
+const menuTree = computed(() => [{ menuName: '根目录', menuId: 0 }, ...buildTree(tableData, { idKey: 'menuId' })]);
 const menuType = ref<MenuType>();
 const dialogHeader = computed(() => {
   if (formData.menuId) {
@@ -60,9 +60,9 @@ const show = (row?: TableRowData, index = 0) => {
     Object.assign(formData, row);
     formData.icon = iconConverter(formData.icon as string);
   } else {
-    menuType.value = activeMenus[index - 1]?.menuType === 'C' ? 'F' : 'M';
+    menuType.value = activeRowsData[index - 1]?.menuType === 'C' ? 'F' : 'M';
     formData.menuId = undefined;
-    formData.parentId = activeMenus[index - 1]?.menuId || 0;
+    formData.parentId = activeRowsData[index - 1]?.menuId || 0;
     formData.menuType = menuType.value;
     formData.orderNum = 0;
     formData.icon = '';

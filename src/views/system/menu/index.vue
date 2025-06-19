@@ -210,6 +210,12 @@ onMounted(async () => {
       </div>
     </div>
 
-    <CreateDialog :active-menus="activeRowsData" :item-map="itemMap" :list-data="tableData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog
+      :active-rows-data="activeRowsData"
+      :item-map="itemMap"
+      :table-data="tableData"
+      @confirm="onHandle('refresh')"
+      ref="createDialogRef"
+    />
   </Page>
 </template>
