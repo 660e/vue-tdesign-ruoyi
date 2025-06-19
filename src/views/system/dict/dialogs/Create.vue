@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { createPost, updatePost } from '@/apis/system';
+import { createDictType, updateDictType } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -10,21 +10,19 @@ const loadingStore = useLoadingStore();
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive({
-  postId: undefined,
-  postSort: 0,
-  postName: '',
-  postCode: '',
+  dictId: undefined,
+  dictName: '',
+  dictType: '',
   status: '0',
   remark: '',
 });
 const formRules: FormProps['rules'] = {
-  postSort: [{ required: true, trigger: 'blur' }],
-  postName: [{ required: true, trigger: 'blur' }],
-  postCode: [{ required: true, trigger: 'blur' }],
+  dictName: [{ required: true, trigger: 'blur' }],
+  dictType: [{ required: true, trigger: 'blur' }],
 };
 
 const show = (row?: TableRowData) => {
-  if (row?.postId) {
+  if (row?.dictId) {
     Object.assign(formData, row);
   }
   visible.value = true;
@@ -32,7 +30,7 @@ const show = (row?: TableRowData) => {
 
 const onClosed = () => {
   formRef.value?.reset();
-  formData.postId = undefined;
+  formData.dictId = undefined;
 };
 
 const onConfirm = async () => {
@@ -40,7 +38,7 @@ const onConfirm = async () => {
 
   loadingStore.show();
   try {
-    const { msg } = await (formData.postId ? updatePost : createPost)(formData);
+    const { msg } = await (formData.dictId ? updateDictType : createDictType)(formData);
     MessagePlugin.success(msg);
     emit('confirm');
     visible.value = false;
@@ -56,21 +54,18 @@ defineExpose({ show });
 <template>
   <t-dialog
     v-model:visible="visible"
-    :header="`${formData.postId ? '修改' : '新增'}岗位`"
+    :header="`${formData.dictId ? '修改' : '新增'}字典类型`"
     :on-closed="onClosed"
     :on-confirm="onConfirm"
     placement="center"
     width="500"
   >
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
-      <t-form-item label="序号" name="postSort">
-        <t-input-number v-model="formData.postSort" />
+      <t-form-item label="字典名称" name="dictName">
+        <t-input v-model="formData.dictName" />
       </t-form-item>
-      <t-form-item label="岗位名称" name="postName">
-        <t-input v-model="formData.postName" />
-      </t-form-item>
-      <t-form-item label="岗位编码" name="postCode">
-        <t-input v-model="formData.postCode" />
+      <t-form-item label="字典类型" name="dictType">
+        <t-input v-model="formData.dictType" />
       </t-form-item>
       <t-form-item label="状态" name="status">
         <t-radio-group v-model="formData.status" :options="useDict('sys_normal_disable')" theme="button" variant="default-filled" />

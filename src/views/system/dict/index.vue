@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { TableRowData } from 'tdesign-vue-next';
-import type { AppSystemDictKey } from '@/types';
+// import type { TableRowData } from 'tdesign-vue-next';
+// import type { AppSystemDictKey } from '@/types';
 import { listDictType, deleteDictType } from '@/apis/system';
 import { useDict, useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
-// import CreateDialog from './dialogs/Create.vue';
+import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
-// const createDialogRef = ref();
+const createDialogRef = ref();
 const tableData = ref();
 const activeRowData = ref();
 
@@ -26,11 +26,11 @@ const onHandle = async (value: string) => {
       break;
 
     case 'create':
-      // Logic to open create dialog
+      createDialogRef.value.show();
       break;
 
     case 'edit':
-      // Logic to edit the selected item
+      createDialogRef.value.show(activeRowData.value);
       break;
 
     case 'delete': {
@@ -93,5 +93,7 @@ onMounted(async () => await onHandle('refresh'));
         <div class="h-[1000px]"></div>
       </div>
     </div>
+
+    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
