@@ -190,10 +190,10 @@ onMounted(async () => {
 
     <div v-if="activeRowData" class="flex-1 flex flex-col">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-button @click="onHandle('edit', activeRowData)" theme="default">
+        <t-button @click="onHandle('edit')" theme="default">
           <template #icon><t-icon name="edit" /></template><span>修改</span>
         </t-button>
-        <t-button @click="onHandle('delete', activeRowData)" theme="danger">
+        <t-button @click="onHandle('delete')" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </div>

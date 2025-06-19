@@ -33,9 +33,12 @@ const onHandle = async (value: string) => {
       // Logic to edit the selected item
       break;
 
-    case 'delete':
-      // Logic to delete the selected item
+    case 'delete': {
+      const success = await useHandleDelete(() => deleteDictType(activeRowData.value.dictId), activeRowData.value.dictName);
+      if (!success) return;
+      await onHandle('refresh');
       break;
+    }
   }
 };
 
@@ -76,9 +79,15 @@ onMounted(async () => await onHandle('refresh'));
         </t-list>
       </div>
     </div>
-    <div class="flex-1 flex flex-col">
-      <div class="p-4 border-b border-neutral-200">
-        <t-button>新增</t-button>
+
+    <div v-if="activeRowData" class="flex-1 flex flex-col">
+      <div class="p-4 flex gap-2 border-b border-neutral-200">
+        <t-button @click="onHandle('edit')" theme="default">
+          <template #icon><t-icon name="edit" /></template><span>修改</span>
+        </t-button>
+        <t-button @click="onHandle('delete')" theme="danger">
+          <template #icon><t-icon name="delete" /></template><span>删除</span>
+        </t-button>
       </div>
       <div class="flex-1 overflow-y-auto pb-16">
         <div class="h-[1000px]"></div>
