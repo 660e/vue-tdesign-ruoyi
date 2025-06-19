@@ -28,6 +28,7 @@ const OperationLink = ({ operation }: { operation: QTableOperation }) => {
         :content="operation.popconfirm.content"
         :on-confirm="() => $emit('handle', operation.value)"
         :theme="operation.popconfirm.theme || 'danger'"
+        placement="left"
       >
         <OperationLink :operation="operation" />
       </t-popconfirm>

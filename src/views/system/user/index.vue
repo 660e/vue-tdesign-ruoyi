@@ -99,6 +99,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         try {
           const { msg } = await deleteUser(row.userId);
           MessagePlugin.success(msg);
+          await onHandle('refresh');
         } catch {
         } finally {
           loadingStore.hide();
