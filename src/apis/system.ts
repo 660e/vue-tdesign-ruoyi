@@ -205,6 +205,24 @@ export function getDictDataByType(dictType: string) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/dict/data/type/${dictType}`);
 }
 
+// ----- config
+
+export function createConfig(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/config', { data });
+}
+
+export function deleteConfig(configIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/config/${configIds}`);
+}
+
+export function updateConfig(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/config', { data });
+}
+
+export function listConfig(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/system/config/list', { params });
+}
+
 // ----- notice
 
 export function listNotice(params?: AppRequestListParams) {

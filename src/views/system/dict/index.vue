@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import type { TableRowData } from 'tdesign-vue-next';
-// import type { AppSystemDictKey } from '@/types';
 import { listDictType, deleteDictType } from '@/apis/system';
 import { useDict, useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
