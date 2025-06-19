@@ -56,10 +56,6 @@ onMounted(async () => await onHandle('refresh'));
   <Page class="flex">
     <div class="w-80 flex flex-col border-r border-neutral-200">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-button @click="onHandle('create')">
-          <template #icon><t-icon name="add" /></template><span>新增</span>
-        </t-button>
-        <div class="flex-1"></div>
         <t-radio-group v-model="sortBy" :on-change="() => onHandle('sort')" variant="default-filled">
           <t-radio-button value="roleSort">
             <div class="flex items-center gap-1"><span>序号</span><t-icon name="arrow-down" /></div>
@@ -68,6 +64,10 @@ onMounted(async () => await onHandle('refresh'));
             <div class="flex items-center gap-1"><span>状态</span><t-icon name="arrow-down" /></div>
           </t-radio-button>
         </t-radio-group>
+        <div class="flex-1"></div>
+        <t-button @click="onHandle('create')">
+          <template #icon><t-icon name="add" /></template><span>新增</span>
+        </t-button>
       </div>
       <div class="flex-1 overflow-y-auto pb-16">
         <t-list split>

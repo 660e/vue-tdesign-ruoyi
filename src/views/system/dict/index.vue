@@ -45,8 +45,13 @@ onMounted(async () => await onHandle('refresh'));
 <template>
   <Page class="flex">
     <div class="w-80 flex flex-col border-r border-neutral-200">
-      <div class="p-4 border-b border-neutral-200">
-        <t-button>新增</t-button>
+      <div class="p-4 flex gap-2 border-b border-neutral-200">
+        <t-input class="flex-1" clearable>
+          <template #prefix-icon><t-icon name="search" /></template>
+        </t-input>
+        <t-button @click="onHandle('create')">
+          <template #icon><t-icon name="add" /></template><span>新增</span>
+        </t-button>
       </div>
       <div class="flex-1 overflow-y-auto pb-16">
         <t-list split>
