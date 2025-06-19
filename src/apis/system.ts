@@ -229,6 +229,18 @@ export function exportConfig(params?: AppRequestListParams) {
 
 // ----- notice
 
+export function createNotice(data: AppUnknownRecord) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/system/notice', { data });
+}
+
+export function deleteNotice(noticeIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/system/notice/${noticeIds}`);
+}
+
+export function updateNotice(data: AppUnknownRecord) {
+  return request.put<AppResponseData<AppUnknownRecord>>('/system/notice', { data });
+}
+
 export function listNotice(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
 }
