@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableRowData } from 'tdesign-vue-next';
-import { listDictData, deleteDictData } from '@/apis/system';
+import { listDictData, deleteDictData, updateDictData } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -25,16 +25,37 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'close':
+      if (!row) return;
+      row._editable = false;
+      row.dictSort = row._cache?.dictSort;
+      row.dictLabel = row._cache?.dictLabel;
+      row.dictValue = row._cache?.dictValue;
+      row.status = row._cache?.status;
       break;
 
     case 'save':
+      if (!row) return;
+      loadingStore.show();
+      try {
+        const { msg } = await updateDictData(row);
+        MessagePlugin.success(msg);
+        row._editable = false;
+        delete row._cache;
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
       break;
 
     case 'edit':
-      if (row) {
-        row._cache = structuredClone(toRaw(row));
-        row._editable = true;
-      }
+      if (!row) return;
+      row._cache = {
+        dictSort: row.dictSort,
+        dictLabel: row.dictLabel,
+        dictValue: row.dictValue,
+        status: row.status,
+      };
+      row._editable = true;
       break;
 
     case 'delete': {
