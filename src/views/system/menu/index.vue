@@ -10,10 +10,10 @@ import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
-const listData = ref();
-const menuCascader = reactive<TableRowData[][]>([]);
-const activeMenu = computed(() => activeMenus[activeMenus.length - 1]);
-const activeMenus = reactive<TableRowData[]>([]);
+const tableData = ref();
+const tableCascader = reactive<TableRowData[][]>([]);
+const activeRowData = computed(() => activeRowsData[activeRowsData.length - 1]);
+const activeRowsData = reactive<TableRowData[]>([]);
 
 const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]> = {
   M: [
@@ -45,7 +45,7 @@ const itemMap: Record<string, { label: string; name: string; dict?: AppSystemDic
 };
 
 const dataFilter = (parentId: number) => {
-  return listData.value.filter((row: TableRowData) => row.parentId === parentId);
+  return tableData.value.filter((row: TableRowData) => row.parentId === parentId);
 };
 
 const onHandle = async (value: string, row?: TableRowData, index = 0) => {
@@ -54,7 +54,7 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       loadingStore.show();
       try {
         const { data } = await listMenu();
-        listData.value = data?.map((item) => {
+        tableData.value = data?.map((item) => {
           if (item.menuType === 'M') {
             item._icon = item.isFrame === '1' ? 'chevron-right' : 'jump';
           }
@@ -68,14 +68,14 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
 
     case 'view':
       if ((row?.menuType === 'M' && row?.isFrame !== '0') || row?.menuType === 'C') {
-        menuCascader[index + 1] = dataFilter(row?.menuId);
-        menuCascader.splice(index + 2);
+        tableCascader[index + 1] = dataFilter(row?.menuId);
+        tableCascader.splice(index + 2);
         markVisibleAroundIndex(index);
       } else {
-        menuCascader.splice(index + 1);
+        tableCascader.splice(index + 1);
       }
-      activeMenus[index] = row || {};
-      activeMenus.splice(index + 1);
+      activeRowsData[index] = row || {};
+      activeRowsData.splice(index + 1);
       break;
 
     case 'create':
@@ -83,11 +83,11 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       break;
 
     case 'edit':
-      createDialogRef.value.show(activeMenu.value);
+      createDialogRef.value.show(activeRowData.value);
       break;
 
     case 'delete': {
-      const success = await useHandleDelete(() => deleteMenu(activeMenu.value.menuId), activeMenu.value.menuName);
+      const success = await useHandleDelete(() => deleteMenu(activeRowData.value.menuId), activeRowData.value.menuName);
       if (!success) return;
       await onHandle('refresh');
       break;
@@ -96,14 +96,14 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
 };
 
 const markVisibleAroundIndex = (index: number) => {
-  if (index === 0 || index === menuCascader.length - 1) return;
-  menuCascader.flat().forEach((e) => (e._visible = false));
-  [index - 1, index, index + 1].forEach((i) => menuCascader[i]?.forEach((e) => (e._visible = true)));
+  if (index === 0 || index === tableCascader.length - 1) return;
+  tableCascader.flat().forEach((e) => (e._visible = false));
+  [index - 1, index, index + 1].forEach((i) => tableCascader[i]?.forEach((e) => (e._visible = true)));
 };
 
 onMounted(async () => {
   await onHandle('refresh');
-  menuCascader.push(dataFilter(0));
+  tableCascader.push(dataFilter(0));
 });
 </script>
 
@@ -111,15 +111,15 @@ onMounted(async () => {
   <Page class="flex">
     <div class="flex relative">
       <div
-        v-for="(list, index) in menuCascader"
+        v-for="(list, index) in tableCascader"
         v-show="list[0]?._visible ?? true"
         class="w-80 flex flex-col border-r border-neutral-200"
         :key="index"
       >
         <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
           <div class="w-1 h-full bg-neutral-200"></div>
-          <span v-if="activeMenus[index - 1]?.menuType === 'M'">{{ index + 1 }}级目录</span>
-          <span v-else-if="activeMenus[index - 1]?.menuType === 'C'">按钮组</span>
+          <span v-if="activeRowsData[index - 1]?.menuType === 'M'">{{ index + 1 }}级目录</span>
+          <span v-else-if="activeRowsData[index - 1]?.menuType === 'C'">按钮组</span>
           <span v-else>根目录</span>
           <span class="flex-1"></span>
           <t-button @click="onHandle('create', undefined, index)">
@@ -130,8 +130,8 @@ onMounted(async () => {
           <t-list split>
             <t-list-item
               v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
-              :class="{ 'bg-neutral-100': row.menuId === activeMenus[index]?.menuId }"
-              :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-1)' : '' }"
+              :class="{ 'bg-neutral-100': row.menuId === activeRowsData[index]?.menuId }"
+              :style="{ backgroundColor: row.menuId === activeRowData?.menuId ? 'var(--td-brand-color-1)' : '' }"
               @click="onHandle('view', row, index)"
               class="cursor-pointer duration-200 hover:bg-neutral-100"
               :key="row.menuId"
@@ -157,7 +157,7 @@ onMounted(async () => {
                   <t-icon v-if="row._icon" :name="row._icon" />
                 </template>
                 <b
-                  :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.menuId === activeMenu?.menuId ? '100%' : '0' }"
+                  :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.menuId === activeRowData?.menuId ? '100%' : '0' }"
                   class="absolute top-0 right-0 w-1 duration-200"
                 ></b>
               </div>
@@ -167,17 +167,17 @@ onMounted(async () => {
       </div>
 
       <div
-        v-if="menuCascader.length > 3"
+        v-if="tableCascader.length > 3"
         class="absolute left-1/2 bottom-4 w-1/2 -translate-x-1/2 rounded border flex justify-center border-neutral-200 bg-white"
       >
         <div class="h-8 p-0.5 flex gap-0.5">
           <div
-            v-for="n in menuCascader.length"
+            v-for="n in tableCascader.length"
             :class="[
-              (menuCascader[n - 1]?.[0]?._visible ?? true) ? 'bg-neutral-100' : '',
-              n === 1 || n === menuCascader.length ? 'cursor-not-allowed' : 'cursor-pointer',
+              (tableCascader[n - 1]?.[0]?._visible ?? true) ? 'bg-neutral-100' : '',
+              n === 1 || n === tableCascader.length ? 'cursor-not-allowed' : 'cursor-pointer',
             ]"
-            :style="{ color: menuCascader[n - 1]?.find((e) => e.menuId === activeMenu?.menuId) ? 'var(--td-brand-color-7)' : '' }"
+            :style="{ color: tableCascader[n - 1]?.find((e) => e.menuId === activeRowData?.menuId) ? 'var(--td-brand-color-7)' : '' }"
             @click="markVisibleAroundIndex(n - 1)"
             class="w-6 flex justify-center items-center text-sm"
             :key="n"
@@ -188,28 +188,28 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div v-if="activeMenu" class="flex-1 flex flex-col">
+    <div v-if="activeRowData" class="flex-1 flex flex-col">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-button @click="onHandle('edit', activeMenu)" theme="default">
+        <t-button @click="onHandle('edit', activeRowData)" theme="default">
           <template #icon><t-icon name="edit" /></template><span>修改</span>
         </t-button>
-        <t-button @click="onHandle('delete', activeMenu)" theme="danger">
+        <t-button @click="onHandle('delete', activeRowData)" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </div>
       <div class="flex-1 overflow-y-auto px-4 pb-4">
         <t-list split>
-          <t-list-item v-for="item in itemMap[activeMenu.menuType]" :key="item.name">
+          <t-list-item v-for="item in itemMap[activeRowData.menuType]" :key="item.name">
             <div class="flex items-center">
               <span class="w-20 pr-4 text-right font-bold">{{ item.label }}</span>
-              <t-icon v-if="item.name === 'icon'" :name="iconConverter(activeMenu[item.name])" />
-              <span v-else>{{ item.dict ? useDict(item.dict, activeMenu[item.name]) : activeMenu[item.name] }}</span>
+              <t-icon v-if="item.name === 'icon'" :name="iconConverter(activeRowData[item.name])" />
+              <span v-else>{{ item.dict ? useDict(item.dict, activeRowData[item.name]) : activeRowData[item.name] }}</span>
             </div>
           </t-list-item>
         </t-list>
       </div>
     </div>
 
-    <CreateDialog :active-menus="activeMenus" :item-map="itemMap" :list-data="listData" @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :active-menus="activeRowsData" :item-map="itemMap" :list-data="tableData" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

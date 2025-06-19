@@ -5,9 +5,9 @@ import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole, listAllocated, li
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-defineEmits<{ handle: [value: string, row: TableRowData] }>();
+defineEmits<{ handle: [value: string, activeRowData: TableRowData] }>();
 
-const { row } = defineProps<{ row: TableRowData }>();
+const { activeRowData } = defineProps<{ activeRowData: TableRowData }>();
 const loadingStore = useLoadingStore();
 
 const rowDescriptions = [
@@ -27,7 +27,7 @@ const allUsers = ref();
 const allocatedUserKeys = ref<number[]>([]);
 
 watch(
-  () => row.roleId,
+  () => activeRowData.roleId,
   () => refresh(),
 );
 
@@ -46,7 +46,7 @@ const onTabChange = async (value: RadioValue) => {
     case 2:
       loadingStore.show();
       try {
-        const response = await Promise.all([getMenuTreeByRoleId(row.roleId), getDeptTreeByRoleId(row.roleId)]);
+        const response = await Promise.all([getMenuTreeByRoleId(activeRowData.roleId), getDeptTreeByRoleId(activeRowData.roleId)]);
         checkedMenuKeys.value = response[0].checkedKeys;
         menuTree.value = response[0].menus;
         checkedDeptKeys.value = response[1].checkedKeys;
@@ -61,8 +61,8 @@ const onTabChange = async (value: RadioValue) => {
       loadingStore.show();
       try {
         const response = await Promise.all([
-          listAllocated({ pageNum: 1, pageSize: 9999, roleId: row.roleId }),
-          listUnallocated({ pageNum: 1, pageSize: 9999, roleId: row.roleId }),
+          listAllocated({ pageNum: 1, pageSize: 9999, roleId: activeRowData.roleId }),
+          listUnallocated({ pageNum: 1, pageSize: 9999, roleId: activeRowData.roleId }),
         ]);
         allUsers.value = [...(response[0].rows || []), ...(response[1].rows || [])];
         allocatedUserKeys.value = response[1].rows?.map((e) => e.userId as number) || [];
@@ -79,7 +79,7 @@ const refresh = () => onTabChange(tab.value);
 const saveRoles = async () => {
   loadingStore.show();
   try {
-    const { msg } = await updateRole({ ...row, menuIds: checkedMenuKeys.value, deptIds: checkedDeptKeys.value });
+    const { msg } = await updateRole({ ...activeRowData, menuIds: checkedMenuKeys.value, deptIds: checkedDeptKeys.value });
     MessagePlugin.success(msg);
   } catch {
   } finally {
@@ -90,7 +90,7 @@ const saveRoles = async () => {
 const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValue }) => {
   loadingStore.show();
   try {
-    const { msg } = await (type === 'target' ? allocateUsers : unallocateUsers)(row.roleId, movedValue.join(','));
+    const { msg } = await (type === 'target' ? allocateUsers : unallocateUsers)(activeRowData.roleId, movedValue.join(','));
     MessagePlugin.success(msg);
   } catch {
     refresh();
@@ -110,10 +110,10 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
       </t-radio-group>
 
       <template v-if="tab === 1">
-        <t-button @click="$emit('handle', 'edit', row)" theme="default">
+        <t-button @click="$emit('handle', 'edit', activeRowData)" theme="default">
           <template #icon><t-icon name="edit" /></template><span>修改</span>
         </t-button>
-        <t-button @click="$emit('handle', 'delete', row)" theme="danger">
+        <t-button @click="$emit('handle', 'delete', activeRowData)" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </template>
@@ -137,7 +137,7 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
         <t-list-item v-for="item in rowDescriptions" :key="item.prop">
           <div class="flex">
             <span class="w-20 pr-4 text-right font-bold">{{ item.label }}</span>
-            <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, row[item.prop]) : row[item.prop] }}</span>
+            <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeRowData[item.prop]) : activeRowData[item.prop] }}</span>
           </div>
         </t-list-item>
       </t-list>

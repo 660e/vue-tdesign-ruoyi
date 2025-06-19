@@ -9,7 +9,7 @@ import Description from './Description.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
-const listData = ref();
+const tableData = ref();
 const activeRowData = ref();
 const sortBy = ref('roleSort');
 
@@ -19,7 +19,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       loadingStore.show();
       try {
         const { rows } = await listRole({ pageNum: 1, pageSize: 9999 });
-        listData.value = rows;
+        tableData.value = rows;
         activeRowData.value = rows?.find((e: TableRowData) => e.roleId === (activeRowData.value?.roleId || 1));
         onHandle('sort');
       } catch {
@@ -29,7 +29,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'sort':
-      (listData.value as TableRowData[]).sort((a, b) => Number(a[sortBy.value]) - Number(b[sortBy.value]));
+      (tableData.value as TableRowData[]).sort((a, b) => Number(a[sortBy.value]) - Number(b[sortBy.value]));
       break;
 
     case 'create':
@@ -72,7 +72,7 @@ onMounted(async () => await onHandle('refresh'));
       <div class="flex-1 overflow-y-auto pb-16">
         <t-list split>
           <t-list-item
-            v-for="row in listData"
+            v-for="row in tableData"
             :style="{ backgroundColor: row.roleId === activeRowData?.roleId ? 'var(--td-brand-color-1)' : '' }"
             @click="activeRowData = row"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
@@ -95,7 +95,7 @@ onMounted(async () => await onHandle('refresh'));
       </div>
     </div>
 
-    <Description v-if="activeRowData" :row="activeRowData" @handle="onHandle" />
+    <Description v-if="activeRowData" :active-row-data="activeRowData" @handle="onHandle" />
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
