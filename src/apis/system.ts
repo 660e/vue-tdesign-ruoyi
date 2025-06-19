@@ -223,6 +223,10 @@ export function listConfig(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/config/list', { params });
 }
 
+export function exportConfig(params?: AppRequestListParams) {
+  return request.post<AppResponseData<Blob>>('/system/config/export', { params, responseType: 'blob' });
+}
+
 // ----- notice
 
 export function listNotice(params?: AppRequestListParams) {

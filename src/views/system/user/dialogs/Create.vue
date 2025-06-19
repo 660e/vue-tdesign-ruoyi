@@ -82,15 +82,17 @@ defineExpose({ show });
     :on-closed="onClosed"
     :on-confirm="onConfirm"
     placement="center"
-    width="700"
+    width="500"
   >
-    <t-form :data="formData" :rules="formRules" class="grid grid-cols-2" reset-type="initial" ref="formRef">
-      <t-form-item v-if="!formData.userId" label="用户名称" name="userName">
-        <t-input v-model="formData.userName" />
-      </t-form-item>
-      <t-form-item v-if="!formData.userId" label="密码" name="password">
-        <t-input v-model="formData.password" type="password" />
-      </t-form-item>
+    <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
+      <template v-if="!formData.userId">
+        <t-form-item label="用户名称" name="userName">
+          <t-input v-model="formData.userName" />
+        </t-form-item>
+        <t-form-item label="密码" name="password">
+          <t-input v-model="formData.password" type="password" />
+        </t-form-item>
+      </template>
       <t-form-item label="用户昵称" name="nickName">
         <t-input v-model="formData.nickName" />
       </t-form-item>
@@ -109,13 +111,13 @@ defineExpose({ show });
       <t-form-item label="状态" name="status">
         <t-radio-group v-model="formData.status" :options="useDict('sys_normal_disable')" theme="button" variant="default-filled" />
       </t-form-item>
-      <t-form-item class="col-span-2" label="岗位" name="postIds">
+      <t-form-item label="岗位" name="postIds">
         <t-select v-model="formData.postIds" :keys="{ label: 'postName', value: 'postId' }" :options="userData?.posts" multiple />
       </t-form-item>
-      <t-form-item class="col-span-2" label="角色" name="roleIds">
+      <t-form-item label="角色" name="roleIds">
         <t-select v-model="formData.roleIds" :keys="{ label: 'roleName', value: 'roleId' }" :options="userData?.roles" multiple />
       </t-form-item>
-      <t-form-item class="col-span-2" label="备注" name="remark">
+      <t-form-item label="备注" name="remark">
         <t-textarea v-model="formData.remark" />
       </t-form-item>
     </t-form>
