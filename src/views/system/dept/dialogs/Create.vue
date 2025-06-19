@@ -8,17 +8,17 @@ import { buildTree } from '@/utils';
 
 const emit = defineEmits<{ confirm: [] }>();
 const {
-  activeDepts = [],
+  activeRowsData = [],
   itemMap = [],
-  listData = [],
+  tableData = [],
 } = defineProps<{
-  activeDepts: TableRowData[];
+  activeRowsData: TableRowData[];
   itemMap: { label: string; name: string; dict?: AppSystemDictKey }[];
-  listData: TableRowData[];
+  tableData: TableRowData[];
 }>();
 
 const loadingStore = useLoadingStore();
-const deptTree = computed(() => [{ deptName: '根目录', deptId: 0 }, ...buildTree(listData, { idKey: 'deptId' })]);
+const deptTree = computed(() => [{ deptName: '根目录', deptId: 0 }, ...buildTree(tableData, { idKey: 'deptId' })]);
 
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
@@ -40,7 +40,7 @@ const show = (row?: TableRowData, index = 0) => {
   if (row?.deptId) {
     Object.assign(formData, row);
   } else {
-    formData.parentId = activeDepts[index - 1]?.deptId || 0;
+    formData.parentId = activeRowsData[index - 1]?.deptId || 0;
   }
   visible.value = true;
 };
