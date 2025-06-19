@@ -84,7 +84,6 @@ onMounted(async () => await onHandle('refresh'));
               <span class="flex-1"></span>
               <t-tag size="small" variant="light-outline">{{ row.roleKey }}</t-tag>
               <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
-              <t-icon name="chevron-right" />
               <b
                 :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.roleId === activeRowData?.roleId ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
