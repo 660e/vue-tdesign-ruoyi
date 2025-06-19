@@ -10,7 +10,7 @@ defineEmits<{ handle: [value: string, activeRowData: TableRowData] }>();
 const { activeRowData } = defineProps<{ activeRowData: TableRowData }>();
 const loadingStore = useLoadingStore();
 
-const rowDescriptions = [
+const descriptions = [
   { label: '序号', prop: 'roleSort' },
   { label: '角色名称', prop: 'roleName' },
   { label: '权限字符', prop: 'roleKey' },
@@ -134,10 +134,11 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
 
     <div v-if="tab === 1" class="flex-1 overflow-y-auto px-4 pb-4">
       <t-list split>
-        <t-list-item v-for="item in rowDescriptions" :key="item.prop">
+        <t-list-item v-for="description in descriptions" :key="description.prop">
           <div class="flex">
-            <span class="w-20 pr-4 text-right font-bold">{{ item.label }}</span>
-            <span>{{ item.dict ? useDict(item.dict as AppSystemDictKey, activeRowData[item.prop]) : activeRowData[item.prop] }}</span>
+            <span class="w-20 pr-4 text-right font-bold">{{ description.label }}</span>
+            <span v-if="description.dict">{{ useDict(description.dict as AppSystemDictKey, activeRowData[description.prop]) }}</span>
+            <span v-else>{{ activeRowData[description.prop] }}</span>
           </div>
         </t-list-item>
       </t-list>
