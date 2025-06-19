@@ -26,11 +26,6 @@ const deptTree = ref();
 const allUsers = ref();
 const allocatedUserKeys = ref<number[]>([]);
 
-watch(
-  () => activeRowData.roleId,
-  () => refresh(),
-);
-
 const onTabChange = async (value: RadioValue) => {
   checkedMenuKeys.value = undefined;
   menuTree.value = undefined;
@@ -74,7 +69,7 @@ const onTabChange = async (value: RadioValue) => {
   }
 };
 
-const refresh = () => onTabChange(tab.value);
+const refresh = async () => await onTabChange(tab.value);
 
 const saveRoles = async () => {
   loadingStore.show();
@@ -93,11 +88,16 @@ const onAllocatedChange: TransferProps['onChange'] = async (_, { type, movedValu
     const { msg } = await (type === 'target' ? allocateUsers : unallocateUsers)(activeRowData.roleId, movedValue.join(','));
     MessagePlugin.success(msg);
   } catch {
-    refresh();
+    await refresh();
   } finally {
     loadingStore.hide();
   }
 };
+
+watch(
+  () => activeRowData.roleId,
+  async () => await refresh(),
+);
 </script>
 
 <template>

@@ -6,6 +6,7 @@ import { useDict, useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
+import Description from './Description.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
@@ -89,9 +90,7 @@ onMounted(async () => await onHandle('refresh'));
           <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </div>
-      <div class="flex-1 overflow-y-auto pb-16">
-        <div class="h-[1000px]"></div>
-      </div>
+      <Description :active-row-data="activeRowData" />
     </div>
 
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
