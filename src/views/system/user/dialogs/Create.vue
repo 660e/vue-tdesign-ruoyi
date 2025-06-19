@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { getUser, getDeptTree, createUser, updateUser } from '@/apis/system';
+import type { AppUnknownRecord } from '@/types';
+import { getUser, createUser, updateUser } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
+
+defineProps<{ deptTree: AppUnknownRecord[] }>();
 
 const emit = defineEmits<{ confirm: [] }>();
 const loadingStore = useLoadingStore();
@@ -35,7 +38,6 @@ const show = async (row?: TableRowData) => {
   loadingStore.show();
   try {
     userData.value = await getUser(row?.userId);
-    userData.value.deptTree = (await getDeptTree()).data;
     if (row?.userId) {
       Object.assign(formData, row);
       formData.postIds = userData.value.postIds;
@@ -93,7 +95,7 @@ defineExpose({ show });
         <t-input v-model="formData.nickName" />
       </t-form-item>
       <t-form-item label="所属部门" name="deptId">
-        <t-tree-select v-model="formData.deptId" :data="userData?.deptTree" :keys="{ value: 'id' }" />
+        <t-tree-select v-model="formData.deptId" :data="deptTree" :keys="{ value: 'id' }" />
       </t-form-item>
       <t-form-item label="手机号码" name="phonenumber">
         <t-input v-model="formData.phonenumber" />

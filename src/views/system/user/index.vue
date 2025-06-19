@@ -195,6 +195,6 @@ onMounted(async () => {
       </template>
     </q-table>
 
-    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :dept-tree="deptTree || []" @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
