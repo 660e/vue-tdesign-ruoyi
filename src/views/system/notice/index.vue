@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listPost, deletePost, exportPost } from '@/apis/system';
+import { listNotice, deleteNotice } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -18,14 +18,21 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '岗位名称', colKey: 'postName', minWidth: 200, toolbarFilter: { type: 'input' } },
-  { title: '岗位编码', colKey: 'postCode', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '公告标题', colKey: 'noticeTitle', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '创建者', colKey: 'createBy', width: 200, toolbarFilter: { type: 'input' } },
+  {
+    title: '公告类型',
+    colKey: 'noticeType',
+    cell: (_, { row }) => <q-table-tag-col value={row.noticeType} dict="sys_notice_type" themes={['warning', 'primary']} />,
+    width: 100,
+    toolbarFilter: { type: 'select', dict: 'sys_notice_type' },
+  },
   {
     title: '状态',
     colKey: 'status',
-    cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_normal_disable" themes={['success', 'danger']} />,
+    cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_notice_status" themes={['success', 'danger']} />,
     width: 100,
-    toolbarFilter: { type: 'select', dict: 'sys_normal_disable' },
+    toolbarFilter: { type: 'select', dict: 'sys_notice_status' },
   },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
@@ -60,7 +67,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows, total } = await listPost({
+        const { rows, total } = await listNotice({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
           ...queryParams.value,
@@ -85,7 +92,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (row) {
         loadingStore.show();
         try {
-          const { msg } = await deletePost(row.postId);
+          const { msg } = await deleteNotice(row.noticeId);
           MessagePlugin.success(msg);
           await onHandle('refresh');
         } catch {
@@ -93,22 +100,12 @@ const onHandle = async (value: string, row?: TableRowData) => {
           loadingStore.hide();
         }
       } else {
-        const success = await useHandleDelete(() => deletePost((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
+        const success = await useHandleDelete(() => deleteNotice((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
         if (!success) return;
         await onHandle('refresh');
       }
       break;
   }
-};
-
-const fileExport: QTableProps['fileExport'] = {
-  api: () => {
-    return exportPost({
-      pageNum: pagination.pageNum,
-      pageSize: pagination.pageSize,
-      ...queryParams.value,
-    });
-  },
 };
 
 onMounted(async () => await onHandle('refresh'));
@@ -120,11 +117,10 @@ onMounted(async () => await onHandle('refresh'));
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
-      :file-export="fileExport"
       @page-change="onPageChange"
       @refresh="onRefresh"
       @select-change="onSelectChange"
-      row-key="postId"
+      row-key="noticeId"
     >
       <template #topContent>
         <t-button @click="onHandle('create')">

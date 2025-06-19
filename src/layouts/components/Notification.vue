@@ -17,7 +17,7 @@ onMounted(async () => {
 });
 
 const NoticeType = ({ type }: { type: string }) => {
-  const theme = type === '1' ? 'warning' : type === '2' ? 'success' : 'default';
+  const theme = type === '1' ? 'warning' : type === '2' ? 'primary' : 'default';
   return (
     <t-tag theme={theme} class="!mr-2" size="small" variant="light-outline">
       {useDict('sys_notice_type')?.find((e) => e.value === type)?.label}
