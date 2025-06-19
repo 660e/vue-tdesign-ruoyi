@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableRowData } from 'tdesign-vue-next';
-import { listDictData, deleteDictData, updateDictData } from '@/apis/system';
+import { listDictData, deleteDictData, createDictData, updateDictData } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -27,17 +27,25 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'close':
       if (!row) return;
       row._editable = false;
-      row.dictSort = row._cache?.dictSort;
-      row.dictLabel = row._cache?.dictLabel;
-      row.dictValue = row._cache?.dictValue;
-      row.status = row._cache?.status;
+      if (row.dictCode) {
+        row.dictSort = row._cache?.dictSort;
+        row.dictLabel = row._cache?.dictLabel;
+        row.dictValue = row._cache?.dictValue;
+        row.status = row._cache?.status;
+      } else {
+        tableData.value.pop();
+      }
       break;
 
     case 'save':
       if (!row) return;
+      if (!row.dictLabel || !row.dictValue) {
+        MessagePlugin.error('标签和键值不能为空');
+        return;
+      }
       loadingStore.show();
       try {
-        const { msg } = await updateDictData(row);
+        const { msg } = await (row.dictCode ? updateDictData : createDictData)(row);
         MessagePlugin.success(msg);
         row._editable = false;
         delete row._cache;
@@ -72,7 +80,13 @@ const onHandle = async (value: string, row?: TableRowData) => {
     }
 
     case 'create':
-      // createDialogRef.value.show();
+      tableData.value.push({
+        dictSort: 0,
+        dictLabel: '',
+        dictValue: '',
+        status: '0',
+        _editable: true,
+      });
       break;
   }
 };
@@ -116,6 +130,11 @@ onMounted(async () => await onHandle('refresh'));
           </t-button>
         </t-popconfirm>
       </template>
+    </div>
+    <div v-if="tableData?.[tableData.length - 1].dictCode" class="flex justify-end p-2 rounded bg-neutral-100">
+      <t-button @click="onHandle('create')" shape="square">
+        <template #icon><t-icon name="add" /></template>
+      </t-button>
     </div>
   </div>
 </template>
