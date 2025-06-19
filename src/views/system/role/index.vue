@@ -10,7 +10,7 @@ import Description from './Description.vue';
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const listData = ref();
-const currentRowData = ref();
+const activeRowData = ref();
 const sortBy = ref('roleSort');
 
 const onHandle = async (value: string, row?: TableRowData) => {
@@ -20,7 +20,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       try {
         const { rows } = await listRole({ pageNum: 1, pageSize: 9999 });
         listData.value = rows;
-        currentRowData.value = rows?.find((e: TableRowData) => e.roleId === (currentRowData.value?.roleId || 1));
+        activeRowData.value = rows?.find((e: TableRowData) => e.roleId === (activeRowData.value?.roleId || 1));
         onHandle('sort');
       } catch {
       } finally {
@@ -73,8 +73,8 @@ onMounted(async () => await onHandle('refresh'));
         <t-list split>
           <t-list-item
             v-for="row in listData"
-            :style="{ backgroundColor: row.roleId === currentRowData?.roleId ? 'var(--td-brand-color-1)' : '' }"
-            @click="currentRowData = row"
+            :style="{ backgroundColor: row.roleId === activeRowData?.roleId ? 'var(--td-brand-color-1)' : '' }"
+            @click="activeRowData = row"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
             :key="row.roleId"
           >
@@ -86,7 +86,7 @@ onMounted(async () => await onHandle('refresh'));
               <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
               <t-icon name="chevron-right" />
               <b
-                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.roleId === currentRowData?.roleId ? '100%' : '0' }"
+                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.roleId === activeRowData?.roleId ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
               ></b>
             </div>
@@ -95,7 +95,7 @@ onMounted(async () => await onHandle('refresh'));
       </div>
     </div>
 
-    <Description v-if="currentRowData" :row="currentRowData" @handle="onHandle" />
+    <Description v-if="activeRowData" :row="activeRowData" @handle="onHandle" />
     <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

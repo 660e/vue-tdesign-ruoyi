@@ -109,7 +109,7 @@ onMounted(async () => {
           <t-list split>
             <t-list-item
               v-for="row in list"
-              :class="{ 'bg-neutral-100': activeDepts[index]?.deptId === row.deptId }"
+              :class="{ 'bg-neutral-100': row.deptId === activeDepts[index]?.deptId }"
               :style="{ backgroundColor: row.deptId === activeDept?.deptId ? 'var(--td-brand-color-1)' : '' }"
               @click="onHandle('view', row, index)"
               class="cursor-pointer duration-200 hover:bg-neutral-100"

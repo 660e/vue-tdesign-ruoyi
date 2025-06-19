@@ -130,7 +130,7 @@ onMounted(async () => {
           <t-list split>
             <t-list-item
               v-for="row in list.sort((a, b) => a.orderNum - b.orderNum)"
-              :class="{ 'bg-neutral-100': activeMenus[index]?.menuId === row.menuId }"
+              :class="{ 'bg-neutral-100': row.menuId === activeMenus[index]?.menuId }"
               :style="{ backgroundColor: row.menuId === activeMenu?.menuId ? 'var(--td-brand-color-1)' : '' }"
               @click="onHandle('view', row, index)"
               class="cursor-pointer duration-200 hover:bg-neutral-100"
