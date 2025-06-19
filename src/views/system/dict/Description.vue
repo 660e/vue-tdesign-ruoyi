@@ -24,12 +24,17 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
 
-    case 'create':
-      // createDialogRef.value.show();
+    case 'close':
+      break;
+
+    case 'save':
       break;
 
     case 'edit':
-      // createDialogRef.value.show(activeRowData.value);
+      if (row) {
+        row._cache = structuredClone(toRaw(row));
+        row._editable = true;
+      }
       break;
 
     case 'delete': {
@@ -44,6 +49,10 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
     }
+
+    case 'create':
+      // createDialogRef.value.show();
+      break;
   }
 };
 
@@ -56,8 +65,8 @@ onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
-  <div class="flex-1 overflow-y-auto p-4 space-y-4">
-    <div v-for="row in tableData" class="flex gap-2" :key="row.dictCode">
+  <div class="flex-1 overflow-y-auto p-4 space-y-2">
+    <div v-for="row in tableData" :class="[row._editable ? 'bg-blue-50' : 'bg-neutral-100']" class="flex gap-2 p-2 rounded" :key="row.dictCode">
       <t-input-number v-model="row.dictSort" :readonly="!row._editable" class="!w-28" label="序号" theme="column" />
       <t-input v-model="row.dictLabel" :readonly="!row._editable" class="flex-1" label="标签" />
       <t-input v-model="row.dictValue" :readonly="!row._editable" class="flex-1" label="键值" />
@@ -69,15 +78,15 @@ onMounted(async () => await onHandle('refresh'));
         variant="default-filled"
       />
       <template v-if="row._editable">
-        <t-button @click="onHandle('edit')" shape="square" theme="default">
-          <template #icon><t-icon name="edit" /></template>
+        <t-button @click="onHandle('close', row)" shape="square" theme="default">
+          <template #icon><t-icon name="close" /></template>
         </t-button>
-        <t-button @click="onHandle('edit')" shape="square" theme="default">
-          <template #icon><t-icon name="edit" /></template>
+        <t-button @click="onHandle('save', row)" shape="square" theme="success">
+          <template #icon><t-icon name="save" /></template>
         </t-button>
       </template>
       <template v-else>
-        <t-button @click="onHandle('edit')" shape="square" theme="default">
+        <t-button @click="onHandle('edit', row)" shape="square" theme="default">
           <template #icon><t-icon name="edit" /></template>
         </t-button>
         <t-popconfirm @confirm="onHandle('delete', row)" content="确定删除此条数据？" placement="left" theme="danger">
