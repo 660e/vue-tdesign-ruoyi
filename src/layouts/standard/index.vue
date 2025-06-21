@@ -46,5 +46,5 @@ const initialized = ref(false);
     </div>
   </div>
 
-  <Initial v-else @done="initialized = true" />
+  <Initial v-else :done="() => (initialized = true)" />
 </template>

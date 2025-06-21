@@ -5,8 +5,9 @@ import { getDictDataByType, getUserProfile } from '@/apis/system';
 import { DICTS } from '@/constants';
 import { useAppStore } from '@/stores';
 
-const emit = defineEmits<{ done: [] }>();
+const { done } = defineProps<{ done: () => void }>();
 const { setPermissions, setPostGroup, setRoleGroup, setRoles, setUser, setDicts, signOut } = useAppStore();
+
 const progress = reactive<{
   text: string;
   percentage: number;
@@ -41,7 +42,7 @@ onMounted(async () => {
     setDicts(dicts.map((e) => e.data));
 
     setProgress('初始化完成', 100, 'success');
-    setTimeout(() => emit('done'), 500);
+    setTimeout(() => done(), 500);
   } catch {
     setProgress('初始化失败，请重新登录', 100, 'error');
   }
