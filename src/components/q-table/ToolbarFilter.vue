@@ -5,9 +5,9 @@ import { useElementSize } from '@vueuse/core';
 import { useAnimateToggleHeight, useDict } from '@/hooks';
 import { is } from '@/utils';
 
-const emit = defineEmits<{ change: [value: QTableToolbarFilterParams] }>();
-const { items, options } = defineProps<{
+const { items, onChange, options } = defineProps<{
   items: QTableProps['columns'];
+  onChange: (value: QTableToolbarFilterParams) => void;
   options?: QTableProps['toolbarFilterOptions'];
 }>();
 
@@ -65,7 +65,7 @@ const onSubmit = () => {
     }
   });
 
-  emit('change', result);
+  onChange(result);
 };
 </script>
 

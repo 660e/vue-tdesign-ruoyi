@@ -71,8 +71,8 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       <ToolbarFilter
         v-show="toolbarFilterVisible"
         :items="toolbarFilterItems"
+        :on-change="onToolbarFilterParamsChange"
         :options="toolbarFilterOptions"
-        @change="onToolbarFilterParamsChange"
       />
     </div>
 
