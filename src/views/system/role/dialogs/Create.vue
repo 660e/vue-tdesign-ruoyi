@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { getRole, createRole, updateRole } from '@/apis/system';
+import { createRole, updateRole } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -24,18 +24,9 @@ const formRules: FormProps['rules'] = {
 
 const show = async (row?: TableRowData) => {
   if (row?.roleId) {
-    loadingStore.show();
-    try {
-      const { data } = await getRole(row.roleId);
-      Object.assign(formData, data);
-      visible.value = true;
-    } catch {
-    } finally {
-      loadingStore.hide();
-    }
-  } else {
-    visible.value = true;
+    Object.assign(formData, row);
   }
+  visible.value = true;
 };
 
 const onClosed = () => {
@@ -69,7 +60,6 @@ defineExpose({ show });
     :on-confirm="onConfirm"
     placement="center"
     width="500"
-    destroy-on-close
   >
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
       <t-form-item label="序号" name="roleSort">
