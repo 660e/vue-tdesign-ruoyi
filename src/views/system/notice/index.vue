@@ -38,7 +38,7 @@ const columns: QTableProps['columns'] = [
   {
     title: '操作',
     colKey: 'operation',
-    cell: (_, { row }) => <q-table-operation-col operations={operations} onHandle={(value: string) => onHandle(value, row)} />,
+    cell: (_, { row }) => <q-table-operation-col operations={operations} handle={(value: string) => onHandle(value, row)} />,
     width: getOperationColumnWidth(operations),
     fixed: 'right',
   },

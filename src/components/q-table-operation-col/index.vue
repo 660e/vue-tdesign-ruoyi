@@ -1,18 +1,16 @@
 <script setup lang="tsx">
 import type { QTableOperation } from '@/types';
 
-defineProps<{ operations: QTableOperation[] }>();
+const { handle } = defineProps<{ handle: (value: string) => void; operations: QTableOperation[] }>();
 
-const emit = defineEmits<{ handle: [value: string] }>();
-
-const emitHandle = (operation: QTableOperation) => {
+const onHandle = (operation: QTableOperation) => {
   if (operation.popconfirm) return;
-  emit('handle', operation.value);
+  handle(operation.value);
 };
 
 const OperationLink = ({ operation }: { operation: QTableOperation }) => {
   return (
-    <t-link theme={operation.theme || 'primary'} onClick={() => emitHandle(operation)} class="flex items-center gap-0.5">
+    <t-link theme={operation.theme || 'primary'} onClick={() => onHandle(operation)} class="flex items-center gap-0.5">
       {operation.icon && <t-icon name={operation.icon} />}
       {operation.label && <span>{operation.label}</span>}
     </t-link>
@@ -26,7 +24,7 @@ const OperationLink = ({ operation }: { operation: QTableOperation }) => {
       <t-popconfirm
         v-if="operation.popconfirm"
         :content="operation.popconfirm.content"
-        :on-confirm="() => $emit('handle', operation.value)"
+        :on-confirm="() => handle(operation.value)"
         :theme="operation.popconfirm.theme || 'danger'"
         placement="left"
       >
