@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
 import type { AppSystemDictKey } from '@/types';
-import { createMenu, updateMenu } from '@/apis/system';
+import { getMenu, createMenu, updateMenu } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 import { buildTree, iconConverter } from '@/utils';
@@ -54,11 +54,19 @@ const formRules: FormProps['rules'] = {
   perms: [{ required: true, trigger: 'blur' }],
 };
 
-const show = (row?: TableRowData, index = 0) => {
+const show = async (row?: TableRowData, index = 0) => {
   if (row?.menuId) {
     menuType.value = undefined;
-    Object.assign(formData, row);
-    formData.icon = iconConverter(formData.icon as string);
+    loadingStore.show();
+    try {
+      const { data } = await getMenu(row.menuId);
+      Object.assign(formData, data);
+      formData.icon = iconConverter(formData.icon as string);
+      visible.value = true;
+    } catch {
+    } finally {
+      loadingStore.hide();
+    }
   } else {
     menuType.value = activeRowsData[index - 1]?.menuType === 'C' ? 'F' : 'M';
     formData.menuId = undefined;
@@ -74,8 +82,8 @@ const show = (row?: TableRowData, index = 0) => {
     formData.isFrame = '0';
     formData.visible = '0';
     formData.status = '0';
+    visible.value = true;
   }
-  visible.value = true;
 };
 
 const onConfirm = async () => {
@@ -97,7 +105,7 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-confirm="onConfirm" placement="center" width="500">
+  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-confirm="onConfirm" placement="center" width="500" destroy-on-close>
     <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
       <t-form-item label="上级目录" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" :readonly="!formData.menuId" />

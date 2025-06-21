@@ -73,6 +73,10 @@ export function listRole(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/role/list', { params });
 }
 
+export function getRole(roleId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/role/${roleId}`);
+}
+
 export function getDeptTreeByRoleId(roleId: number) {
   return request.get<AppResponseData<AppUnknownRecord[]>>(`/system/role/deptTree/${roleId}`);
 }
@@ -109,6 +113,10 @@ export function updateMenu(data: AppUnknownRecord) {
 
 export function listMenu() {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/menu/list');
+}
+
+export function getMenu(menuId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/menu/${menuId}`);
 }
 
 export function getMenuTreeByRoleId(roleId: number) {
