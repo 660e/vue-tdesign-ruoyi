@@ -122,8 +122,8 @@ onMounted(async () => await onHandle('refresh'));
       :columns="columns"
       :data="tableData"
       :file-export="fileExport"
-      @page-change="onPageChange"
       :refresh="onRefresh"
+      @page-change="onPageChange"
       @select-change="onSelectChange"
       row-key="configId"
     >

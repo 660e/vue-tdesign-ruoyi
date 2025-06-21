@@ -117,8 +117,8 @@ onMounted(async () => await onHandle('refresh'));
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
-      @page-change="onPageChange"
       :refresh="onRefresh"
+      @page-change="onPageChange"
       @select-change="onSelectChange"
       row-key="noticeId"
     >
