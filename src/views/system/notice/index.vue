@@ -52,7 +52,7 @@ const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
 };
 
 const queryParams = ref<QTableToolbarFilterParams>({});
-const refresh: QTableProps['refresh'] = async (value) => {
+const refreshTable: QTableProps['refreshTable'] = async (value) => {
   queryParams.value = value;
   await onHandle('refresh');
 };
@@ -117,7 +117,7 @@ onMounted(async () => await onHandle('refresh'));
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
-      :refresh="refresh"
+      :refresh-table="refreshTable"
       @page-change="onPageChange"
       @select-change="onSelectChange"
       row-key="noticeId"

@@ -16,12 +16,12 @@ const selectedRowKeys = defineModel<TableProps['selectedRowKeys']>('selectedRowK
 const {
   columns = [],
   fileExport,
-  refresh,
+  refreshTable,
 } = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
   fileImport?: QTableProps['fileImport'];
-  refresh?: QTableProps['refresh'];
+  refreshTable?: QTableProps['refreshTable'];
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 const loadingStore = useLoadingStore();
@@ -44,7 +44,7 @@ const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
     pagination.value.pageNum = 1;
   }
   toolbarFilterParams.value = structuredClone(toRaw(value));
-  refresh?.(toolbarFilterParams.value);
+  refreshTable?.(toolbarFilterParams.value);
 };
 useAnimateToggleHeight({ el: toolbarFilterRef, toggle: toolbarFilterVisible });
 
@@ -83,8 +83,8 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
     <div v-if="$slots.topContent" class="px-4 pt-4 flex gap-2">
       <slot name="topContent"></slot>
       <div class="flex-1"></div>
-      <t-tooltip v-if="refresh" content="刷新" placement="bottom">
-        <t-button @click="refresh(toolbarFilterParams)" shape="circle" variant="outline">
+      <t-tooltip v-if="refreshTable" content="刷新" placement="bottom">
+        <t-button @click="refreshTable(toolbarFilterParams)" shape="circle" variant="outline">
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>
@@ -147,7 +147,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       />
     </div>
 
-    <q-file-import :confirm="() => refresh?.(toolbarFilterParams)" ref="fileImportRef" />
+    <q-file-import :confirm="() => refreshTable?.(toolbarFilterParams)" ref="fileImportRef" />
   </div>
 </template>
 
