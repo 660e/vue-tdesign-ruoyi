@@ -143,7 +143,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       />
     </div>
 
-    <q-file-import @confirm="$emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
+    <q-file-import :confirm="() => $emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
   </div>
 </template>
 
