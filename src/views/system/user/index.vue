@@ -181,8 +181,8 @@ onMounted(async () => {
       :data="tableData"
       :file-export="fileExport"
       :file-import="fileImport"
+      :refresh="onRefresh"
       @page-change="onPageChange"
-      @refresh="onRefresh"
       @select-change="onSelectChange"
       row-key="userId"
     >

@@ -123,7 +123,7 @@ onMounted(async () => await onHandle('refresh'));
       :data="tableData"
       :file-export="fileExport"
       @page-change="onPageChange"
-      @refresh="onRefresh"
+      :refresh="onRefresh"
       @select-change="onSelectChange"
       row-key="configId"
     >

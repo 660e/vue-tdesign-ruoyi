@@ -69,6 +69,6 @@ onMounted(async () => await onHandle('refresh'));
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" @refresh="onRefresh" row-key="tokenId" />
+    <q-table :columns="columns" :data="tableData" :refresh="onRefresh" row-key="tokenId" />
   </Page>
 </template>

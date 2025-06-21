@@ -9,15 +9,19 @@ defineOptions({ inheritAttrs: false });
 
 const emit = defineEmits<{
   'page-change': [value: PageInfo];
-  'refresh': [value: QTableToolbarFilterParams];
   'select-change': [selectedRowKeys: TableProps['selectedRowKeys'], options: SelectOptions<TableRowData>];
 }>();
 const pagination = defineModel<QTableProps['pagination']>('pagination');
 const selectedRowKeys = defineModel<TableProps['selectedRowKeys']>('selectedRowKeys', { default: () => [] });
-const { columns = [], fileExport } = defineProps<{
+const {
+  columns = [],
+  fileExport,
+  refresh,
+} = defineProps<{
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
   fileImport?: QTableProps['fileImport'];
+  refresh?: (value: QTableToolbarFilterParams) => void;
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 const loadingStore = useLoadingStore();
@@ -40,7 +44,7 @@ const onToolbarFilterParamsChange = (value: QTableToolbarFilterParams) => {
     pagination.value.pageNum = 1;
   }
   toolbarFilterParams.value = structuredClone(toRaw(value));
-  emit('refresh', toolbarFilterParams.value);
+  refresh?.(toolbarFilterParams.value);
 };
 useAnimateToggleHeight({ el: toolbarFilterRef, toggle: toolbarFilterVisible });
 
@@ -79,8 +83,8 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
     <div v-if="$slots.topContent" class="px-4 pt-4 flex gap-2">
       <slot name="topContent"></slot>
       <div class="flex-1"></div>
-      <t-tooltip content="刷新" placement="bottom">
-        <t-button @click="$emit('refresh', toolbarFilterParams)" shape="circle" variant="outline">
+      <t-tooltip v-if="refresh" content="刷新" placement="bottom">
+        <t-button @click="refresh(toolbarFilterParams)" shape="circle" variant="outline">
           <template #icon><t-icon name="refresh" /></template>
         </t-button>
       </t-tooltip>
@@ -143,7 +147,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       />
     </div>
 
-    <q-file-import :confirm="() => $emit('refresh', toolbarFilterParams)" ref="fileImportRef" />
+    <q-file-import :confirm="() => refresh?.(toolbarFilterParams)" ref="fileImportRef" />
   </div>
 </template>
 

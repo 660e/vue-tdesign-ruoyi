@@ -118,7 +118,7 @@ onMounted(async () => await onHandle('refresh'));
       :columns="columns"
       :data="tableData"
       @page-change="onPageChange"
-      @refresh="onRefresh"
+      :refresh="onRefresh"
       @select-change="onSelectChange"
       row-key="noticeId"
     >
