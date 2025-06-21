@@ -8,13 +8,13 @@ import { buildTree, iconConverter } from '@/utils';
 
 type MenuType = 'M' | 'C' | 'F' | undefined;
 
-const emit = defineEmits<{ confirm: [] }>();
 const {
   activeRowsData = [],
   itemMap = {},
   tableData = [],
 } = defineProps<{
   activeRowsData: TableRowData[];
+  confirm: () => void;
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   tableData: TableRowData[];
 }>();
@@ -85,7 +85,7 @@ const onConfirm = async () => {
   try {
     const { msg } = await (formData.menuId ? updateMenu : createMenu)(formData);
     MessagePlugin.success(msg);
-    emit('confirm');
+    confirm();
     visible.value = false;
   } catch {
   } finally {

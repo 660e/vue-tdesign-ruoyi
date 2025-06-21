@@ -4,7 +4,7 @@ import { createDictType, updateDictType } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-const emit = defineEmits<{ confirm: [] }>();
+const { confirm } = defineProps<{ confirm: () => void }>();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -40,7 +40,7 @@ const onConfirm = async () => {
   try {
     const { msg } = await (formData.dictId ? updateDictType : createDictType)(formData);
     MessagePlugin.success(msg);
-    emit('confirm');
+    confirm();
     visible.value = false;
   } catch {
   } finally {

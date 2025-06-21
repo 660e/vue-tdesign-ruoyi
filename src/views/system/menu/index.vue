@@ -212,9 +212,9 @@ onMounted(async () => {
 
     <CreateDialog
       :active-rows-data="activeRowsData"
+      :confirm="() => onHandle('refresh')"
       :item-map="itemMap"
       :table-data="tableData"
-      @confirm="onHandle('refresh')"
       ref="createDialogRef"
     />
   </Page>

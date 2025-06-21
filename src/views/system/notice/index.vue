@@ -132,6 +132,6 @@ onMounted(async () => await onHandle('refresh'));
       </template>
     </q-table>
 
-    <CreateDialog @confirm="onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :confirm="() => onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

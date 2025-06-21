@@ -6,13 +6,13 @@ import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 import { buildTree } from '@/utils';
 
-const emit = defineEmits<{ confirm: [] }>();
 const {
   activeRowsData = [],
   itemMap = [],
   tableData = [],
 } = defineProps<{
   activeRowsData: TableRowData[];
+  confirm: () => void;
   itemMap: { label: string; name: string; dict?: AppSystemDictKey }[];
   tableData: TableRowData[];
 }>();
@@ -57,7 +57,7 @@ const onConfirm = async () => {
   try {
     const { msg } = await (formData.deptId ? updateDept : createDept)(formData);
     MessagePlugin.success(msg);
-    emit('confirm');
+    confirm();
     visible.value = false;
   } catch {
   } finally {
