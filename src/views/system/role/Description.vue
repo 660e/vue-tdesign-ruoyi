@@ -5,9 +5,10 @@ import { getMenuTreeByRoleId, getDeptTreeByRoleId, updateRole, listAllocated, li
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-defineEmits<{ handle: [value: string, activeRowData: TableRowData] }>();
-
-const { activeRowData } = defineProps<{ activeRowData: TableRowData }>();
+const { activeRowData } = defineProps<{
+  activeRowData: TableRowData;
+  handle: (value: string, activeRowData: TableRowData) => void;
+}>();
 const loadingStore = useLoadingStore();
 
 const descriptions = [
@@ -110,10 +111,10 @@ watch(
       </t-radio-group>
 
       <template v-if="tab === 1">
-        <t-button @click="$emit('handle', 'edit', activeRowData)" theme="default">
+        <t-button @click="handle('edit', activeRowData)" theme="default">
           <template #icon><t-icon name="edit" /></template><span>修改</span>
         </t-button>
-        <t-button @click="$emit('handle', 'delete', activeRowData)" theme="danger">
+        <t-button @click="handle('delete', activeRowData)" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
         </t-button>
       </template>
