@@ -21,7 +21,7 @@ const {
   columns?: QTableProps['columns'];
   fileExport?: QTableProps['fileExport'];
   fileImport?: QTableProps['fileImport'];
-  refresh?: (value: QTableToolbarFilterParams) => void;
+  refresh?: QTableProps['refresh'];
   toolbarFilterOptions?: QTableProps['toolbarFilterOptions'];
 }>();
 const loadingStore = useLoadingStore();

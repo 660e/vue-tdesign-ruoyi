@@ -56,7 +56,7 @@ const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
 };
 
 const queryParams = ref<QTableToolbarFilterParams>({});
-const onRefresh = async (value: QTableToolbarFilterParams) => {
+const refresh: QTableProps['refresh'] = async (value) => {
   queryParams.value = value;
   await onHandle('refresh');
 };
@@ -181,7 +181,7 @@ onMounted(async () => {
       :data="tableData"
       :file-export="fileExport"
       :file-import="fileImport"
-      :refresh="onRefresh"
+      :refresh="refresh"
       @page-change="onPageChange"
       @select-change="onSelectChange"
       row-key="userId"
