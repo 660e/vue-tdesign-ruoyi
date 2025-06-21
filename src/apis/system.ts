@@ -141,6 +141,10 @@ export function listDept() {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/dept/list');
 }
 
+export function getDept(deptId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/dept/${deptId}`);
+}
+
 // ----- post
 
 export function createPost(data: AppUnknownRecord) {
@@ -157,6 +161,10 @@ export function updatePost(data: AppUnknownRecord) {
 
 export function listPost(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/post/list', { params });
+}
+
+export function getPost(postId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/post/${postId}`);
 }
 
 export function exportPost(params?: AppRequestListParams) {
@@ -179,6 +187,10 @@ export function updateDictType(data: AppUnknownRecord) {
 
 export function listDictType(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/dict/type/list', { params });
+}
+
+export function getDictType(dictId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/dict/type/${dictId}`);
 }
 
 export function exportDictType(params?: AppRequestListParams) {
@@ -231,6 +243,10 @@ export function listConfig(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/config/list', { params });
 }
 
+export function getConfig(configId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/config/${configId}`);
+}
+
 export function exportConfig(params?: AppRequestListParams) {
   return request.post<AppResponseData<Blob>>('/system/config/export', { params, responseType: 'blob' });
 }
@@ -251,4 +267,8 @@ export function updateNotice(data: AppUnknownRecord) {
 
 export function listNotice(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/system/notice/list', { params });
+}
+
+export function getNotice(noticeId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/notice/${noticeId}`);
 }
