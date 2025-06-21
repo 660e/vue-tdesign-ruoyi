@@ -32,7 +32,7 @@ const columns: QTableProps['columns'] = [
 ];
 
 const queryParams = ref<QTableToolbarFilterParams>({});
-const refreshTable: QTableProps['refreshTable'] = async (value) => {
+const refreshData: QTableProps['refreshData'] = async (value) => {
   queryParams.value = value;
   await onHandle('refresh');
 };
@@ -69,6 +69,6 @@ onMounted(async () => await onHandle('refresh'));
 
 <template>
   <Page>
-    <q-table :columns="columns" :data="tableData" :refresh-table="refreshTable" row-key="tokenId" />
+    <q-table :columns="columns" :data="tableData" :refresh-data="refreshData" row-key="tokenId" />
   </Page>
 </template>
