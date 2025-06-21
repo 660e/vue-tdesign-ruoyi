@@ -32,7 +32,7 @@ export function listUser(params?: AppRequestListParams) {
 }
 
 export function getUser(userId: number) {
-  return request.get<AppResponseData<AppUnknownRecord>>(`/system/user/${userId}`);
+  return request.get<AppResponseData<AppUnknownRecord>>(`/system/user/${userId || ''}`);
 }
 
 export function exportUser(params?: AppRequestListParams) {

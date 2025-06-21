@@ -37,7 +37,7 @@ const show = async (row?: TableRowData) => {
   try {
     userData.value = await getUser(row?.userId);
     if (row?.userId) {
-      Object.assign(formData, row);
+      Object.assign(formData, userData.value.data);
       formData.postIds = userData.value.postIds;
       formData.roleIds = userData.value.roleIds;
     }
