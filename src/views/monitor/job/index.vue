@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listJob, deleteJob, exportJob } from '@/apis/monitor';
+import { listJob, deleteJob, exportJob, runJob } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -15,7 +15,7 @@ const tableData = ref();
 const operations: QTableProps['operations'] = [
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
-  { value: 'resetPwd', icon: 'secured', label: '重置密码', popconfirm: { content: '确定重置此用户密码？' } },
+  { value: 'run', icon: 'play-circle-stroke', label: '执行', popconfirm: { content: '确定执行此任务？' } },
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
@@ -104,6 +104,19 @@ const onHandle = async (value: string, row?: TableRowData) => {
         const success = await useHandleDelete(() => deleteJob((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
         if (!success) return;
         await onHandle('refresh');
+      }
+      break;
+
+    case 'run':
+      if (!row) return;
+      loadingStore.show();
+      try {
+        const { msg } = await runJob(row.jobId, row.jobGroup);
+        MessagePlugin.success(msg);
+        await onHandle('refresh');
+      } catch {
+      } finally {
+        loadingStore.hide();
       }
       break;
   }

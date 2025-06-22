@@ -36,3 +36,7 @@ export function getJob(jobId: number) {
 export function exportJob(params?: AppRequestListParams) {
   return request.get<AppResponseData<Blob>>('/monitor/job/export', { params, responseType: 'blob' });
 }
+
+export function runJob(jobId: number, jobGroup: string) {
+  return request.post<AppResponseData<AppUnknownRecord>>('/monitor/job/run/', { data: { jobId, jobGroup } });
+}
