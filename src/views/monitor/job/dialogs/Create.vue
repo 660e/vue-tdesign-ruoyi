@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import { getUser, createUser, updateUser } from '@/apis/system';
+import { createJob, updateJob } from '@/apis/monitor';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
@@ -10,48 +10,30 @@ const loadingStore = useLoadingStore();
 const visible = ref(false);
 const formRef = ref<FormInstanceFunctions>();
 const formData = reactive({
-  userId: undefined,
-  userName: '',
-  password: '',
-  nickName: '',
-  deptId: '',
-  phonenumber: '',
-  email: '',
-  sex: '2',
-  status: '0',
-  postIds: [],
-  roleIds: [],
-  remark: '',
+  jobId: undefined,
+  jobName: '',
+  jobGroup: 'DEFAULT',
+  invokeTarget: '',
+  cronExpression: '',
+  misfirePolicy: '1',
+  concurrent: '1',
 });
 const formRules: FormProps['rules'] = {
-  userName: [{ required: true, trigger: 'blur' }],
-  password: [{ required: true, trigger: 'blur' }],
-  nickName: [{ required: true, trigger: 'blur' }],
-  phonenumber: [{ required: true, trigger: 'blur' }],
+  jobName: [{ required: true, trigger: 'blur' }],
+  invokeTarget: [{ required: true, trigger: 'blur' }],
+  cronExpression: [{ required: true, trigger: 'blur' }],
 };
-const userData = ref();
 
-const show = async (row?: TableRowData) => {
-  loadingStore.show();
-  try {
-    userData.value = await getUser(row?.userId);
-    if (row?.userId) {
-      Object.assign(formData, row);
-      formData.postIds = userData.value.postIds;
-      formData.roleIds = userData.value.roleIds;
-    }
-    visible.value = true;
-  } catch {
-  } finally {
-    loadingStore.hide();
+const show = (row?: TableRowData) => {
+  if (row?.jobId) {
+    Object.assign(formData, row);
   }
+  visible.value = true;
 };
 
 const onClosed = () => {
   formRef.value?.reset();
-  formData.userId = undefined;
-  formData.userName = '';
-  formData.password = '';
+  formData.jobId = undefined;
 };
 
 const onConfirm = async () => {
@@ -59,7 +41,7 @@ const onConfirm = async () => {
 
   loadingStore.show();
   try {
-    const { msg } = await (formData.userId ? updateUser : createUser)(formData);
+    const { msg } = await (formData.jobId ? updateJob : createJob)(formData);
     MessagePlugin.success(msg);
     confirm();
     visible.value = false;
@@ -75,44 +57,30 @@ defineExpose({ show });
 <template>
   <t-dialog
     v-model:visible="visible"
-    :header="`${formData.userId ? '修改' : '新增'}用户`"
+    :header="`${formData.jobId ? '修改' : '新增'}定时任务`"
     :on-closed="onClosed"
     :on-confirm="onConfirm"
     placement="center"
     width="500"
   >
-    <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
-      <template v-if="!formData.userId">
-        <t-form-item label="用户名称" name="userName">
-          <t-input v-model="formData.userName" />
-        </t-form-item>
-        <t-form-item label="密码" name="password">
-          <t-input v-model="formData.password" type="password" />
-        </t-form-item>
-      </template>
-      <t-form-item label="用户昵称" name="nickName">
-        <t-input v-model="formData.nickName" />
+    <t-form :data="formData" :rules="formRules" label-width="120px" reset-type="initial" ref="formRef">
+      <t-form-item label="任务名称" name="jobName">
+        <t-input v-model="formData.jobName" />
       </t-form-item>
-      <t-form-item label="手机号码" name="phonenumber">
-        <t-input v-model="formData.phonenumber" />
+      <t-form-item label="任务分组" name="jobGroup">
+        <t-radio-group v-model="formData.jobGroup" :options="useDict('sys_job_group')" theme="button" variant="default-filled" />
       </t-form-item>
-      <t-form-item label="安全邮箱" name="email">
-        <t-input v-model="formData.email" />
+      <t-form-item label="调用方法" name="invokeTarget">
+        <t-textarea v-model="formData.invokeTarget" />
       </t-form-item>
-      <t-form-item label="性别" name="sex">
-        <t-radio-group v-model="formData.sex" :options="useDict('sys_user_sex')" theme="button" variant="default-filled" />
+      <t-form-item label="cron表达式" name="cronExpression">
+        <t-input v-model="formData.cronExpression" />
       </t-form-item>
-      <t-form-item label="状态" name="status">
-        <t-radio-group v-model="formData.status" :options="useDict('sys_normal_disable')" theme="button" variant="default-filled" />
+      <t-form-item label="执行策略" name="misfirePolicy">
+        <t-radio-group v-model="formData.misfirePolicy" :options="useDict('sys_job_status')" theme="button" variant="default-filled" />
       </t-form-item>
-      <t-form-item label="岗位" name="postIds">
-        <t-select v-model="formData.postIds" :keys="{ label: 'postName', value: 'postId' }" :options="userData?.posts" multiple />
-      </t-form-item>
-      <t-form-item label="角色" name="roleIds">
-        <t-select v-model="formData.roleIds" :keys="{ label: 'roleName', value: 'roleId' }" :options="userData?.roles" multiple />
-      </t-form-item>
-      <t-form-item label="备注" name="remark">
-        <t-textarea v-model="formData.remark" />
+      <t-form-item label="是否并发" name="concurrent">
+        <t-radio-group v-model="formData.concurrent" :options="useDict('sys_job_status')" theme="button" variant="default-filled" />
       </t-form-item>
     </t-form>
   </t-dialog>
