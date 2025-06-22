@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { FormInstanceFunctions, FormProps, TableRowData } from 'tdesign-vue-next';
-import type { AppUnknownRecord } from '@/types';
 import { getUser, createUser, updateUser } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-const { confirm } = defineProps<{ confirm: () => void; deptTree: AppUnknownRecord[] }>();
+const { confirm } = defineProps<{ confirm: () => void }>();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -93,9 +92,6 @@ defineExpose({ show });
       </template>
       <t-form-item label="用户昵称" name="nickName">
         <t-input v-model="formData.nickName" />
-      </t-form-item>
-      <t-form-item label="所属部门" name="deptId">
-        <t-tree-select v-model="formData.deptId" :data="deptTree" :keys="{ value: 'id' }" />
       </t-form-item>
       <t-form-item label="手机号码" name="phonenumber">
         <t-input v-model="formData.phonenumber" />

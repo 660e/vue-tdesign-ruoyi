@@ -1,17 +1,15 @@
 <script setup lang="tsx">
-import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
+import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { getDeptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
+import { listJob, deleteJob, exportJob } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
-import { getOperationColumnWidth, generatePassword } from '@/utils';
+import { getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
-const deptId = ref();
-const deptTree = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -21,18 +19,23 @@ const operations: QTableProps['operations'] = [
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '用户名称', colKey: 'userName', minWidth: 200, toolbarFilter: { type: 'input' } },
-  { title: '用户昵称', colKey: 'nickName', minWidth: 200 },
-  { title: '所属部门', colKey: 'dept.deptName', minWidth: 200 },
-  { title: '手机号码', colKey: 'phonenumber', width: 200, toolbarFilter: { type: 'input' } },
+  { title: '任务名称', colKey: 'jobName', width: 200, toolbarFilter: { type: 'input' } },
+  {
+    title: '任务分组',
+    colKey: 'jobGroup',
+    cell: (_, { row }) => <q-table-tag-col value={row.jobGroup} dict="sys_job_group" themes={['primary', 'warning']} />,
+    width: 100,
+    toolbarFilter: { type: 'select', dict: 'sys_job_group' },
+  },
+  { title: '调用方法', colKey: 'invokeTarget', minWidth: 200 },
+  { title: 'cron表达式', colKey: 'cronExpression', width: 200 },
   {
     title: '状态',
     colKey: 'status',
-    cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_normal_disable" themes={['success', 'danger']} />,
+    cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_job_status" themes={['success', 'danger']} />,
     width: 100,
-    toolbarFilter: { type: 'select', dict: 'sys_normal_disable' },
+    toolbarFilter: { type: 'select', dict: 'sys_job_status' },
   },
-  { title: '注册时间', colKey: 'createTime', width: 200, toolbarFilter: { type: 'date-range', keys: { start: 'beginTime', end: 'endTime' } } },
   {
     title: '操作',
     colKey: 'operation',
@@ -41,12 +44,6 @@ const columns: QTableProps['columns'] = [
     fixed: 'right',
   },
 ];
-
-const onDeptIdActive: TreeProps['onActive'] = async (value) => {
-  deptId.value = value[0];
-  pagination.pageNum = 1;
-  await onHandle('refresh');
-};
 
 const pagination = reactive<QTableProps['pagination']>({ pageNum: 1, pageSize: 10, total: 0 });
 const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
@@ -71,8 +68,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows, total } = await listUser({
-          deptId: deptId.value,
+        const { rows, total } = await listJob({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
           ...queryParams.value,
@@ -97,7 +93,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (row) {
         loadingStore.show();
         try {
-          const { msg } = await deleteUser(row.userId);
+          const { msg } = await deleteJob(row.jobId);
           MessagePlugin.success(msg);
           await onHandle('refresh');
         } catch {
@@ -105,45 +101,17 @@ const onHandle = async (value: string, row?: TableRowData) => {
           loadingStore.hide();
         }
       } else {
-        const success = await useHandleDelete(() => deleteUser((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
+        const success = await useHandleDelete(() => deleteJob((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
         if (!success) return;
         await onHandle('refresh');
       }
       break;
-
-    case 'resetPwd': {
-      loadingStore.show();
-      const password = generatePassword();
-      try {
-        const { code } = await resetPwd(row?.userId, password);
-        if (code) {
-          const DialogInstance = DialogPlugin({
-            header: '新密码',
-            body: password,
-            cancelBtn: null,
-            confirmBtn: { content: '复制密码', theme: 'success' },
-            onConfirm: () => {
-              navigator.clipboard
-                .writeText(password)
-                .then(() => MessagePlugin.success('密码已复制到剪贴板'))
-                .catch(() => MessagePlugin.error('复制失败，请手动复制'));
-            },
-            onClosed: () => DialogInstance.destroy(),
-          });
-        }
-      } catch {
-      } finally {
-        loadingStore.hide();
-      }
-      break;
-    }
   }
 };
 
 const fileExport: QTableProps['fileExport'] = {
   api: () => {
-    return exportUser({
-      deptId: deptId.value,
+    return exportJob({
       pageNum: pagination.pageNum,
       pageSize: pagination.pageSize,
       ...queryParams.value,
@@ -151,40 +119,20 @@ const fileExport: QTableProps['fileExport'] = {
   },
 };
 
-const fileImport: QTableProps['fileImport'] = {
-  api: (file, replace) => importUser(file, replace ? 1 : 0),
-  template: () => importUserTemplate(),
-  templateType: 'xlsx',
-  replaceable: true,
-};
-
-onMounted(async () => {
-  loadingStore.show();
-  try {
-    deptTree.value = (await getDeptTree()).data;
-  } catch {
-  } finally {
-    await onHandle('refresh');
-    loadingStore.hide();
-  }
-});
+onMounted(async () => await onHandle('refresh'));
 </script>
 
 <template>
-  <Page class="flex">
-    <div class="w-60 border-r border-neutral-200">
-      <q-tree :data="deptTree" :expand-level="1" :keys="{ value: 'id' }" @active="onDeptIdActive" activable filter hover />
-    </div>
+  <Page>
     <q-table
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
       :file-export="fileExport"
-      :file-import="fileImport"
       :refresh-data="refreshData"
       @page-change="onPageChange"
       @select-change="onSelectChange"
-      row-key="userId"
+      row-key="jobId"
     >
       <template #topContent>
         <t-button @click="onHandle('create')">
@@ -196,6 +144,6 @@ onMounted(async () => {
       </template>
     </q-table>
 
-    <CreateDialog :confirm="() => onHandle('refresh')" :dept-tree="deptTree || []" ref="createDialogRef" />
+    <CreateDialog :confirm="() => onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
