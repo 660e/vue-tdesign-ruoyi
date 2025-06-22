@@ -38,5 +38,11 @@ export function exportJob(params?: AppRequestListParams) {
 }
 
 export function runJob(jobId: number, jobGroup: string) {
-  return request.post<AppResponseData<AppUnknownRecord>>('/monitor/job/run/', { data: { jobId, jobGroup } });
+  return request.post<AppResponseData<AppUnknownRecord>>('/monitor/job/run', { data: { jobId, jobGroup } });
+}
+
+// ----- server
+
+export function getServer() {
+  return request.get<AppResponseData<AppUnknownRecord>>('/monitor/server');
 }
