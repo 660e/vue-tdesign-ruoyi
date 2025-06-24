@@ -7,5 +7,5 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["antv", "cascader", "nprogress", "popconfirm", "tdesign", "vueuse"]
+  "cSpell.words": ["cascader", "echarts", "nprogress", "popconfirm", "tdesign", "vueuse"]
 }

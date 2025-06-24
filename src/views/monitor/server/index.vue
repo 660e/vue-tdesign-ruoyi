@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AppUnknownRecord } from '@/types';
-import { Chart } from '@antv/g2';
+import * as echarts from 'echarts';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
