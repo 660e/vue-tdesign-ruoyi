@@ -20,7 +20,7 @@ onMounted(async () => {
 <template>
   <div class="p-4 grid gap-4">
     <Section class="p-4">
-      <t-descriptions :column="4" :label-style="{ width: '110px' }" class="flex-2 bg-white" size="small" title="服务器信息" bordered>
+      <t-descriptions :column="4" :label-style="{ width: '110px' }" size="small" title="服务器信息" bordered>
         <t-descriptions-item label="服务器名称">{{ serverData?.sys.computerName }}</t-descriptions-item>
         <t-descriptions-item label="操作系统">{{ serverData?.sys.osName }}</t-descriptions-item>
         <t-descriptions-item label="Java名称">{{ serverData?.jvm.name }}</t-descriptions-item>
