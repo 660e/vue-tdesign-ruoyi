@@ -1,8 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { deletePost, exportPost } from '@/apis/system';
-import { listGen } from '@/apis/tool';
+import { listGen, deleteGen, syncGen } from '@/apis/tool';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -14,11 +13,11 @@ const createDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
-  { value: 'edit', icon: 'browse', label: '预览' },
+  { value: 'view', icon: 'browse', label: '预览' },
   { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
-  { value: 'delete', icon: 'arrow-up-down-1', label: '同步', popconfirm: { content: '确定同步此条数据？' } },
-  { value: 'edit', icon: 'code', label: '生成代码' },
+  { value: 'sync', icon: 'arrow-up-down-1', label: '同步', popconfirm: { content: '确定同步此条数据？' } },
+  { value: 'code', icon: 'code', label: '生成代码' },
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
@@ -72,6 +71,10 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
 
+    case 'view':
+      console.log(row);
+      break;
+
     case 'create':
       createDialogRef.value.show();
       break;
@@ -84,7 +87,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (row) {
         loadingStore.show();
         try {
-          const { msg } = await deletePost(row.tableId);
+          const { msg } = await deleteGen(row.tableId);
           MessagePlugin.success(msg);
           await onHandle('refresh');
         } catch {
@@ -92,22 +95,30 @@ const onHandle = async (value: string, row?: TableRowData) => {
           loadingStore.hide();
         }
       } else {
-        const success = await useHandleDelete(() => deletePost((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
+        const success = await useHandleDelete(() => deleteGen((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
         if (!success) return;
         await onHandle('refresh');
       }
       break;
-  }
-};
 
-const fileExport: QTableProps['fileExport'] = {
-  api: () => {
-    return exportPost({
-      pageNum: pagination.pageNum,
-      pageSize: pagination.pageSize,
-      ...queryParams.value,
-    });
-  },
+    case 'sync':
+      if (!row) return;
+      loadingStore.show();
+      try {
+        const { msg } = await syncGen(row.tableName);
+        MessagePlugin.success(msg);
+        await onHandle('refresh');
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
+      break;
+
+    case 'code':
+      if (!row) return;
+      console.log(row);
+      break;
+  }
 };
 
 onMounted(async () => await onHandle('refresh'));
@@ -119,7 +130,6 @@ onMounted(async () => await onHandle('refresh'));
       v-model:pagination="pagination"
       :columns="columns"
       :data="tableData"
-      :file-export="fileExport"
       :refresh-data="refreshData"
       @page-change="onPageChange"
       @select-change="onSelectChange"
