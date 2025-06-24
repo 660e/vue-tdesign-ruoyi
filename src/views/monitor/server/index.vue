@@ -47,7 +47,7 @@ onMounted(async () => {
     <div class="flex gap-4">
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">CPU</div>
-        <div class="h-60 bg-red-100" id="cpu-chart"></div>
+        <div class="h-60 bg-neutral-100" id="cpu-chart"></div>
       </Section>
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">内存</div>

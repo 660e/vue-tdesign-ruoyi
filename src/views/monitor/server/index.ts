@@ -1,5 +1,4 @@
 export function getCpuChartOptions(data) {
-  console.log(data);
   return {
     type: 'view',
     autoFit: true,
@@ -8,69 +7,27 @@ export function getCpuChartOptions(data) {
       {
         type: 'interval',
         data: [
-          { item: '事例一', count: 40, percent: 0.4 },
-          { item: '事例二', count: 21, percent: 0.21 },
-          { item: '事例三', count: 17, percent: 0.17 },
-          { item: '事例四', count: 13, percent: 0.13 },
-          { item: '事例五', count: 9, percent: 0.09 },
+          { item: '用户使用率', count: data.used, percent: data.used / 100 },
+          { item: '系统使用率', count: data.sys, percent: data.sys / 100 },
+          { item: '当前空闲率', count: data.free, percent: data.free / 100 },
         ],
         encode: { y: 'percent', color: 'item' },
         transform: [{ type: 'stackY' }],
         legend: {
           color: { position: 'bottom', layout: { justifyContent: 'center' } },
         },
-        labels: [
-          {
-            position: 'outside',
-            text: (data) => `${data.item}: ${data.percent * 100}%`,
-          },
-        ],
         tooltip: {
           items: [
-            (data) => ({
-              name: data.item,
-              value: `${data.percent * 100}%`,
+            (value) => ({
+              name: value.item,
+              value: `${value.percent * 100}%`,
             }),
           ],
         },
       },
       {
         type: 'text',
-        style: {
-          text: '主机',
-          x: '50%',
-          y: '50%',
-          dy: -25,
-          fontSize: 34,
-          fill: '#8c8c8c',
-          textAlign: 'center',
-        },
-      },
-      {
-        type: 'text',
-        style: {
-          text: '200',
-          x: '50%',
-          y: '50%',
-          dx: -25,
-          dy: 25,
-          fontSize: 44,
-          fill: '#8c8c8c',
-          textAlign: 'center',
-        },
-      },
-      {
-        type: 'text',
-        style: {
-          text: '台',
-          x: '50%',
-          y: '50%',
-          dx: 35,
-          dy: 25,
-          fontSize: 34,
-          fill: '#8c8c8c',
-          textAlign: 'center',
-        },
+        style: { text: `${data.cpuNum}核`, x: '50%', y: '50%', fontSize: 20, textAlign: 'center' },
       },
     ],
   };
