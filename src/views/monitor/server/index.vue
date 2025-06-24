@@ -3,20 +3,26 @@ import { Chart } from '@antv/g2';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
+import { getCpuChartOptions } from './';
 
 const loadingStore = useLoadingStore();
 const serverData = ref();
 
+let cpuChart: Chart | null = null;
+
 onMounted(async () => {
   loadingStore.show();
   try {
-    serverData.value = (await getServer()).data;
+    const { data } = await getServer();
+    serverData.value = data;
+
+    cpuChart = new Chart({ container: 'cpu-chart' });
+    cpuChart.options(getCpuChartOptions(data?.cpu));
   } catch {
   } finally {
+    cpuChart?.render();
     loadingStore.hide();
   }
-
-  console.log(Chart);
 });
 </script>
 
@@ -38,18 +44,23 @@ onMounted(async () => {
       </t-descriptions>
     </Section>
 
-    <Section>
-      <div>CPU</div>
-      <pre>{{ serverData?.cpu }}</pre>
-    </Section>
+    <div class="flex gap-4">
+      <Section class="flex-1 p-4">
+        <div class="t-descriptions__header">CPU</div>
+        <div class="h-60 bg-red-100" id="cpu-chart"></div>
+      </Section>
+      <Section class="flex-1 p-4">
+        <div class="t-descriptions__header">内存</div>
+        <pre>{{ serverData?.cpu }}</pre>
+      </Section>
+      <Section class="flex-1 p-4">
+        <div class="t-descriptions__header">内存</div>
+        <pre>{{ serverData?.mem }}</pre>
+      </Section>
+    </div>
 
     <Section>
-      <div>内存</div>
-      <pre>{{ serverData?.mem }}</pre>
-    </Section>
-
-    <Section>
-      <div>磁盘</div>
+      <div class="t-descriptions__header">磁盘</div>
       <pre>{{ serverData?.sysFiles }}</pre>
     </Section>
   </div>
