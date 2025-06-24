@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { AppUnknownRecord } from '@/types';
-import * as echarts from 'echarts';
+// import type { AppUnknownRecord } from '@/types';
+// import type { ECharts, EChartsOption } from 'echarts/core';
+// import { GaugeChart } from 'echarts/charts';
+// import * as echarts from 'echarts/core';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -8,87 +10,55 @@ import { useLoadingStore } from '@/stores';
 const loadingStore = useLoadingStore();
 const serverData = ref();
 
-const getChartOptions = ({
-  data,
-  items,
-  text,
-}: {
-  data: AppUnknownRecord[];
-  items: ((item: AppUnknownRecord) => { name: unknown; value: string })[];
-  text: string;
-}) => {
-  return {
-    type: 'view',
-    autoFit: true,
-    coordinate: { type: 'theta', outerRadius: 0.8, innerRadius: 0.5 },
-    children: [
-      {
-        type: 'interval',
-        data,
-        encode: { y: 'percent', color: 'item' },
-        transform: [{ type: 'stackY' }],
-        legend: {
-          color: { position: 'bottom', layout: { justifyContent: 'center' } },
-        },
-        tooltip: { items },
-      },
-      {
-        type: 'text',
-        style: { text, x: '50%', y: '50%', fontSize: 20, textAlign: 'center' },
-      },
-    ],
-  };
-};
-
-let cpuChart: Chart | null = null;
-let memChart: Chart | null = null;
-let jvmChart: Chart | null = null;
+// const cpuChart: ECharts | null = null;
+// let memChart: ECharts | null = null;
+// let jvmChart: ECharts | null = null;
 
 onMounted(async () => {
   loadingStore.show();
   try {
     serverData.value = (await getServer()).data;
-    const { cpu, mem, jvm } = serverData.value;
+    // const { cpu, mem, jvm } = serverData.value;
 
-    cpuChart = new Chart({ container: 'cpu-chart' });
-    cpuChart.options(
-      getChartOptions({
-        data: [
-          { item: '用户使用率', count: cpu.used, percent: cpu.used / 100 },
-          { item: '系统使用率', count: cpu.sys, percent: cpu.sys / 100 },
-          { item: '当前空闲率', count: cpu.free, percent: cpu.free / 100 },
-        ],
-        items: [(item) => ({ name: item.item, value: `${item.count}%` })],
-        text: `${cpu.cpuNum}核`,
-      }),
-    );
-    cpuChart?.render();
+    // cpuChart = new Chart({ container: 'cpu-chart' });
+    // cpuChart.options(
+    //   getChartOptions({
+    //     data: [
+    //       { item: '用户使用率', count: cpu.used, percent: cpu.used / 100 },
+    //       { item: '系统使用率', count: cpu.sys, percent: cpu.sys / 100 },
+    //       { item: '当前空闲率', count: cpu.free, percent: cpu.free / 100 },
+    //     ],
+    //     items: [(item) => ({ name: item.item, value: `${item.count}%` })],
+    //     text: `${cpu.cpuNum}核`,
+    //   }),
+    // );
+    // cpuChart?.render();
 
-    memChart = new Chart({ container: 'mem-chart' });
-    memChart.options(
-      getChartOptions({
-        data: [
-          { item: '已用内存', count: mem.used, percent: mem.used / 100 },
-          { item: '剩余内存', count: mem.free, percent: mem.free / 100 },
-        ],
-        items: [(item) => ({ name: item.item as string, value: `${item.count}G` })],
-        text: `${mem.total}G`,
-      }),
-    );
-    memChart?.render();
+    // memChart = new Chart({ container: 'mem-chart' });
+    // memChart.options(
+    //   getChartOptions({
+    //     data: [
+    //       { item: '已用内存', count: mem.used, percent: mem.used / 100 },
+    //       { item: '剩余内存', count: mem.free, percent: mem.free / 100 },
+    //     ],
+    //     items: [(item) => ({ name: item.item as string, value: `${item.count}G` })],
+    //     text: `${mem.total}G`,
+    //   }),
+    // );
+    // memChart?.render();
 
-    jvmChart = new Chart({ container: 'jvm-chart' });
-    jvmChart.options(
-      getChartOptions({
-        data: [
-          { item: '已用内存', count: jvm.used, percent: jvm.used / 100 },
-          { item: '剩余内存', count: jvm.usage, percent: jvm.usage / 100 },
-        ],
-        items: [(item) => ({ name: item.item as string, value: `${item.count}M` })],
-        text: `${jvm.total}M`,
-      }),
-    );
-    jvmChart?.render();
+    // jvmChart = new Chart({ container: 'jvm-chart' });
+    // jvmChart.options(
+    //   getChartOptions({
+    //     data: [
+    //       { item: '已用内存', count: jvm.used, percent: jvm.used / 100 },
+    //       { item: '剩余内存', count: jvm.usage, percent: jvm.usage / 100 },
+    //     ],
+    //     items: [(item) => ({ name: item.item as string, value: `${item.count}M` })],
+    //     text: `${jvm.total}M`,
+    //   }),
+    // );
+    // jvmChart?.render();
   } catch {
   } finally {
     loadingStore.hide();
