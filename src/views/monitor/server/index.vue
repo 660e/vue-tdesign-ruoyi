@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// import type { AppUnknownRecord } from '@/types';
-// import type { ECharts, EChartsOption } from 'echarts/core';
-// import { GaugeChart } from 'echarts/charts';
-// import * as echarts from 'echarts/core';
 import * as echarts from 'echarts';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
@@ -12,14 +8,14 @@ const loadingStore = useLoadingStore();
 const serverData = ref();
 
 let cpuChart: echarts.ECharts | null = null;
-// let memChart: ECharts | null = null;
-// let jvmChart: ECharts | null = null;
+let memChart: echarts.ECharts | null = null;
+let jvmChart: echarts.ECharts | null = null;
 
 onMounted(async () => {
   loadingStore.show();
   try {
     serverData.value = (await getServer()).data;
-    // const { cpu, mem, jvm } = serverData.value;
+    const { cpu, mem, jvm } = serverData.value;
 
     cpuChart = echarts.init(document.getElementById('cpu-chart'));
     cpuChart.setOption({
@@ -28,53 +24,40 @@ onMounted(async () => {
           type: 'gauge',
           center: ['50%', '58%'],
           radius: '100%',
-          data: [
-            {
-              value: 50,
-              name: 'SCORE',
-            },
-          ],
+          progress: { show: true },
+          detail: { formatter: '{value}%', fontSize: 16 },
+          data: [{ value: cpu.used }],
         },
       ],
     });
-    // cpuChart.setOption(
-    //   getChartOptions({
-    //     data: [
-    //       { item: '用户使用率', count: cpu.used, percent: cpu.used / 100 },
-    //       { item: '系统使用率', count: cpu.sys, percent: cpu.sys / 100 },
-    //       { item: '当前空闲率', count: cpu.free, percent: cpu.free / 100 },
-    //     ],
-    //     items: [(item) => ({ name: item.item, value: `${item.count}%` })],
-    //     text: `${cpu.cpuNum}核`,
-    //   }),
-    // );
-    // cpuChart?.render();
 
-    // memChart = new Chart({ container: 'mem-chart' });
-    // memChart.options(
-    //   getChartOptions({
-    //     data: [
-    //       { item: '已用内存', count: mem.used, percent: mem.used / 100 },
-    //       { item: '剩余内存', count: mem.free, percent: mem.free / 100 },
-    //     ],
-    //     items: [(item) => ({ name: item.item as string, value: `${item.count}G` })],
-    //     text: `${mem.total}G`,
-    //   }),
-    // );
-    // memChart?.render();
+    memChart = echarts.init(document.getElementById('mem-chart'));
+    memChart.setOption({
+      series: [
+        {
+          type: 'gauge',
+          center: ['50%', '58%'],
+          radius: '100%',
+          progress: { show: true },
+          detail: { formatter: '{value}%', fontSize: 16 },
+          data: [{ value: ((mem.used / mem.total) * 100).toFixed(2) }],
+        },
+      ],
+    });
 
-    // jvmChart = new Chart({ container: 'jvm-chart' });
-    // jvmChart.options(
-    //   getChartOptions({
-    //     data: [
-    //       { item: '已用内存', count: jvm.used, percent: jvm.used / 100 },
-    //       { item: '剩余内存', count: jvm.usage, percent: jvm.usage / 100 },
-    //     ],
-    //     items: [(item) => ({ name: item.item as string, value: `${item.count}M` })],
-    //     text: `${jvm.total}M`,
-    //   }),
-    // );
-    // jvmChart?.render();
+    jvmChart = echarts.init(document.getElementById('jvm-chart'));
+    jvmChart.setOption({
+      series: [
+        {
+          type: 'gauge',
+          center: ['50%', '58%'],
+          radius: '100%',
+          progress: { show: true },
+          detail: { formatter: '{value}%', fontSize: 16 },
+          data: [{ value: ((jvm.used / jvm.total) * 100).toFixed(2) }],
+        },
+      ],
+    });
   } catch {
   } finally {
     loadingStore.hide();
@@ -103,15 +86,15 @@ onMounted(async () => {
     <div class="flex gap-4">
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">CPU</div>
-        <div class="h-60 bg-neutral-100" id="cpu-chart"></div>
+        <div class="h-60 rounded bg-neutral-100" id="cpu-chart"></div>
       </Section>
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">内存</div>
-        <div class="h-60 bg-neutral-100" id="mem-chart"></div>
+        <div class="h-60 rounded bg-neutral-100" id="mem-chart"></div>
       </Section>
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">JVM</div>
-        <div class="h-60 bg-neutral-100" id="jvm-chart"></div>
+        <div class="h-60 rounded bg-neutral-100" id="jvm-chart"></div>
       </Section>
     </div>
 
