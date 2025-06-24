@@ -14,7 +14,7 @@ const getChartOptions = ({
   text,
 }: {
   data: AppUnknownRecord[];
-  items: (item: AppUnknownRecord) => { name: unknown; value: string };
+  items: ((item: AppUnknownRecord) => { name: unknown; value: string })[];
   text: string;
 }) => {
   return {
@@ -42,12 +42,13 @@ const getChartOptions = ({
 
 let cpuChart: Chart | null = null;
 let memChart: Chart | null = null;
+let jvmChart: Chart | null = null;
 
 onMounted(async () => {
   loadingStore.show();
   try {
     serverData.value = (await getServer()).data;
-    const { cpu, mem } = serverData.value;
+    const { cpu, mem, jvm } = serverData.value;
 
     cpuChart = new Chart({ container: 'cpu-chart' });
     cpuChart.options(
@@ -57,7 +58,7 @@ onMounted(async () => {
           { item: '系统使用率', count: cpu.sys, percent: cpu.sys / 100 },
           { item: '当前空闲率', count: cpu.free, percent: cpu.free / 100 },
         ],
-        items: (e) => ({ name: e.item, value: `${e.count}%` }),
+        items: [(item) => ({ name: item.item, value: `${item.count}%` })],
         text: `${cpu.cpuNum}核`,
       }),
     );
@@ -70,11 +71,24 @@ onMounted(async () => {
           { item: '已用内存', count: mem.used, percent: mem.used / 100 },
           { item: '剩余内存', count: mem.free, percent: mem.free / 100 },
         ],
-        items: (e) => ({ name: e.item as string, value: `${e.count}G` }),
+        items: [(item) => ({ name: item.item as string, value: `${item.count}G` })],
         text: `${mem.total}G`,
       }),
     );
     memChart?.render();
+
+    jvmChart = new Chart({ container: 'jvm-chart' });
+    jvmChart.options(
+      getChartOptions({
+        data: [
+          { item: '已用内存', count: jvm.used, percent: jvm.used / 100 },
+          { item: '剩余内存', count: jvm.usage, percent: jvm.usage / 100 },
+        ],
+        items: [(item) => ({ name: item.item as string, value: `${item.count}M` })],
+        text: `${jvm.total}M`,
+      }),
+    );
+    jvmChart?.render();
   } catch {
   } finally {
     loadingStore.hide();
@@ -110,8 +124,8 @@ onMounted(async () => {
         <div class="h-60 bg-neutral-100" id="mem-chart"></div>
       </Section>
       <Section class="flex-1 p-4">
-        <div class="t-descriptions__header">内存</div>
-        <pre>{{ serverData?.mem }}</pre>
+        <div class="t-descriptions__header">JVM</div>
+        <div class="h-60 bg-neutral-100" id="jvm-chart"></div>
       </Section>
     </div>
 
