@@ -3,6 +3,7 @@
 // import type { ECharts, EChartsOption } from 'echarts/core';
 // import { GaugeChart } from 'echarts/charts';
 // import * as echarts from 'echarts/core';
+import * as echarts from 'echarts';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -10,7 +11,7 @@ import { useLoadingStore } from '@/stores';
 const loadingStore = useLoadingStore();
 const serverData = ref();
 
-// const cpuChart: ECharts | null = null;
+let cpuChart: echarts.ECharts | null = null;
 // let memChart: ECharts | null = null;
 // let jvmChart: ECharts | null = null;
 
@@ -20,8 +21,23 @@ onMounted(async () => {
     serverData.value = (await getServer()).data;
     // const { cpu, mem, jvm } = serverData.value;
 
-    // cpuChart = new Chart({ container: 'cpu-chart' });
-    // cpuChart.options(
+    cpuChart = echarts.init(document.getElementById('cpu-chart'));
+    cpuChart.setOption({
+      series: [
+        {
+          type: 'gauge',
+          center: ['50%', '58%'],
+          radius: '100%',
+          data: [
+            {
+              value: 50,
+              name: 'SCORE',
+            },
+          ],
+        },
+      ],
+    });
+    // cpuChart.setOption(
     //   getChartOptions({
     //     data: [
     //       { item: '用户使用率', count: cpu.used, percent: cpu.used / 100 },
