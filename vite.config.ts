@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
+import svgLoader from 'vite-svg-loader';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
@@ -29,6 +30,11 @@ export default defineConfig({
           library: 'vue-next',
         }),
       ],
+    }),
+
+    // https://www.npmjs.com/package/vite-svg-loader
+    svgLoader({
+      defaultImport: 'url',
     }),
 
     // https://tailwindcss.com/docs/installation/using-vite

@@ -2,6 +2,7 @@ import type { LoadingInstance } from 'tdesign-vue-next';
 import { defineStore } from 'pinia';
 import { LoadingPlugin } from 'tdesign-vue-next';
 import NProgress from 'nprogress';
+import LoadingSvg from '@/assets/loading.svg?component';
 
 NProgress.configure({ showSpinner: false });
 
@@ -13,7 +14,7 @@ export const useLoadingStore = defineStore('loading', () => {
     if (!instance.value) {
       instance.value = LoadingPlugin({
         size: '24px',
-        // indicator: () => <div class="animate-spin">Loading...</div>,
+        indicator: () => <LoadingSvg />,
       });
       NProgress.start();
     }
