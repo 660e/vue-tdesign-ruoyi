@@ -89,6 +89,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
           const { msg } = await deleteConfig(row.configId);
           await onHandle('refresh');
           MessagePlugin.success(msg);
+          selectedRowKeys.value = [];
         } catch {
         } finally {
           loadingStore.hide();
@@ -100,6 +101,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
             const { msg } = await deleteConfig((selectedRowKeys.value || []).join(','));
             await onHandle('refresh');
             MessagePlugin.success(msg);
+            selectedRowKeys.value = [];
             return true;
           } catch {
           } finally {
@@ -128,6 +130,7 @@ onMounted(async () => await onHandle('refresh'));
   <Page>
     <q-table
       v-model:pagination="pagination"
+      v-model:selected-row-keys="selectedRowKeys"
       :columns="columns"
       :data="tableData"
       :file-export="fileExport"

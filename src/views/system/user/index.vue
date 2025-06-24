@@ -100,6 +100,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
           const { msg } = await deleteUser(row.userId);
           await onHandle('refresh');
           MessagePlugin.success(msg);
+          selectedRowKeys.value = [];
         } catch {
         } finally {
           loadingStore.hide();
@@ -111,6 +112,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
             const { msg } = await deleteUser((selectedRowKeys.value || []).join(','));
             await onHandle('refresh');
             MessagePlugin.success(msg);
+            selectedRowKeys.value = [];
             return true;
           } catch {
           } finally {
@@ -186,6 +188,7 @@ onMounted(async () => {
     </div>
     <q-table
       v-model:pagination="pagination"
+      v-model:selected-row-keys="selectedRowKeys"
       :columns="columns"
       :data="tableData"
       :file-export="fileExport"
