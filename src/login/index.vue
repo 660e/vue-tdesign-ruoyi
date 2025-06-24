@@ -53,9 +53,10 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       }
       MessagePlugin.error(msg);
       disabled.value = false;
-      refreshCaptcha();
     } catch {
       disabled.value = false;
+    } finally {
+      refreshCaptcha();
     }
   }
 };
