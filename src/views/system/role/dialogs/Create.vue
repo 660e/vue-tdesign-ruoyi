@@ -4,7 +4,7 @@ import { createRole, updateRole } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-const { confirm } = defineProps<{ confirm: () => void }>();
+const { confirm } = defineProps<{ confirm: () => Promise<void> }>();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -40,7 +40,7 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.roleId ? updateRole : createRole)(formData);
-    confirm();
+    await confirm();
     MessagePlugin.success(msg);
     visible.value = false;
   } catch {

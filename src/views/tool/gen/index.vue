@@ -6,10 +6,10 @@ import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
-// import CreateDialog from './dialogs/Create.vue';
+import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
-// const createDialogRef = ref();
+const createDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -76,11 +76,11 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'create':
-      // createDialogRef.value.show();
+      createDialogRef.value.show();
       break;
 
     case 'edit':
-      // createDialogRef.value.show(row);
+      createDialogRef.value.show(row);
       break;
 
     case 'delete':
@@ -150,6 +150,6 @@ onMounted(async () => await onHandle('refresh'));
       </template>
     </q-table>
 
-    <!-- <CreateDialog :confirm="() => onHandle('refresh')" ref="createDialogRef" /> -->
+    <CreateDialog :confirm="async () => await onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

@@ -10,11 +10,12 @@ type MenuType = 'M' | 'C' | 'F' | undefined;
 
 const {
   activeRowsData = [],
+  confirm,
   itemMap = {},
   tableData = [],
 } = defineProps<{
   activeRowsData: TableRowData[];
-  confirm: () => void;
+  confirm: () => Promise<void>;
   itemMap: Record<string, { label: string; name: string; dict?: AppSystemDictKey }[]>;
   tableData: TableRowData[];
 }>();
@@ -85,7 +86,7 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.menuId ? updateMenu : createMenu)(formData);
-    confirm();
+    await confirm();
     MessagePlugin.success(msg);
     visible.value = false;
   } catch {
