@@ -41,8 +41,8 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.configId ? updateConfig : createConfig)(formData);
-    MessagePlugin.success(msg);
     confirm();
+    MessagePlugin.success(msg);
     visible.value = false;
   } catch {
   } finally {

@@ -38,8 +38,8 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.noticeId ? updateNotice : createNotice)(formData);
-    MessagePlugin.success(msg);
     confirm();
+    MessagePlugin.success(msg);
     visible.value = false;
   } catch {
   } finally {

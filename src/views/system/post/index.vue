@@ -86,8 +86,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
         loadingStore.show();
         try {
           const { msg } = await deletePost(row.postId);
-          MessagePlugin.success(msg);
           await onHandle('refresh');
+          MessagePlugin.success(msg);
         } catch {
         } finally {
           loadingStore.hide();

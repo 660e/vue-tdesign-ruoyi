@@ -56,8 +56,8 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.deptId ? updateDept : createDept)(formData);
-    MessagePlugin.success(msg);
     confirm();
+    MessagePlugin.success(msg);
     visible.value = false;
   } catch {
   } finally {

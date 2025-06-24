@@ -94,8 +94,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
         loadingStore.show();
         try {
           const { msg } = await deleteJob(row.jobId);
-          MessagePlugin.success(msg);
           await onHandle('refresh');
+          MessagePlugin.success(msg);
         } catch {
         } finally {
           loadingStore.hide();
@@ -112,8 +112,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
       loadingStore.show();
       try {
         const { msg } = await runJob(row.jobId, row.jobGroup);
-        MessagePlugin.success(msg);
         await onHandle('refresh');
+        MessagePlugin.success(msg);
       } catch {
       } finally {
         loadingStore.hide();

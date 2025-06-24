@@ -111,8 +111,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
       loadingStore.show();
       try {
         const { msg } = await syncGen(row.tableName);
-        MessagePlugin.success(msg);
         await onHandle('refresh');
+        MessagePlugin.success(msg);
       } catch {
       } finally {
         loadingStore.hide();
