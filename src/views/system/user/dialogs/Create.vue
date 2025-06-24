@@ -80,9 +80,9 @@ defineExpose({ show });
     :on-closed="onClosed"
     :on-confirm="onConfirm"
     placement="center"
-    width="500"
+    width="900"
   >
-    <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
+    <t-form :data="formData" :rules="formRules" class="grid grid-cols-2 gap-x-6" reset-type="initial" ref="formRef">
       <template v-if="!formData.userId">
         <t-form-item label="用户名称" name="userName">
           <t-input v-model="formData.userName" />
@@ -115,7 +115,7 @@ defineExpose({ show });
       <t-form-item label="角色" name="roleIds">
         <t-select v-model="formData.roleIds" :keys="{ label: 'roleName', value: 'roleId' }" :options="userData?.roles" multiple />
       </t-form-item>
-      <t-form-item label="备注" name="remark">
+      <t-form-item class="col-span-2" label="备注" name="remark">
         <t-textarea v-model="formData.remark" />
       </t-form-item>
     </t-form>

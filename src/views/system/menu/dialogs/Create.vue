@@ -74,6 +74,7 @@ const show = async (row?: TableRowData, index = 0) => {
     formData.isFrame = '0';
     formData.visible = '0';
     formData.status = '0';
+    formData.remark = '';
   }
   visible.value = true;
 };
@@ -97,8 +98,8 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-confirm="onConfirm" placement="center" width="500">
-    <t-form :data="formData" :rules="formRules" reset-type="initial" ref="formRef">
+  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-confirm="onConfirm" placement="center" width="900">
+    <t-form :data="formData" :rules="formRules" class="grid grid-cols-2 gap-x-6" reset-type="initial" ref="formRef">
       <t-form-item label="上级目录" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" :readonly="!formData.menuId" />
       </t-form-item>
@@ -125,6 +126,9 @@ defineExpose({ show });
           <t-input v-else v-model="formData[item.name]" />
         </t-form-item>
       </template>
+      <t-form-item class="col-span-2" label="备注" name="remark">
+        <t-textarea v-model="formData.remark" />
+      </t-form-item>
     </t-form>
   </t-dialog>
 </template>
