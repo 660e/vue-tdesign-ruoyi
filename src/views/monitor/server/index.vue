@@ -80,9 +80,14 @@ onMounted(async () => {
       </Section>
     </div>
 
-    <Section>
-      <div class="t-descriptions__header">磁盘</div>
-      <pre>{{ serverData?.sysFiles }}</pre>
+    <Section v-for="(disk, index) in serverData?.sysFiles" class="p-4" :key="index">
+      <div class="t-descriptions__header flex justify-between items-center">
+        <div>磁盘{{ index + 1 }}</div>
+        <span class="text-sm font-normal">已使用 {{ disk.used }} / {{ disk.total }}</span>
+      </div>
+      <div class="h-4 flex rounded overflow-hidden bg-neutral-100">
+        <b :style="{ width: `${(parseInt(disk.used) / parseInt(disk.total)) * 100}%` }" class="bg-blue-200"></b>
+      </div>
     </Section>
   </div>
 </template>
