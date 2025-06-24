@@ -95,14 +95,18 @@ const onHandle = async (value: string, row?: TableRowData) => {
           loadingStore.hide();
         }
       } else {
-        try {
-          const msg = await useHandleDelete(() => deleteGen((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
-          await onHandle('refresh');
-          MessagePlugin.success(msg);
-        } catch {
-        } finally {
-          loadingStore.hide();
-        }
+        useHandleDelete(async () => {
+          loadingStore.show();
+          try {
+            const { msg } = await deleteGen((selectedRowKeys.value || []).join(','));
+            await onHandle('refresh');
+            MessagePlugin.success(msg);
+            return true;
+          } catch {
+          } finally {
+            loadingStore.hide();
+          }
+        }, selectedRowKeys.value?.length);
       }
       break;
 
