@@ -8,7 +8,15 @@ import { useLoadingStore } from '@/stores';
 const loadingStore = useLoadingStore();
 const serverData = ref();
 
-const getChartOptions = (data: AppUnknownRecord[], text = '') => {
+const getChartOptions = ({
+  data,
+  items,
+  text,
+}: {
+  data: AppUnknownRecord[];
+  items: (item: AppUnknownRecord) => { name: unknown; value: string };
+  text: string;
+}) => {
   return {
     type: 'view',
     autoFit: true,
@@ -22,9 +30,7 @@ const getChartOptions = (data: AppUnknownRecord[], text = '') => {
         legend: {
           color: { position: 'bottom', layout: { justifyContent: 'center' } },
         },
-        tooltip: {
-          items: [(value: AppUnknownRecord) => ({ name: value.item, value: `${(value.percent as number) * 100}%` })],
-        },
+        tooltip: { items },
       },
       {
         type: 'text',
@@ -35,27 +41,42 @@ const getChartOptions = (data: AppUnknownRecord[], text = '') => {
 };
 
 let cpuChart: Chart | null = null;
+let memChart: Chart | null = null;
 
 onMounted(async () => {
   loadingStore.show();
   try {
     serverData.value = (await getServer()).data;
+    const { cpu, mem } = serverData.value;
 
-    const { cpu } = serverData.value;
     cpuChart = new Chart({ container: 'cpu-chart' });
     cpuChart.options(
-      getChartOptions(
-        [
+      getChartOptions({
+        data: [
           { item: '用户使用率', count: cpu.used, percent: cpu.used / 100 },
           { item: '系统使用率', count: cpu.sys, percent: cpu.sys / 100 },
           { item: '当前空闲率', count: cpu.free, percent: cpu.free / 100 },
         ],
-        `${cpu.cpuNum}核`,
-      ),
+        items: (e) => ({ name: e.item, value: `${e.count}%` }),
+        text: `${cpu.cpuNum}核`,
+      }),
     );
+    cpuChart?.render();
+
+    memChart = new Chart({ container: 'mem-chart' });
+    memChart.options(
+      getChartOptions({
+        data: [
+          { item: '已用内存', count: mem.used, percent: mem.used / 100 },
+          { item: '剩余内存', count: mem.free, percent: mem.free / 100 },
+        ],
+        items: (e) => ({ name: e.item as string, value: `${e.count}G` }),
+        text: `${mem.total}G`,
+      }),
+    );
+    memChart?.render();
   } catch {
   } finally {
-    cpuChart?.render();
     loadingStore.hide();
   }
 });
@@ -86,7 +107,7 @@ onMounted(async () => {
       </Section>
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">内存</div>
-        <pre>{{ serverData?.cpu }}</pre>
+        <div class="h-60 bg-neutral-100" id="mem-chart"></div>
       </Section>
       <Section class="flex-1 p-4">
         <div class="t-descriptions__header">内存</div>
