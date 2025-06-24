@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Chart } from '@antv/g2';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -14,6 +15,8 @@ onMounted(async () => {
   } finally {
     loadingStore.hide();
   }
+
+  console.log(Chart);
 });
 </script>
 
