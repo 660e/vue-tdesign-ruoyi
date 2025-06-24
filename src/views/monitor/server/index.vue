@@ -14,7 +14,8 @@ const getOption = (data: { value: string }[]) => {
         type: 'gauge',
         center: ['50%', '58%'],
         radius: '100%',
-        progress: { show: true },
+        progress: { show: true, itemStyle: { color: '#0052d9' } },
+        pointer: { itemStyle: { color: '#0052d9' } },
         detail: { formatter: '{value}%', fontSize: 16 },
         data,
       },
@@ -86,7 +87,7 @@ onMounted(async () => {
         <span class="text-sm font-normal">已使用 {{ disk.used }} / {{ disk.total }}</span>
       </div>
       <div class="h-4 flex rounded overflow-hidden bg-neutral-100">
-        <b :style="{ width: `${(parseInt(disk.used) / parseInt(disk.total)) * 100}%` }" class="bg-blue-200"></b>
+        <b :style="{ width: `${(parseInt(disk.used) / parseInt(disk.total)) * 100}%`, backgroundColor: 'var(--td-brand-color-7)' }"></b>
       </div>
     </Section>
   </div>
