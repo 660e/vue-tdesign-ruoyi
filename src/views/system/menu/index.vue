@@ -86,12 +86,20 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       createDialogRef.value.show(activeRowData.value);
       break;
 
-    case 'delete': {
-      const success = await useHandleDelete(() => deleteMenu(activeRowData.value.menuId), activeRowData.value.menuName);
-      if (!success) return;
-      await onHandle('refresh');
+    case 'delete':
+      useHandleDelete(async () => {
+        loadingStore.show();
+        try {
+          const { msg } = await deleteMenu(activeRowData.value.menuId);
+          await onHandle('refresh');
+          MessagePlugin.success(msg);
+          return true;
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
+      }, activeRowData.value.menuName);
       break;
-    }
   }
 };
 

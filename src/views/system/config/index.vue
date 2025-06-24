@@ -94,9 +94,18 @@ const onHandle = async (value: string, row?: TableRowData) => {
           loadingStore.hide();
         }
       } else {
-        const success = await useHandleDelete(() => deleteConfig((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
-        if (!success) return;
-        await onHandle('refresh');
+        useHandleDelete(async () => {
+          loadingStore.show();
+          try {
+            const { msg } = await deleteConfig((selectedRowKeys.value || []).join(','));
+            await onHandle('refresh');
+            MessagePlugin.success(msg);
+            return true;
+          } catch {
+          } finally {
+            loadingStore.hide();
+          }
+        }, selectedRowKeys.value?.length);
       }
       break;
   }

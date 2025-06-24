@@ -65,12 +65,20 @@ const onHandle = async (value: string, row?: TableRowData, index = 0) => {
       createDialogRef.value.show(activeRowData.value);
       break;
 
-    case 'delete': {
-      const success = await useHandleDelete(() => deleteDept(activeRowData.value.deptId), activeRowData.value.deptName);
-      if (!success) return;
-      await onHandle('refresh');
+    case 'delete':
+      useHandleDelete(async () => {
+        loadingStore.show();
+        try {
+          const { msg } = await deleteDept(activeRowData.value.deptId);
+          await onHandle('refresh');
+          MessagePlugin.success(msg);
+          return true;
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
+      }, activeRowData.value.deptName);
       break;
-    }
   }
 };
 

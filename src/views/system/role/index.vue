@@ -40,12 +40,20 @@ const onHandle = async (value: string, row?: TableRowData) => {
       createDialogRef.value.show(row);
       break;
 
-    case 'delete': {
-      const success = await useHandleDelete(() => deleteRole(row?.roleId), row?.roleName);
-      if (!success) return;
-      await onHandle('refresh');
+    case 'delete':
+      useHandleDelete(async () => {
+        loadingStore.show();
+        try {
+          const { msg } = await deleteRole(row?.roleId);
+          await onHandle('refresh');
+          MessagePlugin.success(msg);
+          return true;
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
+      }, row?.roleName);
       break;
-    }
   }
 };
 

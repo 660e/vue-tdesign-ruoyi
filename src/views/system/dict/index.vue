@@ -32,12 +32,20 @@ const onHandle = async (value: string) => {
       createDialogRef.value.show(activeRowData.value);
       break;
 
-    case 'delete': {
-      const success = await useHandleDelete(() => deleteDictType(activeRowData.value.dictId), activeRowData.value.dictName);
-      if (!success) return;
-      await onHandle('refresh');
+    case 'delete':
+      useHandleDelete(async () => {
+        loadingStore.show();
+        try {
+          const { msg } = await deleteDictType(activeRowData.value.dictId);
+          await onHandle('refresh');
+          MessagePlugin.success(msg);
+          return true;
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
+      }, activeRowData.value.dictName);
       break;
-    }
   }
 };
 
