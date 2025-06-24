@@ -3,7 +3,7 @@ import { Tag } from 'tdesign-vue-next';
 import { useLoadingStore } from '@/stores';
 import { is } from '@/utils';
 
-export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnknownRecord>>, value: number | string | undefined) {
+export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnknownRecord>>, value: number | string | undefined): Promise<string> {
   const loadingStore = useLoadingStore();
 
   return new Promise((resolve) => {
@@ -23,16 +23,9 @@ export async function useHandleDelete(api: () => Promise<AppResponseData<AppUnkn
       confirmBtn: { content: '删除', theme: 'danger' },
       onConfirm: async () => {
         loadingStore.show();
-        try {
-          const { msg } = await api();
-          MessagePlugin.success(msg);
-          DialogInstance.hide();
-          resolve(true);
-        } catch {
-          resolve(false);
-        } finally {
-          loadingStore.hide();
-        }
+        const { msg } = await api();
+        DialogInstance.hide();
+        resolve(msg);
       },
       onClosed: () => DialogInstance.destroy(),
     });

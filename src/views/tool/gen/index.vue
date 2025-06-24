@@ -6,10 +6,10 @@ import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
-import CreateDialog from './dialogs/Create.vue';
+// import CreateDialog from './dialogs/Create.vue';
 
 const loadingStore = useLoadingStore();
-const createDialogRef = ref();
+// const createDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -76,11 +76,11 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'create':
-      createDialogRef.value.show();
+      // createDialogRef.value.show();
       break;
 
     case 'edit':
-      createDialogRef.value.show(row);
+      // createDialogRef.value.show(row);
       break;
 
     case 'delete':
@@ -88,16 +88,21 @@ const onHandle = async (value: string, row?: TableRowData) => {
         loadingStore.show();
         try {
           const { msg } = await deleteGen(row.tableId);
-          MessagePlugin.success(msg);
           await onHandle('refresh');
+          MessagePlugin.success(msg);
         } catch {
         } finally {
           loadingStore.hide();
         }
       } else {
-        const success = await useHandleDelete(() => deleteGen((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
-        if (!success) return;
-        await onHandle('refresh');
+        try {
+          const msg = await useHandleDelete(() => deleteGen((selectedRowKeys.value || []).join(',')), selectedRowKeys.value?.length);
+          await onHandle('refresh');
+          MessagePlugin.success(msg);
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
       }
       break;
 
@@ -145,6 +150,6 @@ onMounted(async () => await onHandle('refresh'));
       </template>
     </q-table>
 
-    <CreateDialog :confirm="() => onHandle('refresh')" ref="createDialogRef" />
+    <!-- <CreateDialog :confirm="() => onHandle('refresh')" ref="createDialogRef" /> -->
   </Page>
 </template>
