@@ -1,23 +1,58 @@
 <script setup lang="ts">
+import type { AppUnknownRecord } from '@/types';
 import { Chart } from '@antv/g2';
 import { getServer } from '@/apis/monitor';
 import { Section } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
-import { getCpuChartOptions } from './';
 
 const loadingStore = useLoadingStore();
 const serverData = ref();
+
+const getChartOptions = (data: AppUnknownRecord[], text = '') => {
+  return {
+    type: 'view',
+    autoFit: true,
+    coordinate: { type: 'theta', outerRadius: 0.8, innerRadius: 0.5 },
+    children: [
+      {
+        type: 'interval',
+        data,
+        encode: { y: 'percent', color: 'item' },
+        transform: [{ type: 'stackY' }],
+        legend: {
+          color: { position: 'bottom', layout: { justifyContent: 'center' } },
+        },
+        tooltip: {
+          items: [(value: AppUnknownRecord) => ({ name: value.item, value: `${(value.percent as number) * 100}%` })],
+        },
+      },
+      {
+        type: 'text',
+        style: { text, x: '50%', y: '50%', fontSize: 20, textAlign: 'center' },
+      },
+    ],
+  };
+};
 
 let cpuChart: Chart | null = null;
 
 onMounted(async () => {
   loadingStore.show();
   try {
-    const { data } = await getServer();
-    serverData.value = data;
+    serverData.value = (await getServer()).data;
 
+    const { cpu } = serverData.value;
     cpuChart = new Chart({ container: 'cpu-chart' });
-    cpuChart.options(getCpuChartOptions(data?.cpu));
+    cpuChart.options(
+      getChartOptions(
+        [
+          { item: '用户使用率', count: cpu.used, percent: cpu.used / 100 },
+          { item: '系统使用率', count: cpu.sys, percent: cpu.sys / 100 },
+          { item: '当前空闲率', count: cpu.free, percent: cpu.free / 100 },
+        ],
+        `${cpu.cpuNum}核`,
+      ),
+    );
   } catch {
   } finally {
     cpuChart?.render();
