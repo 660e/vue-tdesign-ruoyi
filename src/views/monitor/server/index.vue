@@ -7,6 +7,21 @@ import { useLoadingStore } from '@/stores';
 const loadingStore = useLoadingStore();
 const serverData = ref();
 
+const getOption = (data: { value: string }[]) => {
+  return {
+    series: [
+      {
+        type: 'gauge',
+        center: ['50%', '58%'],
+        radius: '100%',
+        progress: { show: true },
+        detail: { formatter: '{value}%', fontSize: 16 },
+        data,
+      },
+    ],
+  };
+};
+
 let cpuChart: echarts.ECharts | null = null;
 let memChart: echarts.ECharts | null = null;
 let jvmChart: echarts.ECharts | null = null;
@@ -18,46 +33,13 @@ onMounted(async () => {
     const { cpu, mem, jvm } = serverData.value;
 
     cpuChart = echarts.init(document.getElementById('cpu-chart'));
-    cpuChart.setOption({
-      series: [
-        {
-          type: 'gauge',
-          center: ['50%', '58%'],
-          radius: '100%',
-          progress: { show: true },
-          detail: { formatter: '{value}%', fontSize: 16 },
-          data: [{ value: cpu.used }],
-        },
-      ],
-    });
+    cpuChart.setOption(getOption([{ value: cpu.used }]));
 
     memChart = echarts.init(document.getElementById('mem-chart'));
-    memChart.setOption({
-      series: [
-        {
-          type: 'gauge',
-          center: ['50%', '58%'],
-          radius: '100%',
-          progress: { show: true },
-          detail: { formatter: '{value}%', fontSize: 16 },
-          data: [{ value: ((mem.used / mem.total) * 100).toFixed(2) }],
-        },
-      ],
-    });
+    memChart.setOption(getOption([{ value: ((mem.used / mem.total) * 100).toFixed(2) }]));
 
     jvmChart = echarts.init(document.getElementById('jvm-chart'));
-    jvmChart.setOption({
-      series: [
-        {
-          type: 'gauge',
-          center: ['50%', '58%'],
-          radius: '100%',
-          progress: { show: true },
-          detail: { formatter: '{value}%', fontSize: 16 },
-          data: [{ value: ((jvm.used / jvm.total) * 100).toFixed(2) }],
-        },
-      ],
-    });
+    jvmChart.setOption(getOption([{ value: ((jvm.used / jvm.total) * 100).toFixed(2) }]));
   } catch {
   } finally {
     loadingStore.hide();
