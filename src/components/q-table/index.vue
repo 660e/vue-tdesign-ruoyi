@@ -147,7 +147,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       />
     </div>
 
-    <q-file-import :confirm="() => refreshData?.(toolbarFilterParams)" ref="fileImportRef" />
+    <q-file-import :confirm="async () => await refreshData?.(toolbarFilterParams)" ref="fileImportRef" />
   </div>
 </template>
 

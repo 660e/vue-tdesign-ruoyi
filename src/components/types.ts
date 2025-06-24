@@ -75,7 +75,7 @@ export interface QTableProps {
   fileExport: QTableFileExportProps;
   fileImport: QTableFileImportProps;
   operations: QTableOperation[];
-  refreshData: (value: QTableToolbarFilterParams) => void;
+  refreshData: (value: QTableToolbarFilterParams) => Promise<void>;
   toolbarFilterOptions: QTableToolbarFilterOptions;
   pagination: QTablePagination;
 }

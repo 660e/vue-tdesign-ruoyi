@@ -4,7 +4,7 @@ import type { QTableProps } from '@/types';
 import { useLoadingStore } from '@/stores';
 import { is } from '@/utils';
 
-const { confirm } = defineProps<{ confirm: () => void }>();
+const { confirm } = defineProps<{ confirm: () => Promise<void> }>();
 const loadingStore = useLoadingStore();
 const visible = ref(false);
 const importParams = ref<QTableProps['fileImport']>();
@@ -34,7 +34,7 @@ const requestMethod: UploadProps['requestMethod'] = (files) => {
     try {
       const response = await importParams.value?.api(files.raw!, replace.value);
       console.log(response); // TODO
-      confirm();
+      await confirm();
       visible.value = false;
     } catch {
     } finally {
