@@ -4,7 +4,7 @@ import { request } from '@/utils';
 // ----- gen
 
 export function importTable(tables: string) {
-  return request.get<AppResponseData<AppUnknownRecord[]>>('/tool/gen/importTable', { params: { tables } });
+  return request.post<AppResponseData<AppUnknownRecord[]>>('/tool/gen/importTable', { params: { tables } });
 }
 
 export function listTable(params?: AppRequestListParams) {

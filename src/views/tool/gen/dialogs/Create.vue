@@ -26,6 +26,16 @@ const onPageChange: TableProps['onPageChange'] = async (pageInfo) => {
 };
 
 const queryParams = ref<QTableToolbarFilterParams>({});
+const refreshData: QTableProps['refreshData'] = async (value) => {
+  queryParams.value = value;
+  await refresh();
+};
+
+const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);
+const onSelectChange: TableProps['onSelectChange'] = (value) => {
+  selectedRowKeys.value = value;
+};
+
 const refresh = async () => {
   loadingStore.show();
   try {
@@ -36,32 +46,35 @@ const refresh = async () => {
     });
     pagination.total = total || 0;
     tableData.value = rows;
+    return true;
   } catch {
+    return false;
   } finally {
     loadingStore.hide();
   }
 };
 
-const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);
-const onSelectChange: TableProps['onSelectChange'] = (value) => {
-  selectedRowKeys.value = value;
+const show = async () => {
+  const success = await refresh();
+  if (!success) return;
+  visible.value = true;
 };
 
-const show = async () => {
-  await refresh();
-  visible.value = true;
+const onClosed = () => {
+  pagination.pageNum = 1;
+  queryParams.value = {};
+  selectedRowKeys.value = [];
 };
 
 const onConfirm = async () => {
   if (!selectedRowKeys.value?.length) return;
   loadingStore.show();
   try {
-  } catch {
     const { msg } = await importTable(selectedRowKeys.value.join(','));
     await confirm();
     MessagePlugin.success(msg);
-    selectedRowKeys.value = [];
     visible.value = false;
+  } catch {
   } finally {
     loadingStore.hide();
   }
@@ -71,13 +84,14 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :on-confirm="onConfirm" header="新增" placement="center" width="900">
+  <t-dialog v-model:visible="visible" :on-closed="onClosed" :on-confirm="onConfirm" header="新增" placement="center" width="900">
     <div>
       <q-table
         v-model:pagination="pagination"
         v-model:selected-row-keys="selectedRowKeys"
         :columns="columns"
         :data="tableData"
+        :refresh-data="refreshData"
         @page-change="onPageChange"
         @select-change="onSelectChange"
         row-key="tableName"
