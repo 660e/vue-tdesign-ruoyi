@@ -14,7 +14,6 @@ const tableData = ref();
 
 const operations: QTableProps['operations'] = [
   { value: 'view', icon: 'browse', label: '预览' },
-  { value: 'edit', icon: 'edit', label: '修改' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
   { value: 'sync', icon: 'arrow-up-down-1', label: '同步', popconfirm: { content: '确定同步此条数据？' } },
   { value: 'code', icon: 'code', label: '生成代码' },
@@ -77,10 +76,6 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
     case 'create':
       createDialogRef.value.show();
-      break;
-
-    case 'edit':
-      createDialogRef.value.show(row);
       break;
 
     case 'delete':
