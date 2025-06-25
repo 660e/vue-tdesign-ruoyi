@@ -85,18 +85,16 @@ defineExpose({ show });
 
 <template>
   <t-dialog v-model:visible="visible" :on-closed="onClosed" :on-confirm="onConfirm" header="新增" placement="center" width="900">
-    <div>
-      <q-table
-        v-model:pagination="pagination"
-        v-model:selected-row-keys="selectedRowKeys"
-        :columns="columns"
-        :data="tableData"
-        :refresh-data="refreshData"
-        @page-change="onPageChange"
-        @select-change="onSelectChange"
-        row-key="tableName"
-      />
-    </div>
+    <q-table
+      v-model:pagination="pagination"
+      v-model:selected-row-keys="selectedRowKeys"
+      :columns="columns"
+      :data="tableData"
+      :refresh-data="refreshData"
+      @page-change="onPageChange"
+      @select-change="onSelectChange"
+      row-key="tableName"
+    />
   </t-dialog>
 </template>
 
