@@ -99,3 +99,14 @@ defineExpose({ show });
     </div>
   </t-dialog>
 </template>
+
+<style scoped>
+.q-table :deep(.q-table__toolbar-filter > div) {
+  padding: 0;
+}
+.q-table :deep(.q-table__bottom-content) {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+</style>

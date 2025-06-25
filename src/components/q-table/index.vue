@@ -70,8 +70,8 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
 </script>
 
 <template>
-  <div class="flex-1 h-full overflow-auto flex flex-col">
-    <div v-if="toolbarFilterItems.length" ref="toolbarFilterRef">
+  <div class="q-table flex-1 h-full overflow-auto flex flex-col">
+    <div v-if="toolbarFilterItems.length" class="q-table__toolbar-filter" ref="toolbarFilterRef">
       <ToolbarFilter
         v-show="toolbarFilterVisible"
         :items="toolbarFilterItems"
@@ -118,7 +118,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
       </t-table>
     </div>
 
-    <div v-if="fileImport || fileExport || pagination" class="p-4 flex">
+    <div v-if="fileImport || fileExport || pagination" class="q-table__bottom-content p-4 flex">
       <div class="flex gap-2">
         <t-button v-if="fileImport" @click="fileImportRef.show(fileImport)" theme="default">
           <template #icon><t-icon name="file-import" /></template><span>导入</span>
