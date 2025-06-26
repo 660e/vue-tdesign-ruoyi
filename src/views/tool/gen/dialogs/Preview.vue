@@ -6,12 +6,15 @@ import { useLoadingStore } from '@/stores';
 
 const loadingStore = useLoadingStore();
 const visible = ref(false);
+const tab = ref();
 const codeData = ref<AppUnknownRecord>();
 
 const show = async (row: TableRowData) => {
   loadingStore.show();
   try {
-    codeData.value = (await getTable(row.tableId)).data;
+    const { data } = await getTable(row.tableId);
+    tab.value = Object.keys(data!)[0];
+    codeData.value = data;
     visible.value = true;
   } catch {
   } finally {
@@ -27,14 +30,13 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-drawer v-model:visible="visible" @close="onClose" size="100%">
-    <t-tabs class="h-full flex flex-col">
-      <t-tab-panel>
-        <div class="h-[1000px]"></div>
+  <t-drawer v-model:visible="visible" :close-btn="true" :footer="false" @close="onClose" header="预览" size="75%">
+    <t-tabs v-model="tab" class="h-full flex flex-col">
+      <t-tab-panel v-for="(value, key) in codeData" :label="key" :value="key" class="h-full overflow-auto" :key="key">
+        <div class="p-4">
+          <pre>{{ value }}</pre>
+        </div>
       </t-tab-panel>
-      <!-- <t-tab-panel v-for="(value, key) in codeData" :label="key" :value="key" class="h-full overflow-auto" :key="key">
-        <pre>{{ value }}</pre>
-      </t-tab-panel> -->
     </t-tabs>
   </t-drawer>
 </template>
@@ -42,7 +44,5 @@ defineExpose({ show });
 <style scoped>
 .t-tabs :deep(.t-tabs__content) {
   flex: 1;
-  height: 0;
-  overflow: auto;
 }
 </style>
