@@ -4,7 +4,7 @@
 }
 
 /* t-drawer */
-.t-drawer .t-drawer__body {
+.t-drawer .t-drawer__body:first-child {
   padding: 0;
 }
 

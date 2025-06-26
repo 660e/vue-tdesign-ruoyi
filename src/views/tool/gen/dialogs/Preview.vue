@@ -22,17 +22,13 @@ const show = async (row: TableRowData) => {
   }
 };
 
-const onClose = () => {
-  codeData.value = undefined;
-};
-
 defineExpose({ show });
 </script>
 
 <template>
-  <t-drawer v-model:visible="visible" :close-btn="true" :footer="false" @close="onClose" header="预览" size="75%">
+  <t-drawer v-model:visible="visible" cancel-btn="关闭" confirm-btn="复制" size="1200">
     <t-tabs v-model="tab" class="h-full flex flex-col">
-      <t-tab-panel v-for="(value, key) in codeData" :label="key" :value="key" class="h-full overflow-auto" :key="key">
+      <t-tab-panel v-for="(value, key) in codeData" :label="key.match(/\/([^\/]+)\.vm$/)![1]" :value="key" class="h-full overflow-auto" :key="key">
         <div class="p-4">
           <pre>{{ value }}</pre>
         </div>
