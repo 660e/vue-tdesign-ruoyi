@@ -5,9 +5,7 @@ import { useElementSize } from '@vueuse/core';
 import { useAnimateToggleHeight, useDict } from '@/hooks';
 import { is } from '@/utils';
 
-const emit = defineEmits<{
-  change: [value: QTableToolbarFilterParams];
-}>();
+const emit = defineEmits<{ change: [value: QTableToolbarFilterParams] }>();
 const { items, options } = defineProps<{
   items: QTableProps['columns'];
   options?: QTableProps['toolbarFilterOptions'];
