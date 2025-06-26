@@ -104,7 +104,7 @@ watch(
 <template>
   <div class="flex-1 flex flex-col">
     <div class="p-4 flex gap-2 border-b border-neutral-200">
-      <t-radio-group v-model="tab" :on-change="(value) => onTabChange(value)" variant="default-filled">
+      <t-radio-group v-model="tab" @change="(value) => onTabChange(value)" variant="default-filled">
         <t-radio-button :value="1">基本信息</t-radio-button>
         <t-radio-button :value="2">菜单/数据权限</t-radio-button>
         <t-radio-button :value="3">分配用户</t-radio-button>
@@ -159,8 +159,8 @@ watch(
         v-model="allocatedUserKeys"
         :data="allUsers"
         :keys="{ value: 'userId', label: 'userName' }"
-        :on-change="onAllocatedChange"
         :operation="['移除', '授权']"
+        @change="onAllocatedChange"
         class="h-full"
       >
         <template #title="props">

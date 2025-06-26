@@ -64,7 +64,7 @@ onMounted(async () => await onHandle('refresh'));
   <Page class="flex">
     <div class="w-80 flex flex-col border-r border-neutral-200">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-radio-group v-model="sortBy" :on-change="() => onHandle('sort')" variant="default-filled">
+        <t-radio-group v-model="sortBy" @change="() => onHandle('sort')" variant="default-filled">
           <t-radio-button value="roleSort">
             <div class="flex items-center gap-1"><span>序号</span><t-icon name="arrow-down" /></div>
           </t-radio-button>
