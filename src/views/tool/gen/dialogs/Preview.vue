@@ -5,12 +5,12 @@ import { useLoadingStore } from '@/stores';
 
 const loadingStore = useLoadingStore();
 const visible = ref(false);
+const codeData = ref();
 
 const show = async (row: TableRowData) => {
   try {
     loadingStore.show();
-    const { data } = await getTable(row.tableId);
-    console.log(data);
+    codeData.value = (await getTable(row.tableId)).data;
     visible.value = true;
   } catch {
   } finally {
@@ -18,13 +18,15 @@ const show = async (row: TableRowData) => {
   }
 };
 
-const onClosed = () => {};
-
-const onConfirm = () => {};
+const onClosed = () => {
+  codeData.value = undefined;
+};
 
 defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" @closed="onClosed" @confirm="onConfirm" header="预览" placement="center" width="900" />
+  <t-dialog v-model:visible="visible" :confirm-btn="null" @closed="onClosed" cancel-btn="关闭" header="预览" placement="center" width="900">
+    <pre>{{ codeData }}</pre>
+  </t-dialog>
 </template>
