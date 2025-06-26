@@ -7,11 +7,11 @@ import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
-import PreviewDialog from './dialogs/Preview.vue';
+import PreviewDrawer from './dialogs/Preview.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
-const previewDialogRef = ref();
+const previewDrawerRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
@@ -73,7 +73,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'preview':
-      previewDialogRef.value.show(row);
+      previewDrawerRef.value.show(row);
       break;
 
     case 'create':
@@ -155,6 +155,6 @@ onMounted(async () => await onHandle('refresh'));
     </q-table>
 
     <CreateDialog :on-success="async () => await onHandle('refresh')" ref="createDialogRef" />
-    <PreviewDialog ref="previewDialogRef" />
+    <PreviewDrawer ref="previewDrawerRef" />
   </Page>
 </template>
