@@ -1,5 +1,5 @@
 /* t-dialog */
-.t-dialog > .t-dialog__body:last-child {
+.t-dialog:not(.t-dialog__fullscreen) > .t-dialog__body:last-child {
   padding-bottom: 0;
 }
 

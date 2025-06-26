@@ -26,7 +26,17 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :confirm-btn="null" @closed="onClosed" cancel-btn="关闭" header="预览" placement="center" width="900">
-    <pre>{{ codeData }}</pre>
+  <t-dialog v-model:visible="visible" :footer="false" @closed="onClosed" header="预览" mode="full-screen">
+    <t-tabs class="h-full flex flex-col">
+      <t-tab-panel class="h-full overflow-auto" label="asdf">
+        <pre>{{ codeData }}</pre>
+      </t-tab-panel>
+    </t-tabs>
   </t-dialog>
 </template>
+
+<style scoped>
+.t-tabs :deep(.t-tabs__content) {
+  flex: 1;
+}
+</style>
