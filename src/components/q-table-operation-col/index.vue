@@ -24,8 +24,8 @@ const OperationLink = ({ operation }: { operation: QTableOperation }) => {
       <t-popconfirm
         v-if="operation.popconfirm"
         :content="operation.popconfirm.content"
-        :on-confirm="() => handle(operation.value)"
         :theme="operation.popconfirm.theme || 'danger'"
+        @confirm="() => handle(operation.value)"
         placement="left"
       >
         <OperationLink :operation="operation" />
