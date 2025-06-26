@@ -7,13 +7,15 @@ import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
+import PreviewDialog from './dialogs/Preview.vue';
 
 const loadingStore = useLoadingStore();
 const createDialogRef = ref();
+const previewDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [
-  { value: 'view', icon: 'browse', label: '预览' },
+  { value: 'preview', icon: 'browse', label: '预览' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
   { value: 'sync', icon: 'arrow-up-down-1', label: '同步', popconfirm: { content: '确定同步此条数据？' } },
   { value: 'code', icon: 'code', label: '生成代码' },
@@ -70,8 +72,8 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
 
-    case 'view':
-      console.log(row);
+    case 'preview':
+      previewDialogRef.value.show(row);
       break;
 
     case 'create':
@@ -153,5 +155,6 @@ onMounted(async () => await onHandle('refresh'));
     </q-table>
 
     <CreateDialog :on-success="async () => await onHandle('refresh')" ref="createDialogRef" />
+    <PreviewDialog ref="previewDialogRef" />
   </Page>
 </template>
