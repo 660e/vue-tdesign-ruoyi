@@ -3,26 +3,26 @@ import { request } from '@/utils';
 
 // ----- gen
 
-export function importGen(tables: string) {
+export function importTable(tables: string) {
   return request.post<AppResponseData<AppUnknownRecord[]>>('/tool/gen/importTable', { params: { tables } });
 }
 
-export function deleteGen(tableId: number | string) {
+export function deleteTable(tableId: number | string) {
   return request.delete<AppResponseData<AppUnknownRecord>>(`/tool/gen/${tableId}`);
 }
 
-export function listGen(params?: AppRequestListParams) {
+export function listTable(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/tool/gen/list', { params });
 }
 
-export function listGenDb(params?: AppRequestListParams) {
+export function listTableDb(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/tool/gen/db/list', { params });
 }
 
-export function getGen(tableId: number) {
+export function getTable(tableId: number) {
   return request.get<AppResponseData<AppUnknownRecord>>(`/tool/gen/preview/${tableId}`);
 }
 
-export function syncGen(tableName: string) {
+export function syncTable(tableName: string) {
   return request.get<AppResponseData<AppUnknownRecord>>(`/tool/gen/synchDb/${tableName}`);
 }

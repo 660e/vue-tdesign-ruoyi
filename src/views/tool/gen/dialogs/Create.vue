@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TableProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listGenDb, importGen } from '@/apis/tool';
+import { listTableDb, importTable } from '@/apis/tool';
 import { useLoadingStore } from '@/stores';
 
 const { onSuccess } = defineProps<{ onSuccess: () => Promise<void> }>();
@@ -39,7 +39,7 @@ const onSelectChange: TableProps['onSelectChange'] = (value) => {
 const refresh = async () => {
   loadingStore.show();
   try {
-    const { rows, total } = await listGenDb({
+    const { rows, total } = await listTableDb({
       pageNum: pagination.pageNum,
       pageSize: pagination.pageSize,
       ...queryParams.value,
@@ -70,7 +70,7 @@ const onConfirm = async () => {
   if (!selectedRowKeys.value?.length) return;
   loadingStore.show();
   try {
-    const { msg } = await importGen(selectedRowKeys.value.join(','));
+    const { msg } = await importTable(selectedRowKeys.value.join(','));
     await onSuccess();
     MessagePlugin.success(msg);
     visible.value = false;

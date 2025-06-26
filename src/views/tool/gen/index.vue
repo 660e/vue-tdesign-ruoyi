@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listGen, deleteGen, syncGen } from '@/apis/tool';
+import { listTable, deleteTable, syncTable } from '@/apis/tool';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -57,7 +57,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows, total } = await listGen({
+        const { rows, total } = await listTable({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
           ...queryParams.value,
@@ -82,7 +82,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (row) {
         loadingStore.show();
         try {
-          const { msg } = await deleteGen(row.tableId);
+          const { msg } = await deleteTable(row.tableId);
           await onHandle('refresh');
           MessagePlugin.success(msg);
           selectedRowKeys.value = [];
@@ -94,7 +94,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         useHandleDelete(async () => {
           loadingStore.show();
           try {
-            const { msg } = await deleteGen((selectedRowKeys.value || []).join(','));
+            const { msg } = await deleteTable((selectedRowKeys.value || []).join(','));
             await onHandle('refresh');
             MessagePlugin.success(msg);
             selectedRowKeys.value = [];
@@ -111,7 +111,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (!row) return;
       loadingStore.show();
       try {
-        const { msg } = await syncGen(row.tableName);
+        const { msg } = await syncTable(row.tableName);
         await onHandle('refresh');
         MessagePlugin.success(msg);
       } catch {
