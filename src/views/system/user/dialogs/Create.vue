@@ -5,7 +5,7 @@ import { getUser, createUser, updateUser } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-const { confirm } = defineProps<{ confirm: () => Promise<void>; deptTree: AppUnknownRecord[] }>();
+const { onSuccess } = defineProps<{ onSuccess: () => Promise<void>; deptTree: AppUnknownRecord[] }>();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -61,7 +61,7 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.userId ? updateUser : createUser)(formData);
-    await confirm();
+    await onSuccess();
     MessagePlugin.success(msg);
     visible.value = false;
   } catch {

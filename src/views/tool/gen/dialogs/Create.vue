@@ -4,7 +4,7 @@ import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listTable, importTable } from '@/apis/tool';
 import { useLoadingStore } from '@/stores';
 
-const { confirm } = defineProps<{ confirm: () => Promise<void> }>();
+const { onSuccess } = defineProps<{ onSuccess: () => Promise<void> }>();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -71,7 +71,7 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await importTable(selectedRowKeys.value.join(','));
-    await confirm();
+    await onSuccess();
     MessagePlugin.success(msg);
     visible.value = false;
   } catch {

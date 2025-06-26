@@ -103,6 +103,6 @@ onMounted(async () => await onHandle('refresh'));
     </div>
 
     <Description v-if="activeRowData" :active-row-data="activeRowData" :handle="onHandle" />
-    <CreateDialog :confirm="async () => await onHandle('refresh')" ref="createDialogRef" />
+    <CreateDialog :on-success="async () => await onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>

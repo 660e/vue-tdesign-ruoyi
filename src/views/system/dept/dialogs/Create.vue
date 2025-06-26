@@ -8,12 +8,12 @@ import { buildTree } from '@/utils';
 
 const {
   activeRowsData = [],
-  confirm,
+  onSuccess,
   itemMap = [],
   tableData = [],
 } = defineProps<{
   activeRowsData: TableRowData[];
-  confirm: () => Promise<void>;
+  onSuccess: () => Promise<void>;
   itemMap: { label: string; name: string; dict?: AppSystemDictKey }[];
   tableData: TableRowData[];
 }>();
@@ -57,7 +57,7 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.deptId ? updateDept : createDept)(formData);
-    await confirm();
+    await onSuccess();
     MessagePlugin.success(msg);
     visible.value = false;
   } catch {

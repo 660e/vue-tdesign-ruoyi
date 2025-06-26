@@ -4,7 +4,7 @@ import { createNotice, updateNotice } from '@/apis/system';
 import { useDict } from '@/hooks';
 import { useLoadingStore } from '@/stores';
 
-const { confirm } = defineProps<{ confirm: () => Promise<void> }>();
+const { onSuccess } = defineProps<{ onSuccess: () => Promise<void> }>();
 const loadingStore = useLoadingStore();
 
 const visible = ref(false);
@@ -38,7 +38,7 @@ const onConfirm = async () => {
   loadingStore.show();
   try {
     const { msg } = await (formData.noticeId ? updateNotice : createNotice)(formData);
-    await confirm();
+    await onSuccess();
     MessagePlugin.success(msg);
     visible.value = false;
   } catch {
