@@ -47,7 +47,7 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :footer="false" header="导入" destroy-on-close>
+  <t-dialog v-model:visible="visible" :footer="false" dialog-class-name="q-file-import" header="导入" destroy-on-close>
     <t-upload
       :accept="importParams?.templateType ? `.${importParams.templateType}` : undefined"
       :auto-upload="false"

@@ -19,7 +19,7 @@ const OperationLink = ({ operation }: { operation: QTableOperation }) => {
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="q-table-operation-col flex gap-2">
     <template v-for="operation in operations" :key="operation.value">
       <t-popconfirm
         v-if="operation.popconfirm"

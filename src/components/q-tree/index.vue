@@ -13,7 +13,7 @@ const onChange: InputProps['onChange'] = (value) => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col">
+  <div class="q-tree h-full flex flex-col">
     <div class="p-4 pb-2">
       <t-input v-if="filter" @change="onChange" clearable>
         <template #prefix-icon><t-icon name="search" /></template>

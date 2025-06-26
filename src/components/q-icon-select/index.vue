@@ -5,7 +5,7 @@ const model = defineModel<string | undefined>('modelValue', { required: true });
 </script>
 
 <template>
-  <t-select v-model="model" :popup-props="{ overlayInnerClassName: 'q-icon-select__popup' }">
+  <t-select v-model="model" :popup-props="{ overlayInnerClassName: 'q-icon-select__popup' }" class="q-icon-select">
     <t-option v-for="option in manifest" :value="option.stem" :key="option.stem">
       <t-icon :name="option.stem" />
     </t-option>
