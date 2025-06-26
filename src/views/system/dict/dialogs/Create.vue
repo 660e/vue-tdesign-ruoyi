@@ -55,8 +55,8 @@ defineExpose({ show });
   <t-dialog
     v-model:visible="visible"
     :header="`${formData.dictId ? '修改' : '新增'}字典类型`"
-    :on-closed="onClosed"
-    :on-confirm="onConfirm"
+    @closed="onClosed"
+    @confirm="onConfirm"
     placement="center"
     width="500"
   >

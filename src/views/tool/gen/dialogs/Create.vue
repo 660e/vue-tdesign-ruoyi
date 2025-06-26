@@ -84,7 +84,7 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :on-closed="onClosed" :on-confirm="onConfirm" header="新增" placement="center" width="900">
+  <t-dialog v-model:visible="visible" @closed="onClosed" @confirm="onConfirm" header="新增" placement="center" width="900">
     <q-table
       v-model:pagination="pagination"
       v-model:selected-row-keys="selectedRowKeys"

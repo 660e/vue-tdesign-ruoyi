@@ -99,7 +99,7 @@ defineExpose({ show });
 </script>
 
 <template>
-  <t-dialog v-model:visible="visible" :header="dialogHeader" :on-confirm="onConfirm" placement="center" width="900">
+  <t-dialog v-model:visible="visible" :header="dialogHeader" @confirm="onConfirm" placement="center" width="900">
     <t-form :data="formData" :rules="formRules" class="grid grid-cols-2 gap-x-6" reset-type="initial" ref="formRef">
       <t-form-item label="上级目录" name="parentId">
         <t-tree-select v-model="formData.parentId" :data="menuTree" :keys="{ label: 'menuName', value: 'menuId' }" :readonly="!formData.menuId" />

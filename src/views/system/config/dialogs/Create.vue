@@ -57,8 +57,8 @@ defineExpose({ show });
   <t-dialog
     v-model:visible="visible"
     :header="`${formData.configId ? '修改' : '新增'}参数设置`"
-    :on-closed="onClosed"
-    :on-confirm="onConfirm"
+    @closed="onClosed"
+    @confirm="onConfirm"
     placement="center"
     width="500"
   >
