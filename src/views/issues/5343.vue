@@ -10,7 +10,7 @@ const rules = { a: [{ required: true }], b: [{ required: true }] };
   <div class="p-4">
     <t-button @click="visible = true">TEST</t-button>
 
-    <t-dialog v-model:visible="visible" :on-confirm="formRef?.validate">
+    <t-dialog v-model:visible="visible" @confirm="formRef?.validate">
       <t-form :data="formData" :rules="rules" ref="formRef">
         <t-form-item label="A" name="a">
           <t-input v-model="formData.a" />

@@ -87,7 +87,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
     <t-avatar image="https://picsum.photos/200" />
   </div>
 
-  <t-drawer v-model:visible="visible" :on-before-open="onBeforeOpen" size="350">
+  <t-drawer v-model:visible="visible" @before-open="onBeforeOpen" size="350">
     <div class="h-full overflow-y-auto p-4">
       <div class="h-36 flex flex-col justify-center items-center rounded text-neutral-800 bg-neutral-100">
         <t-avatar image="https://picsum.photos/200" size="64px" />
@@ -121,7 +121,7 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
       </template>
 
       <div v-else class="py-6">
-        <t-form :data="formData" :on-submit="onSubmit" :rules="formRules" @reset="() => (editType = null)" label-width="0">
+        <t-form :data="formData" :rules="formRules" @reset="() => (editType = null)" @submit="onSubmit" label-width="0">
           <template v-if="editType === 'profile'">
             <t-form-item label="用户昵称" name="nickName">
               <t-input v-model="formData.nickName" label="用户昵称" />
