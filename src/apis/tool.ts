@@ -3,12 +3,8 @@ import { request } from '@/utils';
 
 // ----- gen
 
-export function importTable(tables: string) {
+export function importGen(tables: string) {
   return request.post<AppResponseData<AppUnknownRecord[]>>('/tool/gen/importTable', { params: { tables } });
-}
-
-export function listTable(params?: AppRequestListParams) {
-  return request.get<AppResponseData<AppUnknownRecord[]>>('/tool/gen/db/list', { params });
 }
 
 export function deleteGen(tableId: number | string) {
@@ -17,6 +13,14 @@ export function deleteGen(tableId: number | string) {
 
 export function listGen(params?: AppRequestListParams) {
   return request.get<AppResponseData<AppUnknownRecord[]>>('/tool/gen/list', { params });
+}
+
+export function listGenDb(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/tool/gen/db/list', { params });
+}
+
+export function getGen(tableId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/tool/gen/preview/${tableId}`);
 }
 
 export function syncGen(tableName: string) {
