@@ -8,8 +8,8 @@ const visible = ref(false);
 const codeData = ref();
 
 const show = async (row: TableRowData) => {
+  loadingStore.show();
   try {
-    loadingStore.show();
     codeData.value = (await getTable(row.tableId)).data;
     visible.value = true;
   } catch {
