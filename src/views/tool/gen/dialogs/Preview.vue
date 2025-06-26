@@ -22,11 +22,18 @@ const show = async (row: TableRowData) => {
   }
 };
 
+const onConfirm = () => {
+  navigator.clipboard
+    .writeText(codeData.value?.[tab.value] as string)
+    .then(() => MessagePlugin.success('密码已复制到剪贴板'))
+    .catch(() => MessagePlugin.error('复制失败，请手动复制'));
+};
+
 defineExpose({ show });
 </script>
 
 <template>
-  <t-drawer v-model:visible="visible" cancel-btn="关闭" confirm-btn="复制" size="1200">
+  <t-drawer v-model:visible="visible" :confirm-btn="{ content: '复制', theme: 'success' }" @confirm="onConfirm" cancel-btn="关闭" size="1200">
     <t-tabs v-model="tab" class="h-full flex flex-col">
       <t-tab-panel v-for="(value, key) in codeData" :label="key.match(/\/([^\/]+)\.vm$/)![1]" :value="key" class="h-full overflow-auto" :key="key">
         <div class="p-4">
