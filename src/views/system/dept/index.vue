@@ -185,8 +185,8 @@ onMounted(async () => {
 
     <CreateDialog
       :active-rows-data="activeRowsData"
-      :on-success="async () => await onHandle('refresh')"
       :item-map="itemMap"
+      :on-success="async () => await onHandle('refresh')"
       :table-data="tableData"
       ref="createDialogRef"
     />

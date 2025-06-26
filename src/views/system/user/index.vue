@@ -208,6 +208,6 @@ onMounted(async () => {
       </template>
     </q-table>
 
-    <CreateDialog :on-success="async () => await onHandle('refresh')" :dept-tree="deptTree || []" ref="createDialogRef" />
+    <CreateDialog :dept-tree="deptTree || []" :on-success="async () => await onHandle('refresh')" ref="createDialogRef" />
   </Page>
 </template>
