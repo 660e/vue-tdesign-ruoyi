@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { listDictType, deleteDictType } from '@/apis/system';
 import { listCacheNames, listCacheKeys, getCacheValue, clearCacheAll } from '@/apis/monitor';
-import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 
@@ -9,11 +7,8 @@ const loadingStore = useLoadingStore();
 const namesData = ref();
 const activeName = ref();
 const keysData = ref();
-const activeKeyData = ref();
-
-const createDialogRef = ref();
-const tableData = ref();
-const activeRowData = ref();
+const activeKey = ref();
+const activeValue = ref();
 
 const clearAll = async () => {
   loadingStore.show();
@@ -50,68 +45,10 @@ const getKeys = async (cacheName: string) => {
 const getValue = async (key: string) => {
   loadingStore.show();
   try {
-    activeKeyData.value = (await getCacheValue(activeName.value, key)).data;
+    activeValue.value = (await getCacheValue(activeName.value, key)).data;
   } catch {
   } finally {
     loadingStore.hide();
-  }
-};
-
-const onHandle = async (value: string) => {
-  switch (value) {
-    case 'refresh-names':
-      loadingStore.show();
-      try {
-        namesData.value = (await listCacheNames()).data;
-      } catch {
-      } finally {
-        loadingStore.hide();
-      }
-      break;
-
-    case 'clear-all':
-      break;
-
-    case 'refresh':
-      loadingStore.show();
-      try {
-        const { rows } = await listDictType({ pageNum: 1, pageSize: 9999 });
-        tableData.value = rows;
-      } catch {
-      } finally {
-        loadingStore.hide();
-      }
-      break;
-
-    case 'copy':
-      navigator.clipboard
-        .writeText(activeRowData.value?.dictType)
-        .then(() => MessagePlugin.success('代码已复制到剪贴板'))
-        .catch(() => MessagePlugin.error('复制失败，请手动复制'));
-      break;
-
-    case 'create':
-      createDialogRef.value.show();
-      break;
-
-    case 'edit':
-      createDialogRef.value.show(activeRowData.value);
-      break;
-
-    case 'delete':
-      useHandleDelete(async () => {
-        loadingStore.show();
-        try {
-          const { msg } = await deleteDictType(activeRowData.value.dictId);
-          await onHandle('refresh');
-          MessagePlugin.success(msg);
-          return true;
-        } catch {
-        } finally {
-          loadingStore.hide();
-        }
-      }, activeRowData.value.dictName);
-      break;
   }
 };
 
@@ -163,7 +100,7 @@ onMounted(async () => await getNames());
         <div class="w-1 h-full bg-neutral-200"></div>
         <span>键名列表</span>
         <span class="flex-1"></span>
-        <t-button @click="onHandle('refresh-names')" theme="default">
+        <t-button @click="getKeys(activeName)" theme="default">
           <template #icon><t-icon name="refresh" /></template><span>刷新</span>
         </t-button>
       </div>
@@ -171,7 +108,7 @@ onMounted(async () => await getNames());
         <t-list split>
           <t-list-item
             v-for="row in keysData"
-            :style="{ backgroundColor: row === activeKeyData.cacheName ? 'var(--td-brand-color-1)' : '' }"
+            :style="{ backgroundColor: row === activeKey ? 'var(--td-brand-color-1)' : '' }"
             @click="getValue(row)"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
             :key="row"
@@ -184,12 +121,22 @@ onMounted(async () => await getNames());
                 <span>清理</span>
               </t-link>
               <b
-                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row === activeKeyData.cacheName ? '100%' : '0' }"
+                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row === activeKey ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
               ></b>
             </div>
           </t-list-item>
         </t-list>
+      </div>
+    </div>
+
+    <div v-if="activeValue" class="flex-1 flex flex-col border-r border-neutral-200">
+      <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
+        <div class="w-1 h-8 bg-neutral-200"></div>
+        <span>缓存内容</span>
+      </div>
+      <div v-if="activeValue.cacheValue" class="flex-1 overflow-auto p-4">
+        <pre>{{ activeValue.cacheValue }}</pre>
       </div>
     </div>
   </Page>
