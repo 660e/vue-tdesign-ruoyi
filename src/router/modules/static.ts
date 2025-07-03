@@ -27,12 +27,19 @@ export default [
     ],
   },
   {
+    path: '/dashboard',
+    component: () => import('@/views/_dashboard/index.vue'),
+  },
+  {
     path: '/issues',
     children: [
-      { path: '', component: () => import('@/views/issues/index.vue') },
-      { path: '1', component: () => import('@/views/issues/1.vue') },
-      { path: '5343', component: () => import('@/views/issues/5343.vue') },
+      { path: '1', component: () => import('@/views/_issues/1.vue') },
+      { path: '5343', component: () => import('@/views/_issues/5343.vue') },
     ],
+  },
+  {
+    path: '/leaflet',
+    component: () => import('@/views/_leaflet/index.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
