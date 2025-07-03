@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listLogininfor, deleteLogininfor, exportLogininfor, clearLogininfor } from '@/apis/monitor';
+import { listLogininfor, deleteLogininfor, exportLogininfor, clearLogininfor, unlockUser } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -10,7 +10,9 @@ import { getOperationColumnWidth } from '@/utils';
 const loadingStore = useLoadingStore();
 const tableData = ref();
 
-const operations: QTableProps['operations'] = [{ value: 'view', icon: 'browse', label: '详情' }];
+const operations: QTableProps['operations'] = [
+  { value: 'unlock', icon: 'lock-off', label: '解锁', popconfirm: { content: '确定解锁此用户？', theme: 'warning' } },
+];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
   { title: '访问编号', colKey: 'infoId', width: 100 },
@@ -111,8 +113,16 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
     }
 
-    case 'view':
-      console.log(row);
+    case 'unlock':
+      try {
+        loadingStore.show();
+        const { msg } = await unlockUser(row?.userName);
+        await onHandle('refresh');
+        MessagePlugin.success(msg);
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
       break;
   }
 };

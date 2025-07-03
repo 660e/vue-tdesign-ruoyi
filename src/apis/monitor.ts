@@ -83,6 +83,6 @@ export function clearLogininfor() {
   return request.delete<AppResponseData<AppUnknownRecord>>('/monitor/logininfor/clean');
 }
 
-export function unlockUser(userId: number) {
-  return request.get<AppResponseData<AppUnknownRecord>>('/monitor/logininfor/unlock', { data: { userId } });
+export function unlockUser(userName: string) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/monitor/logininfor/unlock/${userName}`);
 }
