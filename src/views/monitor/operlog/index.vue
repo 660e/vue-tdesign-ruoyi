@@ -82,32 +82,19 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'delete':
-      if (row) {
+      useHandleDelete(async () => {
         loadingStore.show();
         try {
-          const { msg } = await deleteOperlog(row.operId);
+          const { msg } = await deleteOperlog((selectedRowKeys.value || []).join(','));
           await onHandle('refresh');
           MessagePlugin.success(msg);
           selectedRowKeys.value = [];
+          return true;
         } catch {
         } finally {
           loadingStore.hide();
         }
-      } else {
-        useHandleDelete(async () => {
-          loadingStore.show();
-          try {
-            const { msg } = await deleteOperlog((selectedRowKeys.value || []).join(','));
-            await onHandle('refresh');
-            MessagePlugin.success(msg);
-            selectedRowKeys.value = [];
-            return true;
-          } catch {
-          } finally {
-            loadingStore.hide();
-          }
-        }, selectedRowKeys.value?.length);
-      }
+      }, selectedRowKeys.value?.length);
       break;
 
     case 'clear': {

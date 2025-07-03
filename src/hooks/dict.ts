@@ -8,7 +8,7 @@ export function useDict(key: AppSystemDictKey, value?: string) {
   const { dicts } = useAppStore();
 
   if (arguments.length === 2) {
-    return dicts?.get(key)?.find((e) => e.value === value)?.label || '-';
+    return dicts?.get(key)?.find((e) => e.value === String(value))?.label || '-';
   } else {
     return dicts?.get(key) || [];
   }
