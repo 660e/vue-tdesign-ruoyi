@@ -46,7 +46,7 @@ const NoticeType = ({ type }: { type: string }) => {
         </t-list>
 
         <div class="pt-2 pb-1 flex justify-center">
-          <t-link theme="primary">查看更多...</t-link>
+          <t-link @click="$router.push({ name: 'system-notice' })" theme="primary">查看更多...</t-link>
         </div>
       </div>
     </template>
