@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listPost, deletePost, exportPost } from '@/apis/system';
+import { listOperlog, deleteOperlog, exportOperlog } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -12,20 +12,21 @@ const loadingStore = useLoadingStore();
 const createDialogRef = ref();
 const tableData = ref();
 
-const operations: QTableProps['operations'] = [
-  { value: 'edit', icon: 'edit', label: '修改' },
-  { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
-];
+const operations: QTableProps['operations'] = [{ value: 'view', icon: 'browse', label: '详情' }];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '岗位名称', colKey: 'postName', minWidth: 200, toolbarFilter: { type: 'input' } },
-  { title: '岗位编码', colKey: 'postCode', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '日志编号', colKey: 'operId', width: 100 },
+  { title: '系统模块', colKey: 'title', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '操作类型', colKey: 'operatorType', width: 100 },
+  { title: '操作人员', colKey: 'operName', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '操作地址', colKey: 'operIp', width: 200, toolbarFilter: { type: 'input' } },
+  { title: '操作地点', colKey: 'operLocation', width: 200, toolbarFilter: { type: 'input' } },
   {
-    title: '状态',
+    title: '操作状态',
     colKey: 'status',
-    cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_normal_disable" themes={['success', 'danger']} />,
+    cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_common_status" themes={['success', 'danger']} />,
     width: 100,
-    toolbarFilter: { type: 'select', dict: 'sys_normal_disable' },
+    toolbarFilter: { type: 'select', dict: 'sys_common_status' },
   },
   { title: '创建时间', colKey: 'createTime', width: 200 },
   {
@@ -60,7 +61,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows, total } = await listPost({
+        const { rows, total } = await listOperlog({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
           ...queryParams.value,
@@ -85,7 +86,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       if (row) {
         loadingStore.show();
         try {
-          const { msg } = await deletePost(row.postId);
+          const { msg } = await deleteOperlog(row.operId);
           await onHandle('refresh');
           MessagePlugin.success(msg);
           selectedRowKeys.value = [];
@@ -97,7 +98,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
         useHandleDelete(async () => {
           loadingStore.show();
           try {
-            const { msg } = await deletePost((selectedRowKeys.value || []).join(','));
+            const { msg } = await deleteOperlog((selectedRowKeys.value || []).join(','));
             await onHandle('refresh');
             MessagePlugin.success(msg);
             selectedRowKeys.value = [];
@@ -114,7 +115,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
 const fileExport: QTableProps['fileExport'] = {
   api: () => {
-    return exportPost({
+    return exportOperlog({
       pageNum: pagination.pageNum,
       pageSize: pagination.pageSize,
       ...queryParams.value,
@@ -136,7 +137,7 @@ onMounted(async () => await onHandle('refresh'));
       :refresh-data="refreshData"
       @page-change="onPageChange"
       @select-change="onSelectChange"
-      row-key="postId"
+      row-key="operId"
     >
       <template #topContent>
         <t-button @click="onHandle('create')">

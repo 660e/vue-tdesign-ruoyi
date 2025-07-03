@@ -5,8 +5,8 @@ import { useDict } from '@/hooks';
 
 const { value, dict, themes } = defineProps<{ value: string; dict: AppSystemDictKey; themes: TagProps['theme'][] }>();
 
-const index = useDict(dict).findIndex((e) => e.value === value);
-const item = useDict(dict).find((e) => e.value === value);
+const index = useDict(dict).findIndex((e) => e.value === String(value));
+const item = useDict(dict).find((e) => e.value === String(value));
 </script>
 
 <template>
