@@ -154,7 +154,7 @@ onMounted(async () => {
                   </t-tag>
                 </template>
                 <template v-else>
-                  <span class="font-mono text-right">{{ row.orderNum.toString().padStart(3, 0) }}</span>
+                  <span class="font-mono text-right">{{ String(row.orderNum).padStart(3, '0') }}</span>
                   <t-icon :name="iconConverter(row.icon)" />
                   <span>{{ row.menuName }}</span>
                   <span class="flex-1"></span>

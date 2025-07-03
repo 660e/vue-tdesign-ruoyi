@@ -87,7 +87,7 @@ onMounted(async () => await onHandle('refresh'));
             :key="row.roleId"
           >
             <div class="flex-1 flex items-center gap-2">
-              <span class="font-mono text-right">{{ row.roleSort.toString().padStart(3, 0) }}</span>
+              <span class="font-mono text-right">{{ String(row.roleSort).padStart(3, '0') }}</span>
               <span>{{ row.roleName }}</span>
               <span class="flex-1"></span>
               <t-tag size="small" variant="light-outline">{{ row.roleKey }}</t-tag>
