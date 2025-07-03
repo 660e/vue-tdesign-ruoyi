@@ -1,18 +1,43 @@
 <script setup lang="ts">
 import { listDictType, deleteDictType } from '@/apis/system';
-import { useDict, useHandleDelete } from '@/hooks';
+import { listCacheNames, clearCacheAll } from '@/apis/monitor';
+import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
 import Description from './Description.vue';
 
 const loadingStore = useLoadingStore();
+const namesData = ref();
+const activeNameData = ref();
+
 const createDialogRef = ref();
 const tableData = ref();
 const activeRowData = ref();
 
 const onHandle = async (value: string) => {
   switch (value) {
+    case 'refresh-names':
+      loadingStore.show();
+      try {
+        namesData.value = (await listCacheNames()).data;
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
+      break;
+
+    case 'clear-all':
+      loadingStore.show();
+      try {
+        const { msg } = await clearCacheAll();
+        MessagePlugin.success(msg);
+      } catch {
+      } finally {
+        loadingStore.hide();
+      }
+      break;
+
     case 'refresh':
       loadingStore.show();
       try {
@@ -56,36 +81,38 @@ const onHandle = async (value: string) => {
   }
 };
 
-onMounted(async () => await onHandle('refresh'));
+onMounted(async () => await onHandle('refresh-names'));
 </script>
 
 <template>
   <Page class="flex">
-    <div class="w-80 flex flex-col border-r border-neutral-200">
-      <div class="p-4 flex gap-2 border-b border-neutral-200">
-        <t-input class="flex-1" clearable>
-          <template #prefix-icon><t-icon name="search" /></template>
-        </t-input>
-        <t-button @click="onHandle('create')">
-          <template #icon><t-icon name="add" /></template><span>新增</span>
+    <div class="w-1/4 min-w-80 flex flex-col border-r border-neutral-200">
+      <div class="p-4 flex items-center gap-2 border-b border-neutral-200">
+        <div class="w-1 h-full bg-neutral-200"></div>
+        <span>缓存列表</span>
+        <span class="flex-1"></span>
+        <t-button @click="onHandle('refresh-names')" theme="default">
+          <template #icon><t-icon name="refresh" /></template><span>刷新</span>
+        </t-button>
+        <t-button @click="onHandle('clear-all')" theme="success">
+          <template #icon><t-icon name="clear" /></template><span>清理</span>
         </t-button>
       </div>
       <div class="flex-1 overflow-y-auto pb-16">
         <t-list split>
           <t-list-item
-            v-for="row in tableData"
-            :style="{ backgroundColor: row.dictType === activeRowData?.dictType ? 'var(--td-brand-color-1)' : '' }"
-            @click="activeRowData = row"
+            v-for="name in namesData"
+            :style="{ backgroundColor: name.cacheName === activeNameData?.cacheName ? 'var(--td-brand-color-1)' : '' }"
+            @click="activeNameData = name"
             class="cursor-pointer duration-200 hover:bg-neutral-100"
-            :key="row.deptId"
+            :key="name.cacheName"
           >
             <div class="flex-1 flex items-center gap-2">
-              <span>{{ row.dictName }}</span>
+              <span>{{ name.cacheName }}</span>
               <span class="flex-1"></span>
-              <t-tag size="small" variant="light-outline">{{ row.dictType }}</t-tag>
-              <t-tag v-if="row.status === '1'" size="small" theme="danger" variant="light-outline">{{ useDict('sys_normal_disable', '1') }}</t-tag>
+              <t-icon name="chevron-right" />
               <b
-                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: row.dictType === activeRowData?.dictType ? '100%' : '0' }"
+                :style="{ backgroundColor: 'var(--td-brand-color-7)', height: name.cacheName === activeNameData?.cacheName ? '100%' : '0' }"
                 class="absolute top-0 right-0 w-1 duration-200"
               ></b>
             </div>
