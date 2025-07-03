@@ -81,28 +81,6 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
 
-    case 'clear': {
-      const DialogInstance = DialogPlugin.confirm({
-        header: '清空日志',
-        body: '清空所有操作日志？',
-        confirmBtn: { content: '清空', theme: 'danger' },
-        onConfirm: async () => {
-          loadingStore.show();
-          try {
-            const { msg } = await clearOperlog();
-            await onHandle('refresh');
-            MessagePlugin.success(msg);
-            DialogInstance.hide();
-          } catch {
-          } finally {
-            loadingStore.hide();
-          }
-        },
-        onClosed: () => DialogInstance.destroy(),
-      });
-      break;
-    }
-
     case 'delete':
       if (row) {
         loadingStore.show();
@@ -130,6 +108,33 @@ const onHandle = async (value: string, row?: TableRowData) => {
           }
         }, selectedRowKeys.value?.length);
       }
+      break;
+
+    case 'clear': {
+      const DialogInstance = DialogPlugin.confirm({
+        header: '清空日志',
+        body: '清空所有操作日志？',
+        confirmBtn: { content: '清空', theme: 'danger' },
+        onConfirm: async () => {
+          loadingStore.show();
+          try {
+            const { msg } = await clearOperlog();
+            await onHandle('refresh');
+            MessagePlugin.success(msg);
+            DialogInstance.hide();
+          } catch {
+          } finally {
+            loadingStore.hide();
+          }
+        },
+        onClosed: () => DialogInstance.destroy(),
+      });
+      break;
+    }
+
+    case 'view':
+      if (!row) return;
+      viewDialogRef.value.show(row);
       break;
   }
 };
