@@ -46,3 +46,21 @@ export function runJob(jobId: number, jobGroup: string) {
 export function getServer() {
   return request.get<AppResponseData<AppUnknownRecord>>('/monitor/server');
 }
+
+// ----- operlog
+
+export function deleteOperlog(operIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/monitor/operlog/${operIds}`);
+}
+
+export function listOperlog(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/monitor/operlog/list', { params });
+}
+
+export function exportOperlog(params?: AppRequestListParams) {
+  return request.get<AppResponseData<Blob>>('/monitor/operlog/export', { params, responseType: 'blob' });
+}
+
+export function clearOperlog() {
+  return request.delete<AppResponseData<AppUnknownRecord>>('/monitor/operlog/clean');
+}
