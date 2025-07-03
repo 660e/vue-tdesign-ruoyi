@@ -64,3 +64,25 @@ export function exportOperlog(params?: AppRequestListParams) {
 export function clearOperlog() {
   return request.delete<AppResponseData<AppUnknownRecord>>('/monitor/operlog/clean');
 }
+
+// ----- logininfor
+
+export function deleteLogininfor(infoIds: number | string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/monitor/logininfor/${infoIds}`);
+}
+
+export function listLogininfor(params?: AppRequestListParams) {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/monitor/logininfor/list', { params });
+}
+
+export function exportLogininfor(params?: AppRequestListParams) {
+  return request.post<AppResponseData<Blob>>('/monitor/logininfor/export', { params, responseType: 'blob' });
+}
+
+export function clearLogininfor() {
+  return request.delete<AppResponseData<AppUnknownRecord>>('/monitor/logininfor/clean');
+}
+
+export function unlockUser(userId: number) {
+  return request.get<AppResponseData<AppUnknownRecord>>('/monitor/logininfor/unlock', { data: { userId } });
+}
