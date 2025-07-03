@@ -50,8 +50,10 @@ const refreshData: QTableProps['refreshData'] = async (value) => {
 };
 
 const selectedRowKeys = ref<TableProps['selectedRowKeys']>([]);
-const onSelectChange: TableProps['onSelectChange'] = (value) => {
+const selectedRowData = ref<TableRowData[]>([]);
+const onSelectChange: TableProps['onSelectChange'] = (value, options) => {
   selectedRowKeys.value = value;
+  selectedRowData.value = options.selectedRowData;
 };
 
 const onHandle = async (value: string, row?: TableRowData) => {
@@ -133,7 +135,14 @@ const onHandle = async (value: string, row?: TableRowData) => {
           loadingStore.hide();
         }
       } else {
-        console.log(selectedRowKeys.value);
+        loadingStore.show();
+        try {
+          const response = await exportTable(selectedRowData.value.map((e) => e.tableName).join(','));
+          downloadBlob(response, '代码生成.zip');
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
       }
       break;
   }
