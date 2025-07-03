@@ -104,3 +104,11 @@ export function getCacheValue(cacheName: string, key: string) {
 export function clearCacheAll() {
   return request.delete<AppResponseData<AppUnknownRecord>>('/monitor/cache/clearCacheAll');
 }
+
+export function clearCacheName(cacheName: string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/monitor/cache/clearCacheName/${cacheName}`);
+}
+
+export function clearCacheKey(key: string) {
+  return request.delete<AppResponseData<AppUnknownRecord>>(`/monitor/cache/clearCacheKey/${key}`);
+}

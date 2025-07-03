@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { listCacheNames, listCacheKeys, getCacheValue, clearCacheAll } from '@/apis/monitor';
+import { listCacheNames, listCacheKeys, getCacheValue, clearCacheAll, clearCacheName, clearCacheKey } from '@/apis/monitor';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 
@@ -22,18 +22,6 @@ const reset = (level: 1 | 2) => {
       activeKey.value = '';
       activeValue.value = null;
       break;
-  }
-};
-
-const clearAll = async () => {
-  loadingStore.show();
-  try {
-    const { msg } = await clearCacheAll();
-    MessagePlugin.success(msg);
-    reset(1);
-  } catch {
-  } finally {
-    loadingStore.hide();
   }
 };
 
@@ -71,6 +59,42 @@ const getValue = async (key: string) => {
   }
 };
 
+const clearAll = async () => {
+  loadingStore.show();
+  try {
+    const { msg } = await clearCacheAll();
+    MessagePlugin.success(msg);
+    reset(1);
+  } catch {
+  } finally {
+    loadingStore.hide();
+  }
+};
+
+const clearName = async (cacheName: string) => {
+  loadingStore.show();
+  try {
+    const { msg } = await clearCacheName(cacheName);
+    await getNames();
+    MessagePlugin.success(msg);
+  } catch {
+  } finally {
+    loadingStore.hide();
+  }
+};
+
+const clearKey = async (key: string) => {
+  loadingStore.show();
+  try {
+    const { msg } = await clearCacheKey(key);
+    await getKeys(activeName.value);
+    MessagePlugin.success(msg);
+  } catch {
+  } finally {
+    loadingStore.hide();
+  }
+};
+
 onMounted(async () => await getNames());
 </script>
 
@@ -100,7 +124,7 @@ onMounted(async () => await getNames());
             <div class="flex-1 flex items-center gap-2">
               <span>{{ row.cacheName }}</span>
               <span class="flex-1"></span>
-              <t-link class="flex items-center gap-0.5" theme="primary">
+              <t-link @click.stop="clearName(row.cacheName)" class="flex items-center gap-0.5" theme="primary">
                 <t-icon name="clear" />
                 <span>清理</span>
               </t-link>
@@ -135,7 +159,7 @@ onMounted(async () => await getNames());
             <div class="flex-1 flex items-center gap-2">
               <span>{{ row }}</span>
               <span class="flex-1"></span>
-              <t-link class="flex items-center gap-0.5" theme="primary">
+              <t-link @click.stop="clearKey(row)" class="flex items-center gap-0.5" theme="primary">
                 <t-icon name="clear" />
                 <span>清理</span>
               </t-link>
