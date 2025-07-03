@@ -23,7 +23,7 @@
 
 /* t-tree */
 .t-tree .t-tree__empty {
-  min-height: 60px;
+  min-height: theme('space.16');
   display: flex;
   justify-content: center;
   align-items: center;
