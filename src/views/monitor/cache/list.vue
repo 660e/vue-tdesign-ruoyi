@@ -10,11 +10,27 @@ const keysData = ref();
 const activeKey = ref();
 const activeValue = ref();
 
+const reset = (level: 1 | 2) => {
+  switch (level) {
+    case 1:
+      activeName.value = '';
+      keysData.value = [];
+      activeKey.value = '';
+      activeValue.value = null;
+      break;
+    case 2:
+      activeKey.value = '';
+      activeValue.value = null;
+      break;
+  }
+};
+
 const clearAll = async () => {
   loadingStore.show();
   try {
     const { msg } = await clearCacheAll();
     MessagePlugin.success(msg);
+    reset(1);
   } catch {
   } finally {
     loadingStore.hide();
@@ -25,6 +41,7 @@ const getNames = async () => {
   loadingStore.show();
   try {
     namesData.value = (await listCacheNames()).data;
+    reset(1);
   } catch {
   } finally {
     loadingStore.hide();
@@ -36,6 +53,7 @@ const getKeys = async (cacheName: string) => {
   try {
     keysData.value = (await listCacheKeys(cacheName)).data;
     activeName.value = cacheName;
+    reset(2);
   } catch {
   } finally {
     loadingStore.hide();
@@ -46,6 +64,7 @@ const getValue = async (key: string) => {
   loadingStore.show();
   try {
     activeValue.value = (await getCacheValue(activeName.value, key)).data;
+    activeKey.value = key;
   } catch {
   } finally {
     loadingStore.hide();
