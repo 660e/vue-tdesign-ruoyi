@@ -6,7 +6,7 @@ import { iconConverter } from '@/utils';
 import router from '../index';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const views = import.meta.glob<{ default: any }>('@/views/**/index.vue', { eager: true });
+const views = import.meta.glob<{ default: any }>('@/views/**/(index|list).vue', { eager: true });
 
 function standardizeRoutes(routes: AppRoute[] = [], parentName = ''): RouteRecordRaw[] {
   return routes
