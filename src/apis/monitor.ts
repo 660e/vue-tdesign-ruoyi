@@ -58,7 +58,7 @@ export function listOperlog(params?: AppRequestListParams) {
 }
 
 export function exportOperlog(params?: AppRequestListParams) {
-  return request.get<AppResponseData<Blob>>('/monitor/operlog/export', { params, responseType: 'blob' });
+  return request.post<AppResponseData<Blob>>('/monitor/operlog/export', { params, responseType: 'blob' });
 }
 
 export function clearOperlog() {

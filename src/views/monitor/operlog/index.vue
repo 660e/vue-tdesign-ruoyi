@@ -6,10 +6,10 @@ import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
-import CreateDialog from './dialogs/Create.vue';
+import ViewDialog from './dialogs/View.vue';
 
 const loadingStore = useLoadingStore();
-const createDialogRef = ref();
+const viewDialogRef = ref();
 const tableData = ref();
 
 const operations: QTableProps['operations'] = [{ value: 'view', icon: 'browse', label: '详情' }];
@@ -170,6 +170,6 @@ onMounted(async () => await onHandle('refresh'));
       </template>
     </q-table>
 
-    <CreateDialog :on-success="async () => await onHandle('refresh')" ref="createDialogRef" />
+    <ViewDialog ref="viewDialogRef" />
   </Page>
 </template>
