@@ -86,3 +86,21 @@ export function clearLogininfor() {
 export function unlockUser(userName: string) {
   return request.get<AppResponseData<AppUnknownRecord>>(`/monitor/logininfor/unlock/${userName}`);
 }
+
+// ----- cache
+
+export function listCacheNames() {
+  return request.get<AppResponseData<AppUnknownRecord[]>>('/monitor/cache/getNames');
+}
+
+export function listCacheKeys(cacheName: string) {
+  return request.get<AppResponseData<string[]>>(`/monitor/cache/getKeys/${cacheName}`);
+}
+
+export function getCacheValue(cacheName: string, key: string) {
+  return request.get<AppResponseData<AppUnknownRecord>>(`/monitor/cache/getValue/${cacheName}/${key}`);
+}
+
+export function clearCacheAll() {
+  return request.delete<AppResponseData<AppUnknownRecord>>('/monitor/cache/clearCacheAll');
+}
