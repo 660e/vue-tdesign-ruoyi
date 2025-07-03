@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listOperlog, deleteOperlog, exportOperlog, clearOperlog } from '@/apis/monitor';
+import { listLogininfor, deleteOperlog, exportOperlog, clearOperlog } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -13,27 +13,21 @@ const tableData = ref();
 const operations: QTableProps['operations'] = [{ value: 'view', icon: 'browse', label: '详情' }];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
-  { title: '日志编号', colKey: 'operId', width: 100 },
-  { title: '系统模块', colKey: 'title', minWidth: 200, toolbarFilter: { type: 'input' } },
+  { title: '访问编号', colKey: 'infoId', width: 100 },
+  { title: '用户名称', colKey: 'userName', width: 200, toolbarFilter: { type: 'input' } },
+  { title: '登录地址', colKey: 'ipaddr', width: 200, toolbarFilter: { type: 'input' } },
+  { title: '登录地点', colKey: 'loginLocation', width: 200 },
+  { title: '浏览器', colKey: 'browser', width: 200 },
+  { title: '操作系统', colKey: 'os', width: 200 },
   {
-    title: '操作类型',
-    colKey: 'businessType',
-    cell: (_, { row }) => <q-table-tag-col value={row.businessType} dict="sys_oper_type" />,
-    width: 100,
-    toolbarFilter: { type: 'select', dict: 'sys_oper_type' },
-  },
-  { title: '操作人员', colKey: 'operName', width: 100, toolbarFilter: { type: 'input' } },
-  { title: '操作地址', colKey: 'operIp', width: 200, toolbarFilter: { type: 'input' } },
-  { title: '操作地点', colKey: 'operLocation', width: 200 },
-  {
-    title: '操作状态',
+    title: '登录状态',
     colKey: 'status',
     cell: (_, { row }) => <q-table-tag-col value={row.status} dict="sys_common_status" themes={['success', 'danger']} />,
     width: 100,
     toolbarFilter: { type: 'select', dict: 'sys_common_status' },
   },
-  { title: '操作日期', colKey: 'operTime', toolbarFilter: { type: 'date-range', keys: { start: 'beginTime', end: 'endTime' } }, width: 200 },
-  { title: '消耗时间', colKey: 'costTime', cell: (_, { row }) => `${row.costTime}ms`, width: 100 },
+  { title: '操作信息', colKey: 'msg', minWidth: 200 },
+  { title: '登录日期', colKey: 'loginTime', toolbarFilter: { type: 'date-range', keys: { start: 'beginTime', end: 'endTime' } }, width: 200 },
   {
     title: '操作',
     colKey: 'operation',
@@ -66,7 +60,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'refresh':
       loadingStore.show();
       try {
-        const { rows, total } = await listOperlog({
+        const { rows, total } = await listLogininfor({
           pageNum: pagination.pageNum,
           pageSize: pagination.pageSize,
           ...queryParams.value,
@@ -147,7 +141,7 @@ onMounted(async () => await onHandle('refresh'));
       :refresh-data="refreshData"
       @page-change="onPageChange"
       @select-change="onSelectChange"
-      row-key="operId"
+      row-key="infoId"
     >
       <template #topContent>
         <t-button :disabled="selectedRowKeys?.length === 0" @click="onHandle('delete')" theme="danger">

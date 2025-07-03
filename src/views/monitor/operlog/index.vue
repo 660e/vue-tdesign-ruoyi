@@ -24,7 +24,7 @@ const columns: QTableProps['columns'] = [
     width: 100,
     toolbarFilter: { type: 'select', dict: 'sys_oper_type' },
   },
-  { title: '操作人员', colKey: 'operName', width: 100, toolbarFilter: { type: 'input' } },
+  { title: '操作人员', colKey: 'operName', width: 200, toolbarFilter: { type: 'input' } },
   { title: '操作地址', colKey: 'operIp', width: 200, toolbarFilter: { type: 'input' } },
   { title: '操作地点', colKey: 'operLocation', width: 200 },
   {
