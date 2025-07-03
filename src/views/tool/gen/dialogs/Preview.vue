@@ -25,7 +25,7 @@ const show = async (row: TableRowData) => {
 const onConfirm = () => {
   navigator.clipboard
     .writeText(codeData.value?.[tab.value] as string)
-    .then(() => MessagePlugin.success('密码已复制到剪贴板'))
+    .then(() => MessagePlugin.success('代码已复制到剪贴板'))
     .catch(() => MessagePlugin.error('复制失败，请手动复制'));
 };
 

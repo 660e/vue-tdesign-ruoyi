@@ -24,6 +24,13 @@ const onHandle = async (value: string) => {
       }
       break;
 
+    case 'copy':
+      navigator.clipboard
+        .writeText(activeRowData.value?.dictType)
+        .then(() => MessagePlugin.success('代码已复制到剪贴板'))
+        .catch(() => MessagePlugin.error('复制失败，请手动复制'));
+      break;
+
     case 'create':
       createDialogRef.value.show();
       break;
@@ -89,6 +96,9 @@ onMounted(async () => await onHandle('refresh'));
 
     <div v-if="activeRowData" class="flex-1 flex flex-col">
       <div class="p-4 flex gap-2 border-b border-neutral-200">
+        <t-button @click="onHandle('copy')" theme="success">
+          <template #icon><t-icon name="copy" /></template><span>复制</span>
+        </t-button>
         <t-button @click="onHandle('edit')" theme="default">
           <template #icon><t-icon name="edit" /></template><span>修改</span>
         </t-button>
