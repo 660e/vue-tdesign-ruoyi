@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listOperlog, deleteOperlog, exportOperlog } from '@/apis/monitor';
+import { listOperlog, deleteOperlog, exportOperlog, clearOperlog } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -81,13 +81,27 @@ const onHandle = async (value: string, row?: TableRowData) => {
       }
       break;
 
-    case 'create':
-      createDialogRef.value.show();
+    case 'clear': {
+      const DialogInstance = DialogPlugin.confirm({
+        header: '清空日志',
+        body: '清空所有操作日志？',
+        confirmBtn: { content: '清空', theme: 'danger' },
+        onConfirm: async () => {
+          loadingStore.show();
+          try {
+            const { msg } = await clearOperlog();
+            await onHandle('refresh');
+            MessagePlugin.success(msg);
+            DialogInstance.hide();
+          } catch {
+          } finally {
+            loadingStore.hide();
+          }
+        },
+        onClosed: () => DialogInstance.destroy(),
+      });
       break;
-
-    case 'edit':
-      createDialogRef.value.show(row);
-      break;
+    }
 
     case 'delete':
       if (row) {
@@ -147,11 +161,11 @@ onMounted(async () => await onHandle('refresh'));
       row-key="operId"
     >
       <template #topContent>
-        <t-button @click="onHandle('create')">
-          <template #icon><t-icon name="add" /></template><span>新增</span>
-        </t-button>
         <t-button :disabled="selectedRowKeys?.length === 0" @click="onHandle('delete')" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
+        </t-button>
+        <t-button @click="onHandle('clear')" theme="danger">
+          <template #icon><t-icon name="clear" /></template><span>清空</span>
         </t-button>
       </template>
     </q-table>
