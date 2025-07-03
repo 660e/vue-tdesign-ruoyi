@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listLogininfor, deleteOperlog, exportOperlog, clearOperlog } from '@/apis/monitor';
+import { listLogininfor, deleteLogininfor, exportLogininfor, clearLogininfor } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
@@ -77,7 +77,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
       useHandleDelete(async () => {
         loadingStore.show();
         try {
-          const { msg } = await deleteOperlog((selectedRowKeys.value || []).join(','));
+          const { msg } = await deleteLogininfor((selectedRowKeys.value || []).join(','));
           await onHandle('refresh');
           MessagePlugin.success(msg);
           selectedRowKeys.value = [];
@@ -92,12 +92,12 @@ const onHandle = async (value: string, row?: TableRowData) => {
     case 'clear': {
       const DialogInstance = DialogPlugin.confirm({
         header: '清空日志',
-        body: '清空所有操作日志？',
+        body: '清空所有登录日志？',
         confirmBtn: { content: '清空', theme: 'danger' },
         onConfirm: async () => {
           loadingStore.show();
           try {
-            const { msg } = await clearOperlog();
+            const { msg } = await clearLogininfor();
             await onHandle('refresh');
             MessagePlugin.success(msg);
             DialogInstance.hide();
@@ -119,7 +119,7 @@ const onHandle = async (value: string, row?: TableRowData) => {
 
 const fileExport: QTableProps['fileExport'] = {
   api: () => {
-    return exportOperlog({
+    return exportLogininfor({
       pageNum: pagination.pageNum,
       pageSize: pagination.pageSize,
       ...queryParams.value,
