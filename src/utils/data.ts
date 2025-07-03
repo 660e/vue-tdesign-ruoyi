@@ -56,6 +56,17 @@ export function buildTree<T>(data: T[], options: { childrenKey?: string; idKey?:
   return result;
 }
 
+export function downloadBlob(blob: Blob, filename: string): void {
+  const url: string = URL.createObjectURL(blob);
+  const a: HTMLAnchorElement = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 export function getOperationColumnWidth(operations: QTableProps['operations']) {
   const iw = operations.filter((e) => e.icon).length * 16;
   const lw = operations.filter((e) => e.label).reduce((a, c) => a + c.label!.length * 14, 0);

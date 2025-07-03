@@ -1,11 +1,11 @@
 <script setup lang="tsx">
 import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
-import { listTable, deleteTable, syncTable } from '@/apis/tool';
+import { listTable, deleteTable, syncTable, exportTable } from '@/apis/tool';
 import { useHandleDelete } from '@/hooks';
 import { Page } from '@/layouts/standard';
 import { useLoadingStore } from '@/stores';
-import { getOperationColumnWidth } from '@/utils';
+import { downloadBlob, getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
 import PreviewDrawer from './dialogs/Preview.vue';
 
@@ -18,7 +18,7 @@ const operations: QTableProps['operations'] = [
   { value: 'preview', icon: 'browse', label: '预览' },
   { value: 'delete', icon: 'delete', label: '删除', theme: 'danger', popconfirm: { content: '确定删除此条数据？' } },
   { value: 'sync', icon: 'arrow-up-down-1', label: '同步', popconfirm: { content: '确定同步此条数据？' } },
-  { value: 'code', icon: 'code', label: '生成代码' },
+  { value: 'code', icon: 'code', label: '生成' },
 ];
 const columns: QTableProps['columns'] = [
   { colKey: 'row-select', type: 'multiple', fixed: 'left' },
@@ -123,8 +123,18 @@ const onHandle = async (value: string, row?: TableRowData) => {
       break;
 
     case 'code':
-      if (!row) return;
-      console.log(row);
+      if (row) {
+        loadingStore.show();
+        try {
+          const response = await exportTable(row.tableName);
+          downloadBlob(response, `${row.functionName}.zip`);
+        } catch {
+        } finally {
+          loadingStore.hide();
+        }
+      } else {
+        console.log(selectedRowKeys.value);
+      }
       break;
   }
 };
@@ -150,6 +160,9 @@ onMounted(async () => await onHandle('refresh'));
         </t-button>
         <t-button :disabled="selectedRowKeys?.length === 0" @click="onHandle('delete')" theme="danger">
           <template #icon><t-icon name="delete" /></template><span>删除</span>
+        </t-button>
+        <t-button :disabled="selectedRowKeys?.length === 0" @click="onHandle('code')" theme="default">
+          <template #icon><t-icon name="code" /></template><span>生成</span>
         </t-button>
       </template>
     </q-table>

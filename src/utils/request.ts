@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import type { AppRequestConfig } from '@/types';
 import { useAppStore } from '@/stores';
+import { is } from '@/utils';
 import axios from 'axios';
 
 class Request {
@@ -42,7 +43,11 @@ class Request {
             MessagePlugin.error(response.data.msg);
             break;
           default:
-            console.log(response.data);
+            if (is.blob(response.data)) {
+              return response.data;
+            } else {
+              console.log(response.data);
+            }
         }
       },
       (error) => {

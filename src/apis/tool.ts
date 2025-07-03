@@ -26,3 +26,7 @@ export function getTable(tableId: number) {
 export function syncTable(tableName: string) {
   return request.get<AppResponseData<AppUnknownRecord>>(`/tool/gen/synchDb/${tableName}`);
 }
+
+export function exportTable(tables: string) {
+  return request.get<Blob>('tool/gen/batchGenCode', { params: { tables }, responseType: 'blob' });
+}
