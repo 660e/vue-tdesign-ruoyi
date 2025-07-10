@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Page } from '@/layouts/standard';
 import L from 'leaflet';
 
 let map: L.Map | null = null;
@@ -17,5 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen" id="map"></div>
+  <Page>
+    <div class="h-full" id="map"></div>
+  </Page>
 </template>

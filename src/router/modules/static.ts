@@ -24,6 +24,15 @@ export default [
           title: '首页',
         },
       },
+      {
+        path: 'leaflet',
+        name: 'leaflet',
+        component: () => import('@/views/leaflet/index.vue'),
+        meta: {
+          icon: 'map',
+          title: '地理信息',
+        },
+      },
     ],
   },
   {
@@ -36,10 +45,6 @@ export default [
       { path: '1', component: () => import('@/views/_issues/1.vue') },
       { path: '5343', component: () => import('@/views/_issues/5343.vue') },
     ],
-  },
-  {
-    path: '/leaflet',
-    component: () => import('@/views/_leaflet/index.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
