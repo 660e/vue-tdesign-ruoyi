@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    LMap: typeof import('./src/components/l-map/index.vue')['default']
     QFileImport: typeof import('./src/components/q-file-import/index.vue')['default']
     QIconSelect: typeof import('./src/components/q-icon-select/index.vue')['default']
     QTable: typeof import('./src/components/q-table/index.vue')['default']
