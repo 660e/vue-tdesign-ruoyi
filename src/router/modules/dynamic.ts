@@ -87,18 +87,8 @@ export async function initializeRouter(layout: 'standard') {
   const { data } = await getRoutes();
   const appStore = useAppStore();
   appStore.setRoutes(standardizeRoutes(data));
-
   appStore.routes.push(
     ...[
-      {
-        path: 'leaflet',
-        name: 'leaflet',
-        component: () => import('@/views/leaflet/index.vue'),
-        meta: {
-          icon: 'map',
-          title: '地理信息',
-        },
-      },
       {
         path: 'dashboard',
         name: 'dashboard',
@@ -108,8 +98,16 @@ export async function initializeRouter(layout: 'standard') {
           title: '数据大屏',
         },
       },
+      {
+        path: 'leaflet',
+        name: 'leaflet',
+        component: () => import('@/views/leaflet/index.vue'),
+        meta: {
+          icon: 'map',
+          title: '地理信息',
+        },
+      },
     ],
   );
-
   appStore.routes.forEach((e) => router.addRoute(`layout-${layout}`, e));
 }
