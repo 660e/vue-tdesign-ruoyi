@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Page } from '@/layouts/standard';
-import { LMap } from './components';
+import { L } from './components';
 </script>
 
 <template>
   <Page>
-    <LMap class="h-full" id="map" />
+    <L.Map class="h-full" id="map" />
   </Page>
 </template>

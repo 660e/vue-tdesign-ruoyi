@@ -1,3 +1,3 @@
-import LMap from './Map.vue';
+import Map from './Map.vue';
 
-export { LMap };
+export const L = { Map };
