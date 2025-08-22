@@ -5,6 +5,6 @@ import { L } from './components';
 
 <template>
   <Page>
-    <L.Map class="h-full" id="map" />
+    <L.Map :options="{ center: [39.906217, 116.397428] }" class="h-full" id="map" />
   </Page>
 </template>
