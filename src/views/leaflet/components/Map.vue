@@ -23,6 +23,11 @@ onMounted(() => {
     maxZoom: options.maxZoom || 18,
     minZoom: options.minZoom || 6,
   }).addTo(map.value);
+
+  map.value.on('click', (e: L.LeafletMouseEvent) => {
+    const latlng = e.latlng;
+    console.log([latlng.lat, latlng.lng]);
+  });
 });
 
 onUnmounted(() => {
