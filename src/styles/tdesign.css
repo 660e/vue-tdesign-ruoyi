@@ -28,3 +28,10 @@
   justify-content: center;
   align-items: center;
 }
+
+/* https://github.com/Tencent/tdesign-vue-next/issues/5343 */
+.t-form .t-form__item .t-input__extra {
+  line-height: 1;
+  min-height: 0;
+  bottom: calc(-1 * --spacing(4));
+}
