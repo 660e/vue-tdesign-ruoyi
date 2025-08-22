@@ -7,12 +7,13 @@ const attrs = useAttrs() as {
   id: string;
 };
 
-let map: L.Map | null = null;
+const map = ref<L.Map>();
+provide('mapInstance', map);
 
 onMounted(() => {
   if (!attrs.id) return;
 
-  map = L.map(attrs.id, {
+  map.value = L.map(attrs.id, {
     center: options.center,
     zoom: options.zoom || 13,
     attributionControl: false,
@@ -21,14 +22,14 @@ onMounted(() => {
   L.tileLayer('https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}', {
     maxZoom: options.maxZoom || 18,
     minZoom: options.minZoom || 6,
-  }).addTo(map);
+  }).addTo(map.value);
 });
 
 onUnmounted(() => {
-  if (!map) return;
+  if (!map.value) return;
 
-  map.remove();
-  map = null;
+  map.value.remove();
+  map.value = undefined;
 });
 </script>
 

@@ -1,6 +1,7 @@
-import Map from './Map.vue';
+import LMap from './Map.vue';
+import LMarker from './Marker.vue';
 
-export const L = { Map };
+export { LMap, LMarker };
 
 export interface LMapOptions {
   center: [number, number];
