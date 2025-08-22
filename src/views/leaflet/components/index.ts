@@ -1,3 +1,3 @@
-import LMap from './l-map/index.vue';
+import LMap from './Map.vue';
 
 export { LMap };
