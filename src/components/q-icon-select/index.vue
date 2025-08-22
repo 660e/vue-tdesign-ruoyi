@@ -18,15 +18,15 @@ const model = defineModel<string | undefined>('modelValue', { required: true });
   width: 600px;
 }
 .q-icon-select__popup .t-select__list {
-  padding: theme('spacing.2');
+  padding: calc(var(--spacing) * 2);
   display: flex;
   flex-wrap: wrap;
 }
 .q-icon-select__popup .t-select-option {
-  font-size: theme('spacing.6');
+  font-size: calc(var(--spacing) * 6);
   height: auto;
   margin: 0;
-  padding: theme('spacing.1');
+  padding: var(--spacing);
 }
 .q-icon-select__popup .t-select-option > span {
   display: flex;
