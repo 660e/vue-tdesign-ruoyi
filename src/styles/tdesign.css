@@ -13,7 +13,7 @@
   flex: 1;
 }
 .t-menu__popup .t-menu__item {
-  gap: theme('spacing.1');
+  gap: --spacing(1);
 }
 
 /* t-table */
@@ -23,7 +23,7 @@
 
 /* t-tree */
 .t-tree .t-tree__empty {
-  min-height: theme('spacing.16');
+  min-height: --spacing(16);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,5 +33,5 @@
 .t-form .t-form__item .t-input__extra {
   line-height: 1;
   min-height: 0;
-  bottom: calc(-1 * theme('spacing.4'));
+  bottom: --spacing(-4);
 }
