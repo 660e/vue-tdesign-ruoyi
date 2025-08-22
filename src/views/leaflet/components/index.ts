@@ -10,3 +10,7 @@ export interface LMapOptions {
   minZoom?: number;
   zoom?: number;
 }
+
+export interface LMarkerOptions {
+  latlng: [number, number];
+}

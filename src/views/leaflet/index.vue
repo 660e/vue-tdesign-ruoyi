@@ -6,7 +6,7 @@ import { LMap, LMarker } from './components';
 <template>
   <!-- <Page> -->
   <LMap :options="{ center: [39.906217, 116.397428] }" class="h-screen" id="map">
-    <LMarker />
+    <LMarker :options="{ latlng: [39.906217, 116.397428] }" />
   </LMap>
   <!-- </Page> -->
 </template>
