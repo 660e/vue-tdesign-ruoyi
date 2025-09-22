@@ -8,7 +8,6 @@ const map = inject<Ref<L.Map>>('mapInstance');
 const zoomIn = () => {
   if (map?.value) map.value.zoomIn();
 };
-
 const zoomOut = () => {
   if (map?.value) map.value.zoomOut();
 };

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { LMapOptions } from '.';
-import L from 'leaflet';
-
 import { LControls } from '.';
+import L from 'leaflet';
 
 const { options } = defineProps<{ options: LMapOptions }>();
 const attrs = useAttrs() as {
