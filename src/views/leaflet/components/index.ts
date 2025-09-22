@@ -1,10 +1,14 @@
+import L from 'leaflet';
+
 import LMap from './Map.vue';
 import LMarker from './Marker.vue';
 
 export { LMap, LMarker };
 
+type LatLng = [number, number] | { lat: number; lng: number } | L.LatLng;
+
 export interface LMapOptions {
-  center: [number, number];
+  center: LatLng;
 
   maxZoom?: number;
   minZoom?: number;
@@ -12,5 +16,5 @@ export interface LMapOptions {
 }
 
 export interface LMarkerOptions {
-  latlng: [number, number];
+  latlng: LatLng;
 }

@@ -14,9 +14,9 @@ onMounted(() => {
   if (!attrs.id) return;
 
   map.value = L.map(attrs.id, {
+    attributionControl: false,
     center: options.center,
     zoom: options.zoom || 13,
-    attributionControl: false,
     zoomControl: false,
   });
   L.tileLayer('https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}', {
@@ -24,10 +24,10 @@ onMounted(() => {
     minZoom: options.minZoom || 6,
   }).addTo(map.value);
 
-  map.value.on('click', (e: L.LeafletMouseEvent) => {
-    const latlng = e.latlng;
-    console.log([latlng.lat, latlng.lng]);
-  });
+  //   map.value.on('click', (e: L.LeafletMouseEvent) => {
+  //     const latlng = e.latlng;
+  //     console.log([latlng.lat, latlng.lng]);
+  //   });
 });
 
 onUnmounted(() => {
