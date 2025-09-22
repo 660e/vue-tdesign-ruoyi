@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import L from 'leaflet';
+
 defineProps<{ zoom?: boolean }>();
 
 const map = inject<Ref<L.Map>>('mapInstance');
@@ -13,7 +15,7 @@ const zoomOut = () => {
 </script>
 
 <template>
-  <div class="absolute right-0 bottom-0 z-[1000]">
+  <div v-leaflet-stop class="absolute right-0 bottom-0 z-[1000]">
     <div v-if="zoom" :style="{ borderRadius: 'var(--td-radius-default)' }" class="flex flex-col m-4 shadow bg-white">
       <t-button @click="zoomIn" shape="square" theme="default" variant="text">
         <template #icon><t-icon name="plus" /></template>
