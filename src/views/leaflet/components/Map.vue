@@ -2,6 +2,8 @@
 import type { LMapOptions } from '.';
 import L from 'leaflet';
 
+import { LControls } from '.';
+
 const { options } = defineProps<{ options: LMapOptions }>();
 const attrs = useAttrs() as {
   id: string;
@@ -41,5 +43,7 @@ onUnmounted(() => {
 <template>
   <div>
     <slot></slot>
+
+    <LControls />
   </div>
 </template>

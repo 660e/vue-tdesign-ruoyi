@@ -1,9 +1,10 @@
 import L from 'leaflet';
 
+import LControls from './Controls.vue';
 import LMap from './Map.vue';
 import LMarker from './Marker.vue';
 
-export { LMap, LMarker };
+export { LControls, LMap, LMarker };
 
 type LatLng = [number, number] | { lat: number; lng: number } | L.LatLng;
 

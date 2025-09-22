@@ -18,6 +18,6 @@ const initialize = (mapInstance: L.Map) => {
 };
 </script>
 
-<template>
-  <div></div>
+<template v-if="$slots.default">
+  <slot></slot>
 </template>
