@@ -43,6 +43,6 @@ onUnmounted(() => {
   <div>
     <slot></slot>
 
-    <LControls zoom />
+    <LControls center zoom />
   </div>
 </template>
