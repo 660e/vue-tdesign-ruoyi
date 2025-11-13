@@ -33,7 +33,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="absolute right-0 bottom-0 z-[1000]">
+  <div class="absolute right-0 bottom-0 z-1000">
     <t-icon
       v-leaflet-stop
       class="box-content text-base p-2 mr-4 mb-2 rounded shadow cursor-pointer duration-200 hover:bg-neutral-100 bg-white"
@@ -46,7 +46,7 @@ onUnmounted(() => {
         class="box-content text-base p-2 rounded-tl rounded-tr duration-200"
         name="plus"
       />
-      <t-divider class="!m-0" />
+      <t-divider class="m-0!" />
       <t-icon
         :class="[currentZoom <= minZoom ? 'cursor-not-allowed text-neutral-400' : 'cursor-pointer hover:bg-neutral-100']"
         @click="zoomOut"
