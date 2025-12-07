@@ -73,7 +73,7 @@ const onSubmit = () => {
   <div class="px-4 pt-4">
     <t-form :data="formData" @submit="onSubmit" class="gap-2 flex" label-width="0" layout="inline" ref="formRef">
       <div :style="{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }" class="flex-1 grid gap-2">
-        <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="!m-0 !min-w-auto" :key="item.colKey">
+        <t-form-item v-for="item in more ? items : items.slice(0, colCount)" :name="item.colKey" class="m-0! min-w-auto!" :key="item.colKey">
           <!-- date-range -->
           <t-date-range-picker
             v-if="item.toolbarFilter?.type === 'date-range'"

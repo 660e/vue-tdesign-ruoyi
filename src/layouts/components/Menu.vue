@@ -51,7 +51,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
             return (
               <div class="flex justify-between items-center">
                 <span>{menu.meta?.title}</span>
-                <t-icon class="!w-4 !h-4 !m-0" name={menu.meta?.frameBlank && menu.meta.frameSrc ? 'jump' : undefined} />
+                <t-icon class="w-4! h-4! m-0!" name={menu.meta?.frameBlank && menu.meta.frameSrc ? 'jump' : undefined} />
               </div>
             );
           },
@@ -70,7 +70,7 @@ const MenuItem = ({ routes }: { routes: RouteRecordRaw[] }) => {
     <t-icon :name="`chevron-${collapsed ? 'right' : 'left'}-double`" size="20" />
   </div>
   <div class="flex-1 overflow-y-auto">
-    <t-menu :collapsed="collapsed" :expanded="defaultExpanded" :value="defaultValue" @expand="expand" class="!h-auto" expand-mutex>
+    <t-menu :collapsed="collapsed" :expanded="defaultExpanded" :value="defaultValue" @expand="expand" class="h-auto!" expand-mutex>
       <MenuItem :routes="appStore.routes" />
     </t-menu>
   </div>

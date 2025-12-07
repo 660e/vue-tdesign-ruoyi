@@ -79,7 +79,7 @@ onMounted(() => refreshCaptcha());
           </t-input>
         </t-form-item>
         <t-form-item name="code">
-          <t-input v-model="formData.code" class="flex-1 !w-0" placeholder="验证码" size="large">
+          <t-input v-model="formData.code" class="flex-1 w-0!" placeholder="验证码" size="large">
             <template #prefix-icon><t-icon name="barcode-1" /></template>
           </t-input>
           <div
