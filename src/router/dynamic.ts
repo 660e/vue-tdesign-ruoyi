@@ -3,7 +3,7 @@ import type { AppRoute } from '@/types';
 import { getRoutes } from '@/apis/login';
 import { useAppStore } from '@/stores';
 import { iconConverter } from '@/utils';
-import router from '../index';
+import router from './index';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const views = import.meta.glob<{ default: any }>('@/views/**/(index|list).vue', { eager: true });

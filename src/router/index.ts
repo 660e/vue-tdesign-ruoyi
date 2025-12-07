@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAppStore } from '@/stores';
-import { initializeRouter } from './modules/dynamic';
-import routes from './modules/static';
+import { initializeRouter } from './dynamic';
+import routes from './static';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,5 +27,5 @@ router.beforeEach(async (to, _, next) => {
   next();
 });
 
-export * from './modules/dynamic';
+export * from './dynamic';
 export default router;
