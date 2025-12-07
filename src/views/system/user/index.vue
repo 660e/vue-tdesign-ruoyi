@@ -3,7 +3,7 @@ import type { TableProps, TableRowData, TreeProps } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { getDeptTree, listUser, deleteUser, importUser, importUserTemplate, exportUser, resetPwd } from '@/apis/system';
 import { useHandleDelete } from '@/hooks';
-import { Page } from '@/layouts/standard';
+import { Page } from '@/layouts/admin';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth, generatePassword } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';

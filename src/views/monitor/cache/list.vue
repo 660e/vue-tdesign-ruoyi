@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { listCacheNames, listCacheKeys, getCacheValue, clearCacheAll, clearCacheName, clearCacheKey } from '@/apis/monitor';
-import { Page } from '@/layouts/standard';
+import { Page } from '@/layouts/admin';
 import { useLoadingStore } from '@/stores';
 
 const loadingStore = useLoadingStore();

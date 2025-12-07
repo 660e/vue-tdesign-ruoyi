@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as echarts from 'echarts';
 import { getServer } from '@/apis/monitor';
-import { Section } from '@/layouts/standard';
+import { Section } from '@/layouts/admin';
 import { useLoadingStore } from '@/stores';
 
 const loadingStore = useLoadingStore();

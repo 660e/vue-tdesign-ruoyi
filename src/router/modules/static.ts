@@ -8,8 +8,8 @@ export default [
   },
   {
     path: '/',
-    name: 'layout-standard',
-    component: () => import('@/layouts/standard/index.vue'),
+    name: 'layout-admin',
+    component: () => import('@/layouts/admin/index.vue'),
     redirect: '/home',
     meta: {
       icon: 'dashboard-1',

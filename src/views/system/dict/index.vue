@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { listDictType, deleteDictType } from '@/apis/system';
 import { useDict, useHandleDelete } from '@/hooks';
-import { Page } from '@/layouts/standard';
+import { Page } from '@/layouts/admin';
 import { useLoadingStore } from '@/stores';
 import CreateDialog from './dialogs/Create.vue';
 import Description from './Description.vue';

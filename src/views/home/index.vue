@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Page } from '@/layouts/standard';
+import { Page } from '@/layouts/admin';
 </script>
 
 <template>

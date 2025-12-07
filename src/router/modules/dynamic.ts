@@ -83,7 +83,7 @@ function standardizeRoutes(routes: AppRoute[] = [], parentName = ''): RouteRecor
     });
 }
 
-export async function initializeRouter(layout: 'standard') {
+export async function initializeRouter() {
   const { data } = await getRoutes();
   const appStore = useAppStore();
   appStore.setRoutes(standardizeRoutes(data));
@@ -109,5 +109,5 @@ export async function initializeRouter(layout: 'standard') {
       },
     ],
   );
-  appStore.routes.forEach((e) => router.addRoute(`layout-${layout}`, e));
+  appStore.routes.forEach((e) => router.addRoute('layout-admin', e));
 }

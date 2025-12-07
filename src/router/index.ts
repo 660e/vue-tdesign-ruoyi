@@ -20,7 +20,7 @@ router.beforeEach(async (to, _, next) => {
     return next({ name: 'home' });
   }
   if (!appStore.routes.length && token) {
-    await initializeRouter('standard');
+    await initializeRouter();
     return next(to);
   }
 

@@ -3,7 +3,7 @@ import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listTable, deleteTable, syncTable, exportTable } from '@/apis/tool';
 import { useHandleDelete } from '@/hooks';
-import { Page } from '@/layouts/standard';
+import { Page } from '@/layouts/admin';
 import { useLoadingStore } from '@/stores';
 import { downloadBlob, getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';

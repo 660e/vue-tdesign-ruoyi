@@ -3,7 +3,7 @@ import type { TableProps, TableRowData } from 'tdesign-vue-next';
 import type { QTableProps, QTableToolbarFilterParams } from '@/types';
 import { listJob, deleteJob, exportJob, runJob } from '@/apis/monitor';
 import { useHandleDelete } from '@/hooks';
-import { Page } from '@/layouts/standard';
+import { Page } from '@/layouts/admin';
 import { useLoadingStore } from '@/stores';
 import { getOperationColumnWidth } from '@/utils';
 import CreateDialog from './dialogs/Create.vue';
