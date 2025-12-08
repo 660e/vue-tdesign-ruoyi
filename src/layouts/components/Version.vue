@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import PKG from '../../../package.json';
 
+const { version } = PKG;
 const data = () => {
   console.info({
     language: navigator.language,
@@ -11,11 +12,11 @@ const data = () => {
       height: screen.height,
     },
     userAgentData: (navigator as any).userAgentData,
-    version: PKG.version,
+    version,
   });
 };
 </script>
 
 <template>
-  <div @dblclick="data" class="cursor-default select-none">{{ PKG.version }}</div>
+  <div @dblclick="data" class="cursor-default select-none">{{ version }}</div>
 </template>
