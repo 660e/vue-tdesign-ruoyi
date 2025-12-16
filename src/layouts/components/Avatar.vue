@@ -12,7 +12,6 @@ const confirmSignOut = ref(false);
 
 const formData = reactive({
   nickName: '',
-  phonenumber: '',
   email: '',
   sex: '2',
   oldPassword: '',
@@ -21,7 +20,6 @@ const formData = reactive({
 });
 const formRules: FormProps['rules'] = {
   nickName: [{ required: true, trigger: 'blur' }],
-  phonenumber: [{ required: true, trigger: 'blur' }],
   oldPassword: [{ required: true, trigger: 'blur' }],
   newPassword: [{ required: true, trigger: 'blur' }],
   confirmPassword: [{ required: true, trigger: 'blur' }],
@@ -37,7 +35,6 @@ const onEdit = (type: 'profile' | 'password') => {
   switch (type) {
     case 'profile':
       formData.nickName = user.nickName;
-      formData.phonenumber = user.phonenumber;
       formData.email = user.email;
       formData.sex = user.sex;
       break;
@@ -55,7 +52,6 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
           const { code } = await updateUserProfile({
             email: formData.email,
             nickName: formData.nickName,
-            phonenumber: formData.phonenumber,
             sex: formData.sex,
           });
           if (code) window.location.reload();
@@ -88,14 +84,14 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
   </div>
 
   <t-drawer v-model:visible="visible" @before-open="onBeforeOpen" size="350">
-    <div class="h-full overflow-y-auto p-4">
+    <div class="h-full overflow-y-auto p-6">
       <div class="h-36 flex flex-col justify-center items-center rounded text-neutral-800 bg-neutral-100">
         <t-avatar image="https://picsum.photos/200" size="64px" />
         <div class="font-bold pt-2 pb-1">{{ user.nickName }} · {{ roleGroup }}</div>
         <div class="text-xs">{{ user.phonenumber }}</div>
       </div>
 
-      <template v-if="!editType">
+      <div v-if="!editType" class="pt-4">
         <t-list size="small" split>
           <t-list-item>
             <t-icon class="mr-2" name="desktop" />
@@ -118,16 +114,13 @@ const onSubmit: FormProps['onSubmit'] = async ({ validateResult }) => {
           <t-button @click="onEdit('profile')" class="flex-1" variant="outline">修改基本资料</t-button>
           <t-button @click="onEdit('password')" class="flex-1" variant="outline">修改密码</t-button>
         </div>
-      </template>
+      </div>
 
       <div v-else class="py-6">
         <t-form :data="formData" :rules="formRules" @reset="() => (editType = null)" @submit="onSubmit" label-width="0">
           <template v-if="editType === 'profile'">
             <t-form-item label="用户昵称" name="nickName">
               <t-input v-model="formData.nickName" label="用户昵称" />
-            </t-form-item>
-            <t-form-item label="手机号码" name="phonenumber">
-              <t-input v-model="formData.phonenumber" label="手机号码" />
             </t-form-item>
             <t-form-item label="安全邮箱" name="email">
               <t-input v-model="formData.email" label="安全邮箱" />
