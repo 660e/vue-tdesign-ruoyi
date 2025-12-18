@@ -88,7 +88,7 @@ export async function initializeRouter() {
   const appStore = useAppStore();
   appStore.setRoutes(standardizeRoutes(data));
   appStore.routes.push(
-    ...[
+    ...([
       {
         path: 'dashboard',
         name: 'dashboard',
@@ -96,6 +96,7 @@ export async function initializeRouter() {
         meta: {
           icon: 'dashboard',
           title: '数据大屏',
+          fullscreen: true,
         },
       },
       {
@@ -107,7 +108,7 @@ export async function initializeRouter() {
           title: '地理信息',
         },
       },
-    ],
+    ] as RouteRecordRaw[]),
   );
   appStore.routes.forEach((e) => router.addRoute('layout-admin', e));
 }

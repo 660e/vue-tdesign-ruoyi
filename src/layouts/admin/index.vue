@@ -9,7 +9,14 @@ import Setting from '../components/Setting.vue';
 import Version from '../components/Version.vue';
 import Initial from './Initial.vue';
 
+const route = useRoute();
 const initialized = ref(false);
+const fullscreen = ref(false);
+
+watchEffect(() => {
+  if (!initialized.value) return;
+  fullscreen.value = !!route.meta.fullscreen;
+});
 </script>
 
 <template>
