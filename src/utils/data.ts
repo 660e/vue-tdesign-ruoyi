@@ -107,7 +107,7 @@ export function iconConverter(icon = '') {
     ['tree-table', 'menu'],
     ['tree', 'tree-square-dot'],
     ['post', 'user-list'],
-    ['dict', 'list'],
+    ['dict', 'letters-d'],
     ['edit', 'edit-2'],
     ['message', 'notification'],
     ['log', 'system-log'],
