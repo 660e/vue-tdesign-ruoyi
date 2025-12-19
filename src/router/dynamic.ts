@@ -108,6 +108,16 @@ export async function initializeRouter() {
           title: '地理信息',
         },
       },
+      {
+        path: 'three',
+        name: 'three',
+        component: () => import('@/views/three/index.vue'),
+        meta: {
+          icon: 'chart-3d',
+          title: '三维场景',
+          fullscreen: true,
+        },
+      },
     ] as RouteRecordRaw[]),
   );
   appStore.routes.forEach((e) => router.addRoute('layout-admin', e));
